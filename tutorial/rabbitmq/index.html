@@ -1,0 +1,192 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="wlanboy wlanboy.com tutorials and ruby scripts">
+    <title>wlanboy - tutorials and ruby scripts</title>
+    
+    <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css" integrity="sha384-" crossorigin="anonymous">
+    
+    
+    
+        <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/grids-responsive-min.css">
+    
+    
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
+    
+        
+        
+            <link rel="stylesheet" href="/css/layouts/wlanboy.css">
+        
+</head>
+<body>
+
+<div class="header" id="header">
+    <div class="home-menu pure-menu pure-menu-horizontal pure-menu-fixed">
+        <ul class="pure-menu-list">
+            <li class="pure-menu-item pure-menu-selected"><a href="/#" class="pure-menu-link">Home</a></li>
+            <li class="pure-menu-item"><a href="/#Tutorials" class="pure-menu-link">Tutorials</a></li>
+            <li class="pure-menu-item"><a href="/#System" class="pure-menu-link">System</a></li>
+            <li class="pure-menu-item"><a href="/#About" class="pure-menu-link">About</a></li>
+        </ul>
+    </div>
+</div>
+
+<div class="splash-container">
+    <div class="splash">
+        <h1 class="splash-head">wlanboy</h1>
+        <p class="splash-subhead">
+            tutorials and ruby scripts
+        </p>
+        <p>
+            <a href="/#Tutorials" class="pure-button pure-button-primary">Read my tutorials</a>
+        </p>
+    </div>
+</div>
+<div class="content-wrapper" id="Tutorial">
+    <div class="content">
+        <h2 class="content-head is-center" >Tutorial</h2>
+
+        <div class="pure-g">
+
+            <div class="l-box-lrg pure-u-1">
+            
+
+<h2 id="tutorial-rabbitmq">Tutorial: rabbitmq</h2>
+
+<p>RabbitMQ is a open source message broker software that implements the AMQP protocol (<a href="http://en.wikipedia.org/wiki/Advanced_Message_Queuing_Protocol" title="External link">Advanced Message Queuing Protocol</a>).</p>
+
+<p>If you are not sure what you might do with a message broker you should read their <a href="https://www.rabbitmq.com/getstarted.html" title="External link">getting started guide</a>.</p>
+
+<p>It is more than just a publish &amp; subscribe pattern that can be implemented through RabbitMQ.</p>
+
+<p>If you need high availability and a high flexibility for routing messages you should consider RabbitMQ as your messaging plattform.</p>
+
+<p>Time to install the server.</p>
+
+<p>1. Add key of RabbitMQ repro:</p>
+
+<pre class="prettyprint">wget http://www.rabbitmq.com/rabbitmq-signing-key-public.asc
+apt-key add rabbitmq-signing-key-public.asc
+</pre>
+
+<p>2. Add sources:</p>
+
+<pre class="prettyprint">nano /etc/apt/sources.list
+</pre>
+
+<p>Content:</p>
+
+<pre class="prettyprint">deb http://www.rabbitmq.com/debian/ testing main
+</pre>
+
+<p>3. Install server</p>
+
+<pre class="prettyprint">apt-get update && apt-get install rabbitmq-server
+</pre>
+
+<p>4. Add addons:</p>
+
+<pre class="prettyprint">rabbitmq-plugins enable rabbitmq_management
+rabbitmq-plugins enable rabbitmq_web_stomp
+</pre>
+
+<p>5. Login into web fronend</p>
+
+<p>Start your browser and call &ldquo;<a href="http://ip-of-your-server:15672" title="External link">http://ip-of-your-server:15672&rdquo;</a></p>
+
+<p>The GUI is great.</p>
+
+<p>Use the login &ldquo;guest&rdquo; with the password &ldquo;guest&rdquo; to login.</p>
+
+<p>Please change the login afterwards.</p>
+
+<p><span rel="lightbox"><img src="http://images.wlanboy.com/rabbitmq1.JPG" alt="rabbitmq1.JPG" /></span></p>
+
+<p>You can manage the whole server through the GUI but you can use the console tool &ldquo;rabbitmqctl&rdquo; too.</p>
+
+<p>Some common use cases are:</p>
+
+<ul>
+<li>rabbitmqctl list_users<br />
+List all users and their attached roles.</li>
+<li>rabbitmqctl add_vhost /test<br />
+Add a new vhost to the server.<br />
+Vhosts are used to separate queues and users.<br />
+You can e.g. limit the access rights.</li>
+<li>rabbitmqctl add_user username password<br />
+Add a user.</li>
+<li>rabbitmqctl set_permissions -p /vhost username &ldquo;.<em>&rdquo; &ldquo;.</em>&rdquo; &ldquo;.*&rdquo;<br />
+Grand <a href="http://www.rabbitmq.com/access-control.html" title="External link">access</a> to a vhost.</li>
+</ul>
+
+<p>5. Clustering</p>
+
+<p>If you want to cluster RabbitMQ you have to sync the hosts file and the &ldquo;erlang cookie&rdquo;:</p>
+
+<pre class="prettyprint">nano /etc/hosts
+</pre>
+
+<p>Check that each hostname does have the right external ip address.</p>
+
+<pre class="prettyprint">#master
+cat /var/lib/rabbitmq/.erlang.cookie
+
+#slaves
+echo "the-cookie" > /var/lib/rabbitmq/.erlang.cookie</pre>
+
+<p>You have to stop RabbitMQ and copy the conent of the master cookie to all slave cookies</p>
+
+<p>Double check the value because this file should not contain any whitespaces or carriage returns.</p>
+
+<p>And join each slave to the cluster</p>
+
+<pre class="prettyprint">rabbitmqctl stop_app
+rabbitmqctl join_cluster rabbit@master
+rabbitmqctl start_app
+</pre>
+
+<p>You can check the status of the cluster by running following command</p>
+
+<pre class="prettyprint">rabbitmqctl cluster_status
+</pre>
+
+<p>6. Clients</p>
+
+<p>And there are <a href="https://www.rabbitmq.com/devtools.html" title="External link">tons of clients</a> - from C++ to PHP or Javascript.</p>
+
+<p>I have wrote a <a href="http://devboxindallas.ml/test.html" title="External link">little</a> chat application that is based on the JS client lib and using websockets for the communication.</p>
+
+<p>My main usage of the RabbitMQ server are:</p>
+
+<ul>
+<li>Managing of payloads<br />
+I do have two masters that are generating jobs for my twitter/web archive.<br />
+The RabbitMQ server is distributing the jobs through all workers.<br />
+SSH/keys are not needed because if a worker is ready it is connecting to the RabbitMQ server.<br />
+So master and slave do not know each other.<br />
+I can add and remove slaves at will and ip changes do not mean anything.<br />
+RabbitMQ is persisting the messages and routing the job messages to free workers (load balancing) too.</li>
+<li>Log handling<br />
+If things go wrong I get a lot of log entries about services/routings/domains/websites that are not available.<br />
+So my RabbitMQ server works as a buffer to ensure that my database or my email servers are not overloaded.<br />
+Perfect tool to queue and load balancing stuff.</li>
+</ul>
+
+<p>If you want to play around you can look at the PHP based <a href="https://github.com/rabbitmq/rabbitmq-tutorials/blob/master/php/new_task.php" title="External link">master</a> and <a href="http://github.com/rabbitmq/rabbitmq-tutorials/blob/master/php/worker.php" title="External link">slave</a> examples (python: <a href="http://github.com/rabbitmq/rabbitmq-tutorials/blob/master/python/new_task.py" title="External link">M</a>/<a href="http://github.com/rabbitmq/rabbitmq-tutorials/blob/master/python/worker.py" title="External link">S</a>).</p>
+
+            </div>
+        </div>
+    </div>
+
+<div class="footer l-box is-center">
+        <p class="footer">
+            wlanboy | Proudly powered by Ruby | Thin | MongoDB
+        </p>
+    </div>
+
+</div>
+
+</body></html>

@@ -1,0 +1,650 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="wlanboy wlanboy.com tutorials and ruby scripts">
+    <title>wlanboy - tutorials and ruby scripts</title>
+    
+    <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css" integrity="sha384-" crossorigin="anonymous">
+    
+    
+    
+        <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/grids-responsive-min.css">
+    
+    
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
+    
+        
+        
+            <link rel="stylesheet" href="/css/layouts/wlanboy.css">
+        
+</head>
+<body>
+
+<div class="header" id="header">
+    <div class="home-menu pure-menu pure-menu-horizontal pure-menu-fixed">
+        <ul class="pure-menu-list">
+            <li class="pure-menu-item pure-menu-selected"><a href="/#" class="pure-menu-link">Home</a></li>
+            <li class="pure-menu-item"><a href="/#Tutorials" class="pure-menu-link">Tutorials</a></li>
+            <li class="pure-menu-item"><a href="/#System" class="pure-menu-link">System</a></li>
+            <li class="pure-menu-item"><a href="/#About" class="pure-menu-link">About</a></li>
+        </ul>
+    </div>
+</div>
+
+<div class="splash-container">
+    <div class="splash">
+        <h1 class="splash-head">wlanboy</h1>
+        <p class="splash-subhead">
+            tutorials and ruby scripts
+        </p>
+        <p>
+            <a href="/#Tutorials" class="pure-button pure-button-primary">Read my tutorials</a>
+        </p>
+    </div>
+</div>
+<div class="content-wrapper" id="Tutorial">
+    <div class="content">
+        <h2 class="content-head is-center" >Tutorial</h2>
+
+        <div class="pure-g">
+
+            <div class="l-box-lrg pure-u-1">
+            
+
+<h2 id="tutorial-dns-failover">Tutorial: dns-failover</h2>
+
+<p>It is easy to run your website on different servers.</p>
+
+<p>It is easy to run databases accross different servers.</p>
+
+<p>Because virtual servers got quite cheap.</p>
+
+<p>But it is not that easy to ensure that your visitors are visiting a server that is still running.</p>
+
+<p>You can setup more than one A record but a lot of browsers do not support DNS load balancing.</p>
+
+<p>You can setup a load balancer but then you just moved the problem to another place. You load balancer is now the single point of failure.</p>
+
+<p>For me DNS looks like a good solution to point visitors to the right server.</p>
+
+<p>During the next weeks I will add more complex scenarios on how to handle DNS failover.</p>
+
+<p>But I want to start with a low effort and simple solution.</p>
+
+<p>Afterwards more tools and servers are added to the setup.</p>
+
+<p>So everyone can decide how much effort he/she wants to put into his/her own DNS failover system.</p>
+
+<p>So lets start with the first step into DNS failover.</p>
+
+<p><strong>1. Create a DNS server account which is supporting dynamic DNS updates</strong><br />
+For me HE.NET is offering a cheap ($0.00) and reliable DNS service.</p>
+
+<p>If you add an A record you can select that this record can be dynamically updated through a script:</p>
+
+<p><img src="/imgcontent/dynamicdns1.JPG" alt="dynamicdns1.JPG" /></p>
+
+<p>TTL (time to live) for this can be setup to up to 5 minutes.<br />
+Quite a short amount of time for a free service.</p>
+
+<p><img src="/imgcontent/dynamicdns2.JPG" alt="dynamicdns2.JPG" /></p>
+
+<p>After the creation you have to click on the arrows on the right side to add your access key.</p>
+
+<p><img src="/imgcontent/dynamicdns3.JPG" alt="dynamicdns3.JPG" /></p>
+
+<p>This will be your password to update the A record. [The values are not real - so don&rsquo;t try them.]</p>
+
+<p>Best addon it is working for AAAA (IPv6!) too:</p>
+
+<p><img src="/imgcontent/dynamicdns4.JPG" alt="dynamicdns4.JPG" /></p>
+
+<p>The update of the ip is simple:</p>
+
+<pre class="prettyprint">curl "https://dyn.dns.he.net/nic/update?hostname=dyn.example.com&password=password&myip=192.168.0.1"
+curl "https://dyn.dns.he.net/nic/update?hostname=dyn.example.com&password=password&myip=2001:db8:beef:cafe::1"
+</pre>
+
+<p>Just use curl to call a url.</p>
+
+<p><strong>2. Write a short bash script that is managing everything</strong></p>
+
+<p>So what do we need?</p>
+
+<ul>
+<li>A textfile containing ip addresses of the web servers</li>
+<li>A way to check which servers are online</li>
+<li>A call to HE.NET to update the DNS A record</li>
+</ul>
+
+<p>I am using just bash, curl and dig.</p>
+
+<p>Dig ist part of the dnsutils and can be installed through following command:</p>
+
+<pre class="prettyprint">sudo apt-get install dnsutils
+</pre>
+
+<p>After that we can create the file containing the ips:</p>
+
+<pre class="prettyprint">nano ~/ips
+</pre>
+
+<p>Content:</p>
+
+<pre class="prettyprint">127.0.0.1
+186.0.0.1
+10.1.1.1
+</pre>
+
+<p>So one ip per line. I am using the order to priorize the servers because the script is taking the first usable ip to update the DNS record.</p>
+
+<p>Now we can create the bash file:</p>
+
+<pre class="prettyprint">nano ~/dnsupdate && chmod +x ~/dnsupdate
+</pre>
+
+<p>Content:</p>
+
+<pre class="prettyprint">#!/bin/bash
+IFS=/pre>\n' read -d '' -r -a ips < ~/ips
+statusweb=()
+index=0
+echo "=================================="
+echo "check following ips"
+echo "${ips[@]}"
+
+for i in ${ips[@]}
+do
+    echo "=================================="
+    echo "checking $i" 
+    let index=index+1
+    if curl -m 5 -s -k --head --request GET $i | grep "200 OK" > /dev/null
+    then
+            statusweb[index]=true
+          echo "================="
+          echo "web ip is up"
+          echo "================="      
+    else
+        statusweb[index]=false
+          echo "================="
+          echo "web ip is down"
+          echo "================="  
+    fi
+done
+
+echo "=================================="
+echo " "
+echo "update dns"
+echo " "
+index=0
+for statuswebval in ${statusweb[@]}
+do
+    if $statuswebval
+    then
+        echo "=================================="
+        echo "Changing web DNS..."
+        oldip=$(dig +short test.domain.com)
+        echo "current ip: ${oldip}"
+        echo "new     ip: ${ips[$index]}"
+        echo "=================================="
+        if [ "${ips[$index]}"=="$oldip" ]
+        then
+                  echo "================="
+                  echo "update not needed"
+                  echo "================="
+        else
+                   curl "https://dyn.dns.he.net/nic/update?hostname=test.domain.com&password=astromgpassword&myip=${ips[$index]}"
+                   echo "================="
+                   echo "update done"
+                   echo "================="
+        fi
+        break
+    else
+        echo "================="
+        echo "Skipping ${ips[$index]}"
+        echo "================="
+    fi
+    let index=index+1
+done
+
+echo "=================================="
+echo "end of script"
+echo "=================================="
+</pre>
+
+<p>So what is this script doing?</p>
+
+<ul>
+<li>read the list of ips into an array (ips)</li>
+<li>create two empty arrays (statusweb,index)</li>
+<li>echo the list of ips</li>
+<li>loop through the ips
+
+<ul>
+<li>for each ip do
+
+<ul>
+<li>add 1 to index (let is cool)</li>
+<li>curl the http header of the webservice running on the ip and check if it is 200<br />
+Timeout is set to 5 seconds to ensure the script is not locked.</li>
+<li>curl is returning true or false so it can be part of an if statement</li>
+<li>we store the status of the ip with a true or false value in the array statusweb</li>
+</ul></li>
+</ul></li>
+<li>loop through the status values
+
+<ul>
+<li>for each status do
+
+<ul>
+<li>dig the DNS record you want to update<br />
++short ensures that only the ip is returned</li>
+<li>compare the ip of the DNS record with the first ip which is working</li>
+<li>update the DNS record or skip it</li>
+</ul></li>
+</ul></li>
+<li>done</li>
+</ul>
+
+<p>Last step is creating a cron job calling this script every 5 minutes:</p>
+
+<pre class="prettyprint">crontab -e
+</pre>
+
+<p>Add line:</p>
+
+<pre class="prettyprint">/5 * * * * /usr/bash ~/dnsupdate 
+</pre>
+
+<p>I think this is the bare minimum setup to check webservers and update DNS records.</p>
+
+<p>So let&rsquo;s talk about some disadvantages:</p>
+
+<ul>
+<li>Webservers are only checked from one internet connection<br />
+So you cannot be sure if the server is offline for the all visitors or only for you</li>
+<li>There is no history record for the reliability of one ip<br />
+So you cannot be sure that you select an ip that is currently up but does only have an update of 80%<br />
+You can try to manage that by sorting the list of ips but you have to keep the records for that too.</li>
+<li>If you use more than one vps to run this script it might happen that the different scripts will overwrite the results of other scripts.<br />
+So if you have a network split or more than one routing issue the DNS record is flipping around.</li>
+</ul>
+
+<p>As always I am looking for feedback, improvements and other solutions.</p>
+
+<p>Next step is to add CloudFlare support.</p>
+
+<p>First thing you need is the API-KEY, which can be found on the buttom of your Account information.</p>
+
+<p><img src="/imgcontent/cloudflare1.JPG" alt="cloudflare1.JPG" /></p>
+
+<p>The API itself is easy, but is using JSON.</p>
+
+<p>So we need some Ruby magic to get this done.</p>
+
+<pre class="prettyprint">nano dnsupdate.rb
+</pre>
+
+<p>Content:</p>
+
+<pre class="prettyprint">require 'json'
+domain = ARGV[0]
+ip = ARGV[1]
+id = ""
+listResponse = `curl [parameters 1]`
+puts listResponse
+
+domains = JSON.parse(listResponse)
+domains['response']['recs']['objs'].each do | domainrecord |
+    puts domainrecord
+        if (domain == domainrecord['name'])
+            id = domainrecord['rec_id']
+            break
+        end
+end
+
+updateResponse = `curl [parameters 2]`
+status = JSON.parse(updateResponse)
+puts status
+
+if status['result'] == 'success'
+    puts "update done"
+else
+    puts "error during update of #{domain}"
+end
+</pre>
+
+<p>So what are we doing?</p>
+
+<ul>
+<li>save the two parameters to the vars domain and ip</li>
+<li>Call curl to get the list of domains and DNS records</li>
+<li>Pars the JSON response to find the correct record for the given domains<br />
+In this example I want to update the A record for the domain itself</li>
+<li>If the record is found save the id of the record (needed for update)</li>
+<li>Send the update request via curl</li>
+<li>Check the status to ensure that the update is done</li>
+</ul>
+
+<p>We now take a look at the two curl calls:</p>
+
+<ul>
+<li><p>list domains and records</p>
+
+<pre class="prettyprint">curl https://www.cloudflare.com/api_json.html \
+  -d 'a=rec_load_all' \
+  -d 'tkn=[Your API_TOKEN]' \
+  -d 'email=[Your CloudFlare login]' \
+  -d 'z=[domain to update]'
+</pre></li>
+
+<li><p>update domain</p>
+
+<pre class="prettyprint">curl https://www.cloudflare.com/api_json.html \
+  -d 'a=rec_edit' \
+  -d 'tkn=[Your API_TOKEN]' \
+  -d 'id=[DB ID of the record you want to update]' \
+  -d 'email=[Your CloudFlare login]' \
+  -d 'z=[Domain of record]' \
+  -d 'type=A' \
+  -d 'name=[Name of record to update]' \
+  -d 'content=[new ip address]' \
+  -d 'service_mode=1' \
+  -d 'ttl=1' \
+</pre>
+
+<p>TTL is the time to live of record in seconds. 1 is the value for the &ldquo;Automatic&rdquo; setting.</p></li>
+</ul>
+
+<p>If you have got a nodeping account you can use the provided results as the source of ping numbers.</p>
+
+<p>You have to set the results to &ldquo;public access&rdquo; to enable the script to download the ping results without an API key.</p>
+
+<p>This is my Ruby script that catches the ping results from nodeping, checks the number of network failures, and sets the ip which is a) currently online and b) does have the lowest number of failures as the new value of the A record of the given domain:</p>
+
+<pre class="prettyprint">require 'json'
+require 'date'
+
+class NodePingResult
+  attr_accessor :ip, :isup, :numberOfBadResults
+
+  def to_s
+    "[[email protected]](/cdn-cgi/l/email-protection)<script data-cfhash="f9e31" type="text/javascript">/* <![CDATA[ */!function(t,e,r,n,c,a,p){try{t=document.currentScript||function(){for(t=document.getElementsByTagName('script'),e=t.length;e--;)if(t[e].getAttribute('data-cfhash'))return t[e]}();if(t&&(c=t.previousSibling)){p=t.parentNode;if(a=c.getAttribute('data-cfemail')){for(e='',r='0x'+a.substr(0,2)|0,n=2;a.length-n;n+=2)e+='%'+('0'+('0x'+a.substr(n,2)^r).toString(16)).slice(-2);p.replaceChild(document.createTextNode(decodeURIComponent(e)),c)}p.removeChild(t)}}catch(u){}}()/* ]]> */</script>} [[email protected]](/cdn-cgi/l/email-protection)<script data-cfhash="f9e31" type="text/javascript">/* <![CDATA[ */!function(t,e,r,n,c,a,p){try{t=document.currentScript||function(){for(t=document.getElementsByTagName('script'),e=t.length;e--;)if(t[e].getAttribute('data-cfhash'))return t[e]}();if(t&&(c=t.previousSibling)){p=t.parentNode;if(a=c.getAttribute('data-cfemail')){for(e='',r='0x'+a.substr(0,2)|0,n=2;a.length-n;n+=2)e+='%'+('0'+('0x'+a.substr(n,2)^r).toString(16)).slice(-2);p.replaceChild(document.createTextNode(decodeURIComponent(e)),c)}p.removeChild(t)}}catch(u){}}()/* ]]> */</script>} [[email protected]](/cdn-cgi/l/email-protection)<script data-cfhash="f9e31" type="text/javascript">/* <![CDATA[ */!function(t,e,r,n,c,a,p){try{t=document.currentScript||function(){for(t=document.getElementsByTagName('script'),e=t.length;e--;)if(t[e].getAttribute('data-cfhash'))return t[e]}();if(t&&(c=t.previousSibling)){p=t.parentNode;if(a=c.getAttribute('data-cfemail')){for(e='',r='0x'+a.substr(0,2)|0,n=2;a.length-n;n+=2)e+='%'+('0'+('0x'+a.substr(n,2)^r).toString(16)).slice(-2);p.replaceChild(document.createTextNode(decodeURIComponent(e)),c)}p.removeChild(t)}}catch(u){}}()/* ]]> */</script>}"
+  end
+end
+
+nodepingReports = []
+nodepingIPs = []
+nodePingResults = []
+
+recordId = ""
+ip = ""
+
+#######################################################
+#Please change you cloudflare and nodeping information
+#######################################################
+domain = 'mydomain'
+cloudflaretoken='QWERTZUIOP'
+[[email protected]](/cdn-cgi/l/email-protection)<script data-cfhash="f9e31" type="text/javascript">/* <![CDATA[ */!function(t,e,r,n,c,a,p){try{t=document.currentScript||function(){for(t=document.getElementsByTagName('script'),e=t.length;e--;)if(t[e].getAttribute('data-cfhash'))return t[e]}();if(t&&(c=t.previousSibling)){p=t.parentNode;if(a=c.getAttribute('data-cfemail')){for(e='',r='0x'+a.substr(0,2)|0,n=2;a.length-n;n+=2)e+='%'+('0'+('0x'+a.substr(n,2)^r).toString(16)).slice(-2);p.replaceChild(document.createTextNode(decodeURIComponent(e)),c)}p.removeChild(t)}}catch(u){}}()/* ]]> */</script>'
+##################################
+nodepingReports << 'https://nodeping.com/reports/results/[reportid]/50?format=json'
+nodepingIPs << '127.0.0.1' 
+nodepingReports << 'https://nodeping.com/reports/results/[reportid]/50?format=json'
+nodepingIPs << '127.0.0.1' 
+#######################################################
+
+nodepingIPs  = nodepingIPs.reverse
+
+counter = 0
+nodepingReports.reverse_each do | report |
+
+    res = NodePingResult.new
+    res.ip = nodepingIPs[counter]
+    res.numberOfBadResults = 0
+
+    reportResult = `curl #{report}`
+    results = JSON.parse(reportResult)
+    results.each do | result |
+        if ('Success' == result['m'])
+            res.isup = true
+        else
+            res.isup = false
+            res.numberOfBadResults += 1
+        end
+    end
+    counter += 1
+    nodePingResults << res
+end
+
+nodePingResults.sort! { |a,b| a.numberOfBadResults <=> b.numberOfBadResults }
+nodePingResults.each do | newip |
+    if (newip.isup == true)
+        ip = newip.ip
+        break
+    end
+end
+puts "selected ip: #{ip}"
+
+parameterDomainList = "-d 'tkn=#{cloudflaretoken}' -d 'email=#{cloudflarelogin}' -d 'z=#{domain}'"
+listResponse = `curl https://www.cloudflare.com/api_json.html -d 'a=rec_load_all' #{parameterDomainList}`
+#puts listResponse
+
+domains = JSON.parse(listResponse)
+domains['response']['recs']['objs'].each do | domainrecord |
+        puts domainrecord
+                if (domain == domainrecord['name'])
+                        recordId = domainrecord['rec_id']
+                        break
+                end
+end
+puts recordId
+
+parameterDomainUpdate = "-d 'tkn=#{cloudflaretoken}' -d 'id=#{recordId}' -d 'email=#{cloudflarelogin}' -d 'z=#{domain}' -d 'type=A' -d 'name=#{domain}' -d 'content=#{ip}' -d 'service_mode=1' -d 'ttl=1'"
+updateResponse = `curl https://www.cloudflare.com/api_json.html -d 'a=rec_edit' #{parameterDomainUpdate}`
+status = JSON.parse(updateResponse)
+#puts status
+
+if status['result'] == 'success'
+        puts "update done: #{domain} now pointing to #{ip}"
+else
+        puts "error - check last response: #{status['msg']}"
+end
+</pre>
+
+<p>The script has to loop through the ping results in reverse order because the list starts with the newest entry first.</p>
+
+<p>Due to the lack of API access you have to enter the ip address of each nodeping test.</p>
+
+<p><strong>And for the people who don&rsquo;t want to use Ruby - the bash only version of the script:</strong></p>
+
+<p>1. Create list of ips to check</p>
+
+<pre class="prettyprint">nano ~/ips
+</pre>
+
+<p>Content:</p>
+
+<pre class="prettyprint">127.0.0.1
+186.0.0.1
+10.1.1.1
+</pre>
+
+<p>2. Create list of node ping tests for the given ips (same order)</p>
+
+<pre class="prettyprint">nano ~/results
+</pre>
+
+<p>Content:</p>
+
+<pre class="prettyprint">https://nodeping.com/reports/results/[id of test]/100?format=json
+https://nodeping.com/reports/results/[id of test]/100?format=json
+https://nodeping.com/reports/results/[id of test]/100?format=json
+</pre>
+
+<p>3. Install libs:</p>
+
+<pre class="prettyprint">sudo apt-get install dnsutils curl jq
+</pre>
+
+<p>If jq is not in the repos you can install it yourself:</p>
+
+<pre class="prettyprint">#32bit version
+wget http://stedolan.github.io/jq/download/linux32/jq && chmod +x jq && cp jq /usr/bin
+#64bit version
+wget http://stedolan.github.io/jq/download/linux64/jq && chmod +x jq && cp jq /usr/bin
+</pre>
+
+<p>4. Create bash script:</p>
+
+<pre class="prettyprint">nano dnsupdate && chmod +x dnsupdate
+</pre>
+
+<p>Content:</p>
+
+<pre class="prettyprint">#!/bin/bash
+###########################################
+#Configuration
+###########################################
+domain="domain.com"
+recordId="#"
+cloudflarelogin="cloudflare-login"
+cloudflaretoken="cloudflare-token"
+###########################################
+#Files
+###########################################
+IFS=/pre>\n' read -d '' -r -a iplist < ~/ips
+IFS=/pre>\n' read -d '' -r -a results < ~/results
+###########################################
+statusweb=()
+statuspoints=()
+index=0
+echo "=================================="
+echo "check following ip list with nodeping"
+echo "${iplist[@]}"
+
+for i in ${iplist[@]}
+do
+    echo "=================================="
+    echo "checking $i" 
+    $(curl -m 5 ${results[index]} -o "./res${i}")
+    resultstring=$(cat "./res${i}")
+    statuspoints[index]=$(cat "./res${i}" | grep -Po '"m":.*?[^\\]",' | grep Success | wc -l)
+    resultstring=$(cat "./res${i}" | grep -Po '"m":.*?[^\\]",' | head -n 1)
+    if [ "${resultstring}"=="\"m\":\"Success\"," ]
+    then
+        statusweb[index]=1
+          echo "================="
+          echo "web ip is up"
+          echo "================="      
+    else
+        statusweb[index]=0
+          echo "================="
+          echo "web ip is down"
+          echo "================="  
+    fi
+    echo " "
+    echo "status: ${statusweb[index]}"
+    echo "status: ${statuspoints[index]}"
+    echo " "
+    let index=index+1
+done
+
+max=0
+counter=0
+indexselectedip=0
+
+for point in ${statuspoints[@]}; do
+    if (( point > max && statusweb[counter] == 1 )); then 
+        max=$point
+        indexselectedip=$counter
+    fi
+    let counter=counter+1
+done
+
+parameterDomainList="-d a=rec_load_all -d tkn=${cloudflaretoken} -d email=${cloudflarelogin} -d z=${domain}"
+domaindata=$(curl https://www.cloudflare.com/api_json.html ${parameterDomainList} -o domainlist)
+key=$(cat domainlist | jq '.response.recs.objs[] | {name, rec_id} ' | cut -d ':' -f 2 | grep \" | sed 's/"//g' | sed 's/ //g' | sed 's/,//g' | tr '\n' ' ' )
+domainlist=( $key )
+echo "checking domainlist: ${domainlist[@]} with cloudflare"
+for ((i=1; i < ${#domainlist}; i++))
+do
+    echo "#${domainlist[$i]} ${i}"
+    if [[ "${domainlist[$i]}" == "${domain}" ]]
+    then
+        let k=i-1
+        recordId="${domainlist[$k]}"
+        echo "break for: ${recordId}"
+        break
+    fi
+    let i=i+1
+done
+
+echo " "
+echo "=================================="
+echo " "
+echo "update dns"
+echo " "
+        echo "=================================="
+        echo "Changing web DNS..."
+        oldip=$(dig +short ${domain} | head -n 1)
+        sleep 2
+        echo "current ip: ${oldip}"
+        echo "new     ip: ${iplist[$indexselectedip]} (points: ${statuspoints[$indexselectedip]})"
+        tester=${iplist[indexselectedip]}
+        echo "=================================="
+        if [[ "${tester}" == "${oldip}" ]]
+        then
+          echo "================="
+          echo "update not needed"
+          echo "================="
+        else
+          parameterDomainUpdate="-d act=rec_edit -d a=rec_edit -d tkn=${cloudflaretoken} -d id=${recordId} -d email=${cloudflarelogin} -d z=${domain} -d type=A -d name=${domain} -d content=${iplist[indexselectedip]} -d service_mode=1 -d ttl=1"
+          cloudflareresponse=$(curl https://www.cloudflare.com/api_json.html ${parameterDomainUpdate})
+          echo "response: ${cloudflareresponse}"
+          echo "================="
+          echo "update done"
+          echo "================="        
+        fi
+echo "=================================="
+echo "end of script"
+echo "=================================="
+</pre>
+
+<p>So what are we doing here?</p>
+
+<ul>
+<li>Load list of ips and nodeping tests</li>
+<li>Check results for each ip
+
+<ul>
+<li>count number of good results to check quality of host</li>
+<li>check current status of ip</li>
+</ul></li>
+<li>Sort ips by status and uptime</li>
+<li>Load list of DNS records for domain from cloudflare</li>
+<li>Search for domain record we want to update</li>
+<li>dig domain to get current ip</li>
+<li>compare current ip with the one with the best uptime and score
+
+<ul>
+<li>update dns record</li>
+<li>or do nothing if the record is allready pointing to the best ip</li>
+</ul></li>
+</ul>
+
+            </div>
+        </div>
+    </div>
+
+<div class="footer l-box is-center">
+        <p class="footer">
+            wlanboy | Proudly powered by Ruby | Thin | MongoDB
+        </p>
+    </div>
+
+</div>
+
+</body></html>

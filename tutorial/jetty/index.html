@@ -1,0 +1,226 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="wlanboy wlanboy.com tutorials and ruby scripts">
+    <title>wlanboy - tutorials and ruby scripts</title>
+    
+    <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css" integrity="sha384-" crossorigin="anonymous">
+    
+    
+    
+        <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/grids-responsive-min.css">
+    
+    
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
+    
+        
+        
+            <link rel="stylesheet" href="/css/layouts/wlanboy.css">
+        
+</head>
+<body>
+
+<div class="header" id="header">
+    <div class="home-menu pure-menu pure-menu-horizontal pure-menu-fixed">
+        <ul class="pure-menu-list">
+            <li class="pure-menu-item pure-menu-selected"><a href="/#" class="pure-menu-link">Home</a></li>
+            <li class="pure-menu-item"><a href="/#Tutorials" class="pure-menu-link">Tutorials</a></li>
+            <li class="pure-menu-item"><a href="/#System" class="pure-menu-link">System</a></li>
+            <li class="pure-menu-item"><a href="/#About" class="pure-menu-link">About</a></li>
+        </ul>
+    </div>
+</div>
+
+<div class="splash-container">
+    <div class="splash">
+        <h1 class="splash-head">wlanboy</h1>
+        <p class="splash-subhead">
+            tutorials and ruby scripts
+        </p>
+        <p>
+            <a href="/#Tutorials" class="pure-button pure-button-primary">Read my tutorials</a>
+        </p>
+    </div>
+</div>
+<div class="content-wrapper" id="Tutorial">
+    <div class="content">
+        <h2 class="content-head is-center" >Tutorial</h2>
+
+        <div class="pure-g">
+
+            <div class="l-box-lrg pure-u-1">
+            
+
+<h2 id="tutorial-jetty">Tutorial: jetty</h2>
+
+<p>I really like Ruby but sometimes you need/want to run some Java apps on your vps. This is quite easy because you can strip down the Java VM to use quite a small amount of RAM.</p>
+
+<p>But if you need to support servlets, websockets, JMX or JNDI lookups you need a container, or at least a servlet container.</p>
+
+<p>You should not try to run the big application servers on a small vps - just by looking to the footprint of Jboss, Glassfish or Websphere.</p>
+
+<p>But you can easily run <a href="http://www.eclipse.org/jetty/" title="External link">Jetty</a> on a small vps.</p>
+
+<p>So let&rsquo;s install Jetty:</p>
+
+<ul>
+<li><p>Install Java</p>
+
+<pre class="prettyprint">apt-get install openjdk-7-jdk (wopping 363MB)
+
+mkdir /usr/java
+
+For 64bit:
+ln -s /usr/lib/jvm/java-7-openjdk-amd64 /usr/java/default
+
+For 32bit
+ln -s /usr/lib/jvm/java-7-openjdk-i386/ /usr/java/default
+</pre></li>
+
+<li><p>Download Jetty<br />
+<a href="http://download.eclipse.org/jetty/stable-9/dist/" title="External link">http://download.ecli&hellip;/stable-9/dist/</a></p>
+
+<pre class="prettyprint">wget http://eclipse.org/downloads/download.php?file=/jetty/stable-9/dist/jetty-distribution-9.0.5.v20130815.tar.gz&r=1
+tar -xzf *.tar.gz
+</pre></li>
+
+<li><p>Prepare directories and users</p>
+
+<pre class="prettyprint">mkdir /opt
+mv jetty-distribution-9.0.5.v20130815 /opt/jetty
+
+useradd jetty -U -s /bin/false
+chown -R jetty:jetty /opt/jetty
+</pre></li>
+
+<li><p>Configure Jetty defaults</p>
+
+<pre class="prettyprint">nano /etc/default/jetty
+</pre>
+
+<p>Contents:</p>
+
+<pre class="prettyprint">JAVA=/usr/bin/java # Path to Java
+NO_START=0 # Start on boot
+JETTY_HOST=127.0.0.1 # Listen to following ip
+JETTY_ARGS=jetty.port=8085 # Web port of jetty
+JETTY_USER=jetty # User to run under
+</pre></li>
+
+<li><p>Configure Jetty as a service</p>
+
+<pre class="prettyprint">cp /opt/jetty/bin/jetty.sh /etc/init.d/jetty
+chmod +x /etc/init.d/jetty
+
+update-rc.d jetty defaults
+
+service jetty restart
+</pre></li>
+
+<li><p>Remove demo apps (because they are not secure)</p>
+
+<pre class="prettyprint">cd /opt/jetty/webapps
+rm -rf test.d/ test.war test.xml async-rest.war
+rm -rf /opt/jetty/webapps.demo
+</pre></li>
+</ul>
+
+<p>If you look to the footprint of Jetty:</p>
+
+<pre class="prettyprint">  PID User     Command                         Swap      USS      PSS      RSS
+ 7358 jetty    /usr/bin/java -Djetty.state    37456    40388    40492    41464
+</pre>
+
+<p>no one can say that Jetty is bloated.</p>
+
+<p>Maybe enough to bring back some Java to your vps.</p>
+
+<p>PS: One Jetty based project: <a href="http://bombermine.com" title="External link">Bombermine</a>.</p>
+
+<p><strong>Configuration of Jetty</strong></p>
+
+<p>All config files are located in &ldquo;/opt/jetty/etc&rdquo;</p>
+
+<pre class="prettyprint">/opt/jetty/etc# ls
+README.spnego          jetty-deploy.xml    jetty-jmx.xml           jetty-proxy.xml       jetty-spdy.xml     jetty.conf        spnego.conf
+jdbcRealm.properties   jetty-http.xml      jetty-logging.xml       jetty-requestlog.xml  jetty-ssl.xml      jetty.xml         spnego.properties
+jetty-annotations.xml  jetty-https.xml     jetty-lowresources.xml  jetty-rewrite.xml     jetty-started.xml  keystore          test-realm.xml
+jetty-debug.xml        jetty-ipaccess.xml  jetty-monitor.xml       jetty-setuid.xml      jetty-stats.xml    krb5.ini          webdefault.xml
+jetty-demo.xml         jetty-jaas.xml      jetty-plus.xml          jetty-spdy-proxy.xml  jetty-xinetd.xml   realm.properties
+</pre>
+
+<ul>
+<li>jetty-http.xml<br />
+Host and port of the http port</li>
+<li>jetty-https.xml<br />
+Port and certs for SSL</li>
+
+<li><p>jetty.xml<br />
+All major settings like:</p>
+
+<ul>
+<li>Thread pool<br /></li>
+</ul>
+
+<pre class="prettyprint">    <Get name="ThreadPool">
+      <Set name="minThreads" type="int"><Property name="threads.min" default="10"/></Set>
+      <Set name="maxThreads" type="int"><Property name="threads.max" default="200"/></Set>
+      <Set name="idleTimeout" type="int"><Property name="threads.timeout" default="60000"/></Set>
+      <Set name="detailedDump">false</Set>
+    </Get>
+</pre>
+
+<ul>
+<li>HTTP protocol</li>
+</ul>
+
+<pre class="prettyprint">    <New id="httpConfig" class="org.eclipse.jetty.server.HttpConfiguration">
+      <Set name="secureScheme">https</Set>
+      <Set name="securePort"><Property name="jetty.secure.port" default="8443" /></Set>
+      <Set name="outputBufferSize">32768</Set>
+      <Set name="requestHeaderSize">8192</Set>
+      <Set name="responseHeaderSize">8192</Set>
+      <Set name="sendServerVersion">true</Set>
+      <Set name="sendDateHeader">false</Set>
+      <Set name="headerCacheSize">512</Set>
+
+      <!-- Uncomment to enable handling of X-Forwarded- style headers-->
+      <Call name="addCustomizer">
+        <Arg><New class="org.eclipse.jetty.server.ForwardedRequestCustomizer"/></Arg>
+      </Call>
+    </New>
+</pre></li>
+</ul>
+
+<p>Best place to set the virtual hosts: Within the war file:</p>
+
+<pre class="prettyprint"><Configure class="org.eclipse.jetty.webapp.WebAppContext">
+  <Set name="contextPath">/ibadmin</Set>
+  <Set name="war"><Property name="jetty.webapps" default="."/>/ibadmin.war</Set>
+
+  <Set name="virtualHosts">
+    <Array type="String">
+      <Item>test.wlanboy.com</Item>
+      <Item>@ConnectorName</Item>
+      <Item>localhost</Item>
+      <Item>127.0.0.1</Item>
+    </Array>
+  </Set>
+</pre>
+
+            </div>
+        </div>
+    </div>
+
+<div class="footer l-box is-center">
+        <p class="footer">
+            wlanboy | Proudly powered by Ruby | Thin | MongoDB
+        </p>
+    </div>
+
+</div>
+
+</body></html>

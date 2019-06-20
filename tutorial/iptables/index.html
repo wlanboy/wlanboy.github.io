@@ -1,0 +1,361 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="wlanboy wlanboy.com tutorials and ruby scripts">
+    <title>wlanboy - tutorials and ruby scripts</title>
+    
+    <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css" integrity="sha384-" crossorigin="anonymous">
+    
+    
+    
+        <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/grids-responsive-min.css">
+    
+    
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
+    
+        
+        
+            <link rel="stylesheet" href="/css/layouts/wlanboy.css">
+        
+</head>
+<body>
+
+<div class="header" id="header">
+    <div class="home-menu pure-menu pure-menu-horizontal pure-menu-fixed">
+        <ul class="pure-menu-list">
+            <li class="pure-menu-item pure-menu-selected"><a href="/#" class="pure-menu-link">Home</a></li>
+            <li class="pure-menu-item"><a href="/#Tutorials" class="pure-menu-link">Tutorials</a></li>
+            <li class="pure-menu-item"><a href="/#System" class="pure-menu-link">System</a></li>
+            <li class="pure-menu-item"><a href="/#About" class="pure-menu-link">About</a></li>
+        </ul>
+    </div>
+</div>
+
+<div class="splash-container">
+    <div class="splash">
+        <h1 class="splash-head">wlanboy</h1>
+        <p class="splash-subhead">
+            tutorials and ruby scripts
+        </p>
+        <p>
+            <a href="/#Tutorials" class="pure-button pure-button-primary">Read my tutorials</a>
+        </p>
+    </div>
+</div>
+<div class="content-wrapper" id="Tutorial">
+    <div class="content">
+        <h2 class="content-head is-center" >Tutorial</h2>
+
+        <div class="pure-g">
+
+            <div class="l-box-lrg pure-u-1">
+            
+
+<h2 id="tutorial-iptables">Tutorial: iptables</h2>
+
+<p>I want to start a thread about how a one file script for iptables/ip6tables should look like. What default settings are ok and how different services like webserver, mailservers, etc can be unlocked.</p>
+
+<p>Why unlocked? Because like word filters I do not prefer blacklists:</p>
+
+<p>Everytime I read a post about someone telling how good his blacklist is I just start smiling. You cannot maintain a list of all bad things that should be filtered. In my opinion only a whitelist of allowed things can really secure your services.</p>
+
+<p>So back to iptables and ip6tables. More and more providers do add ipv6 ips to their vps and a lot of linux services do support ipv6 by default. So if someone like fail2ban he should add ip6tables rules too.</p>
+
+<p>iptables is part of the kernel so you just have to setup rules to &ldquo;activate&rdquo; iptables. This can be done by adding a file to /etc/init.d/:</p>
+
+<pre class="prettyprint">sudo nano /etc/init.d/iptables
+</pre>
+
+<p>But be carefull to auto start this service by default. Because if the firewall is active and you did not unlock your ssh port you can lockout yourself.</p>
+
+<p>So do only call this command if you know your rules are working!</p>
+
+<pre class="prettyprint">sudo chmod +x /etc/init.d/iptables
+</pre>
+
+<p>You can run this script with:</p>
+
+<pre class="prettyprint">sh /etc/init.d/iptables start
+sh /etc/init.d/iptables stop
+</pre>
+
+<p>If you cannot connect to your vps one of the rules might be too restrictive. Restart your vps and everything is fine (as long as the script is not started automatically).</p>
+
+<p>Content of the script:</p>
+
+<pre class="prettyprint">#!/bin/bash
+# ---------------------------------------------------------------------
+# Linux iptables init script, Copyright (c) 2013 GPL
+# --------------------------------------------------------------------
+### BEGIN INIT INFO
+# Provides:          firewall
+# Required-Start:    $remote_fs $syslog
+# Required-Stop:     $remote_fs $syslog
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Start daemon at boot time
+# Description:       Enable iptables and ip6tables rules
+### END INIT INFO
+
+# iptables lookup
+iptables=`which iptables`
+ip6tables=`which ip6tables`
+
+# setup network device
+# device="eth0" #// KVM
+device="venet0" #// OpenVZ
+yourexternalid="55.55.55.55" #// Change this value!
+yourvpnsubnet="10.1.1.0/24" #// Change this value!
+
+# stop if iptables is not found
+test -f "$iptables" || exit 0
+test -f "$ip6tables" || exit 0
+
+case "$1" in
+  start)
+    echo "setting up iptables and ip6tables"
+
+    # flush tables
+    iptables -F
+    iptables -t nat -F
+    iptables -t mangle -F
+    iptables -X
+    iptables -t nat -X
+    iptables -t mangle -X
+
+    ip6tables -F
+    #ip6tables -t nat -F
+    #ip6tables -t mangle -F
+    ip6tables -X
+    #ip6tables -t nat -X
+    #ip6tables -t mangle -X    
+
+    # set default policies
+    iptables -P INPUT DROP
+    iptables -P OUTPUT DROP
+    iptables -P FORWARD DROP
+
+    ip6tables -P INPUT DROP
+    ip6tables -P OUTPUT DROP
+    ip6tables -P FORWARD DROP    
+
+    # MY_REJECT chain
+    iptables -N MY_REJECT
+    ip6tables -N MY_REJECT6
+
+    # MY_DROP chain
+    iptables -N MY_DROP
+    iptables -A MY_DROP -j DROP
+
+    ip6tables -N MY_DROP6
+    ip6tables -A MY_DROP6 -j DROP    
+
+    # drop invalid packages
+    iptables -A INPUT -m state --state INVALID -j DROP
+    iptables -A OUTPUT -m state --state INVALID -j DROP
+
+    ip6tables -A INPUT -m state --state INVALID -j DROP
+    ip6tables -A OUTPUT -m state --state INVALID -j DROP
+
+    # allow loopback device traffic
+    iptables -A INPUT -i lo -j ACCEPT
+    iptables -A OUTPUT -o lo -j ACCEPT
+
+    ip6tables -A INPUT -i lo -j ACCEPT
+    ip6tables -A OUTPUT -o lo -j ACCEPT
+
+    # set tracking of connection
+    iptables -A OUTPUT -m state --state NEW,ESTABLISHED,RELATED -j ACCEPT
+    iptables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
+
+    ip6tables -A OUTPUT -m state --state NEW,ESTABLISHED,RELATED -j ACCEPT
+    ip6tables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
+
+    # allow ICMP ping
+    iptables -A INPUT -p icmp --icmp-type echo-reply -j ACCEPT
+    iptables -A OUTPUT -p icmp --icmp-type echo-reply -j ACCEPT
+    iptables -A INPUT -p icmp --icmp-type destination-unreachable -j ACCEPT
+    iptables -A OUTPUT -p icmp --icmp-type destination-unreachable -j ACCEPT
+    iptables -A INPUT -p icmp --icmp-type source-quench -j ACCEPT
+    iptables -A INPUT -p icmp --icmp-type echo-request -j ACCEPT
+    iptables -A OUTPUT -p icmp --icmp-type echo-request -j ACCEPT
+    iptables -A INPUT -p icmp --icmp-type time-exceeded -j ACCEPT
+    iptables -A INPUT -p icmp --icmp-type parameter-problem -j ACCEPT
+
+    ip6tables -A INPUT -p ipv6-icmp -j ACCEPT
+
+    # allow HTTP
+    iptables -A INPUT -i $device -m state --state NEW -p tcp --dport 80 -j ACCEPT
+
+    ip6tables -A INPUT -i $device -m state --state NEW -p tcp --dport 80 -j ACCEPT
+
+    # allow HTTPS
+    iptables -A INPUT -i $device -m state --state NEW -p tcp --dport 443 -j ACCEPT
+
+    ip6tables -A INPUT -i $device -m state --state NEW -p tcp --dport 443 -j ACCEPT
+
+    # allow SMTP
+    iptables -A INPUT -i $device -m state --state NEW -p tcp --dport 25 -j ACCEPT
+
+    # allow SMTPS
+    iptables -A INPUT -i $device -m state --state NEW -p tcp --dport 465 -j ACCEPT
+    iptables -A INPUT -i $device -m state --state NEW -p tcp --dport 587 -j ACCEPT
+
+    # allow POP3
+    iptables -A INPUT -i $device -m state --state NEW -p tcp --dport 110 -j ACCEPT
+
+    # allow POP3S
+    iptables -A INPUT -i $device -m state --state NEW -p tcp --dport 995 -j ACCEPT
+
+    # allow IMAP
+    iptables -A INPUT -i $device -m state --state NEW -p tcp --dport 143 -j ACCEPT
+
+    # allow IMAPS
+    iptables -A INPUT -i $device -m state --state NEW -p tcp --dport 993 -j ACCEPT
+
+    # allow NNTP
+    iptables -A INPUT -i $device -m state --state NEW -p tcp --dport 119 -j ACCEPT
+
+    # allow DNS queries
+    iptables -A INPUT -i $device -m state --state NEW -p tcp --dport 53 -j ACCEPT
+    iptables -A INPUT -i $device -m state --state NEW -p udp --dport 53 -j ACCEPT
+
+    # allow FTP
+    iptables -A INPUT -i $device -m state --state NEW -p tcp --dport 21 -j ACCEPT
+    iptables -A INPUT -i $device -m state --state NEW -p tcp --dport 20 -j ACCEPT
+
+    # allow SSH default port and changed port
+    iptables -A INPUT -i $device -m state --state NEW -p tcp --dport 22 -j ACCEPT
+    iptables -A INPUT -i $device -m state --state NEW -p tcp --dport 8000 -j ACCEPT
+
+    # allow MYSQL
+    iptables -A INPUT -i $device -m state --state NEW -p tcp --dport 3306 -j ACCEPT
+
+    # allow MongoDB
+    iptables -A INPUT -i $device -m state --state NEW -p tcp --dport 27019 -j ACCEPT
+
+    # allow NTP
+    #iptables -A INPUT -i $device -m state --state NEW -p udp --dport 123 -j ACCEPT
+
+    # allow IRC server
+    iptables -A INPUT -i $device -m state --state NEW -p tcp --dport 6667 -j ACCEPT
+    iptables -A INPUT -i $device -m state --state NEW -p tcp --dport 6668 -j ACCEPT
+    ip6tables -A INPUT -i $device -m state --state NEW -p tcp --dport 6669 -j ACCEPT
+
+    # allow znc
+    iptables -A INPUT -i $device -m state --state NEW -p tcp --dport 9000 -j ACCEPT
+
+    # allow polipo
+    iptables -A INPUT -i $device -m state --state NEW -p tcp --dport 8080 -j ACCEPT
+
+    # allow rabbitmq
+    iptables -A INPUT -i $device -m state --state NEW -p tcp --dport 4369 -j ACCEPT
+    iptables -A INPUT -i $device -m state --state NEW -p tcp --dport 5672 -j ACCEPT
+    iptables -A INPUT -i $device -m state --state NEW -p tcp --dport 15672 -j ACCEPT
+    iptables -A INPUT -i $device -m state --state NEW -p tcp --dport 55672 -j ACCEPT
+    iptables -A INPUT -i $device -m state --state NEW -p tcp --dport 53958 -j ACCEPT
+    iptables -A INPUT -i $device -m state --state NEW -p tcp --dport 58508 -j ACCEPT
+
+    # allow smb connections for 199.199.199.199
+    iptables -A INPUT -i eth0 -p tcp -s 199.199.199.199 --sport 137:139 -j ACCEPT
+    iptables -A INPUT -i eth0 -p udp -s 199.199.199.199 --sport 137:139 -j ACCEPT
+    iptables -A INPUT -i eth0 -p tcp -s 199.199.199.199 --sport 445 -j ACCEPT
+    iptables -A INPUT -i eth0 -p udp -s 199.199.199.199 --sport 445 -j ACCEPT
+
+    # allow OPENVPN and enable ip forwarding
+    iptables -A INPUT -i tun0 -j ACCEPT
+    iptables -A FORWARD -i tun0 -j ACCEPT
+    iptables -A FORWARD -o $device -i tun0 -j ACCEPT
+    iptables -A FORWARD -o tun0 -i $device -m state --state RELATED,ESTABLISHED -j ACCEPT
+    iptables -A INPUT -i $device -p udp --dport 1194 -m state --state NEW -j ACCEPT
+    iptables -t nat -A POSTROUTING -s $yourvpnsubnet -j SNAT --to $yourexternalid
+
+    # allow PPTPD and enable ip forwarding
+    iptables -A INPUT -p gre -j ACCEPT
+    iptables -A OUTPUT -p gre -j ACCEPT
+    iptables -A INPUT -p tcp --sport 1723 -s $yourexternalid -j ACCEPT
+    iptables -A OUTPUT -p tcp --dport 1723 -d $yourexternalid -j ACCEPT    
+
+    # set default policies REJECT
+    iptables -A INPUT -j MY_REJECT
+    iptables -A OUTPUT -j MY_REJECT
+
+    ip6tables -A INPUT -j MY_REJECT6
+    ip6tables -A OUTPUT -j MY_REJECT6    
+    ;;
+
+  stop)
+    echo "cleaning iptables and ip6tables rules"
+    # flush tabelles
+    iptables -F
+    iptables -t nat -F
+    iptables -t mangle -F
+    iptables -X
+    iptables -t nat -X
+    iptables -t mangle -X
+
+    ip6tables -F
+    #ip6tables -t nat -F
+    #ip6tables -t mangle -F
+    ip6tables -X
+    #ip6tables -t nat -X
+    #ip6tables -t mangle -X    
+
+    # set default policies
+    iptables -P INPUT ACCEPT
+    iptables -P OUTPUT ACCEPT
+    iptables -P FORWARD ACCEPT
+
+    ip6tables -P INPUT ACCEPT
+    ip6tables -P OUTPUT ACCEPT
+    ip6tables -P FORWARD ACCEPT    
+    ;;
+
+  restart)
+    echo "restart iptables and ip6tables"
+    $0 stop
+    $0 start
+    ;;
+
+  status)
+    echo "rule list of iptables and ip6tables"
+    iptables -L -vn
+    ip6tables -L -vn
+    echo "nat table"
+    iptables -t nat -L -vn
+    #ip6tables -t nat -L -vn
+    echo "mangle table"
+    iptables -t mangle -L -vn
+    #ip6tables -t mangle -L -vn
+    ;;
+
+  *)
+    echo "syntax of firewal"
+    echo "Syntax: $0 {start|stop|status}"
+    exit 1
+    ;;
+
+esac
+
+exit 0</pre>
+
+<p>There are different ways to handle this. You can use different files, you can try a lot of things. I do prefer configuration parameters and the &ldquo;use as few files as possible&rdquo; approach.</p>
+
+<p>If someone wants to add some services or does have some recommendation just post them. I will add them to the template.</p>
+
+            </div>
+        </div>
+    </div>
+
+<div class="footer l-box is-center">
+        <p class="footer">
+            wlanboy | Proudly powered by Ruby | Thin | MongoDB
+        </p>
+    </div>
+
+</div>
+
+</body></html>

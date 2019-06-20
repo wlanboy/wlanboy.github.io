@@ -1,0 +1,422 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="wlanboy wlanboy.com tutorials and ruby scripts">
+    <title>wlanboy - tutorials and ruby scripts</title>
+    
+    <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css" integrity="sha384-" crossorigin="anonymous">
+    
+    
+    
+        <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/grids-responsive-min.css">
+    
+    
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
+    
+        
+        
+            <link rel="stylesheet" href="/css/layouts/wlanboy.css">
+        
+</head>
+<body>
+
+<div class="header" id="header">
+    <div class="home-menu pure-menu pure-menu-horizontal pure-menu-fixed">
+        <ul class="pure-menu-list">
+            <li class="pure-menu-item pure-menu-selected"><a href="/#" class="pure-menu-link">Home</a></li>
+            <li class="pure-menu-item"><a href="/#Tutorials" class="pure-menu-link">Tutorials</a></li>
+            <li class="pure-menu-item"><a href="/#System" class="pure-menu-link">System</a></li>
+            <li class="pure-menu-item"><a href="/#About" class="pure-menu-link">About</a></li>
+        </ul>
+    </div>
+</div>
+
+<div class="splash-container">
+    <div class="splash">
+        <h1 class="splash-head">wlanboy</h1>
+        <p class="splash-subhead">
+            tutorials and ruby scripts
+        </p>
+        <p>
+            <a href="/#Tutorials" class="pure-button pure-button-primary">Read my tutorials</a>
+        </p>
+    </div>
+</div>
+<div class="content-wrapper" id="Tutorial">
+    <div class="content">
+        <h2 class="content-head is-center" >Tutorial</h2>
+
+        <div class="pure-g">
+
+            <div class="l-box-lrg pure-u-1">
+            
+
+<h2 id="tutorial-lxc">Tutorial: lxc</h2>
+
+<p>Ubuntu (latest stuff) and LXC are nice partners and play well.<br />
+The web-based GUI is done in the right way.<br />
+But basically you do not need the GUI and you do not need Ubuntu to use LXC.</p>
+
+<p>My tutorial today will show the basic low-end consolish Debian way to work with LXC.</p>
+
+<p>So what is <a href="http://linuxcontainers.org/" title="External link">LXC</a>? They say:</p>
+
+<blockquote>
+<p>Current LXC uses the following kernel features to contain processes:</p>
+
+<ul>
+<li>Kernel namespaces (ipc, uts, mount, pid, network and user)</li>
+<li>Apparmor and SELinux profiles</li>
+<li>Seccomp policies</li>
+<li>Chroots (using pivot_root)</li>
+<li>Kernel capabilities</li>
+<li>Control groups (cgroups)</li>
+</ul>
+
+<p>As such, LXC is often considered as something in the middle between<br />
+a chroot on steroids and a full fledged virtual machine.<br />
+The goal of LXC is to create an environment as close as possible as a<br />
+standard Linux installation but without the need for a separate kernel.</p>
+</blockquote>
+
+<p>Licensing:</p>
+
+<blockquote>
+<p>LXC is free software, most of the code is released under the terms of the<br />
+GNU LGPLv2.1+ license, some Android compatibility bits are released<br />
+under a standard 2-clause BSD license and some binaries and templates<br />
+are shipped under the GNU GPLv2 license.</p>
+</blockquote>
+
+<p>And how can I work with it under Debian on a KVM?</p>
+
+<ol>
+<li><p>Install linux headers</p>
+
+<pre class="prettyprint">apt-get install linux-headers-$(uname -r)
+</pre></li>
+
+<li><p>Install lxs stuff</p>
+
+<pre class="prettyprint">apt-get install lxc bridge-utils (libvirt-bin)
+</pre>
+
+<p>You might not need the libvirt-bin stuff - only if you want to use the libvirt bridge stuff.</p></li>
+</ol>
+
+<p>Next thing is enabling the cgroups:</p>
+
+<pre class="prettyprint">nano /etc/fstab
+#Add this line at the end
+cgroup  /sys/fs/cgroup  cgroup  defaults  0   0
+</pre>
+
+<p>After that following command should show that everything is fine:</p>
+
+<pre class="prettyprint">lxc-checkconfig 
+</pre>
+
+<p>Output should look like this:</p>
+
+<pre class="prettyprint">--- Namespaces ---
+Namespaces: enabled
+Utsname namespace: enabled
+Ipc namespace: enabled
+Pid namespace: enabled
+User namespace: enabled
+Network namespace: enabled
+Multiple /dev/pts instances: enabled
+
+--- Control groups ---
+Cgroup: enabled
+Cgroup clone_children flag: enabled
+Cgroup device: enabled
+Cgroup sched: enabled
+Cgroup cpu account: enabled
+Cgroup memory controller: enabled
+Cgroup cpuset: enabled
+
+--- Misc ---
+Veth pair device: enabled
+Macvlan: enabled
+Vlan: enabled
+File capabilities: enabled
+</pre>
+
+<p>Next thing is to add and configure networking:</p>
+
+<p>You can use LXC, libvirt or interfaces to generate the bridge which is connecting the containers to your local network.</p>
+
+<ol>
+<li><p>LXC</p>
+
+<pre class="prettyprint">nano /etc/default/lxc
+</pre>
+
+<p>Add following content:</p>
+
+<pre class="prettyprint"># Leave USE_LXC_BRIDGE as "true" if you want to use lxcbr0 for your
+# containers.  Set to "false" if you'll use virbr0 or another existing
+# bridge, or mavlan to your host's NIC.
+USE_LXC_BRIDGE="true"
+
+# If you change the LXC_BRIDGE to something other than lxcbr0, then
+# you will also need to update your /etc/lxc/lxc.conf as well as the
+# configuration (/var/lib/lxc/<container>/config) for any containers
+# already created using the default config to reflect the new bridge
+# name.
+# If you have the dnsmasq daemon installed, you'll also have to update
+# /etc/dnsmasq.d/lxc and restart the system wide dnsmasq daemon.
+LXC_BRIDGE="lxcbr0"
+LXC_ADDR="10.0.3.1"
+LXC_NETMASK="255.255.255.0"
+LXC_NETWORK="10.0.3.0/24"
+LXC_DHCP_RANGE="10.0.3.2,10.0.3.254"
+LXC_DHCP_MAX="253"
+
+LXC_SHUTDOWN_TIMEOUT=120
+</pre>
+
+<p>This is a copy of the default configuration of the ubuntu package.<br />
+I am used to the 10.0.3.0/24 network but you can setup the network on your own.</p></li>
+
+<li><p>libvirt<br />
+Second way to configure networking: [libvirt-bin]<br />
+Define the network, to start it and to enable autostart:</p>
+
+<pre class="prettyprint">#First line not needed for Debian 7!
+virsh -c lxc:/// net-define /etc/libvirt/qemu/networks/default.xml
+virsh -c lxc:/// net-start default
+virsh -c lxc:/// net-autostart default
+</pre>
+
+<p>Output is:</p>
+
+<pre class="prettyprint">~# virsh -c lxc:/// net-define /etc/libvirt/qemu/networks/default.xml
+error: Failed to define network from /etc/libvirt/qemu/networks/default.xml
+error: operation failed: network 'default' already exists with uuid 7b950023-411a-5a72-b969-9568bc68908b
+
+~# virsh -c lxc:/// net-start default
+Network default started
+
+~# virsh -c lxc:/// net-autostart default
+Network default marked as autostarted
+</pre>
+
+<p>We can look to the libvirt network config:</p>
+
+<pre class="prettyprint">cat /var/lib/libvirt/network/default.xml
+</pre>
+
+<pre class="prettyprint"><!--
+WARNING: THIS IS AN AUTO-GENERATED FILE. CHANGES TO IT ARE LIKELY TO BE
+OVERWRITTEN AND LOST. Changes to this xml configuration should be made using:
+  virsh net-edit default
+or other application using the libvirt API.
+-->
+
+<network>
+  <name>default</name>
+  <uuid>7b950023-411a-5a72-b969-9568bc68908b</uuid>
+  <forward mode='nat'/>
+  <bridge name='virbr0' stp='on' delay='0' />
+  <ip address='192.168.122.1' netmask='255.255.255.0'>
+    <dhcp>
+      <range start='192.168.122.2' end='192.168.122.254' />
+    </dhcp>
+  </ip>
+</network>
+</pre></li>
+
+<li><p>network<br />
+Third way to configure networking:</p>
+
+<pre class="prettyprint">nano /etc/network/interfaces
+</pre>
+
+<pre class="prettyprint">#Bridge setup - add at the buttom of the file
+auto br0
+  iface br0 inet static
+  bridge_ports eth0
+  bridge_fd 0
+  address 10.0.3.2
+  netmask 255.255.255.0
+  gateway 10.0.3.1
+  dns-nameservers 8.8.8.8
+</pre></li>
+</ol>
+
+<p>For me the third way is the easiest - a straightforward bridge for the lxc containers.<br />
+But it is also fine to use the LXC generated bridge (doing the same as you).</p>
+
+<p>If you are allready running KVM you can use the bridged network from libvirt too.</p>
+
+<p>Now we need some iptables magic to enable the lxc containers to get internet access:</p>
+
+<pre class="prettyprint"> iptables -t filter -A INPUT -i lxcbr0 -j ACCEPT
+ iptables -t filter -A OUTPUT -o lxcbr0 -j ACCEPT
+ iptables -t filter -A FORWARD -i lxcbr0 -j ACCEPT
+ iptables -A FORWARD -s 10.0.3.0/24 -o eth0 -j ACCEPT
+ iptables -A FORWARD -d 10.0.3.0/24 -o lxcbr0 -j ACCEPT
+
+ iptables -A POSTROUTING -t nat -j MASQUERADE
+</pre>
+
+<pre class="prettyprint"> iptables -t filter -A INPUT -i virbr0 -j ACCEPT
+ iptables -t filter -A OUTPUT -o virbr0 -j ACCEPT
+ iptables -t filter -A FORWARD -i virbr0 -j ACCEPT
+ iptables -A FORWARD -s 192.168.122.0/24 -o eth0 -j ACCEPT
+ iptables -A FORWARD -d 192.168.122.0/24 -o virbr0 -j ACCEPT
+
+ iptables -A POSTROUTING -t nat -j MASQUERADE
+</pre>
+
+<p>The other way round is to route ports from the host to one container - e.g. for a VestaCP instance:</p>
+
+<ul>
+<li>-i eth0: the one interface of your host which should listen</li>
+<li>&ndash;to-destination: ip and port of the lxc container as target</li>
+</ul>
+
+<pre class="prettyprint">iptables -t nat -A PREROUTING -m tcp -p tcp --dport 20 -j DNAT -i eth0 --to-destination 10.0.3.3:20
+iptables -t nat -A PREROUTING -m tcp -p tcp --dport 21 -j DNAT -i eth0 --to-destination 10.0.3.3:21
+iptables -t nat -A PREROUTING -m udp -p udp --dport 53 -j DNAT -i eth0 --to-destination 10.0.3.3:53
+iptables -t nat -A PREROUTING -m tcp -p tcp --dport 80 -j DNAT -i eth0 --to-destination 10.0.3.3:80
+iptables -t nat -A PREROUTING -m tcp -p tcp --dport 25 -j DNAT -i eth0 --to-destination 10.0.3.3:25
+iptables -t nat -A PREROUTING -m tcp -p tcp --dport 143 -j DNAT -i eth0 --to-destination 10.0.3.3:143
+iptables -t nat -A PREROUTING -m tcp -p tcp --dport 587 -j DNAT -i eth0 --to-destination 10.0.3.3:587
+
+</pre>
+
+<p>Now - finally - the time to create our first container:</p>
+
+<p>I will call it &ldquo;vnc&rdquo;.</p>
+
+<pre class="prettyprint">lxc-create -n vnc -t debian
+</pre>
+
+<p>Manpage for lxc-create: <a href="http://lxc.sourceforge.net/man/lxc-create.html" title="External link">http://lxc.sourcefor&hellip;lxc-create.html</a></p>
+
+<p>You will be asked for quite a lot of things but the important ones are the debian version,<br />
+what package sources and for the root password.</p>
+
+<p>First container create might consume quite a bit of time (to get all the files).</p>
+
+<p>We then should take a look at the container configuration:</p>
+
+<pre class="prettyprint">nano /var/lib/lxc/vnc/config
+</pre>
+
+<p>Adding following lines:</p>
+
+<pre class="prettyprint">lxc.network.type = veth
+lxc.network.flags = up
+lxc.network.link = virbr0
+lxc.network.ipv4 = 10.0.3.3/24
+lxc.network.ipv4.gateway = 10.0.3.1
+</pre>
+
+<p>So this time we use the interface &ldquo;virbr0&rdquo; from the host to take the ip &ldquo;10.0.3.3&rdquo; and using the gateway &ldquo;10.0.3.1&rdquo; (host ip) to get access to the internet.</p>
+
+<p>Next step: Enable autostart of the container:</p>
+
+<pre class="prettyprint">ln -s /var/lib/lxc/vnc/config /etc/lxc/auto/vnc
+</pre>
+
+<p>And start/stop the container:</p>
+
+<pre class="prettyprint">lxc-start -n vnc -d
+lxc-stop -n vnc
+</pre>
+
+<p>&ldquo;lxc-list&rdquo; will list all containers:</p>
+
+<pre class="prettyprint">RUNNING
+  vnc
+
+FROZEN
+
+STOPPED
+</pre>
+
+<p>You can enter the console of the container by:</p>
+
+<pre class="prettyprint">lxc-console -n vnc
+</pre>
+
+<p>Remeber following shotcuts:</p>
+
+<pre class="prettyprint">Type <Ctrl+a q> to exit the console, <Ctrl+a Ctrl+a> to enter Ctrl+a itself
+</pre>
+
+<p>Well the console should show up &hellip; if the debian package for the templates would not be broken.<br />
+The fix is allready available for ubuntu but in debian you might have to wait for that fix.<br />
+There are patches available but looking to the problem itself &hellip; well the ttys are missing.</p>
+
+<p>But that can be fixed easily:</p>
+
+<pre class="prettyprint">chroot /var/lib/lxc/vnc/rootfs 
+mknod -m 666 /dev/tty1 c 4 1 
+mknod -m 666 /dev/tty2 c 4 2 
+mknod -m 666 /dev/tty3 c 4 3 
+exit
+</pre>
+
+<p>Next issue might be the resolve.conf</p>
+
+<pre class="prettyprint">nano /var/lib/lxc/vnc/rootfs/etc/resolv.conf
+</pre>
+
+<p>Just ensure that the dns servers are correct.</p>
+
+<p>So back to the console:</p>
+
+<pre class="prettyprint">lxc-console -n vnc
+</pre>
+
+<p>And everything is working again:</p>
+
+<pre class="prettyprint">#Output:
+Debian GNU/Linux 7 vnc tty1
+
+vnc login:
+</pre>
+
+<p>So login with root and re install the ssh server:</p>
+
+<pre class="prettyprint">apt-get update && apt-get install --reinstall openssh-server
+</pre>
+
+<p>Next time you restart the container you can login via ssh to the LXC container:</p>
+
+<pre class="prettyprint">ssh 10.0.3.3
+</pre>
+
+<p>You can even forward the ssh port to one of the LXC containers.</p>
+
+<p>That&rsquo;s it.</p>
+
+<p>For me LXC is a good tool to separate services.</p>
+
+<p>It is easy to try control panels like VestaCP because you do not have to reinstall your main KVM.</p>
+
+<p>Just start a container and install what ever you want - to cannot harm your main vps.</p>
+
+<p>You can even install different versions of a lib or server. Each on a own instance.</p>
+
+            </div>
+        </div>
+    </div>
+
+<div class="footer l-box is-center">
+        <p class="footer">
+            wlanboy | Proudly powered by Ruby | Thin | MongoDB
+        </p>
+    </div>
+
+</div>
+
+</body></html>

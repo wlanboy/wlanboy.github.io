@@ -1,0 +1,284 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="wlanboy wlanboy.com tutorials and ruby scripts">
+    <title>wlanboy - tutorials and ruby scripts</title>
+    
+    <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css" integrity="sha384-" crossorigin="anonymous">
+    
+    
+    
+        <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/grids-responsive-min.css">
+    
+    
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
+    
+        
+        
+            <link rel="stylesheet" href="/css/layouts/wlanboy.css">
+        
+</head>
+<body>
+
+<div class="header" id="header">
+    <div class="home-menu pure-menu pure-menu-horizontal pure-menu-fixed">
+        <ul class="pure-menu-list">
+            <li class="pure-menu-item pure-menu-selected"><a href="/#" class="pure-menu-link">Home</a></li>
+            <li class="pure-menu-item"><a href="/#Tutorials" class="pure-menu-link">Tutorials</a></li>
+            <li class="pure-menu-item"><a href="/#System" class="pure-menu-link">System</a></li>
+            <li class="pure-menu-item"><a href="/#About" class="pure-menu-link">About</a></li>
+        </ul>
+    </div>
+</div>
+
+<div class="splash-container">
+    <div class="splash">
+        <h1 class="splash-head">wlanboy</h1>
+        <p class="splash-subhead">
+            tutorials and ruby scripts
+        </p>
+        <p>
+            <a href="/#Tutorials" class="pure-button pure-button-primary">Read my tutorials</a>
+        </p>
+    </div>
+</div>
+<div class="content-wrapper" id="Tutorial">
+    <div class="content">
+        <h2 class="content-head is-center" >Tutorial</h2>
+
+        <div class="pure-g">
+
+            <div class="l-box-lrg pure-u-1">
+            
+
+<h2 id="tutorial-scp-otpw">Tutorial: scp+otpw</h2>
+
+<p>I wanted to generate some one time passwords to allow a friend to login 10 times via scp to download some stuff. Sounds strange but I wanted to ensure that he is not using the account for anything else.</p>
+
+<p>So there are two things todo:</p>
+
+<ol>
+<li>Generate one time passwords</li>
+<li>Lock a user to scp only</li>
+</ol>
+
+<p><strong>Let&rsquo;s start with 1.:</strong></p>
+
+<ul>
+<li><p>Install otpw</p>
+
+<pre class="prettyprint">sudo apt-get install otpw-bin libpam-otpw
+</pre></li>
+
+<li><p>Configure common-auth</p>
+
+<pre class="prettyprint">nano /etc/pam.d/common-auth
+</pre>
+
+<p>Find the line:</p>
+
+<pre class="prettyprint">auth    [success=1 default=ignore]      pam_unix.so nullok_secure
+</pre>
+
+<p>and add these lines above:</p>
+
+<pre class="prettyprint">auth       sufficient pam_otpw.so
+session    optional   pam_otpw.so
+</pre>
+
+<p>So every login will first try optw and afterwards try the common auth methods.</p></li>
+
+<li><p>Configure sshd<br />
+Add a otpw config file:</p>
+
+<pre class="prettyprint">nano /etc/pam.d/otpw
+</pre>
+
+<p>With content:</p>
+
+<pre class="prettyprint">auth           sufficient      pam_otpw.so
+session        optional        pam_otpw.so
+</pre>
+
+<p>Include otpw config to sshd auth config:</p>
+
+<pre class="prettyprint">nano /etc/pam.d/sshd
+</pre>
+
+<p>Search for:</p>
+
+<pre class="prettyprint">@include common-auth
+</pre>
+
+<p>And add this line above:</p>
+
+<pre class="prettyprint">@include otpw
+</pre>
+
+<p>Afterwards modify sshd config:<br />
+Ensure that this three parameters are set to &ldquo;yes&rdquo;:</p>
+
+<pre class="prettyprint">UsePrivilegeSeparation yes
+ChallengeResponseAuthentication yes
+UsePAM yes
+</pre></li>
+
+<li><p>Restart sshd</p>
+
+<pre class="prettyprint">service ssh restart
+</pre></li>
+</ul>
+
+<p>This is a basic configuration of otpw. It ensures that otpw is only used for users which do have a otpw config file (~/.otpw) in their home directory. All other users will not notice that otpw is active.</p>
+
+<p>Following command will generate 4 one time passwords:</p>
+
+<pre class="prettyprint">otpw-gen -h 5 -w 64
+</pre>
+
+<p>Following command will generate 10 one time passwords:</p>
+
+<pre class="prettyprint">otpw-gen -h 6 -w 79
+</pre>
+
+<p>Output would look like this (called with context of user):</p>
+
+<pre class="prettyprint">otpw-gen -h 6 -w 79
+Generating random seed ...
+
+If your paper password list is stolen, the thief should not gain
+access to your account with this information alone. Therefore, you
+need to memorize and enter below a prefix password. You will have to
+enter that each time directly before entering the one-time password
+(on the same line).
+
+When you log in, a 3-digit password number will be displayed.  It
+identifies the one-time password on your list that you have to append
+to the prefix password. If another login to your account is in progress
+at the same time, several password numbers may be shown and all
+corresponding passwords have to be appended after the prefix
+password. Best generate a new password list when you have used up half
+of the old one.
+
+Enter new prefix password:
+Reenter prefix password:
+
+Creating '~/.otpw'.
+Generating new one-time passwords ...
+
+OTPW list generated 2013-07-09 20:02 on debian
+
+000 AN2: 3:GL  002 gz7C wMeR  004 BQZs BLns  006 u9AQ 8GfI  008 G:Ui C+jo
+001 ZiAZ qeDV  003 cQQr v8O4  005 O/fD 3koN  007 JrLO ROZr  009 wZAT 7zrf
+
+            !!! REMEMBER: Enter the PREFIX PASSWORD first !!!
+</pre>
+
+<p>SSH login:</p>
+
+<pre class="prettyprint">login as: test
+Using keyboard-interactive authentication.
+Password 003:
+Linux debian 3.2.0-4-686-pae #1 SMP Debian 3.2.46-1 i686
+
+The programs included with the Debian GNU/Linux system are free software;
+the exact distribution terms for each program are described in the
+individual files in /usr/share/doc/*/copyright.
+
+Debian GNU/Linux comes with ABSOLUTELY NO WARRANTY, to the extent
+permitted by applicable law.
+Last login: Tue Jul  9 20:03:23 2013 from 192.168.200.10
+test@debian:~$
+
+</pre>
+
+<p>If you entered the prefix password &ldquo;pass&rdquo; the real password for 003 is:</p>
+
+<pre class="prettyprint">passcQQr v8O4
+</pre>
+
+<p>Just append it without any space.</p>
+
+<p>Now create a group for all optw users and add the users:</p>
+
+<pre class="prettyprint">addgroup optw
+adduser test optw
+</pre>
+
+<p>And change file permissions:</p>
+
+<pre class="prettyprint">chown root:optw /home/test/.otpw
+chmod 640 /home/test/.otpw
+</pre>
+
+<p>And to ensure that noone can reset the passwords:</p>
+
+<pre class="prettyprint">chmod 750 /usr/bin/otpw-gen
+</pre>
+
+<p><strong>Now start with point 2.</strong> - limit shell to scp:</p>
+
+<pre class="prettyprint">apt-get install rssh
+apt-get install scponly
+</pre>
+
+<p>There are two shells doing that:</p>
+
+<ul>
+<li>rssh is a configurable shell that limits the actions of a user</li>
+<li>scponly is a shell that &hellip; well &hellip; only has scp commands.</li>
+</ul>
+
+<p>Now you have to add the shell to a user:</p>
+
+<pre class="prettyprint">usermod -s /usr/sbin/scponly test
+usermod -s /usr/sbin/rssh test
+</pre>
+
+<p>And you can confiure rssh quite descent:</p>
+
+<pre class="prettyprint">nano /etc/rssh.conf
+</pre>
+
+<p>Content:</p>
+
+<pre class="prettyprint"># Leave these all commented out to make the default action for rssh to lock
+# users out completely...
+
+allowscp
+#allowsftp
+#allowcvs
+#allowrdist
+#allowrsync
+#allowsvnserve
+
+# if your chroot_path contains spaces, it must be quoted...
+# In the following examples, the chroot_path is "/usr/local/my chroot"
+user=test:011:000010:"/opt/scpspace/test chroot"  # scp with chroot
+
+</pre>
+
+<p>Done.</p>
+
+<p>I don&rsquo;t like the otpw-gen handling because even if you chown the file to root:root the .otpw file is recreated when the user is calling otpw-gen. So everytime I have to add a user I have to chmod /usr/bin/otpw-gen.</p>
+
+<p>So I am still searching for a better solution for one time passwords.</p>
+
+<p>How do you lock users and the number of logins?</p>
+
+            </div>
+        </div>
+    </div>
+
+<div class="footer l-box is-center">
+        <p class="footer">
+            wlanboy | Proudly powered by Ruby | Thin | MongoDB
+        </p>
+    </div>
+
+</div>
+
+</body></html>

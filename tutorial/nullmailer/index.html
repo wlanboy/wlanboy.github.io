@@ -1,0 +1,114 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="wlanboy wlanboy.com tutorials and ruby scripts">
+    <title>wlanboy - tutorials and ruby scripts</title>
+    
+    <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css" integrity="sha384-" crossorigin="anonymous">
+    
+    
+    
+        <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/grids-responsive-min.css">
+    
+    
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
+    
+        
+        
+            <link rel="stylesheet" href="/css/layouts/wlanboy.css">
+        
+</head>
+<body>
+
+<div class="header" id="header">
+    <div class="home-menu pure-menu pure-menu-horizontal pure-menu-fixed">
+        <ul class="pure-menu-list">
+            <li class="pure-menu-item pure-menu-selected"><a href="/#" class="pure-menu-link">Home</a></li>
+            <li class="pure-menu-item"><a href="/#Tutorials" class="pure-menu-link">Tutorials</a></li>
+            <li class="pure-menu-item"><a href="/#System" class="pure-menu-link">System</a></li>
+            <li class="pure-menu-item"><a href="/#About" class="pure-menu-link">About</a></li>
+        </ul>
+    </div>
+</div>
+
+<div class="splash-container">
+    <div class="splash">
+        <h1 class="splash-head">wlanboy</h1>
+        <p class="splash-subhead">
+            tutorials and ruby scripts
+        </p>
+        <p>
+            <a href="/#Tutorials" class="pure-button pure-button-primary">Read my tutorials</a>
+        </p>
+    </div>
+</div>
+<div class="content-wrapper" id="Tutorial">
+    <div class="content">
+        <h2 class="content-head is-center" >Tutorial</h2>
+
+        <div class="pure-g">
+
+            <div class="l-box-lrg pure-u-1">
+            
+
+<h2 id="tutorial-nullmailer">Tutorial: nullmailer</h2>
+
+<p>This is the start of a small series of mail related posts. I will start with nullmailer which is the perfect fit for a small vps that just has to send some emails from time to time. No need for a whole mail server but the need for a sendmail like mail service.</p>
+
+<p>Installation:</p>
+
+<pre class="prettyprint">apt-get install nullmailer
+</pre>
+
+<p>Configuration:</p>
+
+<ul>
+<li>/etc/nullmailer/adminaddr<br />
+Sender email address used by nullmailer</li>
+<li>/etc/nullmailer/defaultdomain<br />
+Default domain for email service</li>
+<li>etc/nullmailer/remotes<br />
+Login information for sending emails</li>
+</ul>
+
+<p>The login information is requested during installation. If you want to change it afterwards you can edit the remotes config file.</p>
+
+<p>The configuration itself does have following parameters:</p>
+
+<pre class="prettyprint">[domain name of your smtp server] smtp --auth-login --user=[USER] --pass=[PASSWORD]
+</pre>
+
+<p>As you can see this is a local service. It is not listeing to any ports. It just catches local calls of sendmail.</p>
+
+<p>To test the whole setup install the mailtutils:</p>
+
+<pre class="prettyprint">apt-get install mailutils
+</pre>
+
+<p>And run following command:</p>
+
+<pre class="prettyprint">echo "This is a text." | mail -s "Testing nullmailerl" [mail address for test]
+</pre>
+
+<p>Done.</p>
+
+<p>This is a basic tutorial. Nothing worth but save you some time. For me it is just a &ldquo;hey look at that&rdquo; post.</p>
+
+<p>Message of this tutorial: If you do have a mail account and you just need to send a few email with your vps - you should use nullmailer for that.</p>
+
+            </div>
+        </div>
+    </div>
+
+<div class="footer l-box is-center">
+        <p class="footer">
+            wlanboy | Proudly powered by Ruby | Thin | MongoDB
+        </p>
+    </div>
+
+</div>
+
+</body></html>

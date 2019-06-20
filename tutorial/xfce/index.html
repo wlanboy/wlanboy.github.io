@@ -1,0 +1,230 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="wlanboy wlanboy.com tutorials and ruby scripts">
+    <title>wlanboy - tutorials and ruby scripts</title>
+    
+    <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css" integrity="sha384-" crossorigin="anonymous">
+    
+    
+    
+        <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/grids-responsive-min.css">
+    
+    
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
+    
+        
+        
+            <link rel="stylesheet" href="/css/layouts/wlanboy.css">
+        
+</head>
+<body>
+
+<div class="header" id="header">
+    <div class="home-menu pure-menu pure-menu-horizontal pure-menu-fixed">
+        <ul class="pure-menu-list">
+            <li class="pure-menu-item pure-menu-selected"><a href="/#" class="pure-menu-link">Home</a></li>
+            <li class="pure-menu-item"><a href="/#Tutorials" class="pure-menu-link">Tutorials</a></li>
+            <li class="pure-menu-item"><a href="/#System" class="pure-menu-link">System</a></li>
+            <li class="pure-menu-item"><a href="/#About" class="pure-menu-link">About</a></li>
+        </ul>
+    </div>
+</div>
+
+<div class="splash-container">
+    <div class="splash">
+        <h1 class="splash-head">wlanboy</h1>
+        <p class="splash-subhead">
+            tutorials and ruby scripts
+        </p>
+        <p>
+            <a href="/#Tutorials" class="pure-button pure-button-primary">Read my tutorials</a>
+        </p>
+    </div>
+</div>
+<div class="content-wrapper" id="Tutorial">
+    <div class="content">
+        <h2 class="content-head is-center" >Tutorial</h2>
+
+        <div class="pure-g">
+
+            <div class="l-box-lrg pure-u-1">
+            
+
+<h2 id="tutorial-xfce">Tutorial: xfce</h2>
+
+<p>Even on a low RAM vps you are able to run a desktop environment.</p>
+
+<p>If you do have a lot of free RAM you can even run desktop apps and IDEs like Eclipse on your vps.</p>
+
+<p>I use my KVM vps to have a portable and accessable Ruby and Java development environment.</p>
+
+<p>One of the desktop managers that do have a small footprint is xfce4. So this tutorial is based on that peace of software.</p>
+
+<p>1. Install xfce and a browser (I take iceweasel - well Firefox - due to the Debian Free Software Guidelines)</p>
+
+<pre class="prettyprint">sudo apt-get install xfce4 xfce4-clipman xfce4-goodies vnc4server iceweasel
+</pre>
+
+<p>2. Configure vnc4server</p>
+
+<p>First of all run vnc4server to generate the configs and to setup the password:</p>
+
+<pre class="prettyprint">vnc4server 
+</pre>
+
+<p>Type in your password twice and kill the vnc instance:</p>
+
+<pre class="prettyprint">vncserver -kill :1
+</pre>
+
+<p>Vnc is about virtual displays. Like any x-based system it counts the displays. So &ldquo;:1&rdquo; stands for the first display.</p>
+
+<p>Now we change the x windows manager to xfc4:</p>
+
+<pre class="prettyprint">nano ~/.vnc/xstartup
+</pre>
+
+<p>Exchange &ldquo;x-window-manager&rdquo; with &ldquo;startxfce4&rdquo;:</p>
+
+<pre class="prettyprint">#!/bin/sh
+
+# Uncomment the following two lines for normal desktop:
+# unset SESSION_MANAGER
+# exec /etc/X11/xinit/xinitrc
+
+[ -x /etc/vnc/xstartup ] && exec /etc/vnc/xstartup
+[ -r $HOME/.Xresources ] && xrdb $HOME/.Xresources
+xsetroot -solid grey
+vncconfig -iconic &
+x-terminal-emulator -geometry 80x24+10+10 -ls -title "$VNCDESKTOP Desktop" &
+startxfce4 &
+</pre>
+
+<p>3. Run it</p>
+
+<p>You can start the vnc instance with following command:</p>
+
+<pre class="prettyprint">vnc4server :1 -geometry 1280x960 -depth 16 -screen scrn 1280x960x16 &
+</pre>
+
+<p>We use &ldquo;&amp;&rdquo; to background the process.</p>
+
+<p>Some words to the parameters (manpage):</p>
+
+<pre class="prettyprint">       -geometry widthxheight
+              Specify  the  size  of  the  desktop  to  be created. Default is
+              1024x768.
+
+       -depth depth
+              Specify the pixel depth in bits of the desktop  to  be  created.
+              Default is 16, other possible values are 8, 15 and 24 - anything
+              else is likely to cause strange behaviour by applications.
+</pre>
+
+<p>So why the &ldquo;-screen&rdquo; parameter?</p>
+
+<p>Well to do everything twice - or (better idea) to keep my scripts compatible to the package vncserver.</p>
+
+<p>4. Keep it running</p>
+
+<p>One thing that annoys me about this way to startup the vnc server is that it does not survive restarts.</p>
+
+<p>One dirty simple way is to use rc.local</p>
+
+<pre class="prettyprint">sudo nano /etc/rc.local
+</pre>
+
+<p>With following content:</p>
+
+<pre class="prettyprint">#!/bin/sh -e
+#
+# rc.local
+#
+# This script is executed at the end of each multiuser runlevel.
+# Make sure that the script will "exit 0" on success or any other
+# value on error.
+#
+# In order to enable or disable this script just change the execution
+# bits.
+#
+# By default this script does nothing.
+vncserver -kill :1
+su - wlanboy -c "cd /home/wlanboy && vnc4server :1 -geometry 1280x960 -depth 16 -screen scrn 1280x960x16" 2>/dev/null &
+exit 0
+
+</pre>
+
+<p>So what do we do?</p>
+
+<ul>
+<li>Stop a allready running vncserver instance on disply 1</li>
+<li>Run a given command (-c) using the user &ldquo;wlanboy&rdquo;</li>
+<li>The command itself switches to the home direcoty and runs the vnc4server command</li>
+</ul>
+
+<p>You can copy the commands to start additional vnc instances.</p>
+
+<p>Just double check that you alter the display numbers.</p>
+
+<p><img src="/imgcontent/vnc4.JPG" alt="vnc4.JPG" /></p>
+
+<p>One note:</p>
+
+<p>Please deactivate the screen saver because most of them are quite cpu consuming.</p>
+
+<p><strong>Things to change if you want to run openbox:</strong></p>
+
+<p>1. Install openbox</p>
+
+<pre class="prettyprint">apt-get install openbox obconf obmenu menu conky nitrogen
+</pre>
+
+<p>So what are we installing?</p>
+
+<ol>
+<li>openbox - the GUI itself</li>
+<li>obconf - the configuration manager of openbox</li>
+<li>obmenu - well the menu (right click) of openbox</li>
+<li>conky - a nice system monitor</li>
+<li>nitrogen - a lightweight desktop background browser</li>
+<li>tint2 - a lightweight window manager for openbox</li>
+</ol>
+
+<p>2. Change vnc config</p>
+
+<pre class="prettyprint">nano ~/.vnc/xstartup
+</pre>
+
+<pre class="prettyprint">#!/bin/sh
+
+# Uncomment the following two lines for normal desktop:
+# unset SESSION_MANAGER
+# exec /etc/X11/xinit/xinitrc
+
+[ -x /etc/vnc/xstartup ] && exec /etc/vnc/xstartup
+[ -r $HOME/.Xresources ] && xrdb $HOME/.Xresources
+xsetroot -solid grey
+vncconfig -iconic &
+x-terminal-emulator -geometry 80x24+10+10 -ls -title "$VNCDESKTOP Desktop" &
+openbox-session &
+</pre>
+
+<p>Just the last line has to be modified.</p>
+
+            </div>
+        </div>
+    </div>
+
+<div class="footer l-box is-center">
+        <p class="footer">
+            wlanboy | Proudly powered by Ruby | Thin | MongoDB
+        </p>
+    </div>
+
+</div>
+
+</body></html>

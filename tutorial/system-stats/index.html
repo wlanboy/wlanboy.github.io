@@ -1,0 +1,237 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="wlanboy wlanboy.com tutorials and ruby scripts">
+    <title>wlanboy - tutorials and ruby scripts</title>
+    
+    <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css" integrity="sha384-" crossorigin="anonymous">
+    
+    
+    
+        <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/grids-responsive-min.css">
+    
+    
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
+    
+        
+        
+            <link rel="stylesheet" href="/css/layouts/wlanboy.css">
+        
+</head>
+<body>
+
+<div class="header" id="header">
+    <div class="home-menu pure-menu pure-menu-horizontal pure-menu-fixed">
+        <ul class="pure-menu-list">
+            <li class="pure-menu-item pure-menu-selected"><a href="/#" class="pure-menu-link">Home</a></li>
+            <li class="pure-menu-item"><a href="/#Tutorials" class="pure-menu-link">Tutorials</a></li>
+            <li class="pure-menu-item"><a href="/#System" class="pure-menu-link">System</a></li>
+            <li class="pure-menu-item"><a href="/#About" class="pure-menu-link">About</a></li>
+        </ul>
+    </div>
+</div>
+
+<div class="splash-container">
+    <div class="splash">
+        <h1 class="splash-head">wlanboy</h1>
+        <p class="splash-subhead">
+            tutorials and ruby scripts
+        </p>
+        <p>
+            <a href="/#Tutorials" class="pure-button pure-button-primary">Read my tutorials</a>
+        </p>
+    </div>
+</div>
+<div class="content-wrapper" id="Tutorial">
+    <div class="content">
+        <h2 class="content-head is-center" >Tutorial</h2>
+
+        <div class="pure-g">
+
+            <div class="l-box-lrg pure-u-1">
+            
+
+<h2 id="tutorial-system-stats">Tutorial: system-stats</h2>
+
+<p>If a service is running not as snappy as it should I use the sysstat tools to check the current load of my vps.<br />
+They collect usage statistics for CPU, memory, network, block devices, etc.</p>
+
+<p>Installation is easy:</p>
+
+<pre class="prettyprint">apt-get install sysstat
+</pre>
+
+<p>The package itself does contain three main components:<br />
+- sar to display current information<br />
+- sa1 to collect and store statistics<br />
+- sa2 to create a daily report in /var/log/sa</p>
+
+<p>Configuration is done through:</p>
+
+<pre class="prettyprint">nano /etc/sysstat/sysstat
+</pre>
+
+<p>Content:</p>
+
+<pre class="prettyprint"># sysstat configuration file. See sysstat(5) manual page.
+
+# How long to keep log files (in days).
+# Used by sa2(8) script
+# If value is greater than 28, then log files are kept in
+# multiple directories, one for each month.
+HISTORY=7
+
+# Compress (using gzip or bzip2) sa and sar files older than (in days):
+COMPRESSAFTER=10
+
+# Parameters for the system activity data collector (see sadc(8) manual page)
+# which are used for the generation of log files.
+# By default contains the `-S DISK' option responsible for generating disk
+# statisitcs. Use `-S XALL' to collect all available statistics.
+SADC_OPTIONS="-S DISK"
+</pre>
+
+<p>The cronjob configuration can be found here:</p>
+
+<pre class="prettyprint">nano /etc/cron.d/sysstat
+</pre>
+
+<p>Content:</p>
+
+<pre class="prettyprint"># The first element of the path is a directory where the debian-sa1
+# script is located
+PATH=/usr/lib/sysstat:/usr/sbin:/usr/sbin:/usr/bin:/sbin:/bin
+
+# Activity reports every 10 minutes everyday
+5-55/10 * * * * root command -v debian-sa1 > /dev/null && debian-sa1 1 1
+
+# Additional run at 23:59 to rotate the statistics file
+59 23 * * * root command -v debian-sa1 > /dev/null && debian-sa1 60 2
+</pre>
+
+<p>Usage of the command line tool sar:</p>
+
+<ul>
+<li>Report CPU utilization</li>
+</ul>
+
+<pre class="prettyprint">sar -u 3 10
+</pre>
+
+<p>Output:</p>
+
+<pre class="prettyprint">02:06:26 PM     CPU     %user     %nice   %system   %iowait    %steal     %idle
+02:06:29 PM     all     24.83      0.00      0.42      0.00      0.42     74.33
+02:06:32 PM     all     24.79      0.00      0.50      0.00      0.33     74.37
+02:06:35 PM     all     24.73      0.00      0.25      0.00      0.33     74.69
+02:06:38 PM     all     24.64      0.00      0.50      0.00      0.25     74.60
+02:06:41 PM     all     24.62      0.00      0.67      0.00      0.25     74.46
+</pre>
+
+<ul>
+<li>Report per-processor statistics</li>
+</ul>
+
+<pre class="prettyprint">sar -P ALL 3 10
+</pre>
+
+<pre class="prettyprint">02:08:04 PM     CPU     %user     %nice   %system   %iowait    %steal     %idle
+02:08:07 PM     all     24.85      0.00      0.42      0.00      0.17     74.56
+02:08:07 PM       0      3.34      0.00      0.00      0.00      0.00     96.66
+02:08:07 PM       1      5.00      0.00      0.33      0.00      0.33     94.33
+02:08:07 PM       2     33.78      0.00      0.00      0.00      0.00     66.22
+02:08:07 PM       3     57.67      0.00      0.67      0.00      0.33     41.33
+
+02:08:07 PM     CPU     %user     %nice   %system   %iowait    %steal     %idle
+02:08:10 PM     all     24.79      0.00      0.42      0.00      0.08     74.71
+02:08:10 PM       0      8.67      0.00      0.67      0.00      0.33     90.33
+02:08:10 PM       1     45.18      0.00      1.00      0.00      0.00     53.82
+02:08:10 PM       2     12.67      0.00      0.00      0.00      0.00     87.33
+02:08:10 PM       3     32.33      0.00      0.67      0.00      0.00     67.00
+</pre>
+
+<ul>
+<li>Report queue length and load averages.</li>
+</ul>
+
+<pre class="prettyprint">sar -q 3 10
+</pre>
+
+<p>Output:</p>
+
+<pre class="prettyprint">02:07:11 PM   runq-sz  plist-sz   ldavg-1   ldavg-5  ldavg-15   blocked
+02:07:14 PM         1       808      0.64      0.26      0.12         0
+02:07:17 PM         1       808      0.67      0.27      0.12         0
+02:07:20 PM         1       808      0.67      0.27      0.12         0
+02:07:23 PM         1       808      0.69      0.28      0.13         0
+</pre>
+
+<ul>
+<li>Report I/O and transfer rate statistics</li>
+</ul>
+
+<pre class="prettyprint">sar -b 3 10
+</pre>
+
+<p>Output:</p>
+
+<pre class="prettyprint">02:08:34 PM       tps      rtps      wtps   bread/s   bwrtn/s
+02:08:37 PM      0.67      0.00      0.67      0.00     24.00
+02:08:40 PM      1.00      0.00      1.00      0.00     26.67
+02:08:43 PM      0.33      0.00      0.33      0.00     10.67
+02:08:46 PM      0.67      0.00      0.67      0.00     24.00
+</pre>
+
+<ul>
+<li>Report memory utilization statistics</li>
+</ul>
+
+<pre class="prettyprint">sar -r 3 10
+</pre>
+
+<p>Output:</p>
+
+<pre class="prettyprint">02:09:00 PM kbmemfree kbmemused  %memused kbbuffers  kbcached  kbcommit   %commit  kbactive   kbinact
+02:09:03 PM    240924   1799452     88.19    262428    994380   2235528     54.39    909024    683068
+02:09:06 PM    241048   1799328     88.19    262428    994384   2235528     54.39    909024    683068
+02:09:09 PM    241048   1799328     88.19    262428    994392   2235528     54.39    909032    683072
+02:09:12 PM    240800   1799576     88.20    262428    994396   2235528     54.39    909080    683072
+</pre>
+
+<ul>
+<li>Report activity for each block device</li>
+</ul>
+
+<pre class="prettyprint">sar -d 3 10 -p
+</pre>
+
+<p>Output:</p>
+
+<pre class="prettyprint">02:10:01 PM       DEV       tps  rd_sec/s  wr_sec/s  avgrq-sz  avgqu-sz     await     svctm     %util
+02:10:04 PM  dev250-0     39.00      0.00   6560.00    168.21      1.85     47.38      3.73     14.53
+02:10:04 PM      scd0      0.00      0.00      0.00      0.00      0.00      0.00      0.00      0.00
+
+02:10:04 PM       DEV       tps  rd_sec/s  wr_sec/s  avgrq-sz  avgqu-sz     await     svctm     %util
+02:10:07 PM  dev250-0      1.33      0.00     90.67     68.00      0.01      5.00      3.00      0.40
+02:10:07 PM      scd0      0.00      0.00      0.00      0.00      0.00      0.00      0.00      0.00
+
+</pre>
+
+<p>Type &ldquo;man sar&rdquo; for additional information.</p>
+
+            </div>
+        </div>
+    </div>
+
+<div class="footer l-box is-center">
+        <p class="footer">
+            wlanboy | Proudly powered by Ruby | Thin | MongoDB
+        </p>
+    </div>
+
+</div>
+
+</body></html>

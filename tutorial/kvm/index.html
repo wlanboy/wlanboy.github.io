@@ -1,0 +1,106 @@
+<h2 id="introduction">Tutorial: kvm</h2>
+
+					<p>You have a pc that is just doing nothing? You have a dedicated server and want to play around without messing things up?</p>
+<p>Enable KVM on your linux kernel to create one/view virtual servers.</p>
+
+<ol>
+<li>Check if your cpu has Intel VT-x or AMD-V<br><pre class="prettyprint">
+egrep -c '(vmx|svm)' /proc/cpuinfo
+</pre>
+	<p>1 means that your cpu does have support for hardware virtualization. 0 means you might create quite slow vps. But you are able to run virtual servers.</p>
+	
+	</li>
+	<li>Check if you have installed a 64bit kernel<br><pre class="prettyprint">
+uname -m
+</pre>
+	<p>Something like amd64 or x86_64 indicates your are running a 64-bit kernel. You do not want to run a 32-bit kernel. That would limit your RAM usage to 2GB.</p>
+	
+	
+	</li>
+	<li>Install KVM tools (I am using Ubuntu/Debian commands here)<br><pre class="prettyprint">
+sudo apt-get install qemu-kvm libvirt-bin bridge-utils
+</pre>
+	</li>
+	<li>
+	<p>Add user that runs virtual servers to group (user has to re-login to get new group permissions)</p>
+	<pre class="prettyprint">
+sudo adduser [username] libvirtd</pre>
+	</li>
+	<li>
+	<p>Test your installation</p>
+	<pre class="prettyprint">
+virsh -c qemu:///system list
+ Id Name                 State
+----------------------------------
+
+</pre>
+	<p>An output like "libvir: Remote error : Permission denied" or "error: failed to connect to the hypervisor" says that something went wrong.</p>
+	</li>
+	<li>
+	<p>Fix ownership</p>
+	<pre class="prettyprint">
+sudo chown root:libvirtd /dev/kvm
+</pre>
+	<p>I do not know why, but for me /dev/kvm did not had the correct ownership.</p>
+	</li>
+	<li>
+	<p>Restart kernel modules - or restart the server</p>
+	<pre class="prettyprint">
+rmmod kvm
+modprobe -a kvm
+</pre>
+	</li>
+	<li>
+	<p>Optional: Install GUI for virtual server mangment:</p>
+	<pre class="prettyprint">
+sudo apt-get install virt-manager
+</pre>
+	</li>
+	<li>
+	<p>Networking<br>
+	Well per default KVM has it's own network - called usermode networking. Works like OpenVPN. You have your own subnet - e.g. 10.0.1.0/24 and every KVM gets one ip address out of it.<br>
+	Enough for me. I once need a connection to one of my webservers out of the KVM. I used port forwarding (iptables) to forward a connection from my host to the KVM.</p>
+	</li>
+	<li>
+	<p>Create a virtual server<br>
+	There are quite a view options. I prefer a python script called "virt-install".</p>
+	<pre class="prettyprint">
+sudo apt-get install python-virtinst
+</pre>
+	<p>First look to the man page of virt-install</p>
+	<pre class="prettyprint">
+man virt-install
+</pre>
+	<p>And create your first vps:</p>
+	<pre class="prettyprint">
+sudo virt-install --connect qemu:///system -n kvm1 -r 2048 --vcpus=2 \
+--disk path=/var/lib/libvirt/images/kvm1-image.img,size=20 \
+-c /isos/ubuntu-min-install.iso --vnc --noautoconsole --os-type linux \
+--accelerate --network=network:default --hvm --vncport=5951
+</pre>
+	<p>Name: "kvm1", RAM: 2 GB, CPUs: 2, HDD: 20GB and a defined vnc port you can connect to (127.0.0.1:5951)</p>
+	</li>
+	<li>
+	<p>Managing your virtual servers<br><br>
+	A) start managing console</p>
+	<pre class="prettyprint">
+virsh --connect qemu:///system
+</pre>
+	<p>List virtual servers</p>
+	<pre class="prettyprint">
+list -all
+</pre>
+	<p>C) start virtual server</p>
+	<pre class="prettyprint">
+start [name of virtual server]
+</pre>
+	<p>
+	D) stop virtual server</p>
+	<pre class="prettyprint">
+shutdown [name of virtual server]
+</pre>
+	</li>
+</ol>
+<p>That's it. I know there are a lot of additional topics. Maybe someone wants to explain bridged networking and ip/gateway assignment. Did not need it and therefore did not play around with it.</p>
+
+<p>Please feel free to add additional steps to this mini guide.</p>

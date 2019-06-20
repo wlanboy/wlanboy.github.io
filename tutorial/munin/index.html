@@ -1,0 +1,152 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="wlanboy wlanboy.com tutorials and ruby scripts">
+    <title>wlanboy - tutorials and ruby scripts</title>
+    
+    <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css" integrity="sha384-" crossorigin="anonymous">
+    
+    
+    
+        <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/grids-responsive-min.css">
+    
+    
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
+    
+        
+        
+            <link rel="stylesheet" href="/css/layouts/wlanboy.css">
+        
+</head>
+<body>
+
+<div class="header" id="header">
+    <div class="home-menu pure-menu pure-menu-horizontal pure-menu-fixed">
+        <ul class="pure-menu-list">
+            <li class="pure-menu-item pure-menu-selected"><a href="/#" class="pure-menu-link">Home</a></li>
+            <li class="pure-menu-item"><a href="/#Tutorials" class="pure-menu-link">Tutorials</a></li>
+            <li class="pure-menu-item"><a href="/#System" class="pure-menu-link">System</a></li>
+            <li class="pure-menu-item"><a href="/#About" class="pure-menu-link">About</a></li>
+        </ul>
+    </div>
+</div>
+
+<div class="splash-container">
+    <div class="splash">
+        <h1 class="splash-head">wlanboy</h1>
+        <p class="splash-subhead">
+            tutorials and ruby scripts
+        </p>
+        <p>
+            <a href="/#Tutorials" class="pure-button pure-button-primary">Read my tutorials</a>
+        </p>
+    </div>
+</div>
+<div class="content-wrapper" id="Tutorial">
+    <div class="content">
+        <h2 class="content-head is-center" >Tutorial</h2>
+
+        <div class="pure-g">
+
+            <div class="l-box-lrg pure-u-1">
+            
+
+<h2 id="tutorial-munin">Tutorial: munin</h2>
+
+<p>Munin is a little peace of perl magic. If you do not know it -&gt; <a href="http://demo.munin-monitoring.org/munin-monitoring.org/demo.munin-monitoring.org/index.html" title="External link">look at this demo</a>.</p>
+
+<p>Installation is quite simple:</p>
+
+<pre class="prettyprint">apt-get install munin munin-node libcache-cache-perl
+</pre>
+
+<p>Now you have to config munin:</p>
+
+<pre class="prettyprint">sudo nano /etc/munin/munin.conf
+</pre>
+
+<p>Only part you have to alter:</p>
+
+<pre class="prettyprint"># a simple host tree
+[name of your wish]
+    address 127.0.0.1
+    use_node_name yes
+
+</pre>
+
+<p>Next part is the munin-node config:</p>
+
+<pre class="prettyprint">sudo nano /etc/munin/munin-node.conf
+</pre>
+
+<p>Only part you have to alter:</p>
+
+<pre class="prettyprint"># Which address to bind to;
+#host *
+ host 127.0.0.1
+
+</pre>
+
+<p>Sometimes the pkg script does something wrong (most of the times wrong ownership of folders)</p>
+
+<p>Run this script to check all configuration properties:</p>
+
+<pre class="prettyprint">munin-check
+</pre>
+
+<p>If everything is fine you can restart munin:</p>
+
+<pre class="prettyprint">service munin-node restart
+</pre>
+
+<p>After that you only have to forward some path to the www-dir of munin:</p>
+
+<pre class="prettyprint">For lighttpd:
+
+sudo nano /etc/lighttpd/lighttpd.conf
+add:
+
+$HTTP["remoteip"] =~ "127.0.0.1" {
+    alias.url += ("/munin/" => "/var/cache/munin/www/")
+}
+</pre>
+
+<p>Open your browser and load following url: <a href="http://127.0.0.1/munin/" title="External link">http://127.0.0.1/munin/</a></p>
+
+<p>That&rsquo;s it - have fun with a lot of graphs.</p>
+
+<p>PS:</p>
+
+<p>If you want to activate a new plugin you can go to following path:</p>
+
+<pre class="prettyprint">ls -al /usr/share/munin/plugins
+</pre>
+
+<p>and link one plugin to the activated plugins - e.g.:</p>
+
+<pre class="prettyprint">ln -s /usr/share/munin/plugins/fail2ban /etc/munin/plugins/
+ln -s /usr/share/munin/plugins/sendmail_mailqueue /etc/munin/plugins/
+ln -s /usr/share/munin/plugins/sendmail_mailstats /etc/munin/plugins/
+ln -s /usr/share/munin/plugins/sendmail_mailtraffic /etc/munin/plugins/
+</pre>
+
+<p>If a plugin is missing (e.g. lighttpd, mod_jdk, memcached, mongodb, eveb minecraft) you can search the official github:</p>
+
+<p><a href="https://github.com/munin-monitoring/contrib/tree/master/plugins" title="External link">https://github.com/m&hellip;/master/plugins</a></p>
+
+            </div>
+        </div>
+    </div>
+
+<div class="footer l-box is-center">
+        <p class="footer">
+            wlanboy | Proudly powered by Ruby | Thin | MongoDB
+        </p>
+    </div>
+
+</div>
+
+</body></html>

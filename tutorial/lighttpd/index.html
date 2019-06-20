@@ -1,0 +1,211 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="wlanboy wlanboy.com tutorials and ruby scripts">
+    <title>wlanboy - tutorials and ruby scripts</title>
+    
+    <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css" integrity="sha384-" crossorigin="anonymous">
+    
+    
+    
+        <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/grids-responsive-min.css">
+    
+    
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
+    
+        
+        
+            <link rel="stylesheet" href="/css/layouts/wlanboy.css">
+        
+</head>
+<body>
+
+<div class="header" id="header">
+    <div class="home-menu pure-menu pure-menu-horizontal pure-menu-fixed">
+        <ul class="pure-menu-list">
+            <li class="pure-menu-item pure-menu-selected"><a href="/#" class="pure-menu-link">Home</a></li>
+            <li class="pure-menu-item"><a href="/#Tutorials" class="pure-menu-link">Tutorials</a></li>
+            <li class="pure-menu-item"><a href="/#System" class="pure-menu-link">System</a></li>
+            <li class="pure-menu-item"><a href="/#About" class="pure-menu-link">About</a></li>
+        </ul>
+    </div>
+</div>
+
+<div class="splash-container">
+    <div class="splash">
+        <h1 class="splash-head">wlanboy</h1>
+        <p class="splash-subhead">
+            tutorials and ruby scripts
+        </p>
+        <p>
+            <a href="/#Tutorials" class="pure-button pure-button-primary">Read my tutorials</a>
+        </p>
+    </div>
+</div>
+<div class="content-wrapper" id="Tutorial">
+    <div class="content">
+        <h2 class="content-head is-center" >Tutorial</h2>
+
+        <div class="pure-g">
+
+            <div class="l-box-lrg pure-u-1">
+            
+
+<h2 id="tutorial-lighttpd">Tutorial: lighttpd</h2>
+
+<p>I do like lighttpd. It is easy to setup and is running with low resources.</p>
+
+<p>This tutorial will show some nice config featues of lighttpd.</p>
+
+<ul>
+<li><p>basic configuration<br />
+First of all there is a macro doing all the config stuff for you. Enabling a mod, including the list of available mods, is quite easy:</p>
+
+<pre class="prettyprint">lighttpd-enable-mod
+</pre>
+
+<p>Available mods are:</p>
+
+<pre class="prettyprint">lighttpd-enable-mod
+Available modules: auth accesslog cgi evasive evhost expire fastcgi flv-streaming no-www proxy rrdtool simple-vhost ssi ssl status userdir usertrack fastcgi-php debian-doc
+Already enabled modules: auth accesslog cgi fastcgi proxy ssl status fastcgi-php
+Enable module:
+</pre>
+
+<p>As you can see I have enabled: auth accesslog cgi fastcgi proxy ssl status fastcgi-php.</p>
+
+<p>The default lighttpd.conf looks like this:</p>
+
+<pre class="prettyprint">/etc/lighttpd/lighttpd.conf
+
+server.modules = (
+    "mod_access",
+    "mod_alias",
+    "mod_compress",
+    "mod_redirect",
+        #"mod_rewrite"
+)
+
+server.document-root        = "/var/www"
+server.upload-dirs          = ( "/var/cache/lighttpd/uploads" )
+server.errorlog             = "/var/log/lighttpd/error.log"
+server.pid-file             = "/var/run/lighttpd.pid"
+server.username             = "www-data"
+server.groupname            = "www-data"
+
+index-file.names            = ( "index.php", "index.html",
+                                "index.htm", "default.htm",
+                               " index.lighttpd.html" )
+
+url.access-deny             = ( "~", ".inc", ".dat" )
+
+static-file.exclude-extensions = ( ".php", ".pl", ".fcgi" )
+
+## Use ipv6 if available
+#include_shell "/usr/share/lighttpd/use-ipv6.pl"
+
+dir-listing.encoding        = "utf-8"
+server.dir-listing          = "disable"
+
+compress.cache-dir          = "/var/cache/lighttpd/compress/"
+compress.filetype           = ( "application/x-javascript", "text/css", "text/html", "text/plain" )
+
+include_shell "/usr/share/lighttpd/create-mime.assign.pl"
+include_shell "/usr/share/lighttpd/include-conf-enabled.pl"
+</pre>
+
+<p>Only thing to change: server.dir-listing to &ldquo;disable&rdquo;</p></li>
+
+<li><p>https configuration<br />
+Done in conf-enabled/10-ssl.conf</p>
+
+<pre class="prettyprint">$SERVER["socket"] == "0.0.0.0:443" {
+        ssl.engine  = "enable"
+        ssl.pemfile = "/etc/lighttpd/server.pem"
+}
+</pre>
+
+<p>Just likt to the pem file. That&rsquo;s it.</p></li>
+
+<li><p>php configuration<br />
+Done in conf-enabled/15-fastcgi-php.conf</p>
+
+<pre class="prettyprint">fastcgi.server += ( ".php" =>
+        ((
+                "bin-path" => "/usr/bin/php-cgi",
+                "socket" => "/tmp/php.socket",
+                "max-procs" => 2,
+                "bin-environment" => (
+                        "PHP_FCGI_CHILDREN" => "1",
+                        "PHP_FCGI_MAX_REQUESTS" => "1000"
+                ),
+                "bin-copy-environment" => (
+                        "PATH", "SHELL", "USER"
+                ),
+                "broken-scriptfilename" => "enable"
+        ))
+)
+</pre>
+
+<p>Max-Procs defines the number of php-cgi threads. And PHP_FCGI_CHILDRE the number of child processes that should be started. This setup is suitable for a small blog. And is consuming not that much of RAM.</p></li>
+
+<li><p>auth configuration<br />
+Can be done in conf-enabled/05-auth.conf or in lighttpd.conf. Depends on your way to keep the config files clear&hellip;</p>
+
+<pre class="prettyprint">$HTTP["url"] =~ "^/important/" {
+  auth.backend = "htpasswd"
+  auth.backend.htpasswd.userfile = "/etc/lighttpd/.passwords"
+  auth.require = ("/important" => (
+     "method" => "basic",
+     "realm" => "important",
+     "require" => "valid-user"
+  ))
+}
+</pre>
+
+<p>I use the url pattern style for setting up the password files. So for each url path or host you can setup the auth backend and password file.</p></li>
+
+<li><p>proxy configuration<br />
+Can be done in conf-enabled/10-proxy.conf or in lighttpd.conf. Depends on your way to keep the config files clear&hellip;</p>
+
+<pre class="prettyprint">$HTTP["host"]=~ "domain1|domain2"  {
+        proxy.balance = "fair"
+        proxy.server =  ("" =>
+                                (
+                                        ( "host" => "127.0.0.1", "port" => 4001 ),
+                                        ( "host" => "127.0.0.1", "port" => 4002 )
+                                ))
+                        }
+</pre>
+
+<p>Just set which host should be directed to which pool of ips/ports</p></li>
+
+<li><p>host based configuration<br />
+Done in lighttpd.conf</p>
+
+<pre class="prettyprint">$HTTP["host"]=~ "domain.org" {
+    server.document-root        = "/var/www-org"
+}
+</pre>
+
+<p>Set host and document root.</p></li>
+</ul>
+
+<p>Quite simple if you look e.g. to the apache configuration.</p>
+
+            </div>
+        </div>
+    </div>
+
+<div class="footer l-box is-center">
+        <p class="footer">
+            wlanboy | Proudly powered by Ruby | Thin | MongoDB
+        </p>
+    </div>
+
+</div>
+
+</body></html>

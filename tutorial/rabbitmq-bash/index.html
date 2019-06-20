@@ -1,0 +1,154 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="wlanboy wlanboy.com tutorials and ruby scripts">
+    <title>wlanboy - tutorials and ruby scripts</title>
+    
+    <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css" integrity="sha384-" crossorigin="anonymous">
+    
+    
+    
+        <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/grids-responsive-min.css">
+    
+    
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
+    
+        
+        
+            <link rel="stylesheet" href="/css/layouts/wlanboy.css">
+        
+</head>
+<body>
+
+<div class="header" id="header">
+    <div class="home-menu pure-menu pure-menu-horizontal pure-menu-fixed">
+        <ul class="pure-menu-list">
+            <li class="pure-menu-item pure-menu-selected"><a href="/#" class="pure-menu-link">Home</a></li>
+            <li class="pure-menu-item"><a href="/#Tutorials" class="pure-menu-link">Tutorials</a></li>
+            <li class="pure-menu-item"><a href="/#System" class="pure-menu-link">System</a></li>
+            <li class="pure-menu-item"><a href="/#About" class="pure-menu-link">About</a></li>
+        </ul>
+    </div>
+</div>
+
+<div class="splash-container">
+    <div class="splash">
+        <h1 class="splash-head">wlanboy</h1>
+        <p class="splash-subhead">
+            tutorials and ruby scripts
+        </p>
+        <p>
+            <a href="/#Tutorials" class="pure-button pure-button-primary">Read my tutorials</a>
+        </p>
+    </div>
+</div>
+<div class="content-wrapper" id="Tutorial">
+    <div class="content">
+        <h2 class="content-head is-center" >Tutorial</h2>
+
+        <div class="pure-g">
+
+            <div class="l-box-lrg pure-u-1">
+            
+
+<h2 id="tutorial-rabbitmq-bash">Tutorial: rabbitmq-bash</h2>
+
+<p>Message bus systems are an easy way to distribute tasks.</p>
+
+<p>RabbitMQ is a message broker and there are command line tools too to interact with queues.</p>
+
+<p>To install these tools call:</p>
+
+<pre class="prettyprint">apt-get install amqp-tools
+</pre>
+
+<p>The two main methods are:</p>
+
+<ul>
+<li>amqp-consume</li>
+<li>amqp-publish</li>
+</ul>
+
+<p>First one is a blocking call that waits for incoming messages.</p>
+
+<p>Second one is a call to put a message on a queue.</p>
+
+<p>So we do have &ldquo;workers&rdquo; that consume a queue and &ldquo;masters&rdquo; that are publishing tasks.</p>
+
+<p>A worker would look like:</p>
+
+<pre class="prettyprint">amqp-consume -s 127.0.0.1:5672 -q "test" -e "amq.topic" --vhost "/" -r "worker1" --username=guest --password=guest -d ~/onmessage.sh
+</pre>
+
+<p>The parameters are:</p>
+
+<pre class="prettyprint">Usage: amqp-consume [-dA?] [-s|--server=hostname:port] [--vhost=vhost] 
+       [--username=username] [--password=password] 
+       [-q|--queue=queue] [-e|--exchange=exchange]
+       [-r|--routing-key=routing key] [-d|--declare] [-A|--no-ack] 
+       [-?|--help] [--usage] [OPTIONS]... <command> <args>
+</pre>
+
+<p>So if a message is dropped in the queue &ldquo;test&rdquo; and has the routing key &ldquo;worker1&rdquo; the command &ldquo;~/onmessage.sh&rdquo; is called.</p>
+
+<p>The onmessage script might look like this:</p>
+
+<pre class="prettyprint">nano ~/onmessage.sh && chmod +x ~/onmessage.sh
+</pre>
+
+<p>With content:</p>
+
+<pre class="prettyprint">read line
+echo "Message: $line"
+</pre>
+
+<p>amqp-consume pipes the content of the message therefore we cannot work with parameters ($1,$2,&hellip;) but with read to save the stream into a variable called &ldquo;line&rdquo;.</p>
+
+<p>To publish a message to the &ldquo;worker1&rdquo; following command has to be called:</p>
+
+<pre class="prettyprint">amqp-publish -e "amq.topic" -r "worker1" -b "this is a test message"
+</pre>
+
+<p>The parameters are:</p>
+
+<pre class="prettyprint">Usage: amqp-publish [OPTIONS]...
+  -e, --exchange=exchange                     the exchange to publish to
+  -r, --routing-key=routing key               the routing key to publish with
+  -p, --persistent                            use the persistent delivery mode
+  -C, --content-type=content type             the content-type for the message
+  -E, --content-encoding=content encoding     the content-encoding for the message
+  -b, --body=body                             specify the message body
+
+Connection options
+  -s, --server=hostname:port                  the AMQP server to connect to
+      --vhost=vhost                           the vhost to use when connecting
+      --username=username                     the username to login with
+      --password=password                     the password to login with
+</pre>
+
+<p>I use this pattern for a download service.</p>
+
+<p>I send urls to workers that wget the target.</p>
+
+<p>You can even put more than one worker on a queue - so the work load is distributed.</p>
+
+<p>Or define a second queue were the workers publish results to implement asynchronous method calls.</p>
+
+<p>I like the amqp-tools because they can be used with any tool or language.</p>
+
+            </div>
+        </div>
+    </div>
+
+<div class="footer l-box is-center">
+        <p class="footer">
+            wlanboy | Proudly powered by Ruby | Thin | MongoDB
+        </p>
+    </div>
+
+</div>
+
+</body></html>

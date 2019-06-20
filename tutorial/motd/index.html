@@ -1,0 +1,138 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="wlanboy wlanboy.com tutorials and ruby scripts">
+    <title>wlanboy - tutorials and ruby scripts</title>
+    
+    <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css" integrity="sha384-" crossorigin="anonymous">
+    
+    
+    
+        <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/grids-responsive-min.css">
+    
+    
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
+    
+        
+        
+            <link rel="stylesheet" href="/css/layouts/wlanboy.css">
+        
+</head>
+<body>
+
+<div class="header" id="header">
+    <div class="home-menu pure-menu pure-menu-horizontal pure-menu-fixed">
+        <ul class="pure-menu-list">
+            <li class="pure-menu-item pure-menu-selected"><a href="/#" class="pure-menu-link">Home</a></li>
+            <li class="pure-menu-item"><a href="/#Tutorials" class="pure-menu-link">Tutorials</a></li>
+            <li class="pure-menu-item"><a href="/#System" class="pure-menu-link">System</a></li>
+            <li class="pure-menu-item"><a href="/#About" class="pure-menu-link">About</a></li>
+        </ul>
+    </div>
+</div>
+
+<div class="splash-container">
+    <div class="splash">
+        <h1 class="splash-head">wlanboy</h1>
+        <p class="splash-subhead">
+            tutorials and ruby scripts
+        </p>
+        <p>
+            <a href="/#Tutorials" class="pure-button pure-button-primary">Read my tutorials</a>
+        </p>
+    </div>
+</div>
+<div class="content-wrapper" id="Tutorial">
+    <div class="content">
+        <h2 class="content-head is-center" >Tutorial</h2>
+
+        <div class="pure-g">
+
+            <div class="l-box-lrg pure-u-1">
+            
+
+<h2 id="tutorial-motd">Tutorial: motd</h2>
+
+<p>Looking forward to some new motd ideas.</p>
+
+<p>My current motd:</p>
+
+<p><img src="/imgcontent/2r2vjad.jpg" alt="2r2vjad.jpg" /></p>
+
+<p>You need three components:</p>
+
+<ul>
+<li><p>update-motd</p>
+
+<pre class="ipsCode prettyprint">apt-get install update-motd
+</pre>
+
+<p>You can modify every part of the motd by editing the files in /etc/update-motd.d</p></li>
+
+<li><p>toilet</p>
+
+<pre class="ipsCode prettyprint">apt-get install toilet
+</pre>
+
+<pre class="ipsCode prettyprint">toilet -f pagga system
+</pre>
+
+<p>It is a small tool for ascii art.</p>
+
+<p>Following fonts are currently supported: <a href="http://caca.zoy.org/browser/toilet/trunk/fonts">http://caca.zoy.org/browser/toilet/trunk/fonts</a></p></li>
+
+<li><p>weather</p>
+
+<pre class="ipsCode prettyprint">apt-get install weather
+</pre>
+
+<p>It will display the current weather informations on a defined weather station.</p>
+
+<pre class="ipsCode prettyprint">weather -i ESSB
+</pre>
+
+<p>You can go to the webpage of NOAA to find your weather station of choice: <a href="http://www.nws.noaa.gov/tg/siteloc.shtml">http://www.nws.noaa.gov/tg/siteloc.shtml</a></p></li>
+</ul>
+
+<p>For the current system status I am using landscape-sysinfo from the package landscape-common:</p>
+
+<pre class="ipsCode prettyprint">#!/bin/sh
+cores=$(grep -c ^processor /proc/cpuinfo 2>/dev/null)
+[ "$cores" -eq "0" ] && cores=1
+threshold="${cores:-1}.0"
+if [ $(echo "`cut -f1 -d ' ' /proc/loadavg` < $threshold" | bc) -eq 1 ]; then
+    echo
+    echo -n "  System information as of "
+    /bin/date
+    echo
+    /usr/bin/landscape-sysinfo
+else
+    echo
+    echo " System information disabled due to load higher than $threshold"
+fi
+</pre>
+
+<p>You can check the user id too:</p>
+
+<pre class="ipsCode prettyprint">if (( $(id -u) == 0 ))
+then
+echo "welcome root"
+fi
+</pre>
+
+            </div>
+        </div>
+    </div>
+
+<div class="footer l-box is-center">
+        <p class="footer">
+            wlanboy | Proudly powered by Ruby | Thin | MongoDB
+        </p>
+    </div>
+
+</div>
+
+</body></html>

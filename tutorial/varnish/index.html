@@ -1,0 +1,242 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="wlanboy wlanboy.com tutorials and ruby scripts">
+    <title>wlanboy - tutorials and ruby scripts</title>
+    
+    <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css" integrity="sha384-" crossorigin="anonymous">
+    
+    
+    
+        <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/grids-responsive-min.css">
+    
+    
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
+    
+        
+        
+            <link rel="stylesheet" href="/css/layouts/wlanboy.css">
+        
+</head>
+<body>
+
+<div class="header" id="header">
+    <div class="home-menu pure-menu pure-menu-horizontal pure-menu-fixed">
+        <ul class="pure-menu-list">
+            <li class="pure-menu-item pure-menu-selected"><a href="/#" class="pure-menu-link">Home</a></li>
+            <li class="pure-menu-item"><a href="/#Tutorials" class="pure-menu-link">Tutorials</a></li>
+            <li class="pure-menu-item"><a href="/#System" class="pure-menu-link">System</a></li>
+            <li class="pure-menu-item"><a href="/#About" class="pure-menu-link">About</a></li>
+        </ul>
+    </div>
+</div>
+
+<div class="splash-container">
+    <div class="splash">
+        <h1 class="splash-head">wlanboy</h1>
+        <p class="splash-subhead">
+            tutorials and ruby scripts
+        </p>
+        <p>
+            <a href="/#Tutorials" class="pure-button pure-button-primary">Read my tutorials</a>
+        </p>
+    </div>
+</div>
+<div class="content-wrapper" id="Tutorial">
+    <div class="content">
+        <h2 class="content-head is-center" >Tutorial</h2>
+
+        <div class="pure-g">
+
+            <div class="l-box-lrg pure-u-1">
+            
+
+<h2 id="tutorial-varnish">Tutorial: varnish</h2>
+
+<p>This is not a planned tutorial but a start of a discussion how low end vps can serve as web frontends.</p>
+
+<p>Many people like to use event-driven webservers like lighttpd or ngix other do prefer process-based webservers like apache. Both do have their advantages but only the first do have the image of low resource consuming webservers.</p>
+
+<p>First of all: What is varnish?</p>
+
+<p>Answer: There is a <a href="https://www.youtube.com/watch?feature=player_embedded&amp;v=x7t2Sp174eI" title="External link">good video</a> about it.</p>
+
+<p>If you look to e.g. a blog most of the time the content delivered to the visitor does not change. But everytime ruby or php is calling the database and glues the pieces together. Varnish is caching the html response to decrease the load of the server.</p>
+
+<p>So the basic scenario would be that we buy a second vps to run varnish on it. I know if you have enough RAM varnish can run on the same server but I want to point to something with this scenario.</p>
+
+<p>Because in these days we do have two advantages - if you are using the right provider:</p>
+
+<ul>
+<li>Offloaded MySQL servers</li>
+<li>local unmetered network</li>
+</ul>
+
+<p>So a second vps can run varnish which is calling the first vps through local network:</p>
+
+<pre class="prettyprint">visitor -> varnish vps -> application vps -> offloaded MySQL server
+</pre>
+
+<p>Second and third communication through local LAN.</p>
+
+<p>Looks like you do not need a 512 MB box for a well known blog.</p>
+
+<p>Back to varnish:</p>
+
+<p>Installation is easy:</p>
+
+<pre class="prettyprint">curl http://repo.varnish-cache.org/debian/GPG-key.txt | apt-key add -
+echo "deb http://repo.varnish-cache.org/ubuntu/ lucid varnish-3.0" >> /etc/apt/sources.list
+apt-get update
+apt-get install varnish
+</pre>
+
+<p>The configuration is splitted between two files:</p>
+
+<ul>
+<li>/etc/default/varnish</li>
+<li>/etc/varnish/default.vcl</li>
+</ul>
+
+<p>Basic configuration is handled in /etc/default/varnish:</p>
+
+<pre class="prettyprint">DAEMON_OPTS="-a :80 \
+             -T localhost:6082 \
+             -f /etc/varnish/default.vcl \
+             -S /etc/varnish/secret \
+             -s file,/var/lib/varnish/$INSTANCE/varnish_storage.bin,1G"
+
+# -a ${VARNISH_LISTEN_ADDRESS}:${VARNISH_LISTEN_PORT} \
+# -T ${VARNISH_ADMIN_LISTEN_ADDRESS}:${VARNISH_ADMIN_LISTEN_PORT} \
+# -f ${VARNISH_VCL_CONF} \
+# -S ${VARNISH_SECRET_FILE} \
+# -s ${VARNISH_STORAGE}"
+</pre>
+
+<p>If you want to use the RAM for the cache storage alter the last line to:</p>
+
+<pre class="prettyprint">-s malloc,100M"
+Using:
+K, k The size is expressed in kilobytes
+M, m The size is expressed in megabytes
+G, g The size is expressed in gigabytes
+</pre>
+
+<p>Next file is /etc/varnish/default.vcl which is used to define how the cache should work.</p>
+
+<p>This is a configuration usable for wordpress:</p>
+
+<pre class="prettyprint">backend default {
+    .host = "192.168.10.10";
+    .port = "80";
+    .max_connections = 30;  
+    .connect_timeout = 4.0s;  
+    .first_byte_timeout = 600s;  
+    .between_bytes_timeout = 600s;
+}
+
+sub vcl_recv {
+    #Add forwarded header
+    if (req.restarts == 0) {
+        if (req.http.x-forwarded-for) {
+            set req.http.X-Forwarded-For =
+            req.http.X-Forwarded-For + ", " + client.ip;
+        } else {
+            set req.http.X-Forwarded-For = client.ip;
+        }
+    }
+    #Remove cookies for logged in users
+    if (!(req.url ~ "wp-(login|admin)") &&
+        !(req.url ~ "&preview=true" ) ) {
+        unset req.http.cookie;
+    }
+    if (req.http.Authorization || req.http.Cookie) {
+        return (pass);
+    }   
+    #Fix encodings
+    if ( req.http.Accept-Encoding ) {
+        if ( req.http.Accept-Encoding ~ "gzip" ) {
+            # If the browser supports it, we'll use gzip.
+            set req.http.Accept-Encoding = "gzip";
+        }
+        else if ( req.http.Accept-Encoding ~ "deflate" ) {
+            # Next, try deflate if it is supported.
+            set req.http.Accept-Encoding = "deflate";
+        }
+        else {
+            # Unknown algorithm. Remove it and send unencoded.
+            unset req.http.Accept-Encoding;
+        }
+    }   
+}
+
+sub vcl_fetch {
+    if (req.url ~ "wp-(login|admin)" || req.url ~ "preview=true" || req.url ~ "xmlrpc.php") {
+        return (hit_for_pass);
+    }
+    #Remove cookies for logged in users
+    if ( (!(req.url ~ "(wp-(login|admin)|login)")) || (req.request == "GET") ) {
+        unset beresp.http.set-cookie;
+        set beresp.ttl = 1h;
+    }
+    if (req.url ~ "\.(gif|jpg|jpeg|swf|css|js|flv|mp3|mp4|pdf|ico|png)(\?.*|)$") {
+        set beresp.ttl = 7d;
+    }
+}
+</pre>
+
+<p>There are three main sections:</p>
+
+<ul>
+<li>backend default<br />
+Target to cache</li>
+<li>sub vcl_recv<br />
+How to change requests</li>
+<li>sub vcl_fetch<br />
+How to change responses</li>
+</ul>
+
+<p>A good resource for varnish vcls is <a href="https://github.com/mattiasgeniar/varnish-3.0-configuration-templates" title="External link">mattiasgeniar</a>:</p>
+
+<pre class="prettyprint">A set of configuration samples used for Varnish 3.0\. This includes templates for:
+    Wordpress
+    Drupal (works decently for Drupal 7, depends on your addons obviously)
+    Joomla (WIP)
+    Fork CMS
+    OpenPhoto
+
+And various configuration for:
+    Server-side URL rewriting
+    Clean error pages for debugging
+    Virtual Host implementations
+    Various header normalizations
+    Cookie manipulations
+    301/302 redirects from within Varnish
+</pre>
+
+<p>Set the host to the ip of the vps you want to cache. After altering all settings you can restart varnish.</p>
+
+<p>Last thing to do is to point the domain to the new ip address of the second vps.</p>
+
+<p>If you want to run varnish on the same vps you have to change the port of your webserver. Only one service can listen to the port 80.</p>
+
+<p>Looking to the run-of-the-mill blogs adding one post a day and using disqus for comments varnish might be a great idea.</p>
+
+<p>Ask yourself how often your frontpage changes. It is all about the hit ratio of the cache.</p>
+
+            </div>
+        </div>
+    </div>
+
+<div class="footer l-box is-center">
+        <p class="footer">
+            wlanboy | Proudly powered by Ruby | Thin | MongoDB
+        </p>
+    </div>
+
+</div>
+
+</body></html>

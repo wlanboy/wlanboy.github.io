@@ -1,0 +1,314 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="wlanboy wlanboy.com tutorials and ruby scripts">
+    <title>wlanboy - tutorials and ruby scripts</title>
+    
+    <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css" integrity="sha384-" crossorigin="anonymous">
+    
+    
+    
+        <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/grids-responsive-min.css">
+    
+    
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
+    
+        
+        
+            <link rel="stylesheet" href="/css/layouts/wlanboy.css">
+        
+</head>
+<body>
+
+<div class="header" id="header">
+    <div class="home-menu pure-menu pure-menu-horizontal pure-menu-fixed">
+        <ul class="pure-menu-list">
+            <li class="pure-menu-item pure-menu-selected"><a href="/#" class="pure-menu-link">Home</a></li>
+            <li class="pure-menu-item"><a href="/#Tutorials" class="pure-menu-link">Tutorials</a></li>
+            <li class="pure-menu-item"><a href="/#System" class="pure-menu-link">System</a></li>
+            <li class="pure-menu-item"><a href="/#About" class="pure-menu-link">About</a></li>
+        </ul>
+    </div>
+</div>
+
+<div class="splash-container">
+    <div class="splash">
+        <h1 class="splash-head">wlanboy</h1>
+        <p class="splash-subhead">
+            tutorials and ruby scripts
+        </p>
+        <p>
+            <a href="/#Tutorials" class="pure-button pure-button-primary">Read my tutorials</a>
+        </p>
+    </div>
+</div>
+<div class="content-wrapper" id="Tutorial">
+    <div class="content">
+        <h2 class="content-head is-center" >Tutorial</h2>
+
+        <div class="pure-g">
+
+            <div class="l-box-lrg pure-u-1">
+            
+
+<h2 id="tutorial-openvpn">Tutorial: openvpn</h2>
+
+<p>After helping some people (here and on irc) to setup their OpenVPN server I would like to start a collection of useful tips regarding the operation of an OpenVPN server.</p>
+
+<p>First the basic steps:</p>
+
+<ul>
+<li>Click on the &ldquo;enable TUN/TAP device&rdquo; within for server panel and restart the vps. [for OpenVZ]</li>
+
+<li><p>After that a</p>
+
+<pre class="prettyprint">cat /dev/net/tun
+</pre>
+
+<p><span style="font-family:'courier new', courier;"><span style="font-size:small">should return:</span></span></p>
+
+<pre class="prettyprint">cat: /dev/net/tun: File descriptor in bad state
+</pre></li>
+
+<li><p>Installing openvpn</p>
+
+<pre class="prettyprint">apt-get install openvpn
+</pre></li>
+
+<li><p>If /dev/net/tun is missing<br />
+Easy way:</p>
+
+<pre class="prettyprint">openvpn --mktun --dev tun0
+</pre>
+
+<p>Hard way (yup there are still images out there which do not have a /dev/net):</p>
+
+<pre class="prettyprint">mkdir -p /dev/net
+mknod /dev/net/tun c 10 200
+chmod 600 /dev/net/tun 
+</pre></li>
+
+<li><p>Setup configuration of openvpn</p>
+
+<pre class="prettyprint">cp -r /usr/share/doc/openvpn/ /etc/ 
+cd /etc/openvpn/examples/easy-rsa/2.0
+nano vars
+</pre>
+
+<p>Setup the last exports to save you some typing:</p>
+
+<pre class="prettyprint">export KEY_SIZE=2048
+
+export KEY_COUNTRY=""
+export KEY_PROVINCE=""
+export KEY_CITY=""
+export KEY_ORG=""
+export KEY_EMAIL=""
+export KEY_CN=changeme
+export KEY_NAME=changeme
+export KEY_OU=changeme
+</pre>
+
+<p>Key size should be at least 2048 bit!<br />
+Of course no empty values &hellip;</p></li>
+
+<li><p>If they key tools reporting that they cannot find the openssl lib&hellip;</p>
+
+<pre class="prettyprint">nano whichopensslcnf
+</pre>
+
+<p>Change following line (the double [[:digit:]] is wrong):</p>
+
+<pre class="prettyprint">elif $OPENSSL version | grep -E "1\.0\.[[:digit:]]" > /dev/null; then
+</pre></li>
+
+<li><p>Start generating the keys:</p>
+
+<pre class="prettyprint">./clean-all [to clean all generated stuff - if you want to start right from the beginning]
+./build-ca [certificate authority of all your certs]
+./build-key-server servername [cert for server]
+./build-key clientname [certs per client]
+./build-dh [dh parameter for key-exchange algorithm]
+</pre></li>
+
+<li><p>Copy keys to openvpn server</p>
+
+<pre class="prettyprint">mkdir /etc/openvpn/keys 
+cd keys
+cp ca.crt ca.key dh1024.pem server.crt server.key /etc/openvpn/keys 
+[depends on your naming of the build-* calls, if you called your server mybox it is e.g.
+mybox.crt and mybox.key]
+chmod 600 /etc/openvpn/keys/*
+</pre></li>
+
+<li><p>Creating the server config</p>
+
+<pre class="prettyprint">cd /etc/openvpn/examples/sample-config-files/ 
+gunzip server.conf.gz
+cp server.conf /etc/openvpn/ 
+cd /etc/openvpn/
+nano /etc/openvpn/server.conf
+</pre></li>
+
+<li><p>Alterting the config</p>
+
+<pre class="prettyprint">port 1149 #[port you want to use]
+dev tun #[device type you want to use]
+#relative paths of the keys:
+ca keys/ca.crt
+cert keys/servch.crt
+key keys/servch.key  
+dh keys/dh1024.pem
+server 10.10.10.0 255.255.255.0 #[network of openvpn server - server itself will get 10.10.10.1]
+push "redirect-gateway def1 bypass-dhcp" #[if you want to surf through the vpn]
+client-to-client #[if each openvpn client should see the other openvpn clients (gaming)]
+comp-lzo #[compression is good]
+max-clients 3 #[number of concurrent users]
+user nobody
+group nogroup #[downgrade rights of openvpn for security]
+persist-key
+persist-tun #[nobdy cannot alter devices - so persist there settings]
+status openvpn-status.log
+log-append  openvpn.log #[logging is good for checking problems]
+</pre></li>
+
+<li><p>Track the usage of your openvpn server<br />
+OpenVPN server does have some nice hookups that you can use to modify its workflow. One nice feature are following hooks (added to the server config):</p>
+
+<pre class="prettyprint">script-security 3 system
+client-connect /etc/openvpn/client-login.sh
+client-disconnect /etc/openvpn/client-logout.sh
+</pre>
+
+<p>So the scripts are called whenever a client connects or disconnects!</p>
+
+<pre class="prettyprint">nano /etc/openvpn/client-login.sh 
+</pre>
+
+<pre class="prettyprint">#!/bin/bash
+#Send an email when a client connects with today's time and date
+NOW="$(date +"%H:%M:%S - %Y-%m-%d")"
+
+sendmail vpn@mydomain.com <<EOF
+FROM: vpnuk@mydomain.com
+TO: vpn@mydomain.com
+SUBJECT: OpenVPN - LOGIN: $common_name - $NOW
+At $NOW, $common_name logged out of the OpenVPN server red.
+
+IP: $trusted_ip
+PORT: $trusted_port
+MTU: $tun_mtu
+.
+EOF
+
+exit 0
+</pre>
+
+<pre class="prettyprint">nano client-logout.sh
+</pre>
+
+<pre class="prettyprint">#!/bin/bash
+#Send an email when a client connects with today's time and date
+NOW="$(date +"%H:%M:%S - %Y-%m-%d")"
+
+sendmail vpn@mydomain.com <<EOF
+FROM: vpnuk@mydomain.com
+TO: vpn@mydomain.com
+SUBJECT: OpenVPN - LOGOUT: $common_name - $NOW
+At $NOW, $common_name logged out of the OpenVPN server red.
+
+IP: $trusted_ip
+PORT: $trusted_port
+MTU: $tun_mtu
+
+Sent: $bytes_sent byte
+Resc: $bytes_received byte
+.
+EOF
+
+exit 0
+</pre>
+
+<p>Yup I really like this global vars. So this script can be altered to put this information into a csv file or into a database.<br />
+You get all information you need - and the used bandwith too.</p>
+
+<pre class="prettyprint">chmod +x /etc/openvpn/*.ssh
+</pre>
+
+<p>And we are done.</p></li>
+
+<li><p>Next hook is the login mode<br />
+Need a password instead of certs? Or an additional password to the certs?</p>
+
+<pre class="prettyprint">auth-user-pass-verify /etc/openvpn/auth.sh via-file
+</pre>
+
+<p>This just has to return &ldquo;0&rdquo; or &ldquo;1&rdquo; for good and bad auth:</p>
+
+<pre class="prettyprint">nano /etc/openvpn/auth.sh
+</pre>
+
+<pre class="prettyprint">#!/bin/sh
+#Simplest way
+ALLOWED_USER1="wlanboy"
+ALLOWED_PASS1="supersecure"
+
+if [ "$username" == "$ALLOWED_USER1" ] && [ "$password" == "$ALLOWED_PASS1" ]
+ then exit 0
+fi
+
+exit 1
+</pre>
+
+<p>Want no client certs? Add this to the server.conf</p>
+
+<pre class="prettyprint">client-cert-not-required
+username-as-common-name
+</pre></li>
+
+<li><p>Networking</p>
+
+<pre class="prettyprint">device="venet0" #// OpenVZ
+yourexternalid="1.1.1.1" #// Change this value!
+yourvpnsubnet="10.10.10.0/24" #// Change this value!
+yourvpnport="1149" #//Change this value!
+
+    # allow OPENVPN and enable ip forwarding
+    iptables -A INPUT -i tun0 -j ACCEPT
+    iptables -A FORWARD -i tun0 -j ACCEPT
+
+    iptables -A FORWARD -o $device -i tun0 -j ACCEPT
+    iptables -A FORWARD -o tun0 -i $device -m state --state RELATED,ESTABLISHED -j ACCEPT
+    iptables -A INPUT -i $device -p udp --dport $yourvpnport -m state --state NEW -j ACCEPT
+    iptables -t nat -A POSTROUTING -s $yourvpnsubnet -j SNAT --to $yourexternalid
+</pre>
+
+<p>Depens on your choice if you are using a startup script or persist these iptables rules.</p></li>
+
+<li><p>Revoking certs</p>
+
+<pre class="prettyprint">. ./vars
+./revoke-full clientname
+</pre></li>
+</ul>
+
+<p>So this is everything I am duing to setup a OpenVPN server.</p>
+
+<p>Looking forward to your input and your addons.</p>
+
+            </div>
+        </div>
+    </div>
+
+<div class="footer l-box is-center">
+        <p class="footer">
+            wlanboy | Proudly powered by Ruby | Thin | MongoDB
+        </p>
+    </div>
+
+</div>
+
+</body></html>

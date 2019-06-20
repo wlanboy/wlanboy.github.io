@@ -1,0 +1,195 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="wlanboy wlanboy.com tutorials and ruby scripts">
+    <title>wlanboy - tutorials and ruby scripts</title>
+    
+    <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css" integrity="sha384-" crossorigin="anonymous">
+    
+    
+    
+        <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/grids-responsive-min.css">
+    
+    
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
+    
+        
+        
+            <link rel="stylesheet" href="/css/layouts/wlanboy.css">
+        
+</head>
+<body>
+
+<div class="header" id="header">
+    <div class="home-menu pure-menu pure-menu-horizontal pure-menu-fixed">
+        <ul class="pure-menu-list">
+            <li class="pure-menu-item pure-menu-selected"><a href="/#" class="pure-menu-link">Home</a></li>
+            <li class="pure-menu-item"><a href="/#Tutorials" class="pure-menu-link">Tutorials</a></li>
+            <li class="pure-menu-item"><a href="/#System" class="pure-menu-link">System</a></li>
+            <li class="pure-menu-item"><a href="/#About" class="pure-menu-link">About</a></li>
+        </ul>
+    </div>
+</div>
+
+<div class="splash-container">
+    <div class="splash">
+        <h1 class="splash-head">wlanboy</h1>
+        <p class="splash-subhead">
+            tutorials and ruby scripts
+        </p>
+        <p>
+            <a href="/#Tutorials" class="pure-button pure-button-primary">Read my tutorials</a>
+        </p>
+    </div>
+</div>
+<div class="content-wrapper" id="Tutorial">
+    <div class="content">
+        <h2 class="content-head is-center" >Tutorial</h2>
+
+        <div class="pure-g">
+
+            <div class="l-box-lrg pure-u-1">
+            
+
+<h2 id="tutorial-wlan-hotspot">Tutorial: wlan-hotspot</h2>
+
+<p>Install required packages:</p>
+
+<pre class="prettyprint">sudo apt-get install hostapd dnsmasq</pre>
+
+<p>Set static ip to your wlan interface:</p>
+
+<pre class="prettyprint">nano /etc/network/interfaces</pre>
+
+<p>content: (check for a single wlan0 entry!)</p>
+
+<pre class="prettyprint">iface wlan0 inet static
+address 192.168.20.1
+netmask 255.255.255.0</pre>
+
+<p>Add a configuration to hostap:</p>
+
+<pre class="prettyprint">nano /etc/default/hostapd</pre>
+
+<p>content: (add config file line):</p>
+
+<pre class="prettyprint"># Defaults for hostapd initscript
+# 
+# See /usr/share/doc/hostapd/README.Debian for information about alternative
+# methods of managing hostapd.
+# 
+# Uncomment and set DAEMON_CONF to the absolute path of a hostapd configuration
+# file and hostapd will be started during system boot. An example configuration
+# file can be found at /usr/share/doc/hostapd/examples/hostapd.conf.gz
+# 
+DAEMON_CONF="/etc/hostapd/hostapd.conf"</pre>
+
+<p>If you are not sure what driver is needed check your usb devices (driver name will be disbplayed)</p>
+
+<pre class="prettyprint">lsusb -t</pre>
+
+<pre class="prettyprint">lsusb -t
+/: Bus 01.Port 1: Dev 1, Class=root_hub, Driver=dwc_otg/1p, 480M
+|__ Port 1: Dev 2, If 0, Class=vend., Driver=smsc95xx, 480M
+|__ Port 5: Dev 3, If 0, Class=vend., Driver=rtl8192cu, 480M</pre>
+
+<p>Create hostapd.conf:</p>
+
+<pre class="prettyprint">nano /etc/hostapd/hostapd.conf</pre>
+
+<p>content:</p>
+
+<pre class="prettyprint"># interface for ap
+interface=wlan0
+# driver of wlan stick
+driver=rtl871xdrv
+
+ctrl_interface=/var/run/hostapd
+ctrl_interface_group=0
+
+# wlan ap configuration
+ssid=RaspberryPi
+channel=1
+hw_mode=g
+ieee80211n=0
+
+# wlan security
+wpa=2
+wpa_passphrase=super-secure-password
+wpa_key_mgmt=WPA-PSK
+wpa_pairwise=CCMP
+rsn_pairwise=CCMP
+
+# country code
+country_code=US</pre>
+
+<p>Add dnsmasq configuration:</p>
+
+<pre class="prettyprint">nano /etc/dnsmasq.conf</pre>
+
+<p>Content: (two important lines)</p>
+
+<pre class="prettyprint"># Configuration file for dnsmasq.
+
+# If you want dnsmasq to listen for DHCP and DNS requests only on
+# specified interfaces (and the loopback) give the name of the
+# interface (eg eth0) here.
+# Repeat the line for more than one interface.
+interface=wlan0
+
+# Uncomment this to enable the integrated DHCP server, you need
+# to supply the range of addresses available for lease and optionally
+# a lease time. If you have more than one network, you will need to
+# repeat this for each network on which you want to supply DHCP
+# service.
+dhcp-range=192.168.20.100,192.168.20.200,255.255.255.0,12h
+#set default gateway (if wanted)
+#dhcp-option=3,192.168.20.1
+</pre>
+
+<p>Restart services:</p>
+
+<pre class="prettyprint">sudo service hostapd restart
+sudo service dnsmasq restart</pre>
+
+<p>Enable IP forwarding:</p>
+
+<pre class="prettyprint">nano /etc/sysctl.conf</pre>
+
+<p>Uncomment:</p>
+
+<pre class="prettyprint"># Uncomment the next line to enable packet forwarding for IPv4
+net.ipv4.ip_forward=1</pre>
+
+<p>Activate settings:</p>
+
+<pre class="prettyprint">sudo sysctl -p</pre>
+
+<p>Setup forwarding rules:</p>
+
+<pre class="prettyprint">nano /etc/network/if-up.d/apforwarding && chmod +x /etc/network/if-up.d/apforwarding </pre>
+
+<p>content:</p>
+
+<pre class="prettyprint"># !/bin/sh
+iptables --table nat --append POSTROUTING --out-interface eth0 -j MASQUERADE
+iptables --append FORWARD --in-interface wlan0 -j ACCEPT</pre>
+
+<p>Reboot your Raspberry Pi.</p>
+
+            </div>
+        </div>
+    </div>
+
+<div class="footer l-box is-center">
+        <p class="footer">
+            wlanboy | Proudly powered by Ruby | Thin | MongoDB
+        </p>
+    </div>
+
+</div>
+
+</body></html>

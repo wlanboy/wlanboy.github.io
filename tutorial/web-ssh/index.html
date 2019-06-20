@@ -1,0 +1,145 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="wlanboy wlanboy.com tutorials and ruby scripts">
+    <title>wlanboy - tutorials and ruby scripts</title>
+    
+    <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css" integrity="sha384-" crossorigin="anonymous">
+    
+    
+    
+        <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/grids-responsive-min.css">
+    
+    
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
+    
+        
+        
+            <link rel="stylesheet" href="/css/layouts/wlanboy.css">
+        
+</head>
+<body>
+
+<div class="header" id="header">
+    <div class="home-menu pure-menu pure-menu-horizontal pure-menu-fixed">
+        <ul class="pure-menu-list">
+            <li class="pure-menu-item pure-menu-selected"><a href="/#" class="pure-menu-link">Home</a></li>
+            <li class="pure-menu-item"><a href="/#Tutorials" class="pure-menu-link">Tutorials</a></li>
+            <li class="pure-menu-item"><a href="/#System" class="pure-menu-link">System</a></li>
+            <li class="pure-menu-item"><a href="/#About" class="pure-menu-link">About</a></li>
+        </ul>
+    </div>
+</div>
+
+<div class="splash-container">
+    <div class="splash">
+        <h1 class="splash-head">wlanboy</h1>
+        <p class="splash-subhead">
+            tutorials and ruby scripts
+        </p>
+        <p>
+            <a href="/#Tutorials" class="pure-button pure-button-primary">Read my tutorials</a>
+        </p>
+    </div>
+</div>
+<div class="content-wrapper" id="Tutorial">
+    <div class="content">
+        <h2 class="content-head is-center" >Tutorial</h2>
+
+        <div class="pure-g">
+
+            <div class="l-box-lrg pure-u-1">
+            
+
+<h2 id="tutorial-web-ssh">Tutorial: web-ssh</h2>
+
+<p>I was looking for a web based terminal emulator and finally found &ldquo;Shell In A Box&rdquo;.<br />
+It is a linux service that is running a webservice that uses JS/CSS to build up a great web based terminal.</p>
+
+<p>Installation is easy because it is part of all major repositories:</p>
+
+<pre class="prettyprint">apt-get install openssl shellinabox
+</pre>
+
+<p>The default settings are ok but you can change some values:</p>
+
+<pre class="prettyprint">nano /etc/default/shellinabox
+</pre>
+
+<p>Content:</p>
+
+<pre class="prettyprint"># Should shellinaboxd start automatically
+SHELLINABOX_DAEMON_START=1
+
+# TCP port that shellinboxd's webserver listens on
+SHELLINABOX_PORT=4200
+
+# Parameters that are managed by the system and usually should not need
+# changing:
+# SHELLINABOX_DATADIR=/var/lib/shellinabox
+# SHELLINABOX_USER=shellinabox
+# SHELLINABOX_GROUP=shellinabox
+
+# Any optional arguments (e.g. extra service definitions).  Make sure
+# that that argument is quoted.
+#
+#   Beeps are disabled because of reports of the VLC plugin crashing
+#   Firefox on Linux/x86_64.
+SHELLINABOX_ARGS="--no-beep --localhost-only"
+
+# specify the IP address and the post of a destination SSH
+#SHELLINABOX_ARGS="--o-beep -s /:SSH:11.22.33.44 -p 22 --disable-ssl-menu"
+</pre>
+
+<p>One important setting:</p>
+
+<pre class="prettyprint">--localhost-only
+</pre>
+
+<p>So you can use your favorite web server to secure the access to the local shellinabox service (recommended).</p>
+
+<p>A lighttpd configuration would look like this:</p>
+
+<pre class="prettyprint">$HTTP["host"] =~ "shell.domain.com" {
+  auth.backend = "htpasswd"
+  auth.backend.htpasswd.userfile = "/etc/lighttpd/shell"
+  auth.require = ("/" => (
+     "method" => "basic",
+     "realm" => "shell",
+     "require" => "valid-user"
+  ))
+
+  proxy.balance = "fair"
+  proxy.server = ( "" => (
+                ( "host" => "127.0.0.1", "port" => 4200 )
+                )
+  )
+}
+</pre>
+
+<p>Some screenshots of the web frontend:</p>
+
+<p><a href="/imgcontent/shellinabox1.JPG">shellinabox1.JPG</a></p>
+
+<p><a href="/imgcontent/shellinabox2.JPG">shellinabox2.JPG</a></p>
+
+<p><a href="/imgcontent/shellinabox3.JPG">shellinabox3.JPG</a></p>
+
+<p><a href="/imgcontent/shellinabox4.JPG">shellinabox4.JPG</a></p>
+
+            </div>
+        </div>
+    </div>
+
+<div class="footer l-box is-center">
+        <p class="footer">
+            wlanboy | Proudly powered by Ruby | Thin | MongoDB
+        </p>
+    </div>
+
+</div>
+
+</body></html>

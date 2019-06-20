@@ -1,0 +1,107 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="wlanboy wlanboy.com tutorials and ruby scripts">
+    <title>wlanboy - tutorials and ruby scripts</title>
+    
+    <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css" integrity="sha384-" crossorigin="anonymous">
+    
+    
+    
+        <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/grids-responsive-min.css">
+    
+    
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
+    
+        
+        
+            <link rel="stylesheet" href="/css/layouts/wlanboy.css">
+        
+</head>
+<body>
+
+<div class="header" id="header">
+    <div class="home-menu pure-menu pure-menu-horizontal pure-menu-fixed">
+        <ul class="pure-menu-list">
+            <li class="pure-menu-item pure-menu-selected"><a href="/#" class="pure-menu-link">Home</a></li>
+            <li class="pure-menu-item"><a href="/#Tutorials" class="pure-menu-link">Tutorials</a></li>
+            <li class="pure-menu-item"><a href="/#System" class="pure-menu-link">System</a></li>
+            <li class="pure-menu-item"><a href="/#About" class="pure-menu-link">About</a></li>
+        </ul>
+    </div>
+</div>
+
+<div class="splash-container">
+    <div class="splash">
+        <h1 class="splash-head">wlanboy</h1>
+        <p class="splash-subhead">
+            tutorials and ruby scripts
+        </p>
+        <p>
+            <a href="/#Tutorials" class="pure-button pure-button-primary">Read my tutorials</a>
+        </p>
+    </div>
+</div>
+<div class="content-wrapper" id="Tutorial">
+    <div class="content">
+        <h2 class="content-head is-center" >Tutorial</h2>
+
+        <div class="pure-g">
+
+            <div class="l-box-lrg pure-u-1">
+            
+
+<h2 id="tutorial-caldav">Tutorial: caldav</h2>
+
+<p>I was searching for an easy to install CalDAV server (calendar, contacts and todos) and found <a href="http://baikal-server.com/" title="External link">Baïkal</a>.</p>
+
+<p>The installation is really easy because it just needs an php enabled webserver.</p>
+
+<p>Apache, ngnix and lighttpd are fine.</p>
+
+<p>Steps:</p>
+
+<ul>
+<li>cd /var/www</li>
+<li>wget <a href="http://baikal-server.com/get/baikal-flat-0.2.6.zip" title="External link">http://baikal-server&hellip;-flat-0.2.6.zip</a></li>
+<li>unzip baikal-flat-0.2.6.zip</li>
+<li>mv baikal-flat calendar (or any other dir)</li>
+<li>cd calendar</li>
+<li>mkdir db</li>
+<li>touch Specific/ENABLE_INSTALL</li>
+<li>chown -R www-data:www-data /var/www/calendar (or proper user of your webserver)</li>
+<li>start your browser: <a href="http://www.yourdomain.com/calendar" title="External link">http://www.yourdomain.com/calendar</a> (our subdomain, &hellip;)</li>
+</ul>
+
+<p>The configuration is quite easy too:</p>
+
+<p><img src="/imgcontent/baikal1.JPG" alt="baikal1.JPG" /></p>
+
+<p><img src="/imgcontent/baikal2.JPG" alt="baikal2.JPG" /></p>
+
+<p><img src="/imgcontent/baikal3.JPG" alt="baikal3.JPG" /></p>
+
+<p><img src="/imgcontent/baikal4.JPG" alt="baikal4.JPG" /></p>
+
+<p>Now just add users and calendars.</p>
+
+<p>If you need the URLs for a specific client look at the end of the <a href="https://github.com/jeromeschneider/Baikal/blob/master/INSTALL.md" title="External link">INSTALL,md</a>.</p>
+
+<p>If you do prefer Python use <a href="http://radicale.org/" title="External link">Radicale</a>.</p>
+
+            </div>
+        </div>
+    </div>
+
+<div class="footer l-box is-center">
+        <p class="footer">
+            wlanboy | Proudly powered by Ruby | Thin | MongoDB
+        </p>
+    </div>
+
+</div>
+
+</body></html>

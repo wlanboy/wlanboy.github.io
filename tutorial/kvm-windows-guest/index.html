@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta name="generator" content="wlanboy" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="wlanboy wlanboy.com tutorials and ruby scripts">
+    <title>wlanboy - tutorials and ruby scripts - kvm-windows-guest</title>
+
+    <link rel="stylesheet" href="/css/pure-min.css">
+    <link rel="stylesheet" href="/css/grids-responsive-min.css">
+    <link rel="stylesheet" href="/css/font-awesome.css">
+    <link rel="stylesheet" href="/css/layouts/wlanboy.css">
+</head>
+<body>
+
+<div class="header" id="header">
+    <div class="home-menu pure-menu pure-menu-horizontal pure-menu-fixed">
+        <ul class="pure-menu-list">
+            <li class="pure-menu-item pure-menu-selected"><a href="/#" class="pure-menu-link">Home</a></li>
+            <li class="pure-menu-item"><a href="/#Tutorials" class="pure-menu-link">Tutorials</a></li>
+            <li class="pure-menu-item"><a href="/#System" class="pure-menu-link">System</a></li>
+            <li class="pure-menu-item"><a href="/#About" class="pure-menu-link">About</a></li>
+        </ul>
+    </div>
+</div>
+
+<div class="splash-container">
+    <div class="splash">
+        <h1 class="splash-head">wlanboy</h1>
+        <p class="splash-subhead">
+            tutorials and ruby scripts
+        </p>
+        <p>
+            <a href="/#Tutorials" class="pure-button pure-button-primary">Read my tutorials</a>
+        </p>
+    </div>
+</div>
+<div class="content-wrapper" id="Tutorial">
+    <div class="content">
+    <h2 class="content-head is-center" >Tutorial</h2>
+        <div class="pure-g">
+            <div class="l-box-lrg pure-u-1">
+            
+
+<h2 id="tutorial-create-a-kvm-windows-vm">Tutorial: Create a KVM Windows VM</h2>
+
+<p>This tutorial is about installing Windows in a KVM VM.</p>
+
+<ol>
+<li><p>Create folder for ISO and diskimage</p>
+
+<pre class="prettyprint">sudo mkdir /windows && chown wlanboy:libvirt-qemu /windows && chmod 775 /windows
+</pre></li>
+
+<li><p>Add images</p>
+
+<pre class="prettyprint">cd /windows
+wget https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/stable-virtio/virtio-win.iso
+qemu-img create -f qcow2 -o preallocation=metadata windowsdisk.qcow2 60G
+cp /external/Windows.iso /windows
+</pre></li>
+
+<li><p>Create KVM VM</p>
+
+<pre class="prettyprint">virt-install \
+--name=windows10 \
+--memory=8192 \
+--cpu=host \
+--vcpus=2 \
+--features kvm_hidden=on \
+--os-type=windows \
+--os-variant=win10 \
+--rng /dev/urandom \
+--disk path=/windows/windowsdisk.qcow2,format=qcow2,bus=virtio,cache=none \
+--disk path=/windows/Windows.iso,device=cdrom,bus=ide \
+--disk path=/windows/virtio-win.iso,device=cdrom,bus=ide \
+--boot cdrom \
+--network network=default,model=virtio \
+--graphics vnc,listen=0.0.0.0 \
+--noautoconsole --accelerate
+</pre></li>
+
+<li><p>Connectio to VM through VNC</p>
+
+<p>Install VNC client:
+<pre class="prettyprint">sudo apt-get install vncviewer</pre></p>
+
+<p>Run VNC client:
+<pre class="prettyprint">vncviewer your-ip:1</pre></p></li>
+
+<li><p>Install Windows</p>
+
+<p>Click on &ldquo;Load Driver&rdquo; and browse through the second cd-drive for the Windows viostor driver. Remember AMD64 = 64 bits Windows and x86 = 32 bits.
+Afterwards click through the Windows installer.
+Select &ldquo;I don&rsquo;t have a product key yet&rdquo; and wait a long time for the Windows installation.</p></li>
+</ol>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="footer l-box is-center">
+        <p class="footer">
+            wlanboy.com | Proudly powered by Ruby | Github
+        </p>
+    </div>
+</div>
+
+</body></html>

@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta name="generator" content="wlanboy" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="wlanboy wlanboy.com tutorials and ruby scripts">
+    <title>wlanboy - tutorials and ruby scripts - tmux-configuration</title>
+
+    <link rel="stylesheet" href="/css/pure-min.css">
+    <link rel="stylesheet" href="/css/grids-responsive-min.css">
+    <link rel="stylesheet" href="/css/font-awesome.css">
+    <link rel="stylesheet" href="/css/layouts/wlanboy.css">
+</head>
+<body>
+
+<div class="header" id="header">
+    <div class="home-menu pure-menu pure-menu-horizontal pure-menu-fixed">
+        <ul class="pure-menu-list">
+            <li class="pure-menu-item pure-menu-selected"><a href="/#" class="pure-menu-link">Home</a></li>
+            <li class="pure-menu-item"><a href="/#Tutorials" class="pure-menu-link">Tutorials</a></li>
+            <li class="pure-menu-item"><a href="/#System" class="pure-menu-link">System</a></li>
+            <li class="pure-menu-item"><a href="/#About" class="pure-menu-link">About</a></li>
+        </ul>
+    </div>
+</div>
+
+<div class="splash-container">
+    <div class="splash">
+        <h1 class="splash-head">wlanboy</h1>
+        <p class="splash-subhead">
+            tutorials and ruby scripts
+        </p>
+        <p>
+            <a href="/#Tutorials" class="pure-button pure-button-primary">Read my tutorials</a>
+        </p>
+    </div>
+</div>
+<div class="content-wrapper" id="Tutorial">
+    <div class="content">
+    <h2 class="content-head is-center" >Tutorial</h2>
+        <div class="pure-g">
+            <div class="l-box-lrg pure-u-1">
+            
+
+<h2 id="tutorial-tmux-configuration">Tutorial: tmux-configuration</h2>
+
+<pre class="prettyprint prettyprinted">
+#history limit
+set -g history-limit 5000   
+
+# activity
+set -g monitor-activity on
+set -g visual-activity off
+set -g bell-action none
+
+#  modes
+setw -g clock-mode-colour colour5
+setw -g mode-style 'fg=colour1 bg=colour18 bold'
+
+# panes
+set -g pane-border-style 'fg=colour19 bg=colour0'
+set -g pane-active-border-style 'bg=colour0 fg=colour9'
+
+# statusbar
+set -g status-position bottom
+set -g status-justify left
+set -g status-style 'bg=colour18 fg=colour137 dim'
+set -g status-left ''
+set -g status-right '#[fg=colour233,bg=colour19] %d/%m #[fg=colour233,bg=colour8] %H:%M:%S '
+set -g status-right-length 50
+set -g status-left-length 20
+
+setw -g window-status-current-style 'fg=colour1 bg=colour19 bold'
+setw -g window-status-current-format ' #I#[fg=colour249]:#[fg=colour255]#W#[fg=colour249]#F '
+
+setw -g window-status-style 'fg=colour9 bg=colour18'
+setw -g window-status-format ' #I#[fg=colour237]:#[fg=colour250]#W#[fg=colour244]#F '
+
+setw -g window-status-bell-style 'fg=colour255 bg=colour1 bold'
+
+# start windows numbering at 1
+set -g base-index 1
+setw -g pane-base-index 1
+set -g renumber-windows on 
+set -g set-titles on 
+
+# rename window to display current program
+setw -g automatic-rename on   
+
+# messages
+set -g message-style 'fg=colour232 bg=colour16 bold'
+
+# remap prefix from 'C-b' to 'C-a'
+unbind C-b
+set-option -g prefix C-a
+bind-key C-a send-prefix
+
+# split current window horizontally
+bind - split-window -v
+# split current window vertically
+bind _ split-window -h
+</pre>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="footer l-box is-center">
+        <p class="footer">
+            wlanboy.com | Proudly powered by Ruby | Github
+        </p>
+    </div>
+</div>
+
+</body></html>

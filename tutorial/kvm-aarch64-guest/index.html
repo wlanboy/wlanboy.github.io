@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta name="generator" content="wlanboy" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="wlanboy wlanboy.com tutorials and ruby scripts">
+    <title>wlanboy - tutorials and ruby scripts - kvm-aarch64-guest</title>
+
+    <link rel="stylesheet" href="/css/pure-min.css">
+    <link rel="stylesheet" href="/css/grids-responsive-min.css">
+    <link rel="stylesheet" href="/css/font-awesome.css">
+    <link rel="stylesheet" href="/css/layouts/wlanboy.css">
+</head>
+<body>
+
+<div class="header" id="header">
+    <div class="home-menu pure-menu pure-menu-horizontal pure-menu-fixed">
+        <ul class="pure-menu-list">
+            <li class="pure-menu-item pure-menu-selected"><a href="/#" class="pure-menu-link">Home</a></li>
+            <li class="pure-menu-item"><a href="/#Tutorials" class="pure-menu-link">Tutorials</a></li>
+            <li class="pure-menu-item"><a href="/#System" class="pure-menu-link">System</a></li>
+            <li class="pure-menu-item"><a href="/#About" class="pure-menu-link">About</a></li>
+        </ul>
+    </div>
+</div>
+
+<div class="splash-container">
+    <div class="splash">
+        <h1 class="splash-head">wlanboy</h1>
+        <p class="splash-subhead">
+            tutorials and ruby scripts
+        </p>
+        <p>
+            <a href="/#Tutorials" class="pure-button pure-button-primary">Read my tutorials</a>
+        </p>
+    </div>
+</div>
+<div class="content-wrapper" id="Tutorial">
+    <div class="content">
+    <h2 class="content-head is-center" >Tutorial</h2>
+        <div class="pure-g">
+            <div class="l-box-lrg pure-u-1">
+            
+
+<h2 id="tutorial-kvm-aarch64-guest">Tutorial: kvm-aarch64-guest</h2>
+
+<p>ARM64 Debian guest kvm</p>
+
+<p>Steps:</p>
+
+<ul>
+<li>qemu-img create -f qcow2 debian-aarch64.qcow2 5G</li>
+<li>wget <a href="https://cdimage.debian.org/debian-cd/current/arm64/iso-cd/debian-10.3.0-arm64-netinst.iso">https://cdimage.debian.org/debian-cd/current/arm64/iso-cd/debian-10.3.0-arm64-netinst.iso</a></li>
+<li>#&ndash;os-variant=debian10 not available</li>
+<li>virt-install</li>
+</ul>
+
+<pre class="prettyprint prettyprinted">
+virt-install  --os-type=linux --os-variant=debian9 --arch aarch64 --name debian-aarch64 --ram=2048 --vcpus=1 \
+--disk path=./debian-aarch64.qcow2,bus=virtio,format=qcow2 \
+--location ./debian-10.3.0-arm64-netinst.iso \
+--network network=br0,model=virtio
+</pre>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="footer l-box is-center">
+        <p class="footer">
+            wlanboy.com | Proudly powered by Ruby | Github
+        </p>
+    </div>
+</div>
+
+</body></html>

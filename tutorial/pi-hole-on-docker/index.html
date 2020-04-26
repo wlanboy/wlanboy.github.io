@@ -51,42 +51,44 @@
 
 <ul>
 <li>docker pull pihole/pihole:latest</li>
-<li>vim docker-compose.yml with content:
+<li>vim docker-compose.yml with content:</li>
+</ul>
+
 <pre class="prettyprint prettyprinted">
 pihole:
-restart: unless-stopped
-container_name: pihole
-image: pihole/pi-hole:latest
-volumes:
+  restart: unless-stopped
+  container_name: pihole
+  image: pihole/pi-hole:latest
+  volumes:
+    - /home/wlanboy/pihole/:/etc/pihole/
+    - /home/wlanboy/pihole-dnsmasq/:/etc/dnsmasq.d/'
+  environment:
+    - TZ=Europe/Berlin
+    - ServerIP=your-docker-host-public-ip
+    - WEBPASSWORD=your-secure-password
+  dns:
+    - 8.8.8.8
+    - 8.8.4.4
+  ports:
+    - "53:53/tcp"
+    - "53:53/udp"
+    - "80:80"
+</pre>
 
 <ul>
-<li>/home/wlanboy/pihole/:/etc/pihole/</li>
-<li>/home/wlanboy/pihole-dnsmasq/:/etc/dnsmasq.d/&rsquo;
-environment:</li>
-<li>TZ=Europe/Berlin</li>
-<li>ServerIP=your-docker-host-public-ip</li>
-<li>WEBPASSWORD=your-secure-password
-dns:</li>
-<li>8.8.8.8</li>
-<li>8.8.4.4
-ports:</li>
-<li>&ldquo;53:53/tcp&rdquo;</li>
-<li>&ldquo;53:53/udp&rdquo;</li>
-<li>&ldquo;80:80&rdquo;
-</pre></li>
-</ul></li>
 <li>mkdir ~/pihole &amp;&amp; mkdir ~/pihole-dnsmasq</li>
 <li>docker-compose up</li>
-<li>Add filter lists to pi hole:
-<pre class="prettyprint prettyprinted">
-<a href="https://raw.githubusercontent.com/crazy-max/WindowsSpyBlocker/master/data/hosts/win10/spy.txt">https://raw.githubusercontent.com/crazy-max/WindowsSpyBlocker/master/data/hosts/win10/spy.txt</a>
-<a href="https://raw.githubusercontent.com/quidsup/notrack/master/trackers.txt">https://raw.githubusercontent.com/quidsup/notrack/master/trackers.txt</a>
-<a href="https://github.com/chadmayfield/pihole-blocklists/raw/master/lists/pi_blocklist_porn_all.list">https://github.com/chadmayfield/pihole-blocklists/raw/master/lists/pi_blocklist_porn_all.list</a>
-<a href="https://v.firebog.net/hosts/Prigent-Phishing.txt">https://v.firebog.net/hosts/Prigent-Phishing.txt</a>
-<a href="https://v.firebog.net/hosts/Prigent-Malware.txt">https://v.firebog.net/hosts/Prigent-Malware.txt</a>
-<a href="https://mirror.cedia.org.ec/malwaredomains/immortal_domains.txt">https://mirror.cedia.org.ec/malwaredomains/immortal_domains.txt</a>
-</pre></li>
+<li>Add filter lists to pi hole:</li>
 </ul>
+
+<pre class="prettyprint prettyprinted">
+https://raw.githubusercontent.com/crazy-max/WindowsSpyBlocker/master/data/hosts/win10/spy.txt
+https://raw.githubusercontent.com/quidsup/notrack/master/trackers.txt
+https://github.com/chadmayfield/pihole-blocklists/raw/master/lists/pi_blocklist_porn_all.list
+https://v.firebog.net/hosts/Prigent-Phishing.txt
+https://v.firebog.net/hosts/Prigent-Malware.txt
+https://mirror.cedia.org.ec/malwaredomains/immortal_domains.txt
+</pre>
 
             </div>
         </div>

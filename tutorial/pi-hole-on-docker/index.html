@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta name="generator" content="wlanboy" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="wlanboy wlanboy.com tutorials and ruby scripts">
+    <title>wlanboy - tutorials and ruby scripts - pi hole on docker</title>
+
+    <link rel="stylesheet" href="/css/pure-min.css">
+    <link rel="stylesheet" href="/css/grids-responsive-min.css">
+    <link rel="stylesheet" href="/css/font-awesome.css">
+    <link rel="stylesheet" href="/css/layouts/wlanboy.css">
+</head>
+<body>
+
+<div class="header" id="header">
+    <div class="home-menu pure-menu pure-menu-horizontal pure-menu-fixed">
+        <ul class="pure-menu-list">
+            <li class="pure-menu-item pure-menu-selected"><a href="/#" class="pure-menu-link">Home</a></li>
+            <li class="pure-menu-item"><a href="/#Tutorials" class="pure-menu-link">Tutorials</a></li>
+            <li class="pure-menu-item"><a href="/#System" class="pure-menu-link">System</a></li>
+            <li class="pure-menu-item"><a href="/#About" class="pure-menu-link">About</a></li>
+        </ul>
+    </div>
+</div>
+
+<div class="splash-container">
+    <div class="splash">
+        <h1 class="splash-head">wlanboy</h1>
+        <p class="splash-subhead">
+            tutorials and ruby scripts
+        </p>
+        <p>
+            <a href="/#Tutorials" class="pure-button pure-button-primary">Read my tutorials</a>
+        </p>
+    </div>
+</div>
+<div class="content-wrapper" id="Tutorial">
+    <div class="content">
+    <h2 class="content-head is-center" >Tutorial</h2>
+        <div class="pure-g">
+            <div class="l-box-lrg pure-u-1">
+            
+
+<h2 id="tutorial-pi-hole-on-docker">Tutorial: pi hole on docker</h2>
+
+<p>You do not need a raspberry pi to run an instance of the pi hole dns filter project.</p>
+
+<p>Steps:</p>
+
+<ul>
+<li>docker pull pihole/pihole:latest</li>
+<li>vim docker-compose.yml with content:
+<pre class="prettyprint prettyprinted">
+pihole:
+restart: unless-stopped
+container_name: pihole
+image: pihole/pi-hole:latest
+volumes:
+
+<ul>
+<li>/home/wlanboy/pihole/:/etc/pihole/</li>
+<li>/home/wlanboy/pihole-dnsmasq/:/etc/dnsmasq.d/&rsquo;
+environment:</li>
+<li>TZ=Europe/Berlin</li>
+<li>ServerIP=your-docker-host-public-ip</li>
+<li>WEBPASSWORD=your-secure-password
+dns:</li>
+<li>8.8.8.8</li>
+<li>8.8.4.4
+ports:</li>
+<li>&ldquo;53:53/tcp&rdquo;</li>
+<li>&ldquo;53:53/udp&rdquo;</li>
+<li>&ldquo;80:80&rdquo;
+</pre></li>
+</ul></li>
+<li>mkdir ~/pihole &amp;&amp; mkdir ~/pihole-dnsmasq</li>
+<li>docker-compose up</li>
+<li>Add filter lists to pi hole:
+<pre class="prettyprint prettyprinted">
+<a href="https://raw.githubusercontent.com/crazy-max/WindowsSpyBlocker/master/data/hosts/win10/spy.txt">https://raw.githubusercontent.com/crazy-max/WindowsSpyBlocker/master/data/hosts/win10/spy.txt</a>
+<a href="https://raw.githubusercontent.com/quidsup/notrack/master/trackers.txt">https://raw.githubusercontent.com/quidsup/notrack/master/trackers.txt</a>
+<a href="https://github.com/chadmayfield/pihole-blocklists/raw/master/lists/pi_blocklist_porn_all.list">https://github.com/chadmayfield/pihole-blocklists/raw/master/lists/pi_blocklist_porn_all.list</a>
+<a href="https://v.firebog.net/hosts/Prigent-Phishing.txt">https://v.firebog.net/hosts/Prigent-Phishing.txt</a>
+<a href="https://v.firebog.net/hosts/Prigent-Malware.txt">https://v.firebog.net/hosts/Prigent-Malware.txt</a>
+<a href="https://mirror.cedia.org.ec/malwaredomains/immortal_domains.txt">https://mirror.cedia.org.ec/malwaredomains/immortal_domains.txt</a>
+</pre></li>
+</ul>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="footer l-box is-center">
+        <p class="footer">
+            wlanboy.com | Proudly powered by Ruby | Github
+        </p>
+    </div>
+</div>
+
+</body></html>

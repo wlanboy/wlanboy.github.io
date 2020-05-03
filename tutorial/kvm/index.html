@@ -67,7 +67,7 @@ Something like amd64 or x86_64 indicates your are running a 64-bit kernel. You d
 3. Install KVM tools (I am using Ubuntu/Debian commands here)
 
 <pre class="prettyprint">
-sudo apt-get install qemu-kvm libvirt-bin bridge-utils
+sudo apt-get install qemu-kvm libvirt-bin virtinst libvirt-daemon-system libvirt-dev libvirt-clients bridge-utils
 </pre>
 
 <ol>
@@ -75,7 +75,9 @@ sudo apt-get install qemu-kvm libvirt-bin bridge-utils
 </ol>
 
 <pre class="prettyprint">
-sudo adduser [username] libvirtd</pre>
+sudo adduser [username] libvirtd
+sudo adduser [username] libvirt
+sudo adduser [username] kvm</pre>
 
 <ol>
 <li>Test your installation</li>

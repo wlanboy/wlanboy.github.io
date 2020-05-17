@@ -41,28 +41,25 @@
     <h2 class="content-head is-center" >Tutorial</h2>
         <div class="pure-g">
             <div class="l-box-lrg pure-u-1">
-            
-
-<h2 id="tutorial-mirror-a-local-git-repository">Tutorial: mirror a local git repository</h2>
-
+            <h2 id="tutorial-mirror-a-local-git-repository">Tutorial: mirror a local git repository</h2>
 <p>Mirror a local git repository with all commit information to a new repository:</p>
-
 <ol>
-<li><p>Create a bare clone of the repository.</p>
-
-<pre class="prettyprint prettyprinted">git clone --bare https://github.com/user/old-repository.git</pre></li>
-
-<li><p>Mirror-push to the new repository.</p>
-
+<li>
+<p>Create a bare clone of the repository.</p>
+<pre class="prettyprint prettyprinted">git clone --bare https://github.com/user/old-repository.git</pre>
+</li>
+<li>
+<p>Mirror-push to the new repository.</p>
 <pre class="prettyprint prettyprinted">cd old-repository.git
 git push --mirror https://github.com/exampleuser/new-repository.git
-</pre></li>
-
-<li><p>Remove your old bare clone</p>
-
+</pre>
+</li>
+<li>
+<p>Remove your old bare clone</p>
 <pre class="prettyprint prettyprinted">cd ..
 rm -rf old-repository.git
-</pre></li>
+</pre>
+</li>
 </ol>
 
             </div>

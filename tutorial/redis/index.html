@@ -41,14 +41,9 @@
     <h2 class="content-head is-center" >Tutorial</h2>
         <div class="pure-g">
             <div class="l-box-lrg pure-u-1">
-            
-
-<h2 id="tutorial-redis">Tutorial: redis</h2>
-
+            <h2 id="tutorial-redis">Tutorial: redis</h2>
 <p>Redis is a lightweight and fast key/value store. I did have a view projects where I needed something like a persistent hashmap with quite a view values. Too much for a text file but at the same time too simple for MySQL. So Redis fills the gap with a small memory footprint key/value database. And it is fast too :D</p>
-
 <p>Installation is quite simple:</p>
-
 <pre class="prettyprint">mkdir ~/redis && cd ~/redis
 wget http://redis.googlecode.com/files/redis-2.6.13.tar.gz
 tar -zxf redis-2.6.13.tar.gz
@@ -56,23 +51,15 @@ cd redis-2.6.13
 make
 sudo make install
 </pre>
-
 <p>Redis is now able to run.</p>
-
 <p>All needed to start the server is calling this command:</p>
-
 <pre class="prettyprint">cd ~/redis-2.6.13/src && ./redis-server ~/redis.conf
 </pre>
-
 <p>You can also use the command line interface:</p>
-
 <pre class="prettyprint">cd ~/redis-2.6.13/src && ./redis-cli
 </pre>
-
 <p>But you should use upstart to start/stop the server.</p>
-
 <p>Some preparations:</p>
-
 <pre class="prettyprint">sudo su
 mkdir -p /var/lib/redis
 mkdir -p /var/log/redis
@@ -80,14 +67,10 @@ useradd --system --home-dir /var/lib/redis redis
 chown redis.redis /var/lib/redis
 chown redis.redis /var/log/redis
 </pre>
-
 <p>Creating a minimal redis config file (change the password!):</p>
-
 <pre class="prettyprint">nano /etc/redis.conf
 </pre>
-
 <p>With content:</p>
-
 <pre class="prettyprint"># Redis configuration file
 daemonize yes
 pidfile /var/run/redis.pid
@@ -166,25 +149,21 @@ client-output-buffer-limit normal 0 0 0
 client-output-buffer-limit slave 256mb 64mb 60
 client-output-buffer-limit pubsub 32mb 8mb 60
 </pre>
-
 <p>And the init file:</p>
-
 <pre class="prettyprint">nano /etc/init.d/redis-server && chmod +x /etc/init.d/redis-server
 </pre>
-
 <p>With content:</p>
-
 <pre class="prettyprint">#! /bin/sh
 ### BEGIN INIT INFO
-# Provides:     redis-server
-# Required-Start:   $syslog
-# Required-Stop:    $syslog
-# Should-Start:     $local_fs
-# Should-Stop:      $local_fs
-# Default-Start:    2 3 4 5
-# Default-Stop:     0 1 6
-# Short-Description:    redis-server
-# Description:      redis-server
+# Provides:		redis-server
+# Required-Start:	$syslog
+# Required-Stop:	$syslog
+# Should-Start:		$local_fs
+# Should-Stop:		$local_fs
+# Default-Start:	2 3 4 5
+# Default-Stop:		0 1 6
+# Short-Description:	redis-server
+# Description:		redis-server
 ### END INIT INFO
 
 PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
@@ -200,53 +179,49 @@ set -e
 
 case "$1" in
   start)
-    echo -n "Starting $DESC: "
-    touch $PIDFILE
-    chown redis:redis $PIDFILE
-    if start-stop-daemon --start --quiet --umask 007 --pidfile $PIDFILE --chuid redis:redis --exec $DAEMON --background -- $DAEMON_ARGS
-    then
-        echo "$NAME."
-    else
-        echo "failed"
-    fi
-    ;;
+	echo -n "Starting $DESC: "
+	touch $PIDFILE
+	chown redis:redis $PIDFILE
+	if start-stop-daemon --start --quiet --umask 007 --pidfile $PIDFILE --chuid redis:redis --exec $DAEMON --background -- $DAEMON_ARGS
+	then
+		echo "$NAME."
+	else
+		echo "failed"
+	fi
+	;;
   stop)
-    echo -n "Stopping $DESC: "
-    if start-stop-daemon --stop --retry 10 --quiet --oknodo --pidfile $PIDFILE --exec $DAEMON
-    then
-        echo "$NAME."
-    else
-        echo "failed"
-    fi
-    rm -f $PIDFILE
-    ;;
+	echo -n "Stopping $DESC: "
+	if start-stop-daemon --stop --retry 10 --quiet --oknodo --pidfile $PIDFILE --exec $DAEMON
+	then
+		echo "$NAME."
+	else
+		echo "failed"
+	fi
+	rm -f $PIDFILE
+	;;
 
   restart|force-reload)
-    ${0} stop
-    ${0} start
-    ;;
+	${0} stop
+	${0} start
+	;;
   *)
-    echo "Usage: /etc/init.d/$NAME {start|stop|restart|force-reload}" >&2
-    exit 1
-    ;;
+	echo "Usage: /etc/init.d/$NAME {start|stop|restart|force-reload}" >&2
+	exit 1
+	;;
 esac
 
 exit 0
 </pre>
-
 <p>Autostart of the redis server:</p>
-
 <pre class="prettyprint">update-rc.d redis-server defaults
 </pre>
-
 <p>Enjoy your own hosted redis database server.</p>
-
 <p>And please keep in mind that redis is not build for safety. Running it as a public service is not a good idea. Just read the comments of the configfile regarding the password. To double check this is the paragraph:</p>
-
 <pre class="prettyprint"># Warning: since Redis is pretty fast an outside user can try up to
 # 150k passwords per second against a good box. This means that you should
 # use a very strong password otherwise it will be very easy to break.
-</pre>
+</pre><blockquote>
+</blockquote>
 
             </div>
         </div>

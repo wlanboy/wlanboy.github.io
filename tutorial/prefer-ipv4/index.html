@@ -41,20 +41,16 @@
     <h2 class="content-head is-center" >Tutorial</h2>
         <div class="pure-g">
             <div class="l-box-lrg pure-u-1">
-            
-
-<h2 id="tutorial-prefer-ipv4-over-ipv6">Tutorial: prefer ipv4 over ipv6</h2>
-
+            <h2 id="tutorial-prefer-ipv4-over-ipv6">Tutorial: prefer ipv4 over ipv6</h2>
 <p>Some vps providers do have crappy ipv6 connections. But there is a simple solution to prefer ipv4 connections over ipv6 connections.</p>
-
 <ol>
-<li><p>Add one gia configuration line</p>
-
+<li>
+<p>Add one gia configuration line</p>
 <pre class="prettyprint prettyprinted">
 sudo echo "precedence ::ffff:0:0/96  100" >> /etc/gia.conf
-</pre></li>
+</pre>
+</li>
 </ol>
-
 <p>Done.</p>
 
             </div>

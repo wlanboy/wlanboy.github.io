@@ -41,67 +41,63 @@
     <h2 class="content-head is-center" >Tutorial</h2>
         <div class="pure-g">
             <div class="l-box-lrg pure-u-1">
-            
-
-<h2 id="tutorial-wordpress-security">Tutorial: wordpress security</h2>
-
+            <h2 id="tutorial-wordpress-security">Tutorial: wordpress security</h2>
 <p>Time to start the discussion about how to secure wordpress blogs.</p>
-
 <p>There are some actions everyone should take to secure his wordpress blog:</p>
-
 <ol>
-<li><p>Strong passwords<br />
+<li>
+<p>Strong passwords<br>
 I use openssl to generate passwords:</p>
-
 <pre class="prettyprint">openssl rand -base64 60
 </pre>
-
-<p>Change the number of digits too.</p></li>
-
-<li><p>Limit login attempts<br />
-There is a <a href="http://devel.kostdoktorn.se/limit-login-attempts" title="External link">plugin</a> doing the job.<br />
-It blocks the lightweight attacks. Because a botnet or someone using Tor does have a lot of IPs.<br />
-Best feature: This plugin is sending you email warnings if such attacks happen.<br />
-<img src="/imgcontent/wordpress1.png" alt="wordpress1.png" /></p>
-
-<p>Another plugin (thanks Abdussamad) to limit the number of login attemts: <a href="http://wordpress.org/plugins/wp-fail2ban/" title="External link">Fail2ban plugin</a>.<br />
-This plugin is creating log entries that can be catched by fail2ban.</p></li>
-
-<li><p>Password protect wp-admin directory<br />
-htaccess/htpasswd are your friends.</p></li>
-
-<li><p>Never ever use common usernames<br />
-No &ldquo;admin&rdquo;, no &ldquo;Admin&rdquo;, no &ldquo;root&rdquo;, no &ldquo;Administrator&rdquo;, not your nickname, not the domain name, well I guess you got it.</p></li>
-
-<li><p>Add some filters<br />
+<p>Change the number of digits too.</p>
+</li>
+<li>
+<p>Limit login attempts<br>
+There is a <a href="http://devel.kostdoktorn.se/limit-login-attempts" title="External link">plugin</a> doing the job.<br>
+It blocks the lightweight attacks. Because a botnet or someone using Tor does have a lot of IPs.<br>
+Best feature: This plugin is sending you email warnings if such attacks happen.<br>
+<img src="/imgcontent/wordpress1.png" alt="wordpress1.png"></p>
+<p>Another plugin (thanks Abdussamad) to limit the number of login attemts: <a href="http://wordpress.org/plugins/wp-fail2ban/" title="External link">Fail2ban plugin</a>.<br>
+This plugin is creating log entries that can be catched by fail2ban.</p>
+</li>
+<li>
+<p>Password protect wp-admin directory<br>
+htaccess/htpasswd are your friends.</p>
+</li>
+<li>
+<p>Never ever use common usernames<br>
+No &ldquo;admin&rdquo;, no &ldquo;Admin&rdquo;, no &ldquo;root&rdquo;, no &ldquo;Administrator&rdquo;, not your nickname, not the domain name, well I guess you got it.</p>
+</li>
+<li>
+<p>Add some filters<br>
 Ensure that wordpress is not telling everyone that the user exists but the password was wrong:</p>
-
 <pre class="prettyprint">nano /wp-content/your-theme/functions.php
 add_filter('login_errors',create_function('$a', "return null;"));
-</pre></li>
-
-<li><p>Disable xml-rpc, if you do not need it<br />
+</pre>
+</li>
+<li>
+<p>Disable xml-rpc, if you do not need it<br>
 Another filter:</p>
-
 <pre class="prettyprint">add_filter( 'xmlrpc_enabled', '__return_false' );
 </pre>
-
-<p>Yup, xmlL-rpc is enabled by default since wordpress 3.5.<br />
-And of course there is <a href="http://wordpress.org/plugins/disable-xml-rpc/" title="External link">a plugin for that</a>.</p></li>
-
-<li><p>Rename wp-login.php<br />
-Nice catch from eva.<br />
-There is <a href="http://wordpress.org/plugins/rename-wp-login/" title="External link">a plugin that</a> is able to rename the permalinks of the wp-login.php.<br />
-Nice way to let the attacker run/hit into empty space.</p></li>
-
-<li><p>Update your wordpress instance and backup your database</p></li>
+<p>Yup, xmlL-rpc is enabled by default since wordpress 3.5.<br>
+And of course there is <a href="http://wordpress.org/plugins/disable-xml-rpc/" title="External link">a plugin for that</a>.</p>
+</li>
+<li>
+<p>Rename wp-login.php<br>
+Nice catch from eva.<br>
+There is <a href="http://wordpress.org/plugins/rename-wp-login/" title="External link">a plugin that</a> is able to rename the permalinks of the wp-login.php.<br>
+Nice way to let the attacker run/hit into empty space.</p>
+</li>
+<li>
+<p>Update your wordpress instance and backup your database</p>
+</li>
 </ol>
-
 <p>On request the lighttpd and apache config for the password protection:</p>
-
 <ul>
-<li><p>lighttpd</p>
-
+<li>
+<p>lighttpd</p>
 <pre class="prettyprint">$HTTP["url"] == "/wp-login.php" {
   auth.backend = "htpasswd"
   auth.backend.htpasswd.userfile = "/etc/lighttpd/wordpress"
@@ -122,10 +118,10 @@ $HTTP["url"] =~ "^/wp-admin/" {
   ))
 }
 
-</pre></li>
-
-<li><p>apache</p>
-
+</pre>
+</li>
+<li>
+<p>apache</p>
 <pre class="prettyprint"><Files wp-login.php>
   AuthName "Restricted Wordpress-Area"
   AuthType Basic
@@ -138,17 +134,19 @@ $HTTP["url"] =~ "^/wp-admin/" {
   Order deny,allow
   Deny from all
 </FilesMatch>
-</pre></li>
-
-<li><p>ngix</p>
-
+</pre>
+</li>
+<li>
+<p>ngix</p>
 <pre class="prettyprint">location = /wp-login.php {
    auth_basic "Restricted Wordpress-Area";
    auth_basic_user_file /etc/nginx/wordpress;
 
    include /etc/nginx/conf.d/fastcgi.conf;
 }
-</pre></li>
+</pre><blockquote>
+</blockquote>
+</li>
 </ul>
 
             </div>

@@ -41,141 +41,79 @@
     <h2 class="content-head is-center" >Tutorial</h2>
         <div class="pure-g">
             <div class="l-box-lrg pure-u-1">
-            
-
-<h2 id="tutorial-freebsd">Tutorial: freebsd</h2>
-
+            <h2 id="tutorial-freebsd">Tutorial: freebsd</h2>
 <p>My first touch with BSD was a shell account on FreeBSD 4.2. 13 years later (ouch I am old) FreeBSD shines on version 9.2.</p>
-
 <p>If you have a dev box (KVM) which is idling take it and install FeeBSD on it.</p>
-
 <p>It is Unix but it does not bite if you know how to handle everything.</p>
-
 <p>If your start your KVM the little devil boy is greeting you:</p>
-
-<p><img src="/imgcontent/FreeBSD-1.jpg" alt="FreeBSD-1.jpg" /></p>
-
+<p><img src="/imgcontent/FreeBSD-1.jpg" alt="FreeBSD-1.jpg"></p>
 <p>I will not show every single step (e.g. network with dhcp auto config is boring) but I want to show how easy it is to install FeeBSD.</p>
-
-<p><img src="/imgcontent/FreeBSD-2.jpg" alt="FreeBSD-2.jpg" /></p>
-
+<p><img src="/imgcontent/FreeBSD-2.jpg" alt="FreeBSD-2.jpg"></p>
 <p>No live system - we want to install that thing.</p>
-
-<p><img src="/imgcontent/FreeBSD-3.jpg" alt="FreeBSD-3.jpg" /></p>
-
+<p><img src="/imgcontent/FreeBSD-3.jpg" alt="FreeBSD-3.jpg"></p>
 <p>Name the machine (a fqn would be nice)</p>
-
-<p><img src="/imgcontent/FreeBSD-4.jpg" alt="FreeBSD-4.jpg" /></p>
-
+<p><img src="/imgcontent/FreeBSD-4.jpg" alt="FreeBSD-4.jpg"></p>
 <p>It is a KVM, so just go the guided way for the full hd.</p>
-
-<p><img src="/imgcontent/FreeBSD-5.jpg" alt="FreeBSD-5.jpg" /></p>
-
+<p><img src="/imgcontent/FreeBSD-5.jpg" alt="FreeBSD-5.jpg"></p>
 <p>Just select every package.</p>
-
-<p><img src="/imgcontent/FreeBSD-6.jpg" alt="FreeBSD-6.jpg" /></p>
-
+<p><img src="/imgcontent/FreeBSD-6.jpg" alt="FreeBSD-6.jpg"></p>
 <p>And a root password.</p>
-
-<p><img src="/imgcontent/FreeBSD-7.jpg" alt="FreeBSD-7.jpg" /></p>
-
+<p><img src="/imgcontent/FreeBSD-7.jpg" alt="FreeBSD-7.jpg"></p>
 <p>And a user too - if you want.</p>
-
 <p>And your network config.</p>
-
-<p><img src="/imgcontent/FreeBSD-8.jpg" alt="FreeBSD-8.jpg" /></p>
-
+<p><img src="/imgcontent/FreeBSD-8.jpg" alt="FreeBSD-8.jpg"></p>
 <p>SSH server would be nice.</p>
-
-<p><img src="/imgcontent/FreeBSD-9.jpg" alt="FreeBSD-9.jpg" /></p>
-
+<p><img src="/imgcontent/FreeBSD-9.jpg" alt="FreeBSD-9.jpg"></p>
 <p>Exit to save your config.</p>
-
-<p><img src="/imgcontent/FreeBSD-10.jpg" alt="FreeBSD-10.jpg" /></p>
-
+<p><img src="/imgcontent/FreeBSD-10.jpg" alt="FreeBSD-10.jpg"></p>
 <p>And done.</p>
-
 <p>How do I update the system?</p>
-
 <pre class="prettyprint">freebsd-update fetch
 freebsd-update install
 </pre>
-
 <p>Heck nothing is working and I am not able to connect to my vps!</p>
-
 <p>Yup your system is running but it is running as designed -&gt; Save.</p>
-
 <p>So your ssh daemon is only listeing on localhost.</p>
-
 <p>Next thing is the update of your ports:</p>
-
 <pre class="prettyprint">portsnap fetch
 portsnap extract
 portsnap update
 </pre>
-
 <p>What are ports?</p>
-
 <p>The FreeBSD ports collection offers a simple way to install applications. There are currently over 20000 ports available.</p>
-
 <p>It is a list of make files and package dependencies. You can go into one folder and make your tool of choice right out of the source code.</p>
-
 <p>Let&rsquo;s start with nano:</p>
-
 <pre class="prettyprint">cd /usr/ports/editors/nano
 make install clean
 </pre>
-
 <p>This will compile and install &ldquo;nano&rdquo; to your system.</p>
-
 <p>You should run following command at the end:</p>
-
 <pre class="prettyprint">ln -s /usr/local/bin/nano /usr/bin/nano
 </pre>
-
 <p>Why?</p>
-
 <p>Because BSD is separating the operating system from the services.</p>
-
 <p>SSH is part of the system so it&rsquo;s config is in: /etc/ssh/&hellip;</p>
-
 <p>Lighttpd is a service so it&rsquo;s config is in: /usr/local/etc/lighttpd/&hellip;</p>
-
 <p>A nice separation of concerns.</p>
-
 <p>For nano a &ldquo;hand made&rdquo; compile does not make a lot of sense. So there are binary packages too:</p>
-
 <pre class="prettyprint">pkg_add -r -v nano
 </pre>
-
 <p>This will install nano too. But without the console cinema of the gnu compiler.</p>
-
 <p>So how should you install things?</p>
-
 <p>Depends on what you want to do. If you want to tweak or enable some flags you should use ports. You can even edit the source code too.</p>
-
 <p>Lighttpd is a good example. I used ports to install lighttpd because of the compiler flags you can set.</p>
-
-<p><img src="/imgcontent/lighttpd1.JPG" alt="lighttpd1.JPG" /></p>
-
+<p><img src="/imgcontent/lighttpd1.JPG" alt="lighttpd1.JPG"></p>
 <p>Same with php, sqlite, etc.</p>
-
 <p>You can start lighttpd with following command:</p>
-
 <pre class="prettyprint">/usr/local/etc/rc.d/lighttpd restart
 </pre>
-
 <p>Output is:</p>
-
 <pre class="prettyprint">Cannot 'restart' lighttpd. 
 Set lighttpd_enable to YES in /etc/rc.conf or use 'onerestart' instead of 'restart'.
 </pre>
-
 <p>So we have to enable lighttpd in rc.conf to be a valid service:</p>
-
 <pre class="prettyprint">echo 'lighttpd_enable="YES"' >> /etc/rc.conf
 </pre>
-
 <pre class="prettyprint">/usr/local/etc/rc.d/lighttpd restart
 Performing sanity check on lighttpd configuration:
 Syntax OK
@@ -183,32 +121,23 @@ Stopping lighttpd.
 Waiting for PIDS: 10229.
 Starting lighttpd.
 </pre>
-
 <p>Fastest way:</p>
-
 <pre class="prettyprint">pkg_add -r -v lighttpd
 </pre>
-
 <p>So back to some basic tools if FreeBSD:</p>
-
 <pre class="prettyprint">pkg_add -r -v bash
 pkg_add -r -v nano
 pkg_add -r -v lynx
 </pre>
-
 <p>To get some basic Debian feeling back.</p>
-
 <p>There is no &ldquo;free&rdquo; but &ldquo;vmstat&rdquo; does the job too:</p>
-
 <pre class="prettyprint">vmstat
  procs      memory      page                    disks     faults         cpu
  r b w     avm    fre   flt  re  pi  po    fr  sr vt0 cd0   in   sy   cs us sy id
  0 0 0    386M  1256M    25   0   0   0    26   0   0   0    3  103  160  0  0 100
 
 </pre>
-
 <p>Same with netstat -taupen - unkown parameters. So use netstat -an | egrep &lsquo;LISTEN&rsquo; instead:</p>
-
 <pre class="prettyprint">netstat -an | egrep 'Proto|LISTEN'
 netstat: kvm not available: /dev/mem: No such file or directory
 Proto Recv-Q Send-Q Local Address          Foreign Address        (state)
@@ -216,59 +145,38 @@ tcp4       0      0 10.10.10.10.80         *.*                    LISTEN
 tcp4       0      0 10.10.10.10.25         *.*                    LISTEN
 tcp4       0      0 10.10.10.10.22         *.*                    LISTEN
 </pre>
-
 <p>But back to topic. If you want to run some of your loved tools google for it. FreeBSD does have a Linux support layer too. So every Linux tool can be run under FreeBSD too.</p>
-
 <p>We now want to install ezjail.</p>
-
 <pre class="prettyprint">cd /usr/ports/sysutils/ezjail
 make install clean
 echo 'ezjail_enable="YES"' >> /etc/rc.conf
 
 ezjail-admin install
 </pre>
-
 <p>Last command will &ldquo;generate the world&rdquo; it fetches everything needed to setup an ezjail environment (a FreeBSD inside of FreeBSD).</p>
-
 <p>Now we add a new interface to our box by editing the /etc/rc.conf:</p>
-
 <pre class="prettyprint">gateway_enable="YES"
 cloned_interfaces="lo10"
 ifconfig_lo10_alias0="inet 10.10.10.1 netmask 255.255.255.0"
 ifconfig_lo10_alias1="inet 10.10.10.10 netmask 255.255.255.0"
 </pre>
-
 <p>First line will enable the ip forwarding.</p>
-
 <p>Second line creates a new loopback device.</p>
-
 <p>The last two lines add IP addresses to the interface.</p>
-
 <p>I don&rsquo;t want to give the jails access to the localhost interface or any public ip. I want to decide which connection to a jail is allowed. So this is the best way to separate the networks.</p>
-
 <p>The alias1 will be used for my first jail. Jails can only use ips that are allready in use by the host system.</p>
-
 <p>So time for a reboot.</p>
-
 <pre class="prettyprint">shutdown -r now
 </pre>
-
 <p>Ok at least this is like a Debian system ;-)</p>
-
 <p>So lets install a jail:</p>
-
 <pre class="prettyprint">ezjail-admin create -r /jails/webjail webjail 10.10.10.10
 </pre>
-
 <p>Folder for the jail filesystem name and first ip address.</p>
-
 <p>You can edit the configuration with following command (reminder &ldquo;webjail&rdquo; is the name of the jail)</p>
-
 <pre class="prettyprint">nano /usr/local/etc/ezjail/web
 </pre>
-
 <p>Conent is:</p>
-
 <pre class="prettyprint"># To specify the start up order of your ezjails, use these lines to
 # create a Jail dependency tree. See rcorder(8) for more details.
 #
@@ -299,31 +207,20 @@ export jail_web_parentzfs=""
 export jail_web_parameters=""
 export jail_web_post_start_script=""
 </pre>
-
 <p>The jail itself (because we are not using any template) is missing some files:</p>
-
 <p>1. DNS config:</p>
-
 <pre class="prettyprint">cp /etc/resolve.conf /jails/webjail/etc/
 </pre>
-
 <p>2. rc.conf</p>
-
 <pre class="prettyprint">echo 'sshd_enable="YES"' >> /jails/webjail/etc/rc.conf
 </pre>
-
 <p>3. Edit sshd config to listen to 10.10.10.10</p>
-
 <pre class="prettyprint">nano /jails/webjail/etc/ssh/sshd_config
 </pre>
-
 <p>And add the line:</p>
-
 <pre class="prettyprint">ListenAddress 10.10.10.10
 </pre>
-
 <p>We are now able to see our jail with jls:</p>
-
 <pre class="prettyprint">jls -v
    JID  Hostname                      Path
         Name                          State
@@ -334,32 +231,22 @@ export jail_web_post_start_script=""
         2
         10.10.10.10
 </pre>
-
 <p>We can now start and stop the jail:</p>
-
 <pre class="prettyprint">ezjail-admin start webjail
 ezjail-admin stop webjail
 </pre>
-
 <p>And enter the jail too:</p>
-
 <pre class="prettyprint">ezjail-admin console webjail
 </pre>
-
 <p>But the jail itself will not have any internet access.</p>
-
 <p>This can be done by pf:</p>
-
 <p>We have to enable pf and set some parameters in /etc/rc.conf:</p>
-
 <pre class="prettyprint">pf_enable="YES"
 pf_rules="/etc/pf.conf"
 pflog_logfile="/var/log/pflog"
 pf_flags=""
 </pre>
-
 <p>And of course set the pf rules in /etc/pf.conf:</p>
-
 <pre class="prettyprint">external_if="vtnet0"
 jail_if="lo10"
 
@@ -382,60 +269,38 @@ rdr pass on $external_if proto tcp from any to $IP_PUBLIC port $PORT_WWW -> $IP_
 pass out
 pass in
 </pre>
-
 <p>Yup I like the syntax of pf.</p>
-
 <p>I am inside of a KVM so &ldquo;vtnet0&rdquo; is my &ldquo;em0&rdquo; or &ldquo;eth0&rdquo; - the one with the internet connection.</p>
-
 <p>Well it just nats everything from the jail network to the real internet and allows the jail to serve the port 80 and 443.</p>
-
 <p>Inside of the jail I run:</p>
-
 <pre class="prettyprint">pkg_add -r -v bash nano lighttpd
 echo 'lighttpd_enable="YES"' >> /etc/rc.conf
 mkdir /usr/local/www/data
 /usr/local/etc/rc.d/lighttpd restart
 </pre>
-
 <p>Now (don&rsquo;t forget to restart) I am able to put stuff in /usr/local/www/data that will be served by lighttpd running inside of the jail.</p>
-
 <p><strong>Next topic is about running fail2ban.</strong></p>
-
 <p>You should install fail2ban and configure it to use pf.</p>
-
 <p>1. Add &ldquo;ban&rdquo; table to pf</p>
-
 <pre class="prettyprint">nano /etc/pf.conf
 </pre>
-
 <p>Add following line</p>
-
 <pre class="prettyprint">ipfw add deny all from 'table(1)' to any dst-port 22 in
 </pre>
-
 <p>2. Install fail2ban</p>
-
 <pre class="prettyprint">cd /usr/ports/security/py-fail2ban
 make install
 </pre>
-
 <p>And enable it to autostart:</p>
-
 <pre class="prettyprint">nano /etc/rc.conf
 </pre>
-
 <p>Add following line</p>
-
 <pre class="prettyprint">fail2ban_enable="YES"
 </pre>
-
 <p>3. Add ssh check to fail2ban configuration</p>
-
 <pre class="prettyprint">nano /usr/local/etc/fail2ban/jail.conf
 </pre>
-
 <p>Add following lines:</p>
-
 <pre class="prettyprint">[ssh-ipfw]
 enabled  = true
 filter   = sshd
@@ -443,24 +308,16 @@ action = ipfw-ssh
 logpath  = /var/log/sshd/current
 maxretry = 3
 </pre>
-
 <p>Change to following directory:</p>
-
 <pre class="prettyprint">cd /usr/local/etc/fail2ban/action.d  
 </pre>
-
 <p>Copy default pf config:</p>
-
 <pre class="prettyprint">cp ipfw.conf ipfw-ssh.conf
 </pre>
-
 <p>Change two lines on the new file.</p>
-
 <pre class="prettyprint">nano ipfw-ssh.conf
 </pre>
-
 <p>Content:</p>
-
 <pre class="prettyprint">old:
 actionban = ipfw add <blocktype> tcp from <ip> to <localhost> <port>
 actionunban = ipfw delete `ipfw list | grep -i <ip> | awk '{print $1;}'`
@@ -470,37 +327,25 @@ actionban = ipfw table 1 add <ip>
 actionunban = ipfw table 1 delete <ip>
 
 </pre>
-
 <p>Done.</p>
-
 <p>Now fail2ban is checking the ssh service for failed logins.</p>
-
 <p><strong>Next topic is about running an OpenVPN server.</strong></p>
-
 <p>1. Install openvpn</p>
-
 <pre class="prettyprint">cd /usr/ports/security/openvpn && make install clean
 mkdir /usr/local/etc/openvpn && /usr/local/etc/openvpn
 </pre>
-
 <p>2. Enable openvpn</p>
-
 <pre class="prettyprint">echo 'openvpn_enable="YES"' >> /etc/rc.conf
 echo 'openvpn_configfile="/usr/local/etc/openvpn/server.conf"' >> /etc/rc.conf
 echo 'openvpn_if="tun"' >> /etc/rc.conf
 </pre>
-
 <p>3. Manage ssl certs with ssl-admin</p>
-
 <pre class="prettyprint">cd /usr/ports/security/ssl-admin && make install
 cp /usr/local/etc/ssl-admin/ssl-admin.conf.default /usr/local/etc/ssl-admin/ssl-admin.conf
 nano /usr/local/etc/ssl-admin/ssl-admin.conf
 </pre>
-
 <p>And add the information missing (state, country, city, org, &hellip;)</p>
-
 <p>And start ssl-admin</p>
-
 <pre class="prettyprint">ssl-admin
 =====================================================
 # SSL-ADMIN #
@@ -540,14 +385,10 @@ cd /usr/local/etc/ssl-admin/active && cp ca.crt server.crt server.key /usr/local
 3c) Create dh:
 openssl dhparam -out /usr/local/etc/openvpn/dh2048.pem 2048
 </pre>
-
 <p>4. Create openvpn configuration:</p>
-
 <pre class="prettyprint">nano /usr/local/etc/openvpn/server.conf
 </pre>
-
 <p>Content:</p>
-
 <pre class="prettyprint">daemon
 port 4444
 proto udp
@@ -582,20 +423,13 @@ status /usr/local/etc/openvpn/openvpn-status.log
 log-append /usr/local/etc/openvpn/openvpn.log
 verb 4
 </pre>
-
 <p>5. Start openvpn</p>
-
 <pre class="prettyprint">/usr/local/etc/rc.d/openvpn restart
 </pre>
-
 <p>Your OpenVPN server is running.</p>
-
 <p>PS: I really like ssl-admin</p>
-
 <p>That&rsquo;s it. A first look into the world of FreeBSD.</p>
-
 <p>Hopefully I draw your interest. FreeBSD is woth it.</p>
-
 <p>Next topic will be a ipv6 tunnel and how the jails can have access to it.</p>
 
             </div>

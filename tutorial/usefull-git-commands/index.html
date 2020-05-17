@@ -41,46 +41,35 @@
     <h2 class="content-head is-center" >Tutorial</h2>
         <div class="pure-g">
             <div class="l-box-lrg pure-u-1">
-            
-
-<h2 id="tutorial-usefull-git-commands">Tutorial: usefull-git-commands</h2>
-
+            <h2 id="tutorial-usefull-git-commands">Tutorial: usefull-git-commands</h2>
 <p>Usefull git commands for daily work</p>
-
 <p>Steps:</p>
-
 <ul>
 <li>push current repro to another repro</li>
 </ul>
-
 <pre class="prettyprint prettyprinted">
 git push --mirror http://127.0.0.1:3000/my-other-repo.git
 </pre>
-
 <ul>
 <li>list all branches of all git repros from current directory</li>
 </ul>
-
 <pre class="prettyprint prettyprinted">
 ls | xargs -I{} sh -c 'echo {} && git -C {} branch -a'
 </pre>
-
 <ul>
 <li>clone all repros from one github user</li>
 </ul>
-
 <pre class="prettyprint prettyprinted">
 curl "https://api.github.com/users/wlanboy/repos?per_page=100" | grep -o 'git@[^"]*' | xargs -L1 git clone
 </pre>
-
 <ul>
 <li>git credential cache with timeout</li>
 </ul>
-
 <pre class="prettyprint prettyprinted">
 git config --global credential.helper cache
 git config --global credential.helper 'cache --timeout=600'
-</pre>
+</pre><blockquote>
+</blockquote>
 
             </div>
         </div>

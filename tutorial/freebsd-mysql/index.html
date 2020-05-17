@@ -41,34 +41,31 @@
     <h2 class="content-head is-center" >Tutorial</h2>
         <div class="pure-g">
             <div class="l-box-lrg pure-u-1">
-            
-
-<h2 id="tutorial-freebsd-mysql">Tutorial: freebsd mysql</h2>
-
+            <h2 id="tutorial-freebsd-mysql">Tutorial: freebsd mysql</h2>
 <p>Simple way to install mysql server on your FreeBSD machine:</p>
-
 <ol>
-<li><p>Install package</p>
-
-<pre class="prettyprint prettyprinted">pkg install mysql56-server</pre></li>
-
-<li><p>Enable mysql service</p>
-
-<pre class="prettyprint prettyprinted">sysrc mysql_enable=yes</pre></li>
-
-<li><p>Start mysql service</p>
-
-<pre class="prettyprint prettyprinted">service mysql-server start</pre></li>
-
-<li><p>Run secure installation script</p>
-
-<pre class="prettyprint prettyprinted">mysql_secure_installation</pre>        </li>
-
-<li><p>Block mysql port - except localhost</p>
-
+<li>
+<p>Install package</p>
+<pre class="prettyprint prettyprinted">pkg install mysql56-server</pre>
+</li>
+<li>
+<p>Enable mysql service</p>
+<pre class="prettyprint prettyprinted">sysrc mysql_enable=yes</pre>
+</li>
+<li>
+<p>Start mysql service</p>
+<pre class="prettyprint prettyprinted">service mysql-server start</pre>
+</li>
+<li>
+<p>Run secure installation script</p>
+<pre class="prettyprint prettyprinted">mysql_secure_installation</pre>        
+</li>
+<li>
+<p>Block mysql port - except localhost</p>
 <pre class="prettyprint prettyprinted">nano /etc/pf.conf
 block in on vr1 proto tcp from any to ! 127.0.0.1 port 3306
-</pre>           </li>
+</pre>           
+</li>
 </ol>
 
             </div>

@@ -41,30 +41,19 @@
     <h2 class="content-head is-center" >Tutorial</h2>
         <div class="pure-g">
             <div class="l-box-lrg pure-u-1">
-            
-
-<h2 id="tutorial-proxy">Tutorial: proxy</h2>
-
+            <h2 id="tutorial-proxy">Tutorial: proxy</h2>
 <p>Sometimes it might be usefull to have a small http proxy running for a second browser window.</p>
-
 <p>My favorit http proxy is &ldquo;polipo&rdquo;. It has a small footprint of 2MB.</p>
-
 <p>Installation is quite easy:</p>
-
 <pre class="prettyprint">apt-get install polipo
 </pre>
-
 <p>The config files are stored in /etc/polipo</p>
-
 <p>There are two config files that should be altered:</p>
-
 <ol>
 <li>/etc/polipo/config</li>
 <li>/etc/polipo/forbidden</li>
 </ol>
-
 <p>The config file itself does include following should-be-set options:</p>
-
 <pre class="prettyprint">proxyAddress = 127.0.0.1 #Listening IP of the proxy server
 proxyPort = 8888 #Port of proxy server
 
@@ -80,21 +69,14 @@ diskCacheRoot = "~/.polipo-cache/" #Folder for cache
 
 localDocumentRoot = "" #disable local webserver
 </pre>
-
 <p>You can use cron+wget (+ <a href="http://adblockplus.org/en/subscriptions" title="External link">http://adblockplus.o&hellip;n/subscriptions</a>) to fill the file &ldquo;/etc/polipo/forbidden&rdquo; to add something like an adblocker to your http proxy.</p>
-
 <p>Ensure that polipo is not listening to an public available IP address. You really do not want to run a public proxy.</p>
-
 <p>Now you can enter &ldquo;127.0.0.1:8888&rdquo; as the proxy address to your browser settings.</p>
-
 <p>If you need more, e.g. an SOCKS proxy you can use the SOCKS server which is part of ssh:</p>
-
 <pre class="prettyprint">ssh -D 8080 yourvps.com
 </pre>
-
 <p>Now you can enter &ldquo;127.0.0.1:8080&rdquo; to your proxy settings of your Browser.</p>
-
-<p>PS:<br />
+<p>PS:<br>
 If you are using Firefox ensure that you are enabling &ldquo;network.proxy.socks_remote_dns&rdquo; on your &ldquo;about:config&rdquo; page. If you want to use a SOCKS proxy your Firefox should use the DNS resolver of your vps too. I do not know why the default value is &ldquo;disabled&rdquo;.</p>
 
             </div>

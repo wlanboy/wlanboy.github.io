@@ -41,39 +41,36 @@
     <h2 class="content-head is-center" >Tutorial</h2>
         <div class="pure-g">
             <div class="l-box-lrg pure-u-1">
-            
-
-<h2 id="tutorial-freebsd-redis">Tutorial: freebsd redis</h2>
-
+            <h2 id="tutorial-freebsd-redis">Tutorial: freebsd redis</h2>
 <p>Simple way to install redis server on your FreeBSD machine:</p>
-
 <ol>
-<li><p>Install redis</p>
-
-<pre class="prettyprint prettyprinted">cd /usr/ports/databases/redis/ && make install clean</pre></li>
-
-<li><p>Enable redis service</p>
-
-<pre class="prettyprint prettyprinted">sysrc redis_enable=yes</pre></li>
-
-<li><p>Check redis configuration file</p>
-
+<li>
+<p>Install redis</p>
+<pre class="prettyprint prettyprinted">cd /usr/ports/databases/redis/ && make install clean</pre>
+</li>
+<li>
+<p>Enable redis service</p>
+<pre class="prettyprint prettyprinted">sysrc redis_enable=yes</pre>
+</li>
+<li>
+<p>Check redis configuration file</p>
 <pre class="prettyprint prettyprinted">nano /usr/local/etc/redis.conf
 Change content:
-bind 127.0.0.1</pre></li>
-
-<li><p>Start redis service</p>
-
-<pre class="prettyprint prettyprinted">service redis start</pre>        </li>
-
-<li><p>Redis binaries installed</p></li>
+bind 127.0.0.1</pre>
+</li>
+<li>
+<p>Start redis service</p>
+<pre class="prettyprint prettyprinted">service redis start</pre>        
+</li>
+<li>
+<p>Redis binaries installed</p>
+</li>
 </ol>
-
 <ul>
-<li>&rdquo;/usr/local/bin/redis-sentinel&rdquo; Redis Sentinel executable (monitoring and failover)</li>
-<li>&rdquo;/usr/local/bin/redis-cli&rdquo; command line interface utility</li>
-<li>&rdquo;/usr/local/bin/redis-server&rdquo; the Redis Server</li>
-<li>&rdquo;/usr/local/bin/redis-benchmark&rdquo; Redis benchmarks<br /></li>
+<li>&ldquo;/usr/local/bin/redis-sentinel&rdquo; Redis Sentinel executable (monitoring and failover)</li>
+<li>&ldquo;/usr/local/bin/redis-cli&rdquo; command line interface utility</li>
+<li>&ldquo;/usr/local/bin/redis-server&rdquo; the Redis Server</li>
+<li>&ldquo;/usr/local/bin/redis-benchmark&rdquo; Redis benchmarks</li>
 </ul>
 
             </div>

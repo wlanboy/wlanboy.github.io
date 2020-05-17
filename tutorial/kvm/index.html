@@ -41,132 +41,109 @@
     <h2 class="content-head is-center" >Tutorial</h2>
         <div class="pure-g">
             <div class="l-box-lrg pure-u-1">
-            
-
-<h2 id="tutorial-kvm">Tutorial: kvm</h2>
-
+            <h2 id="tutorial-kvm">Tutorial: kvm</h2>
 <p>You have a pc that is just doing nothing? You have a dedicated server and want to play around without messing things up?
 Enable KVM on your linux kernel to create one/view virtual servers.</p>
-
 <ol>
 <li>Check if your cpu has Intel VT-x or AMD-V</li>
 </ol>
-
 <pre class="prettyprint">
 egrep -c '(vmx|svm)' /proc/cpuinfo
 </pre>
-1 means that your cpu does have support for hardware virtualization. 0 means you might create quite slow vps. But you are able to run virtual servers.
-    
-2. Check if you have installed a 64bit kernel
-
+<p>1 means that your cpu does have support for hardware virtualization. 0 means you might create quite slow vps. But you are able to run virtual servers.</p>
+<ol start="2">
+<li>Check if you have installed a 64bit kernel</li>
+</ol>
 <pre class="prettyprint">
 uname -m
 </pre>
-Something like amd64 or x86_64 indicates your are running a 64-bit kernel. You do not want to run a 32-bit kernel. That would limit your RAM usage to 2GB.
-    
-3. Install KVM tools (I am using Ubuntu/Debian commands here)
-
+<p>Something like amd64 or x86_64 indicates your are running a 64-bit kernel. You do not want to run a 32-bit kernel. That would limit your RAM usage to 2GB.</p>
+<ol start="3">
+<li>Install KVM tools (I am using Ubuntu/Debian commands here)</li>
+</ol>
 <pre class="prettyprint">
 sudo apt-get install qemu-kvm libvirt-bin virtinst libvirt-daemon-system libvirt-dev libvirt-clients bridge-utils
 </pre>
-
-<ol>
+<ol start="4">
 <li>Add user that runs virtual servers to group (user has to re-login to get new group permissions)</li>
 </ol>
-
 <pre class="prettyprint">
 sudo adduser [username] libvirt
 sudo adduser [username] libvirt-qemu</pre>
-
-<ol>
+<ol start="5">
 <li>Test your installation</li>
 </ol>
-
 <pre class="prettyprint">
 virsh -c qemu:///system list
  Id Name                 State
 ----------------------------------
 
 </pre>
-An output like "libvir: Remote error : Permission denied" or "error: failed to connect to the hypervisor" says that something went wrong.
-
-6. Fix ownership
-
+<p>An output like &ldquo;libvir: Remote error : Permission denied&rdquo; or &ldquo;error: failed to connect to the hypervisor&rdquo; says that something went wrong.</p>
+<ol start="6">
+<li>Fix ownership</li>
+</ol>
 <pre class="prettyprint">
 sudo chown root:libvirtd /dev/kvm
 </pre>
-I do not know why, but for me /dev/kvm did not had the correct ownership.
-
-7. Restart kernel modules - or restart the server
-
+<p>I do not know why, but for me /dev/kvm did not had the correct ownership.</p>
+<ol start="7">
+<li>Restart kernel modules - or restart the server</li>
+</ol>
 <pre class="prettyprint">
 rmmod kvm
 modprobe -a kvm
 </pre>
-
-<ol>
+<ol start="8">
 <li>Optional: Install GUI for virtual server mangment</li>
 </ol>
-
 <pre class="prettyprint">
 sudo apt-get install virt-manager
 </pre>
-
-<ol>
+<ol start="9">
 <li>Networking</li>
 </ol>
-
 <p>Well per default KVM has it&rsquo;s own network - called usermode networking. Works like OpenVPN. You have your own subnet - e.g. 10.0.1.0/24 and every KVM gets one ip address out of it.
 Enough for me. I once need a connection to one of my webservers out of the KVM. I used port forwarding (iptables) to forward a connection from my host to the KVM.</p>
-
-<ol>
+<ol start="10">
 <li>Create a virtual server</li>
 </ol>
-
-<p>There are quite a view options. I prefer a python script called &ldquo;virt-install&rdquo;.
+<p>There are quite a view options. I prefer a python script called &ldquo;virt-install&rdquo;.</p>
 <pre class="prettyprint">
 sudo apt-get install python-virtinst
 </pre>
-First look to the man page of virt-install
+<p>First look to the man page of virt-install</p>
 <pre class="prettyprint">
 man virt-install
 </pre>
-And create your first vps:
+<p>And create your first vps:</p>
 <pre class="prettyprint">
-sudo virt-install &ndash;connect qemu:///system -n kvm1 -r 2048 &ndash;vcpus=2 <br />
-&ndash;disk path=/var/lib/libvirt/images/kvm1-image.img,size=20 <br />
--c /isos/ubuntu-min-install.iso &ndash;vnc &ndash;noautoconsole &ndash;os-type linux <br />
-&ndash;accelerate &ndash;network=network:default &ndash;hvm &ndash;vncport=5951
+sudo virt-install --connect qemu:///system -n kvm1 -r 2048 --vcpus=2 \
+--disk path=/var/lib/libvirt/images/kvm1-image.img,size=20 \
+-c /isos/ubuntu-min-install.iso --vnc --noautoconsole --os-type linux \
+--accelerate --network=network:default --hvm --vncport=5951
 </pre>
-Name: &ldquo;kvm1&rdquo;, RAM: 2 GB, CPUs: 2, HDD: 20GB and a defined vnc port you can connect to (127.0.0.1:5951)</p>
-
-<ol>
+<p>Name: &ldquo;kvm1&rdquo;, RAM: 2 GB, CPUs: 2, HDD: 20GB and a defined vnc port you can connect to (127.0.0.1:5951)</p>
+<ol start="11">
 <li>Managing your virtual servers</li>
 </ol>
-
-<p>start managing console
+<p>start managing console</p>
 <pre class="prettyprint">
-virsh &ndash;connect qemu:///system
-</pre></p>
-
-<p>List virtual servers
+virsh --connect qemu:///system
+</pre>
+<p>List virtual servers</p>
 <pre class="prettyprint">
 list -all
-</pre></p>
-
+</pre>
 <p>start virtual server</p>
-
 <pre class="prettyprint">
 start [name of virtual server]
 </pre>
-
-<p>stop virtual server
+<p>stop virtual server</p>
 <pre class="prettyprint">
 shutdown [name of virtual server]
-</pre></p>
-
+</pre>
 <p>That&rsquo;s it. I know there are a lot of additional topics. Maybe someone wants to explain bridged networking and ip/gateway assignment. Did not need it and therefore did not play around with it.</p>
-
 <p>Please feel free to add additional steps to this mini guide.</p>
 
             </div>

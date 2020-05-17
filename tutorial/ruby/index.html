@@ -41,22 +41,17 @@
     <h2 class="content-head is-center" >Tutorial</h2>
         <div class="pure-g">
             <div class="l-box-lrg pure-u-1">
-            
-
-<h2 id="tutorial-ruby">Tutorial: ruby</h2>
-
+            <h2 id="tutorial-ruby">Tutorial: ruby</h2>
 <p>Looking to the Ruby packages of Redhat, Debian, etc you will see that they are quite old. But you can install quite any version of Ruby (including JRuby, MacRuby, etc) with the help of rvm.io. Another advantage of rvm is that every user installs his own Ruby and his own set of gems. You are also able to install different versions of Ruby at the same time and switch between every installed version.</p>
-
 <p>So let&rsquo;s install Ruby 2.0.0:</p>
-
 <ul>
-<li><p>Create .gemrc in your home folder to ensure that rdoc and ri are not installed for every gem (save space and time)</p>
-
+<li>
+<p>Create .gemrc in your home folder to ensure that rdoc and ri are not installed for every gem (save space and time)</p>
 <pre class="prettyprint">echo -e "install: --no-rdoc --no-ri\nupdate: --no-rdoc --no-ri" > ~/.gemrc
-</pre></li>
-
-<li><p>Install rvm/ruby dependencies</p>
-
+</pre>
+</li>
+<li>
+<p>Install rvm/ruby dependencies</p>
 <pre class="prettyprint">sudo apt-get install curl git git-core libcurl3 libcurl3-gnutls liberror-perl /
 libldap-2.4-2 libsasl2-2 libsasl2-modules libssh2-1 patch
 
@@ -64,44 +59,44 @@ sudo apt-get install g++ gcc libc6-dev libreadline6 libreadline6-dev zlib1g-dev 
 libssl-dev libyaml-dev libsqlite3-dev sqlite3 libxml2-dev libxslt-dev libxslt1-dev /
 autoconf libc6-dev libgdbm-dev ncurses-dev libncurses5-dev automake libtool bison /
 pkg-config libffi-dev openssl zlib1g zlib1g-dev
-</pre></li>
-
-<li><p>Install rvm with local user</p>
-
+</pre>
+</li>
+<li>
+<p>Install rvm with local user</p>
 <pre class="prettyprint">curl -L https://get.rvm.io | bash -s stable
-</pre></li>
-
-<li><p>Add rvm to your path (one time only - this is added to your .bashrc)</p>
-
+</pre>
+</li>
+<li>
+<p>Add rvm to your path (one time only - this is added to your .bashrc)</p>
 <pre class="prettyprint">source ~/.rvm/scripts/rvm
-</pre></li>
-
-<li><p>Compile and install iconv and openssl to easy your life</p>
-
+</pre>
+</li>
+<li>
+<p>Compile and install iconv and openssl to easy your life</p>
 <pre class="prettyprint">rvm pkg install iconv
 rvm pkg install openssl
-</pre></li>
-
-<li><p>Browse list of available Ruby versions</p>
-
-<pre class="prettyprint">rvm list known
-</pre></li>
-
-<li><p>Install Ruby</p>
-
-<pre class="prettyprint">rvm install 2.3.0
-</pre></li>
-
-<li><p>Run Ruby</p>
-
-<pre class="prettyprint">ruby -v
-</pre></li>
-</ul>
-
-<p>Optional: Install MySQL client:</p>
-
-<pre class="prettyprint">apt-get install mysql-client-5.5 libmysqlclient15-dev
 </pre>
+</li>
+<li>
+<p>Browse list of available Ruby versions</p>
+<pre class="prettyprint">rvm list known
+</pre>
+</li>
+<li>
+<p>Install Ruby</p>
+<pre class="prettyprint">rvm install 2.3.0
+</pre>
+</li>
+<li>
+<p>Run Ruby</p>
+<pre class="prettyprint">ruby -v
+</pre>
+</li>
+</ul>
+<p>Optional: Install MySQL client:</p>
+<pre class="prettyprint">apt-get install mysql-client-5.5 libmysqlclient15-dev
+</pre><blockquote>
+</blockquote>
 
             </div>
         </div>

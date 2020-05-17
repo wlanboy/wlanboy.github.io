@@ -41,72 +41,83 @@
     <h2 class="content-head is-center" >Tutorial</h2>
         <div class="pure-g">
             <div class="l-box-lrg pure-u-1">
-            
-
-<h2 id="tutorial-ipv6">Tutorial: ipv6</h2>
-
+            <h2 id="tutorial-ipv6">Tutorial: ipv6</h2>
 <p>There are a lot of good offers on the LEB market but some providers do not want to support IPv6. Some providers want to support it but their datacenter do not care.</p>
-
 <p>This little tutorial is for customers wanting to play around with IPv6 even if their provider tells them &ldquo;IPv6 will be available in two weeks&rdquo;.</p>
-
 <ol>
-<li>Open this page: <a href="http://www.tunnelbroker.net/" title="External link">http://www.tunnelbroker.net/</a></li>
-<li>Create an account</li>
-<li>Create Regular Tunnel: <a href="http://www.tunnelbroker.net/new_tunnel.php" title="External link">http://www.tunnelbro&hellip;/new_tunnel.php</a></li>
-<li>Type in the public ip of your vps (IPv4 Endpoint)</li>
-
-<li><p>Select one of the tunnel severs:<br />
-<img src="/imgcontent/createtunnel.JPG" alt="createtunnel.JPG" /></p></li>
-
-<li><p>Create tunnel</p></li>
-
-<li><p>Open the config tab:<br />
-<img src="/imgcontent/nbr72t.jpg" alt="nbr72t.jpg" /></p></li>
-
-<li><p>Copy&amp;paste the text to /etc/network/intefaces</p></li>
-
-<li><p>Run following commands as root:</p>
-
+<li>
+<p>Open this page: <a href="http://www.tunnelbroker.net/" title="External link">http://www.tunnelbroker.net/</a></p>
+</li>
+<li>
+<p>Create an account</p>
+</li>
+<li>
+<p>Create Regular Tunnel: <a href="http://www.tunnelbroker.net/new_tunnel.php" title="External link">http://www.tunnelbro&hellip;/new_tunnel.php</a></p>
+</li>
+<li>
+<p>Type in the public ip of your vps (IPv4 Endpoint)</p>
+</li>
+<li>
+<p>Select one of the tunnel severs:<br>
+<img src="/imgcontent/createtunnel.JPG" alt="createtunnel.JPG"></p>
+</li>
+<li>
+<p>Create tunnel</p>
+</li>
+<li>
+<p>Open the config tab:<br>
+<img src="/imgcontent/nbr72t.jpg" alt="nbr72t.jpg"></p>
+</li>
+<li>
+<p>Copy&amp;paste the text to /etc/network/intefaces</p>
+</li>
+<li>
+<p>Run following commands as root:</p>
 <pre class="prettyprint">sysctl net.ipv6.conf.all.forwarding=1
 nano /etc/sysctl.conf
 uncomment line #net.ipv6.conf.all.forwarding=1
 ifup he-ipv6
-</pre></li>
+</pre>
+</li>
+<li>
+<p>Test your IPv6 connection:</p>
+</li>
+</ol>
+<pre><code>&lt;pre class=&quot;prettyprint&quot;&gt;ping6 ipv6.google.com
 
-<li><p>Test your IPv6 connection:</p>
+&lt;/pre&gt;
+</code></pre>
+<ol start="11">
+<li>
+<p>If you want you can add an additional /48 block too:<br>
+<img src="/imgcontent/additional48.JPG" alt="additional48.JPG"></p>
+</li>
+<li>
+<p>Use this tunnel in FreeBSD</p>
+</li>
+</ol>
+<pre><code>They are providing the setup for FreeBSD but only the shell commands - no rc.conf.  
 
-<pre class="prettyprint">ping6 ipv6.google.com
+So let's take a look at the commands:  
 
-</pre></li>
-
-<li><p>If you want you can add an additional /48 block too:<br />
-<img src="/imgcontent/additional48.JPG" alt="additional48.JPG" /></p></li>
-
-<li><p>Use this tunnel in FreeBSD</p>
-
-<p>They are providing the setup for FreeBSD but only the shell commands - no rc.conf.</p>
-
-<p>So let&rsquo;s take a look at the commands:</p>
-
-<pre class="prettyprint">ifconfig gif0 create
+&lt;pre class=&quot;prettyprint&quot;&gt;ifconfig gif0 create
 ifconfig gif0 tunnel ipOfYourVPS ipOfTunnelBroker
 ifconfig gif0 inet6 ipv6OfYourVPS ipv6OfTheTunnelBroker prefixlen 128
 route -n add -inet6 default ipv6OfTheTunnelBroker 
 ifconfig gif0 up
-</pre>
+&lt;/pre&gt;
 
-<p>rc.conf would look like this:</p>
+rc.conf would look like this:
 
-<pre class="prettyprint">ipv6_enable="YES"
-gif_interfaces="gif0"
-gifconfig_gif0="ipOfYourVPS ipOfTunnelBroker"
-ipv6_ifconfig_gif0="ipv6OfYourVPS ipv6OfTheTunnelBroker prefixlen 128"
-ipv6_defaultrouter="ipv6OfTheTunnelBroker"
-ipv6_gateway_enable="YES"
-ipv6_ifconfig_gif0_alias0="2001:**:*:*::22 prefixlen 64"
-ipv6_ifconfig_gif0_alias1="2001:**:*:*::33 prefixlen 64"
-</pre></li>
-</ol>
+&lt;pre class=&quot;prettyprint&quot;&gt;ipv6_enable=&quot;YES&quot;
+gif_interfaces=&quot;gif0&quot;
+gifconfig_gif0=&quot;ipOfYourVPS ipOfTunnelBroker&quot;
+ipv6_ifconfig_gif0=&quot;ipv6OfYourVPS ipv6OfTheTunnelBroker prefixlen 128&quot;
+ipv6_defaultrouter=&quot;ipv6OfTheTunnelBroker&quot;
+ipv6_gateway_enable=&quot;YES&quot;
+ipv6_ifconfig_gif0_alias0=&quot;2001:**:*:*::22 prefixlen 64&quot;
+ipv6_ifconfig_gif0_alias1=&quot;2001:**:*:*::33 prefixlen 64&quot;
+&lt;/pre&gt;</code></pre>
 
             </div>
         </div>

@@ -41,38 +41,24 @@
     <h2 class="content-head is-center" >Tutorial</h2>
         <div class="pure-g">
             <div class="l-box-lrg pure-u-1">
-            
-
-<h2 id="tutorial-pxe-boot">Tutorial: pxe-boot</h2>
-
-<p>I am using a user friendly router at home. Great for guest wlan and even separated lans, but it is not able to add boot information on the DHCP service.<br />
+            <h2 id="tutorial-pxe-boot">Tutorial: pxe-boot</h2>
+<p>I am using a user friendly router at home. Great for guest wlan and even separated lans, but it is not able to add boot information on the DHCP service.<br>
 But - thanks to dnsmasq - you are able to add this information without modifying your router. It is able to enrich the DHCP response.</p>
-
 <p>Installation is simple:</p>
-
 <pre class="prettyprint lang-php prettyprinted"><span class="pln">apt</span><span class="pun">-</span><span class="kwd">get</span> <span class="pln">install dnsmasq</span></pre>
-
 <p>Afterwards move the original configuration:</p>
-
 <pre class="prettyprint prettyprinted"><span class="pln">mv</span> <span class="pun">/</span><span class="pln">etc</span><span class="pun">/</span><span class="pln">dnsmasq</span><span class="pun">.</span><span class="pln">conf</span> <span class="pun">/</span><span class="pln">etc</span><span class="pun">/</span><span class="pln">dnsmasq</span><span class="pun">-</span><span class="pln">bak</span><span class="pun">.</span><span class="pln">conf</span></pre>
-
 <p>And create a new one:</p>
-
 <pre class="prettyprint prettyprinted"><span class="pln">nano</span> <span class="pun">/</span><span class="pln">etc</span><span class="pun">/</span><span class="pln">dnsmasq</span><span class="pun">.</span><span class="pln">conf</span></pre>
-
 <p>With following content:</p>
-
 <pre class="prettyprint prettyprinted"><span class="pln">port</span><span class="pun">=</span> <span class="pln">dhcp</span><span class="pun">-</span><span class="pln">range</span><span class="pun">=</span><span class="lit">192.168</span><span class="pun">.</span><span class="lit">178.0</span><span class="pun">,</span><span class="pln">proxy
 dhcp</span><span class="pun">-</span><span class="pln">boot</span><span class="pun">=</span><span class="pln">pxelinux</span><span class="pun">.</span><span class="pun">,</span><span class="lit">192.168</span><span class="pun">.</span><span class="lit">178.30</span><span class="pun">,</span><span class="lit">192.168</span><span class="pun">.</span><span class="lit">178.0</span> <span class="pln">pxe</span><span class="pun">-</span><span class="pln">service</span><span class="pun">=</span><span class="pln">x86PC</span><span class="pun">,</span><span class="str">"Automatic Network boot"</span><span class="pun">,</span><span class="pln">pxelinux
 enable</span><span class="pun">-</span><span class="pln">tftp
 tftp</span><span class="pun">-</span><span class="pln">root</span><span class="pun">=/</span><span class="pln">usr</span><span class="pun">/</span><span class="pln">tftproot
 pxe</span><span class="pun">-</span><span class="pln">prompt</span><span class="pun">=</span><span class="str">"Press F8 for selection"</span><span class="pun">,</span><span class="lit">5</span> <span class="pln">pxe</span><span class="pun">-</span><span class="pln">service</span><span class="pun">=</span><span class="pln">X86PC</span><span class="pun">,</span><span class="str">"Boot from harddrive"</span><span class="pun">,</span></pre>
-
-<p>DNS is disabled by the &ldquo;port=0&rdquo; command. DHCP range is given by your router.<br />
+<p>DNS is disabled by the &ldquo;port=0&rdquo; command. DHCP range is given by your router.<br>
 &ldquo;192.168.178.30&rdquo; is the ip of the linux server running the dnsmasq instance.</p>
-
 <p>You do not have to install a ftp server, tftp is part of the dnsmasq service. Just add the information where the boot files are stored.</p>
-
 <p>After that you have to define what pxe-services or boot images you are providing. Due to the additional config files and default settings this will be part of my next tutorial.</p>
 
             </div>

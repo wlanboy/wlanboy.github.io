@@ -41,89 +41,60 @@
     <h2 class="content-head is-center" >Tutorial</h2>
         <div class="pure-g">
             <div class="l-box-lrg pure-u-1">
-            
-
-<h2 id="tutorial-munin">Tutorial: munin</h2>
-
+            <h2 id="tutorial-munin">Tutorial: munin</h2>
 <p>Munin is a little peace of perl magic. If you do not know it -&gt; <a href="http://demo.munin-monitoring.org/munin-monitoring.org/demo.munin-monitoring.org/index.html" title="External link">look at this demo</a>.</p>
-
 <p>Installation is quite simple:</p>
-
 <pre class="prettyprint">apt-get install munin munin-node libcache-cache-perl
 </pre>
-
 <p>Now you have to config munin:</p>
-
 <pre class="prettyprint">sudo nano /etc/munin/munin.conf
 </pre>
-
 <p>Only part you have to alter:</p>
-
 <pre class="prettyprint"># a simple host tree
 [name of your wish]
     address 127.0.0.1
     use_node_name yes
 
 </pre>
-
 <p>Next part is the munin-node config:</p>
-
 <pre class="prettyprint">sudo nano /etc/munin/munin-node.conf
 </pre>
-
 <p>Only part you have to alter:</p>
-
 <pre class="prettyprint"># Which address to bind to;
 #host *
  host 127.0.0.1
 
 </pre>
-
 <p>Sometimes the pkg script does something wrong (most of the times wrong ownership of folders)</p>
-
 <p>Run this script to check all configuration properties:</p>
-
 <pre class="prettyprint">munin-check
 </pre>
-
 <p>If everything is fine you can restart munin:</p>
-
 <pre class="prettyprint">service munin-node restart
 </pre>
-
 <p>After that you only have to forward some path to the www-dir of munin:</p>
-
 <pre class="prettyprint">For lighttpd:
 
 sudo nano /etc/lighttpd/lighttpd.conf
 add:
 
 $HTTP["remoteip"] =~ "127.0.0.1" {
-    alias.url += ("/munin/" => "/var/cache/munin/www/")
+	alias.url += ("/munin/" => "/var/cache/munin/www/")
 }
 </pre>
-
 <p>Open your browser and load following url: <a href="http://127.0.0.1/munin/" title="External link">http://127.0.0.1/munin/</a></p>
-
 <p>That&rsquo;s it - have fun with a lot of graphs.</p>
-
 <p>PS:</p>
-
 <p>If you want to activate a new plugin you can go to following path:</p>
-
 <pre class="prettyprint">ls -al /usr/share/munin/plugins
 </pre>
-
 <p>and link one plugin to the activated plugins - e.g.:</p>
-
 <pre class="prettyprint">ln -s /usr/share/munin/plugins/fail2ban /etc/munin/plugins/
 ln -s /usr/share/munin/plugins/sendmail_mailqueue /etc/munin/plugins/
 ln -s /usr/share/munin/plugins/sendmail_mailstats /etc/munin/plugins/
 ln -s /usr/share/munin/plugins/sendmail_mailtraffic /etc/munin/plugins/
 </pre>
-
 <p>If a plugin is missing (e.g. lighttpd, mod_jdk, memcached, mongodb, eveb minecraft) you can search the official github:</p>
-
 <p><a href="https://github.com/munin-monitoring/contrib/tree/master/plugins" title="External link">https://github.com/m&hellip;/master/plugins</a></p>
 
             </div>

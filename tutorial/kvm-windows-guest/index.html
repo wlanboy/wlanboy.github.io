@@ -41,28 +41,24 @@
     <h2 class="content-head is-center" >Tutorial</h2>
         <div class="pure-g">
             <div class="l-box-lrg pure-u-1">
-            
-
-<h2 id="tutorial-create-a-kvm-windows-vm">Tutorial: Create a KVM Windows VM</h2>
-
+            <h2 id="tutorial-create-a-kvm-windows-vm">Tutorial: Create a KVM Windows VM</h2>
 <p>This tutorial is about installing Windows in a KVM VM.</p>
-
 <ol>
-<li><p>Create folder for ISO and diskimage</p>
-
+<li>
+<p>Create folder for ISO and diskimage</p>
 <pre class="prettyprint">sudo mkdir /windows && chown wlanboy:libvirt-qemu /windows && chmod 775 /windows
-</pre></li>
-
-<li><p>Add images</p>
-
+</pre>
+</li>
+<li>
+<p>Add images</p>
 <pre class="prettyprint">cd /windows
 wget https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/stable-virtio/virtio-win.iso
 qemu-img create -f qcow2 -o preallocation=metadata windowsdisk.qcow2 60G
 cp /external/Windows.iso /windows
-</pre></li>
-
-<li><p>Create KVM VM</p>
-
+</pre>
+</li>
+<li>
+<p>Create KVM VM</p>
 <pre class="prettyprint">virt-install \
 --name=windows10 \
 --memory=8192 \
@@ -79,21 +75,21 @@ cp /external/Windows.iso /windows
 --network network=default,model=virtio \
 --graphics vnc,listen=0.0.0.0 \
 --noautoconsole --accelerate
-</pre></li>
-
-<li><p>Connectio to VM through VNC</p>
-
-<p>Install VNC client:
-<pre class="prettyprint">sudo apt-get install vncviewer</pre></p>
-
-<p>Run VNC client:
-<pre class="prettyprint">vncviewer your-ip:1</pre></p></li>
-
-<li><p>Install Windows</p>
-
+</pre>
+</li>
+<li>
+<p>Connectio to VM through VNC</p>
+<p>Install VNC client:</p>
+<pre class="prettyprint">sudo apt-get install vncviewer</pre>
+<p>Run VNC client:</p>
+<pre class="prettyprint">vncviewer your-ip:1</pre>
+</li>
+<li>
+<p>Install Windows</p>
 <p>Click on &ldquo;Load Driver&rdquo; and browse through the second cd-drive for the Windows viostor driver. Remember AMD64 = 64 bits Windows and x86 = 32 bits.
 Afterwards click through the Windows installer.
-Select &ldquo;I don&rsquo;t have a product key yet&rdquo; and wait a long time for the Windows installation.</p></li>
+Select &ldquo;I don&rsquo;t have a product key yet&rdquo; and wait a long time for the Windows installation.</p>
+</li>
 </ol>
 
             </div>

@@ -41,32 +41,29 @@
     <h2 class="content-head is-center" >Tutorial</h2>
         <div class="pure-g">
             <div class="l-box-lrg pure-u-1">
-            
-
-<h2 id="tutorial-freebsd-lighttpd">Tutorial: freebsd lighttpd</h2>
-
+            <h2 id="tutorial-freebsd-lighttpd">Tutorial: freebsd lighttpd</h2>
 <p>Simple way to install lighttpd server on your FreeBSD machine:</p>
-
 <ol>
-<li><p>Install package</p>
-
-<pre class="prettyprint prettyprinted">pkg install lighttpd</pre></li>
-
-<li><p>Enable lighttpd service</p>
-
-<pre class="prettyprint prettyprinted">sysrc lighttpd_enable=yes</pre></li>
-
-<li><p>Start lighttpd service</p>
-
-<pre class="prettyprint prettyprinted">service lighttpd start</pre></li>
-
-<li><p>Put your files in this directory</p>
-
-<pre class="prettyprint prettyprinted">/usr/local/www/data/</pre>        </li>
-
-<li><p>Change lighttpd configuration</p>
-
-<pre class="prettyprint prettyprinted">nano /usr/local/etc/lighttpd.conf</pre>           </li>
+<li>
+<p>Install package</p>
+<pre class="prettyprint prettyprinted">pkg install lighttpd</pre>
+</li>
+<li>
+<p>Enable lighttpd service</p>
+<pre class="prettyprint prettyprinted">sysrc lighttpd_enable=yes</pre>
+</li>
+<li>
+<p>Start lighttpd service</p>
+<pre class="prettyprint prettyprinted">service lighttpd start</pre>
+</li>
+<li>
+<p>Put your files in this directory</p>
+<pre class="prettyprint prettyprinted">/usr/local/www/data/</pre>        
+</li>
+<li>
+<p>Change lighttpd configuration</p>
+<pre class="prettyprint prettyprinted">nano /usr/local/etc/lighttpd.conf</pre>           
+</li>
 </ol>
 
             </div>

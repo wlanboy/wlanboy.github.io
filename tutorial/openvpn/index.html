@@ -41,54 +41,44 @@
     <h2 class="content-head is-center" >Tutorial</h2>
         <div class="pure-g">
             <div class="l-box-lrg pure-u-1">
-            
-
-<h2 id="tutorial-openvpn">Tutorial: openvpn</h2>
-
+            <h2 id="tutorial-openvpn">Tutorial: openvpn</h2>
 <p>After helping some people (here and on irc) to setup their OpenVPN server I would like to start a collection of useful tips regarding the operation of an OpenVPN server.</p>
-
 <p>First the basic steps:</p>
-
 <ul>
-<li>Click on the &ldquo;enable TUN/TAP device&rdquo; within for server panel and restart the vps. [for OpenVZ]</li>
-
-<li><p>After that a</p>
-
+<li>
+<p>Click on the &ldquo;enable TUN/TAP device&rdquo; within for server panel and restart the vps. [for OpenVZ]</p>
+</li>
+<li>
+<p>After that a</p>
 <pre class="prettyprint">cat /dev/net/tun
 </pre>
-
 <p><span style="font-family:'courier new', courier;"><span style="font-size:small">should return:</span></span></p>
-
 <pre class="prettyprint">cat: /dev/net/tun: File descriptor in bad state
-</pre></li>
-
-<li><p>Installing openvpn</p>
-
+</pre>
+</li>
+<li>
+<p>Installing openvpn</p>
 <pre class="prettyprint">apt-get install openvpn
-</pre></li>
-
-<li><p>If /dev/net/tun is missing<br />
+</pre>
+</li>
+<li>
+<p>If /dev/net/tun is missing<br>
 Easy way:</p>
-
 <pre class="prettyprint">openvpn --mktun --dev tun0
 </pre>
-
 <p>Hard way (yup there are still images out there which do not have a /dev/net):</p>
-
 <pre class="prettyprint">mkdir -p /dev/net
 mknod /dev/net/tun c 10 200
 chmod 600 /dev/net/tun 
-</pre></li>
-
-<li><p>Setup configuration of openvpn</p>
-
+</pre>
+</li>
+<li>
+<p>Setup configuration of openvpn</p>
 <pre class="prettyprint">cp -r /usr/share/doc/openvpn/ /etc/ 
 cd /etc/openvpn/examples/easy-rsa/2.0
 nano vars
 </pre>
-
 <p>Setup the last exports to save you some typing:</p>
-
 <pre class="prettyprint">export KEY_SIZE=2048
 
 export KEY_COUNTRY=""
@@ -100,50 +90,47 @@ export KEY_CN=changeme
 export KEY_NAME=changeme
 export KEY_OU=changeme
 </pre>
-
-<p>Key size should be at least 2048 bit!<br />
-Of course no empty values &hellip;</p></li>
-
-<li><p>If they key tools reporting that they cannot find the openssl lib&hellip;</p>
-
+<p>Key size should be at least 2048 bit!<br>
+Of course no empty values &hellip;</p>
+</li>
+<li>
+<p>If they key tools reporting that they cannot find the openssl lib&hellip;</p>
 <pre class="prettyprint">nano whichopensslcnf
 </pre>
-
 <p>Change following line (the double [[:digit:]] is wrong):</p>
-
 <pre class="prettyprint">elif $OPENSSL version | grep -E "1\.0\.[[:digit:]]" > /dev/null; then
-</pre></li>
-
-<li><p>Start generating the keys:</p>
-
+</pre>
+</li>
+<li>
+<p>Start generating the keys:</p>
 <pre class="prettyprint">./clean-all [to clean all generated stuff - if you want to start right from the beginning]
 ./build-ca [certificate authority of all your certs]
 ./build-key-server servername [cert for server]
 ./build-key clientname [certs per client]
 ./build-dh [dh parameter for key-exchange algorithm]
-</pre></li>
-
-<li><p>Copy keys to openvpn server</p>
-
+</pre>
+</li>
+<li>
+<p>Copy keys to openvpn server</p>
 <pre class="prettyprint">mkdir /etc/openvpn/keys 
 cd keys
 cp ca.crt ca.key dh1024.pem server.crt server.key /etc/openvpn/keys 
 [depends on your naming of the build-* calls, if you called your server mybox it is e.g.
 mybox.crt and mybox.key]
 chmod 600 /etc/openvpn/keys/*
-</pre></li>
-
-<li><p>Creating the server config</p>
-
+</pre>
+</li>
+<li>
+<p>Creating the server config</p>
 <pre class="prettyprint">cd /etc/openvpn/examples/sample-config-files/ 
 gunzip server.conf.gz
 cp server.conf /etc/openvpn/ 
 cd /etc/openvpn/
 nano /etc/openvpn/server.conf
-</pre></li>
-
-<li><p>Alterting the config</p>
-
+</pre>
+</li>
+<li>
+<p>Alterting the config</p>
 <pre class="prettyprint">port 1149 #[port you want to use]
 dev tun #[device type you want to use]
 #relative paths of the keys:
@@ -162,21 +149,18 @@ persist-key
 persist-tun #[nobdy cannot alter devices - so persist there settings]
 status openvpn-status.log
 log-append  openvpn.log #[logging is good for checking problems]
-</pre></li>
-
-<li><p>Track the usage of your openvpn server<br />
+</pre>
+</li>
+<li>
+<p>Track the usage of your openvpn server<br>
 OpenVPN server does have some nice hookups that you can use to modify its workflow. One nice feature are following hooks (added to the server config):</p>
-
 <pre class="prettyprint">script-security 3 system
 client-connect /etc/openvpn/client-login.sh
 client-disconnect /etc/openvpn/client-logout.sh
 </pre>
-
 <p>So the scripts are called whenever a client connects or disconnects!</p>
-
 <pre class="prettyprint">nano /etc/openvpn/client-login.sh 
 </pre>
-
 <pre class="prettyprint">#!/bin/bash
 #Send an email when a client connects with today's time and date
 NOW="$(date +"%H:%M:%S - %Y-%m-%d")"
@@ -195,10 +179,8 @@ EOF
 
 exit 0
 </pre>
-
 <pre class="prettyprint">nano client-logout.sh
 </pre>
-
 <pre class="prettyprint">#!/bin/bash
 #Send an email when a client connects with today's time and date
 NOW="$(date +"%H:%M:%S - %Y-%m-%d")"
@@ -220,26 +202,20 @@ EOF
 
 exit 0
 </pre>
-
-<p>Yup I really like this global vars. So this script can be altered to put this information into a csv file or into a database.<br />
+<p>Yup I really like this global vars. So this script can be altered to put this information into a csv file or into a database.<br>
 You get all information you need - and the used bandwith too.</p>
-
 <pre class="prettyprint">chmod +x /etc/openvpn/*.ssh
 </pre>
-
-<p>And we are done.</p></li>
-
-<li><p>Next hook is the login mode<br />
+<p>And we are done.</p>
+</li>
+<li>
+<p>Next hook is the login mode<br>
 Need a password instead of certs? Or an additional password to the certs?</p>
-
 <pre class="prettyprint">auth-user-pass-verify /etc/openvpn/auth.sh via-file
 </pre>
-
 <p>This just has to return &ldquo;0&rdquo; or &ldquo;1&rdquo; for good and bad auth:</p>
-
 <pre class="prettyprint">nano /etc/openvpn/auth.sh
 </pre>
-
 <pre class="prettyprint">#!/bin/sh
 #Simplest way
 ALLOWED_USER1="wlanboy"
@@ -251,15 +227,13 @@ fi
 
 exit 1
 </pre>
-
 <p>Want no client certs? Add this to the server.conf</p>
-
 <pre class="prettyprint">client-cert-not-required
 username-as-common-name
-</pre></li>
-
-<li><p>Networking</p>
-
+</pre>
+</li>
+<li>
+<p>Networking</p>
 <pre class="prettyprint">device="venet0" #// OpenVZ
 yourexternalid="1.1.1.1" #// Change this value!
 yourvpnsubnet="10.10.10.0/24" #// Change this value!
@@ -274,18 +248,16 @@ yourvpnport="1149" #//Change this value!
     iptables -A INPUT -i $device -p udp --dport $yourvpnport -m state --state NEW -j ACCEPT
     iptables -t nat -A POSTROUTING -s $yourvpnsubnet -j SNAT --to $yourexternalid
 </pre>
-
-<p>Depens on your choice if you are using a startup script or persist these iptables rules.</p></li>
-
-<li><p>Revoking certs</p>
-
+<p>Depens on your choice if you are using a startup script or persist these iptables rules.</p>
+</li>
+<li>
+<p>Revoking certs</p>
 <pre class="prettyprint">. ./vars
 ./revoke-full clientname
-</pre></li>
+</pre>
+</li>
 </ul>
-
 <p>So this is everything I am duing to setup a OpenVPN server.</p>
-
 <p>Looking forward to your input and your addons.</p>
 
             </div>

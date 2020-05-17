@@ -41,88 +41,58 @@
     <h2 class="content-head is-center" >Tutorial</h2>
         <div class="pure-g">
             <div class="l-box-lrg pure-u-1">
-            
-
-<h2 id="tutorial-raspberrypi-electronics-i">Tutorial: raspberrypi-electronics-I</h2>
-
+            <h2 id="tutorial-raspberrypi-electronics-i">Tutorial: raspberrypi-electronics-I</h2>
 <p>This is the start of my RaspberryPi tutorial series.</p>
-
 <p>I will start with the basic stuff first to ensure that everyone who wants to do electronic projects is able to to it with his RaspberryPi.</p>
-
 <p>All of my old electronic projects are based on the ATmega chips but it is much easier to build up a project with the Raspberry Pi because you have a full stack linux in the background if you need a bash, a network connection or higher programming languages like Javascript, Python or Ruby.</p>
-
 <p>If you want to start you should do yourself a favor and buy a breadboard:</p>
-
-<p><img src="/imgcontent/breadboard.jpg" alt="breadboard.jpg" /></p>
-
+<p><img src="/imgcontent/breadboard.jpg" alt="breadboard.jpg"></p>
 <p>A breadboard helps to build prototypes fast because it does not require soldering to build connections.</p>
-
 <p>Additionally you need less wires to build up a circuit because most connections you want to build are allready provided by the breadboard.</p>
-
 <p>The power buses (+/-) are on the left and right side. So once ground is connected to - all other elements connected to one bus are connected to the ground to.</p>
-
 <p>Same with the power line.</p>
-
 <p>Between the power lines there are two separated areas where all points of one line are connected to each other.</p>
-
 <p>So if you put two elements in points of the same line they are connected with each other.</p>
-
 <p>That&rsquo;s it - you know what a breadboard does.</p>
-
 <p>So how does the whole setup look like?</p>
-
-<p><img src="/imgcontent/raspberrypi-1.jpg" alt="raspberrypi-1.jpg" /></p>
-
+<p><img src="/imgcontent/raspberrypi-1.jpg" alt="raspberrypi-1.jpg"></p>
 <p>I use a <a href="http://www.adafruit.com/products/914" title="External link">Cobbler</a> to connect my Raspberry Pi with the breadboard.</p>
-
 <p>It helps a lot because all wires stick to the board and don&rsquo;t knot on the Raspberry Pi.</p>
-
 <p>We should now look at the wires:</p>
-
 <ul>
 <li>Orange
-
 <ul>
 <li>Grounds the - power line</li>
-</ul></li>
+</ul>
+</li>
 <li>2x Yellow
-
 <ul>
 <li>Both yellow wires do connect the ground line to the cathode of each LED</li>
-</ul></li>
+</ul>
+</li>
 <li>2x resistors (brown/black/yellow/silver) 1kOhm +/-10%
-
 <ul>
 <li>Both resistors connect the anode of each LED with the neighbor side of the breadboard</li>
 <li>They &ldquo;protect&rdquo; the LEDs to ensure that not too much power is transfered</li>
-</ul></li>
+</ul>
+</li>
 <li>Greed and red
-
 <ul>
 <li>Connect the Raspberry Pi pins #23 and #24 with the lines of the anodes of the green and red LED</li>
-</ul></li>
 </ul>
-
+</li>
+</ul>
 <p>So what did we build?</p>
-
 <p>A circuit - a closed loop of energy.</p>
-
 <p>E.g. The power level of the pin #23 is set to HIGH, then the power is flowing through the resistor to the anode of the LED.</p>
-
 <p>The LED emmits light and the rest of the energy is going through the cathode of the LED to the ground of the breadboard and afterwards to the ground of the Raspberry Pi.</p>
-
 <p>Time to bring light to the LEDs.</p>
-
 <p>Open a ssh connection to the Raspberry Pi and sudo.</p>
-
 <p>All pins you want to use have to be exported to the userspace:</p>
-
 <pre class="prettyprint">echo 23 > /sys/class/gpio/export
 echo 24 > /sys/class/gpio/export
 </pre>
-
 <p>A gpio looks like that:</p>
-
 <pre class="prettyprint">ls -al
 drwxr-xr-x 3 root root    0 Feb 22 23:30 .
 drwxr-xr-x 6 root root    0 Apr  9  2013 ..
@@ -135,50 +105,34 @@ lrwxrwxrwx 1 root root    0 Feb 22 23:30 subsystem -> ../../../../class/gpio
 -rw-r--r-- 1 root root 4096 Feb 22 23:30 value
 
 </pre>
-
 <p>Afterwards we have to define if the Raspberry Pi should send or receive from the pin: (we want to send = out)</p>
-
 <pre class="prettyprint">echo out > /sys/class/gpio/gpio23/direction
 echo out > /sys/class/gpio/gpio24/direction
 </pre>
-
 <p>Now we can enable the pins:</p>
-
 <pre class="prettyprint">echo 1> /sys/class/gpio/gpio23/value
 echo 1> /sys/class/gpio/gpio24/value
 </pre>
-
 <p>And disable them:</p>
-
 <pre class="prettyprint">echo 0 > /sys/class/gpio/gpio23/value
 echo 0 > /sys/class/gpio/gpio24/value
 </pre>
-
 <p>This can be combined to a bash script:</p>
-
 <pre class="prettyprint">nano switchon.sh && chmod +x switchon.sh
 </pre>
-
 <p>Content:</p>
-
 <pre class="prettyprint">#!/bin/bash
 echo enable pin $1
 echo $1 > /sys/class/gpio/export
 echo out > /sys/class/gpio/gpio$1/direction
 echo 1 > /sys/class/gpio/gpio$1/value
 </pre>
-
 <p>Call it with the pin number as parameter:</p>
-
 <pre class="prettyprint">bash ~/switchon.sh 23
 </pre>
-
 <p>And the green LED is shining.</p>
-
 <p>That&rsquo;s it - the first part is finished.</p>
-
 <p>Hopefully you had some fun.</p>
-
 <p>Please add comments and/or suggestions - both are welcomed.</p>
 
             </div>

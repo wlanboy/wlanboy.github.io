@@ -41,25 +41,16 @@
     <h2 class="content-head is-center" >Tutorial</h2>
         <div class="pure-g">
             <div class="l-box-lrg pure-u-1">
-            
-
-<h2 id="tutorial-web-ssh">Tutorial: web-ssh</h2>
-
-<p>I was looking for a web based terminal emulator and finally found &ldquo;Shell In A Box&rdquo;.<br />
+            <h2 id="tutorial-web-ssh">Tutorial: web-ssh</h2>
+<p>I was looking for a web based terminal emulator and finally found &ldquo;Shell In A Box&rdquo;.<br>
 It is a linux service that is running a webservice that uses JS/CSS to build up a great web based terminal.</p>
-
 <p>Installation is easy because it is part of all major repositories:</p>
-
 <pre class="prettyprint">apt-get install openssl shellinabox
 </pre>
-
 <p>The default settings are ok but you can change some values:</p>
-
 <pre class="prettyprint">nano /etc/default/shellinabox
 </pre>
-
 <p>Content:</p>
-
 <pre class="prettyprint"># Should shellinaboxd start automatically
 SHELLINABOX_DAEMON_START=1
 
@@ -82,16 +73,11 @@ SHELLINABOX_ARGS="--no-beep --localhost-only"
 # specify the IP address and the post of a destination SSH
 #SHELLINABOX_ARGS="--o-beep -s /:SSH:11.22.33.44 -p 22 --disable-ssl-menu"
 </pre>
-
 <p>One important setting:</p>
-
 <pre class="prettyprint">--localhost-only
 </pre>
-
 <p>So you can use your favorite web server to secure the access to the local shellinabox service (recommended).</p>
-
 <p>A lighttpd configuration would look like this:</p>
-
 <pre class="prettyprint">$HTTP["host"] =~ "shell.domain.com" {
   auth.backend = "htpasswd"
   auth.backend.htpasswd.userfile = "/etc/lighttpd/shell"
@@ -108,15 +94,10 @@ SHELLINABOX_ARGS="--no-beep --localhost-only"
   )
 }
 </pre>
-
 <p>Some screenshots of the web frontend:</p>
-
 <p><a href="/imgcontent/shellinabox1.JPG">shellinabox1.JPG</a></p>
-
 <p><a href="/imgcontent/shellinabox2.JPG">shellinabox2.JPG</a></p>
-
 <p><a href="/imgcontent/shellinabox3.JPG">shellinabox3.JPG</a></p>
-
 <p><a href="/imgcontent/shellinabox4.JPG">shellinabox4.JPG</a></p>
 
             </div>

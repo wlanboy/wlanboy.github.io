@@ -41,40 +41,24 @@
     <h2 class="content-head is-center" >Tutorial</h2>
         <div class="pure-g">
             <div class="l-box-lrg pure-u-1">
-            
-
-<h2 id="tutorial-iptables">Tutorial: iptables</h2>
-
+            <h2 id="tutorial-iptables">Tutorial: iptables</h2>
 <p>I want to start a thread about how a one file script for iptables/ip6tables should look like. What default settings are ok and how different services like webserver, mailservers, etc can be unlocked.</p>
-
 <p>Why unlocked? Because like word filters I do not prefer blacklists:</p>
-
 <p>Everytime I read a post about someone telling how good his blacklist is I just start smiling. You cannot maintain a list of all bad things that should be filtered. In my opinion only a whitelist of allowed things can really secure your services.</p>
-
 <p>So back to iptables and ip6tables. More and more providers do add ipv6 ips to their vps and a lot of linux services do support ipv6 by default. So if someone like fail2ban he should add ip6tables rules too.</p>
-
 <p>iptables is part of the kernel so you just have to setup rules to &ldquo;activate&rdquo; iptables. This can be done by adding a file to /etc/init.d/:</p>
-
 <pre class="prettyprint">sudo nano /etc/init.d/iptables
 </pre>
-
 <p>But be carefull to auto start this service by default. Because if the firewall is active and you did not unlock your ssh port you can lockout yourself.</p>
-
 <p>So do only call this command if you know your rules are working!</p>
-
 <pre class="prettyprint">sudo chmod +x /etc/init.d/iptables
 </pre>
-
 <p>You can run this script with:</p>
-
 <pre class="prettyprint">sh /etc/init.d/iptables start
 sh /etc/init.d/iptables stop
 </pre>
-
 <p>If you cannot connect to your vps one of the rules might be too restrictive. Restart your vps and everything is fine (as long as the script is not started automatically).</p>
-
 <p>Content of the script:</p>
-
 <pre class="prettyprint">#!/bin/bash
 # ---------------------------------------------------------------------
 # Linux iptables init script, Copyright (c) 2013 GPL
@@ -330,9 +314,7 @@ case "$1" in
 esac
 
 exit 0</pre>
-
 <p>There are different ways to handle this. You can use different files, you can try a lot of things. I do prefer configuration parameters and the &ldquo;use as few files as possible&rdquo; approach.</p>
-
 <p>If someone wants to add some services or does have some recommendation just post them. I will add them to the template.</p>
 
             </div>

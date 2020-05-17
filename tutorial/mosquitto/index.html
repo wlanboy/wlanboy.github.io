@@ -41,44 +41,31 @@
     <h2 class="content-head is-center" >Tutorial</h2>
         <div class="pure-g">
             <div class="l-box-lrg pure-u-1">
-            
-
-<h2 id="tutorial-mosquitto">Tutorial: mosquitto</h2>
-
+            <h2 id="tutorial-mosquitto">Tutorial: mosquitto</h2>
 <p>Mosquitto is a lightweight MQTT broker for any linux machine.</p>
-
 <p>Installation is quite simple:</p>
-
-<p>1   Add repository
-<pre class="prettyprint">wget <a href="http://repo.mosquitto.org/debian/mosquitto-repo.gpg.key">http://repo.mosquitto.org/debian/mosquitto-repo.gpg.key</a>
+<p>1	Add repository</p>
+<pre class="prettyprint">wget http://repo.mosquitto.org/debian/mosquitto-repo.gpg.key
 sudo apt-key add mosquitto-repo.gpg.key
-rm mosquitto-repo.gpg.key</p>
+rm mosquitto-repo.gpg.key
 
-<p>cd /etc/apt/sources.list.d/
-sudo wget <a href="http://repo.mosquitto.org/debian/mosquitto-jessie.list">http://repo.mosquitto.org/debian/mosquitto-jessie.list</a>
-</pre></p>
-
-<p>2   Install Mosquitto server</p>
-
+cd /etc/apt/sources.list.d/
+sudo wget http://repo.mosquitto.org/debian/mosquitto-jessie.list
+</pre>
+<p>2	Install Mosquitto server</p>
 <pre class="prettyprint">sudo apt-get update
 sudo apt-get install mosquitto mosquitto-clients
 </pre>
-
-<p>3   Start Mosquitto server</p>
-
+<p>3	Start Mosquitto server</p>
 <pre class="prettyprint">service mosquitto start
 </pre>
-
-<p>4   Test your MQQT broker</p>
-
-<p>On terminal 1:
+<p>4	Test your MQQT broker</p>
+<p>On terminal 1:</p>
 <pre class="prettyprint">mosquitto_sub -d -t hello/world
-</pre></p>
-
-<p>On terminal 2:
-<pre class="prettyprint">mosquitto_pub -d -t hello/world -m &ldquo;Hello MQQT&rdquo;
-</pre></p>
-
+</pre>
+<p>On terminal 2:</p>
+<pre class="prettyprint">mosquitto_pub -d -t hello/world -m "Hello MQQT"
+</pre>
 <p>Don&rsquo;t forget to open port 1883 on your firewall.</p>
 
             </div>

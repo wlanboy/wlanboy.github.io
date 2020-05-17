@@ -41,64 +41,51 @@
     <h2 class="content-head is-center" >Tutorial</h2>
         <div class="pure-g">
             <div class="l-box-lrg pure-u-1">
-            
-
-<h2 id="tutorial-mongodb">Tutorial: mongodb</h2>
-
+            <h2 id="tutorial-mongodb">Tutorial: mongodb</h2>
 <p>This tutorial is about installing a MongoDB cluster on Debian/Ubuntu.</p>
-
 <p>There are different ways to run a MongoDB cluster. My prefered one is the ReplicaSet.</p>
-
 <p>For a working ReplicaSet you need at least three servers.</p>
-
 <ol>
 <li>Running the master</li>
 <li>Running the slave</li>
 <li>Running the Arbiter</li>
 </ol>
-
-<p>This is caused by the polling of the MongoDB cluster partners. Each one gives his vote to one of the servers. The one with majority of votes becomes the master. Therefore the uneven number of cluster servers.<br />
+<p>This is caused by the polling of the MongoDB cluster partners. Each one gives his vote to one of the servers. The one with majority of votes becomes the master. Therefore the uneven number of cluster servers.<br>
 An Arbiter is part of the cluster but not holding any data - it is only voting. You need about 5 MB of free RAM to run an Arbiter.</p>
-
 <p>I don&rsquo;t want to talk about the pros and cons of MongoDB or NoSQL.</p>
-
 <p>So back to the installation:</p>
-
 <ol>
-<li><p>Adding apt key</p>
-
+<li>
+<p>Adding apt key</p>
 <pre class="prettyprint">sudo apt-key adv --keyserver keyserver.ubuntu.com --recv 7F0CEB10
-</pre></li>
-
-<li><p>Adding the repro</p>
-
+</pre>
+</li>
+<li>
+<p>Adding the repro</p>
 <pre class="prettyprint">nano /etc/apt/sources.list
 Add this line for Ubuntu:
 deb http://downloads-distro.mongodb.org/repo/ubuntu-upstart dist 10gen
 Add this line for Debian:
 deb http://downloads-distro.mongodb.org/repo/debian-sysvinit dist 10gen
-</pre></li>
-
-<li><p>Install MongoDB</p>
-
+</pre>
+</li>
+<li>
+<p>Install MongoDB</p>
 <pre class="prettyprint">sudo apt-get update
 sudo apt-get install mongodb-10gen
-</pre></li>
-
-<li><p>Configuration of MongoDB<br />
+</pre>
+</li>
+<li>
+<p>Configuration of MongoDB<br>
 For me it was easier to create new directories for the data and for logging:</p>
-
 <pre class="prettyprint">sudo mkdir /mongodb
 sudo mkdir /mongodb/log
 sudo mkdir /mongodb/journal
 sudo chown -R mongodb:mongodb /mongodb
 </pre>
-
 <p>Now we can edit the mongodb.conf</p>
-
 <pre class="prettyprint">sudo nano /etc/mongodb.conf
 </pre>
-
 <pre class="prettyprint">#Path for the db files
 dbpath=/mongodb
 #Path for the log file
@@ -129,17 +116,14 @@ keyFile = /etc/keymongodb
 #name of replica set
 replSet = myreplica
 </pre>
-
 <p>To generate a secret (authentication) for the replicaset run following command:</p>
-
 <pre class="prettyprint">sudo openssl rand -base64 80 > /etc/keymongodb
 </pre>
-
-<p>You have to copy this key file to all members of the replica set.</p></li>
-
-<li><p>Setup iptables rules<br />
+<p>You have to copy this key file to all members of the replica set.</p>
+</li>
+<li>
+<p>Setup iptables rules<br>
 You should limit the access to your MongoDB instances: (this have to be done for all replica set members)</p>
-
 <pre class="prettyprint">#MongoDB
 iptables -A INPUT -s ip-of-master -i $device -m state --state NEW -p tcp --dport 27017 -j ACCEPT
 iptables -A OUTPUT -s ip-of-master -m state --state NEW -p tcp --dport 27017 -j ACCEPT
@@ -147,16 +131,16 @@ iptables -A INPUT -s ip-of-slave -i $device -m state --state NEW -p tcp --dport 
 iptables -A OUTPUT -s ip-of-slave -m state --state NEW -p tcp --dport 27017 -j ACCEPT
 iptables -A INPUT -s ip-of-arbiter -i $device -m state --state NEW -p tcp --dport 27017 -j ACCEPT
 iptables -A OUTPUT -s ip-of-arbiter -m state --state NEW -p tcp --dport 27017 -j ACCEPT
-</pre></li>
-
-<li><p>Restart the instances</p>
-
+</pre>
+</li>
+<li>
+<p>Restart the instances</p>
 <pre class="prettyprint">sudo service mongodb restart
-</pre></li>
-
-<li><p>Setup the replicaset<br />
+</pre>
+</li>
+<li>
+<p>Setup the replicaset<br>
 We have to start the mongo client &ldquo;mongo&rdquo;. This has to be run on a single member because this information is allready synced between the different replica set members.</p>
-
 <pre class="prettyprint">mongo
 rs.initiate()
 cfg = rs.conf()
@@ -168,29 +152,25 @@ rs.addArb("ip-of-arbiter:27017")
 cfg = rs.conf()
 rs.reconfig(cfg)
 </pre>
-
 <p>What we do:</p>
-
 <ul>
-<li>Initiate the ReplicaSet<br /></li>
-<li>load the config<br /></li>
-<li>set the priority of the master to 10 (to ensure that the first voting results into our wished master)<br /></li>
-<li>set the host of the master to it&rsquo;s public ip (mongodb usese the hostname which ofter does not resolve to the public ip)<br /></li>
-<li>add the node to the replica set<br /></li>
-<li>add the arbiter to the replica set<br /></li>
-<li>reload the config (check if every ip and port is correct)<br /></li>
+<li>Initiate the ReplicaSet</li>
+<li>load the config</li>
+<li>set the priority of the master to 10 (to ensure that the first voting results into our wished master)</li>
+<li>set the host of the master to it&rsquo;s public ip (mongodb usese the hostname which ofter does not resolve to the public ip)</li>
+<li>add the node to the replica set</li>
+<li>add the arbiter to the replica set</li>
+<li>reload the config (check if every ip and port is correct)</li>
 <li>save the config</li>
-</ul></li>
-
-<li><p>After some minutes the members of the replica set start a vote and afterwars start to sync each collection.</p></li>
+</ul>
+</li>
+<li>
+<p>After some minutes the members of the replica set start a vote and afterwars start to sync each collection.</p>
+</li>
 </ol>
-
 <p>We are done. The cluster is running.</p>
-
 <p>To test it:</p>
-
 <p>Connect to the master and run following commands (on the primary master):</p>
-
 <pre class="prettyprint">mongo
 use testdata
 doc1 = { name: "test1", value: 10}
@@ -202,17 +182,11 @@ show collections
 
 db.simple.find()
 </pre>
-
 <p>We are switching to the database &ldquo;testdata&rdquo;. If it is not present it will be automaitcally generated after the first insert.</p>
-
 <p>We are creating two json documents &ldquo;doc1&rdquo; and &ldquo;doc2&rdquo;.</p>
-
 <p>We are inserting them into the collection &ldquo;simple&rdquo;.</p>
-
 <p>Afterwards we list all available collections and search for all &ldquo;simple&rdquo; documents.</p>
-
 <p>Output should be like:</p>
-
 <pre class="prettyprint">PRIMARY> show collections
 simple
 system.indexes
@@ -222,19 +196,14 @@ PRIMARY> db.simple.find()
 { "_id" : ObjectId("520f272cc3633ec65806eadd"), "name" : "test2", "value" : 15 }
 
 </pre>
-
 <p>Now we connect to the slave:</p>
-
 <pre class="prettyprint">mongo
 rs.slaveOk()
 show collections
 db.simple.find()
 </pre>
-
 <p>Second command is to ensure that query on slave side is ok.</p>
-
 <p>Output should be:</p>
-
 <pre class="prettyprint">mongo
 MongoDB shell version: 2.4.5
 connecting to: test
@@ -253,48 +222,31 @@ system.users
 { "_id" : ObjectId("520f2728c3633ec65806eadc"), "name" : "test1", "value" : 10 }
 { "_id" : ObjectId("520f272cc3633ec65806eadd"), "name" : "test2", "value" : 15 }
 </pre>
-
 <p>So the replication is working.</p>
-
 <p>We should look to the slaveOK things again.</p>
-
 <p>MongoDB uses votes to ensure that the member with the best uptime and connection is becomming the master.</p>
-
 <p>The master is handling all queries and all slaves are pulling the data from the master.</p>
-
 <p>If you want to do something like load balancing you can add the flag &ldquo;query from slaves too&rdquo; to your mongodb client. The ReplicaSetClient is able to handle a list of ips. First thing it does is to see who is the master to ensure that the inserts go to the right member.</p>
-
 <p>Next topic would be &ldquo;security&rdquo;. The config setting:</p>
-
 <pre class="prettyprint">noauth = true
 #auth = true
 </pre>
-
 <p>If you know user rights like MySQL/Oracle you might think that &ldquo;auth=true&rdquo; is a must - but MongoDB is only knowing users per database.</p>
-
 <p>So if you have access to a database or not. Every user of a database is able to do everything.</p>
-
 <p>If you want to use this feature to separate web applications (as you see in my last output log) you have to create one admin user:</p>
-
 <pre class="prettyprint">mongo
 use admin
 db.addUser("admin", "your-super-password")
 db.auth('admin','your-super-password');
 </pre>
-
 <p>You can use any name because MongoDB has not any naming conventions.</p>
-
 <p>After you added that user you can switch the config settings and restart each node. (users are repliaced too).</p>
-
 <p>Next time you connect to your mongodb you have to run:</p>
-
 <pre class="prettyprint">mongo
 use admin
 db.auth('admin','your-super-password');
 </pre>
-
 <p>Or you will see this error message:</p>
-
 <pre class="prettyprint">MongoDB shell version: 2.0.4
 connecting to: test
 > show collections
@@ -303,17 +255,12 @@ Sat Aug 17 10:48:36 uncaught exception: error: {
         "code" : 10057
 }
 </pre>
-
 <p>After authentificated you can add additional users by:</p>
-
 <pre class="prettyprint">use servers
 db.addUser("servers", "super-password-2")
 </pre>
-
 <p>After adding the user the database &ldquo;servers&rdquo; is created automatically.</p>
-
 <p>Last topic would be the schema less state of MongoDB collections. A collection is just a list of documents of the same type. They don&rsquo;t have to have the same attributes:</p>
-
 <pre class="prettyprint">PRIMARY> use testdata
 switched to db testdata
 PRIMARY> doc3 = { name: "test3", value: 10, isactive: false}
@@ -324,29 +271,18 @@ PRIMARY> db.simple.find()
 { "_id" : ObjectId("520f272cc3633ec65806eadd"), "name" : "test2", "value" : 15 }
 { "_id" : ObjectId("520f2b94c75fcbd13a79119b"), "name" : "test3", "value" : 10, "isactive" : false }
 </pre>
-
 <p>But no schema means no constraints too.</p>
-
 <p>But you can use index to do so:</p>
-
 <p>A index can be added easily:</p>
-
 <pre class="prettyprint">db.events.ensureIndex( { "username" : 1, "timestamp" : -1 } )
 </pre>
-
 <p>This would speed up queries of events sorted by username (asc) and timestamp (desc).</p>
-
 <p>You can use a index too to ensure some values are unique:</p>
-
 <pre class="prettyprint">db.logins.ensureIndex( { "user_id": 1 }, { unique: true } )
 </pre>
-
 <p>By default, <span>unique</span> is <span>false</span> on MongoDB indexes - so you have to set this option.</p>
-
-<p>If you have a lot of documents in one collection you should set the option &ldquo;<span>{</span><span>background</span><span>:</span> <span>true</span><span>}&rdquo;</span> to ensure that the index creation is done in background and is therefore non blocking.</p>
-
+<p>If you have a lot of documents in one collection you should set the option &ldquo;<span>{</span><span>background</span><span>:</span> <span>true</span><span>}&ldquo;</span> to ensure that the index creation is done in background and is therefore non blocking.</p>
 <p>That&rsquo;s it.</p>
-
 <p>Select you fav mongodb driver - you will find a lot: <a href="http://docs.mongodb.org/ecosystem/drivers/" title="External link">http://docs.mongodb&hellip;.system/drivers/</a> - and start using your MongoDB.</p>
 
             </div>

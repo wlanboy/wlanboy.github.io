@@ -41,30 +41,18 @@
     <h2 class="content-head is-center" >Tutorial</h2>
         <div class="pure-g">
             <div class="l-box-lrg pure-u-1">
-            
-
-<h2 id="tutorial-wlan-hotspot">Tutorial: wlan-hotspot</h2>
-
+            <h2 id="tutorial-wlan-hotspot">Tutorial: wlan-hotspot</h2>
 <p>Install required packages:</p>
-
 <pre class="prettyprint">sudo apt-get install hostapd dnsmasq</pre>
-
 <p>Set static ip to your wlan interface:</p>
-
 <pre class="prettyprint">nano /etc/network/interfaces</pre>
-
 <p>content: (check for a single wlan0 entry!)</p>
-
 <pre class="prettyprint">iface wlan0 inet static
 address 192.168.20.1
 netmask 255.255.255.0</pre>
-
 <p>Add a configuration to hostap:</p>
-
 <pre class="prettyprint">nano /etc/default/hostapd</pre>
-
 <p>content: (add config file line):</p>
-
 <pre class="prettyprint"># Defaults for hostapd initscript
 # 
 # See /usr/share/doc/hostapd/README.Debian for information about alternative
@@ -75,22 +63,15 @@ netmask 255.255.255.0</pre>
 # file can be found at /usr/share/doc/hostapd/examples/hostapd.conf.gz
 # 
 DAEMON_CONF="/etc/hostapd/hostapd.conf"</pre>
-
 <p>If you are not sure what driver is needed check your usb devices (driver name will be disbplayed)</p>
-
 <pre class="prettyprint">lsusb -t</pre>
-
 <pre class="prettyprint">lsusb -t
 /: Bus 01.Port 1: Dev 1, Class=root_hub, Driver=dwc_otg/1p, 480M
 |__ Port 1: Dev 2, If 0, Class=vend., Driver=smsc95xx, 480M
 |__ Port 5: Dev 3, If 0, Class=vend., Driver=rtl8192cu, 480M</pre>
-
 <p>Create hostapd.conf:</p>
-
 <pre class="prettyprint">nano /etc/hostapd/hostapd.conf</pre>
-
 <p>content:</p>
-
 <pre class="prettyprint"># interface for ap
 interface=wlan0
 # driver of wlan stick
@@ -114,13 +95,9 @@ rsn_pairwise=CCMP
 
 # country code
 country_code=US</pre>
-
 <p>Add dnsmasq configuration:</p>
-
 <pre class="prettyprint">nano /etc/dnsmasq.conf</pre>
-
 <p>Content: (two important lines)</p>
-
 <pre class="prettyprint"># Configuration file for dnsmasq.
 
 # If you want dnsmasq to listen for DHCP and DNS requests only on
@@ -138,35 +115,22 @@ dhcp-range=192.168.20.100,192.168.20.200,255.255.255.0,12h
 #set default gateway (if wanted)
 #dhcp-option=3,192.168.20.1
 </pre>
-
 <p>Restart services:</p>
-
 <pre class="prettyprint">sudo service hostapd restart
 sudo service dnsmasq restart</pre>
-
 <p>Enable IP forwarding:</p>
-
 <pre class="prettyprint">nano /etc/sysctl.conf</pre>
-
 <p>Uncomment:</p>
-
 <pre class="prettyprint"># Uncomment the next line to enable packet forwarding for IPv4
 net.ipv4.ip_forward=1</pre>
-
 <p>Activate settings:</p>
-
 <pre class="prettyprint">sudo sysctl -p</pre>
-
 <p>Setup forwarding rules:</p>
-
 <pre class="prettyprint">nano /etc/network/if-up.d/apforwarding && chmod +x /etc/network/if-up.d/apforwarding </pre>
-
 <p>content:</p>
-
 <pre class="prettyprint"># !/bin/sh
 iptables --table nat --append POSTROUTING --out-interface eth0 -j MASQUERADE
 iptables --append FORWARD --in-interface wlan0 -j ACCEPT</pre>
-
 <p>Reboot your Raspberry Pi.</p>
 
             </div>

@@ -41,27 +41,22 @@
     <h2 class="content-head is-center" >Tutorial</h2>
         <div class="pure-g">
             <div class="l-box-lrg pure-u-1">
-            
-
-<h2 id="tutorial-kvm-aarch64-guest">Tutorial: kvm-aarch64-guest</h2>
-
+            <h2 id="tutorial-kvm-aarch64-guest">Tutorial: kvm-aarch64-guest</h2>
 <p>ARM64 Debian guest kvm</p>
-
 <p>Steps:</p>
-
 <ul>
 <li>qemu-img create -f qcow2 debian-aarch64.qcow2 5G</li>
 <li>wget <a href="https://cdimage.debian.org/debian-cd/current/arm64/iso-cd/debian-10.3.0-arm64-netinst.iso">https://cdimage.debian.org/debian-cd/current/arm64/iso-cd/debian-10.3.0-arm64-netinst.iso</a></li>
 <li>#&ndash;os-variant=debian10 not available</li>
 <li>virt-install</li>
 </ul>
-
 <pre class="prettyprint prettyprinted">
 virt-install  --os-type=linux --os-variant=debian9 --arch aarch64 --name debian-aarch64 --ram=2048 --vcpus=1 \
 --disk path=./debian-aarch64.qcow2,bus=virtio,format=qcow2 \
 --location ./debian-10.3.0-arm64-netinst.iso \
 --network network=br0,model=virtio
-</pre>
+</pre><blockquote>
+</blockquote>
 
             </div>
         </div>

@@ -41,23 +41,18 @@
     <h2 class="content-head is-center" >Tutorial</h2>
         <div class="pure-g">
             <div class="l-box-lrg pure-u-1">
-            
-
-<h2 id="tutorial-visual-studio-code-webserver">Tutorial: visual-studio-code-webserver</h2>
-
+            <h2 id="tutorial-visual-studio-code-webserver">Tutorial: visual-studio-code-webserver</h2>
 <p>Visual Studio Code as docker container to run VSCode in a browser</p>
-
 <p>Steps:</p>
-
 <ul>
 <li>docker pull codercom/code-server</li>
 <li>mkdir /projects</li>
 <li>docker run</li>
 </ul>
-
 <pre class="prettyprint prettyprinted">
 docker run --name coder -d -p 9000:8080 --restart unless-stopped -v "/projects:/home/coder/project" codercom/code-server --auth none --disable-telemetry
-</pre>
+</pre><blockquote>
+</blockquote>
 
             </div>
         </div>

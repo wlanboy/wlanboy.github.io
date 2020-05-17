@@ -41,53 +41,38 @@
     <h2 class="content-head is-center" >Tutorial</h2>
         <div class="pure-g">
             <div class="l-box-lrg pure-u-1">
-            
-
-<h2 id="tutorial-motd">Tutorial: motd</h2>
-
+            <h2 id="tutorial-motd">Tutorial: motd</h2>
 <p>Looking forward to some new motd ideas.</p>
-
 <p>My current motd:</p>
-
-<p><img src="/imgcontent/2r2vjad.jpg" alt="2r2vjad.jpg" /></p>
-
+<p><img src="/imgcontent/2r2vjad.jpg" alt="2r2vjad.jpg"></p>
 <p>You need three components:</p>
-
 <ul>
-<li><p>update-motd</p>
-
+<li>
+<p>update-motd</p>
 <pre class="ipsCode prettyprint">apt-get install update-motd
 </pre>
-
-<p>You can modify every part of the motd by editing the files in /etc/update-motd.d</p></li>
-
-<li><p>toilet</p>
-
+<p>You can modify every part of the motd by editing the files in /etc/update-motd.d</p>
+</li>
+<li>
+<p>toilet</p>
 <pre class="ipsCode prettyprint">apt-get install toilet
 </pre>
-
 <pre class="ipsCode prettyprint">toilet -f pagga system
 </pre>
-
 <p>It is a small tool for ascii art.</p>
-
-<p>Following fonts are currently supported: <a href="http://caca.zoy.org/browser/toilet/trunk/fonts">http://caca.zoy.org/browser/toilet/trunk/fonts</a></p></li>
-
-<li><p>weather</p>
-
+<p>Following fonts are currently supported: <a href="http://caca.zoy.org/browser/toilet/trunk/fonts">http://caca.zoy.org/browser/toilet/trunk/fonts</a></p>
+</li>
+<li>
+<p>weather</p>
 <pre class="ipsCode prettyprint">apt-get install weather
 </pre>
-
 <p>It will display the current weather informations on a defined weather station.</p>
-
 <pre class="ipsCode prettyprint">weather -i ESSB
 </pre>
-
-<p>You can go to the webpage of NOAA to find your weather station of choice: <a href="http://www.nws.noaa.gov/tg/siteloc.shtml">http://www.nws.noaa.gov/tg/siteloc.shtml</a></p></li>
+<p>You can go to the webpage of NOAA to find your weather station of choice: <a href="http://www.nws.noaa.gov/tg/siteloc.shtml">http://www.nws.noaa.gov/tg/siteloc.shtml</a></p>
+</li>
 </ul>
-
 <p>For the current system status I am using landscape-sysinfo from the package landscape-common:</p>
-
 <pre class="ipsCode prettyprint">#!/bin/sh
 cores=$(grep -c ^processor /proc/cpuinfo 2>/dev/null)
 [ "$cores" -eq "0" ] && cores=1
@@ -103,14 +88,13 @@ else
     echo " System information disabled due to load higher than $threshold"
 fi
 </pre>
-
 <p>You can check the user id too:</p>
-
 <pre class="ipsCode prettyprint">if (( $(id -u) == 0 ))
 then
 echo "welcome root"
 fi
-</pre>
+</pre><blockquote>
+</blockquote>
 
             </div>
         </div>

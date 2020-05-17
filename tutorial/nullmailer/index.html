@@ -41,51 +41,33 @@
     <h2 class="content-head is-center" >Tutorial</h2>
         <div class="pure-g">
             <div class="l-box-lrg pure-u-1">
-            
-
-<h2 id="tutorial-nullmailer">Tutorial: nullmailer</h2>
-
+            <h2 id="tutorial-nullmailer">Tutorial: nullmailer</h2>
 <p>This is the start of a small series of mail related posts. I will start with nullmailer which is the perfect fit for a small vps that just has to send some emails from time to time. No need for a whole mail server but the need for a sendmail like mail service.</p>
-
 <p>Installation:</p>
-
 <pre class="prettyprint">apt-get install nullmailer
 </pre>
-
 <p>Configuration:</p>
-
 <ul>
-<li>/etc/nullmailer/adminaddr<br />
+<li>/etc/nullmailer/adminaddr<br>
 Sender email address used by nullmailer</li>
-<li>/etc/nullmailer/defaultdomain<br />
+<li>/etc/nullmailer/defaultdomain<br>
 Default domain for email service</li>
-<li>etc/nullmailer/remotes<br />
+<li>etc/nullmailer/remotes<br>
 Login information for sending emails</li>
 </ul>
-
 <p>The login information is requested during installation. If you want to change it afterwards you can edit the remotes config file.</p>
-
 <p>The configuration itself does have following parameters:</p>
-
 <pre class="prettyprint">[domain name of your smtp server] smtp --auth-login --user=[USER] --pass=[PASSWORD]
 </pre>
-
 <p>As you can see this is a local service. It is not listeing to any ports. It just catches local calls of sendmail.</p>
-
 <p>To test the whole setup install the mailtutils:</p>
-
 <pre class="prettyprint">apt-get install mailutils
 </pre>
-
 <p>And run following command:</p>
-
 <pre class="prettyprint">echo "This is a text." | mail -s "Testing nullmailerl" [mail address for test]
 </pre>
-
 <p>Done.</p>
-
 <p>This is a basic tutorial. Nothing worth but save you some time. For me it is just a &ldquo;hey look at that&rdquo; post.</p>
-
 <p>Message of this tutorial: If you do have a mail account and you just need to send a few email with your vps - you should use nullmailer for that.</p>
 
             </div>

@@ -41,45 +41,42 @@
     <h2 class="content-head is-center" >Tutorial</h2>
         <div class="pure-g">
             <div class="l-box-lrg pure-u-1">
-            
-
-<h2 id="tutorial-find-files">Tutorial: find files</h2>
-
+            <h2 id="tutorial-find-files">Tutorial: find files</h2>
 <p>Find files with the console:</p>
-
 <ol>
-<li><p>Find files by filename</p>
-
+<li>
+<p>Find files by filename</p>
 <pre class="prettyprint prettyprinted">find / -name '*host*'
-</pre></li>
-
-<li><p>Find files by type and name</p>
-
+</pre>
+</li>
+<li>
+<p>Find files by type and name</p>
 <pre class="prettyprint prettyprinted">find /home -type f -name *.txt
-</pre></li>
-
-<li><p>Find files by type, name and content</p>
-
+</pre>
+</li>
+<li>
+<p>Find files by type, name and content</p>
 <pre class="prettyprint prettyprinted">find /home -type f -name *.txt | xargs grep Linux
 </pre>
-
 <p>Identify the disk by &ldquo;lable&rdquo; and copy the &ldquo;uuid&rdquo;.
-</pre></p></li>
-
-<li><p>Find files modified within the last 5 days</p>
-
+</pre></p>
+</li>
+<li>
+<p>Find files modified within the last 5 days</p>
 <pre class="prettyprint prettyprinted">find /etc/ -mtime -5 -print
-</pre>        </li>
-
-<li><p>Find files used (and locked) by a user &ldquo;www-data&rdquo;</p>
-
+</pre>        
+</li>
+<li>
+<p>Find files used (and locked) by a user &ldquo;www-data&rdquo;</p>
 <pre class="prettyprint prettyprinted">lsof -a -i -u www-data
-</pre></li>
-
-<li><p>List folders sorted by their used space</p>
-
+</pre>
+</li>
+<li>
+<p>List folders sorted by their used space</p>
 <pre class="prettyprint prettyprinted">du -x / | sort -rn | more
-</pre></li>
+</pre><blockquote>
+</blockquote>
+</li>
 </ol>
 
             </div>

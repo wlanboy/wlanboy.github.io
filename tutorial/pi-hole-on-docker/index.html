@@ -41,19 +41,13 @@
     <h2 class="content-head is-center" >Tutorial</h2>
         <div class="pure-g">
             <div class="l-box-lrg pure-u-1">
-            
-
-<h2 id="tutorial-pi-hole-on-docker">Tutorial: pi hole on docker</h2>
-
+            <h2 id="tutorial-pi-hole-on-docker">Tutorial: pi hole on docker</h2>
 <p>You do not need a raspberry pi to run an instance of the pi hole dns filter project.</p>
-
 <p>Steps:</p>
-
 <ul>
 <li>docker pull pihole/pihole:latest</li>
 <li>vim docker-compose.yml with content:</li>
 </ul>
-
 <pre class="prettyprint prettyprinted">
 pihole:
   restart: unless-stopped
@@ -74,13 +68,11 @@ pihole:
     - "53:53/udp"
     - "80:80"
 </pre>
-
 <ul>
 <li>mkdir ~/pihole &amp;&amp; mkdir ~/pihole-dnsmasq</li>
 <li>docker-compose up</li>
 <li>Add filter lists to pi hole:</li>
 </ul>
-
 <pre class="prettyprint prettyprinted">
 https://raw.githubusercontent.com/crazy-max/WindowsSpyBlocker/master/data/hosts/win10/spy.txt
 https://raw.githubusercontent.com/quidsup/notrack/master/trackers.txt
@@ -88,7 +80,8 @@ https://github.com/chadmayfield/pihole-blocklists/raw/master/lists/pi_blocklist_
 https://v.firebog.net/hosts/Prigent-Phishing.txt
 https://v.firebog.net/hosts/Prigent-Malware.txt
 https://mirror.cedia.org.ec/malwaredomains/immortal_domains.txt
-</pre>
+</pre><blockquote>
+</blockquote>
 
             </div>
         </div>

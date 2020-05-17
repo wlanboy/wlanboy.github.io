@@ -41,25 +41,15 @@
     <h2 class="content-head is-center" >Tutorial</h2>
         <div class="pure-g">
             <div class="l-box-lrg pure-u-1">
-            
-
-<h2 id="tutorial-ftpserver">Tutorial: ftpserver</h2>
-
+            <h2 id="tutorial-ftpserver">Tutorial: ftpserver</h2>
 <p>Sometimes you want to create an easy way to share files, or you want to give access to a friend helping you on some php problems.</p>
-
 <p>But you do not want to give them ssh/scp access to your vps.</p>
-
 <p>There are two easy ways: webdav and good old ftp.</p>
-
 <p>This tutorial will cover the ftp part.</p>
-
 <p>1. Install required packages</p>
-
 <pre class="prettyprint">sudo apt-get install vsftpd openssl apache2-utils libpam-pwdfile
 </pre>
-
 <p>2. Create config folder and ssl files</p>
-
 <pre class="prettyprint">#one folder to hold all certs and passwd files
 sudo mkdir /etc/vsftpd
 #create ssl key and cert
@@ -68,12 +58,9 @@ sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/vsftpd/vsf
 sudo mkdir /var/www
 sudo chown ftp:www-data /var/www
 </pre>
-
 <p>3. Change vsftpd auth method</p>
-
 <pre class="prettyprint">sudo nano /etc/pam.d/vsftpd
 </pre>
-
 <pre class="prettyprint"># Standard behaviour for ftpd(8).
 auth   required        pam_listfile.so item=user sense=deny file=/etc/ftpusers onerr=succeed
 
@@ -89,11 +76,8 @@ auth   required        pam_listfile.so item=user sense=deny file=/etc/ftpusers o
 auth    required pam_pwdfile.so pwdfile /etc/vsftpd/passwd
 account required pam_permit.so
 </pre>
-
 <p>Keep the first line, comment out everything else and add the last two lines.</p>
-
 <p>4. Add ftp users (virtual ones - no system users)</p>
-
 <pre class="prettyprint">#first user (-c = create passwd file)
 htpasswd -cd /etc/vsftpd/passwd test
 #subsequent users
@@ -106,18 +90,14 @@ nano /etc/vsftpd/allowed.userlist
 sudo mkdir /var/www/test && chown ftp:www-data /var/www/test
 
 </pre>
-
 <p>5. Create vsftpd config</p>
-
 <pre class="prettyprint">#save the old one
 sudo mv /etc/vsftpd.conf /etc/vsftpd-sik.conf
 
 #create a new one
 nano /etc/vsftpd.conf
 </pre>
-
 <p>Content of vsftpd.conf</p>
-
 <pre class="prettyprint"># Allow anonymous FTP?
 anonymous_enable=NO
 listen=YES
@@ -206,35 +186,24 @@ rsa_private_key_file=/etc/vsftpd/vsftpd.key
 # welcome message
 ftpd_banner=My ftp server
 </pre>
-
 <p>So we enabled ssl, disabled anonymous access, defined passive port range (for the iptable rules), enabled the userlist of active ftp users, switched to virtual users and defined the chroot path for ftp users:</p>
-
 <pre class="prettyprint"># Token for user name
 user_sub_token=$USER
 # User home directory. Needs to exist
 local_root=/var/www/$USER
 </pre>
-
 <p>The user &ldquo;mylogin1&rdquo; will have the home directory &ldquo;/var/www/mylogin1&rdquo;.</p>
-
 <p>If you want to add a message per folder you can add a &ldquo;.message&rdquo; file for each folder:</p>
-
 <pre class="prettyprint">sudo nano /var/www/bloguser/.message
 </pre>
-
 <p>6. Restart service</p>
-
 <pre class="prettyprint">service vsftpd restart
 </pre>
-
 <p>Fingerprint of vsftpd is small too.</p>
-
 <pre class="prettyprint">  PID USER      PRI  NI  VIRT   RES   SHR S CPU% MEM%   TIME+  Command
  2713 ftp        20   0  4504  1632  1364 S  0.0  1.3  0:00.01 -- /usr/sbin/vsftpd
 </pre>
-
 <p>That&rsquo;s it.</p>
-
 <p>Looking forward to additional input.</p>
 
             </div>

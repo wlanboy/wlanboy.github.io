@@ -41,100 +41,72 @@
     <h2 class="content-head is-center" >Tutorial</h2>
         <div class="pure-g">
             <div class="l-box-lrg pure-u-1">
-            
-
-<h2 id="tutorial-scp-otpw">Tutorial: scp+otpw</h2>
-
+            <h2 id="tutorial-scpotpw">Tutorial: scp+otpw</h2>
 <p>I wanted to generate some one time passwords to allow a friend to login 10 times via scp to download some stuff. Sounds strange but I wanted to ensure that he is not using the account for anything else.</p>
-
 <p>So there are two things todo:</p>
-
 <ol>
 <li>Generate one time passwords</li>
 <li>Lock a user to scp only</li>
 </ol>
-
 <p><strong>Let&rsquo;s start with 1.:</strong></p>
-
 <ul>
-<li><p>Install otpw</p>
-
+<li>
+<p>Install otpw</p>
 <pre class="prettyprint">sudo apt-get install otpw-bin libpam-otpw
-</pre></li>
-
-<li><p>Configure common-auth</p>
-
+</pre>
+</li>
+<li>
+<p>Configure common-auth</p>
 <pre class="prettyprint">nano /etc/pam.d/common-auth
 </pre>
-
 <p>Find the line:</p>
-
 <pre class="prettyprint">auth    [success=1 default=ignore]      pam_unix.so nullok_secure
 </pre>
-
 <p>and add these lines above:</p>
-
 <pre class="prettyprint">auth       sufficient pam_otpw.so
 session    optional   pam_otpw.so
 </pre>
-
-<p>So every login will first try optw and afterwards try the common auth methods.</p></li>
-
-<li><p>Configure sshd<br />
+<p>So every login will first try optw and afterwards try the common auth methods.</p>
+</li>
+<li>
+<p>Configure sshd<br>
 Add a otpw config file:</p>
-
 <pre class="prettyprint">nano /etc/pam.d/otpw
 </pre>
-
 <p>With content:</p>
-
 <pre class="prettyprint">auth           sufficient      pam_otpw.so
 session        optional        pam_otpw.so
 </pre>
-
 <p>Include otpw config to sshd auth config:</p>
-
 <pre class="prettyprint">nano /etc/pam.d/sshd
 </pre>
-
 <p>Search for:</p>
-
 <pre class="prettyprint">@include common-auth
 </pre>
-
 <p>And add this line above:</p>
-
 <pre class="prettyprint">@include otpw
 </pre>
-
-<p>Afterwards modify sshd config:<br />
+<p>Afterwards modify sshd config:<br>
 Ensure that this three parameters are set to &ldquo;yes&rdquo;:</p>
-
 <pre class="prettyprint">UsePrivilegeSeparation yes
 ChallengeResponseAuthentication yes
 UsePAM yes
-</pre></li>
-
-<li><p>Restart sshd</p>
-
+</pre>
+</li>
+<li>
+<p>Restart sshd</p>
 <pre class="prettyprint">service ssh restart
-</pre></li>
+</pre>
+</li>
 </ul>
-
 <p>This is a basic configuration of otpw. It ensures that otpw is only used for users which do have a otpw config file (~/.otpw) in their home directory. All other users will not notice that otpw is active.</p>
-
 <p>Following command will generate 4 one time passwords:</p>
-
 <pre class="prettyprint">otpw-gen -h 5 -w 64
 </pre>
-
 <p>Following command will generate 10 one time passwords:</p>
-
 <pre class="prettyprint">otpw-gen -h 6 -w 79
 </pre>
-
 <p>Output would look like this (called with context of user):</p>
-
 <pre class="prettyprint">otpw-gen -h 6 -w 79
 Generating random seed ...
 
@@ -165,9 +137,7 @@ OTPW list generated 2013-07-09 20:02 on debian
 
             !!! REMEMBER: Enter the PREFIX PASSWORD first !!!
 </pre>
-
 <p>SSH login:</p>
-
 <pre class="prettyprint">login as: test
 Using keyboard-interactive authentication.
 Password 003:
@@ -183,57 +153,38 @@ Last login: Tue Jul  9 20:03:23 2013 from 192.168.200.10
 test@debian:~$
 
 </pre>
-
 <p>If you entered the prefix password &ldquo;pass&rdquo; the real password for 003 is:</p>
-
 <pre class="prettyprint">passcQQr v8O4
 </pre>
-
 <p>Just append it without any space.</p>
-
 <p>Now create a group for all optw users and add the users:</p>
-
 <pre class="prettyprint">addgroup optw
 adduser test optw
 </pre>
-
 <p>And change file permissions:</p>
-
 <pre class="prettyprint">chown root:optw /home/test/.otpw
 chmod 640 /home/test/.otpw
 </pre>
-
 <p>And to ensure that noone can reset the passwords:</p>
-
 <pre class="prettyprint">chmod 750 /usr/bin/otpw-gen
 </pre>
-
 <p><strong>Now start with point 2.</strong> - limit shell to scp:</p>
-
 <pre class="prettyprint">apt-get install rssh
 apt-get install scponly
 </pre>
-
 <p>There are two shells doing that:</p>
-
 <ul>
 <li>rssh is a configurable shell that limits the actions of a user</li>
 <li>scponly is a shell that &hellip; well &hellip; only has scp commands.</li>
 </ul>
-
 <p>Now you have to add the shell to a user:</p>
-
 <pre class="prettyprint">usermod -s /usr/sbin/scponly test
 usermod -s /usr/sbin/rssh test
 </pre>
-
 <p>And you can confiure rssh quite descent:</p>
-
 <pre class="prettyprint">nano /etc/rssh.conf
 </pre>
-
 <p>Content:</p>
-
 <pre class="prettyprint"># Leave these all commented out to make the default action for rssh to lock
 # users out completely...
 
@@ -249,13 +200,9 @@ allowscp
 user=test:011:000010:"/opt/scpspace/test chroot"  # scp with chroot
 
 </pre>
-
 <p>Done.</p>
-
 <p>I don&rsquo;t like the otpw-gen handling because even if you chown the file to root:root the .otpw file is recreated when the user is calling otpw-gen. So everytime I have to add a user I have to chmod /usr/bin/otpw-gen.</p>
-
 <p>So I am still searching for a better solution for one time passwords.</p>
-
 <p>How do you lock users and the number of logins?</p>
 
             </div>

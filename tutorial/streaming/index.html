@@ -41,26 +41,16 @@
     <h2 class="content-head is-center" >Tutorial</h2>
         <div class="pure-g">
             <div class="l-box-lrg pure-u-1">
-            
-
-<h2 id="tutorial-streaming">Tutorial: streaming</h2>
-
+            <h2 id="tutorial-streaming">Tutorial: streaming</h2>
 <p>Music Player Daemon (mpd) for Linux allows remote access to music files and managing playlists and of course streaming (via http) of the music too.</p>
-
 <p>Patchfork is a PHP (Pear) script that is able to control mpd.</p>
-
 <p>1. Install mpd</p>
-
 <pre class="prettyprint">apt-get install mpd lame
 </pre>
-
 <p>2. Configure mpd</p>
-
 <pre class="prettyprint">nano /etc/mpd.conf
 </pre>
-
 <p>Paths and rights</p>
-
 <pre class="prettyprint">music_directory         "/var/lib/mpd/music" #or where ever you store the music
 playlist_directory      "/var/lib/mpd/playlists"
 db_file                 "/var/lib/mpd/tag_cache"
@@ -72,18 +62,16 @@ auto_update             "yes" #search for new music - e.g. for streamripper user
 password                        "test@read,add,control,admin" #password = test
 default_permissions             "" # so no rights for empty password
 </pre>
-
 <p>Audio setup for http streaming using vorbis or lame:</p>
-
 <pre class="prettyprint">audio_output {
-    type  "httpd"
-    name  "my music"
-    encoder  "vorbis"  # or lame
-    port  "8080"
-    #quality  "5.0"   # do not define if bitrate is defined
-    bitrate  "128"   # do not define if quality is defined
-    format  "44100:16:1" # 44100:16:2 for lame
-    max_clients "2"   # optional 0=no limit
+	type  "httpd"
+	name  "my music"
+	encoder  "vorbis"  # or lame
+	port  "8080"
+	#quality  "5.0"   # do not define if bitrate is defined
+	bitrate  "128"   # do not define if quality is defined
+	format  "44100:16:1" # 44100:16:2 for lame
+	max_clients "2"   # optional 0=no limit
 }
 
 decoder {
@@ -91,48 +79,30 @@ decoder {
         enabled "no"
 } 
 </pre>
-
 <p>You can define a shoutcast server for output too. But I do prefer the build in http streaming server (and lame).</p>
-
 <p>And restart mpd:</p>
-
 <pre class="prettyprint">service mpd restart
 </pre>
-
 <p>3. Install patchfork</p>
-
 <p>Ensure that you have php5 installed - and php-pear too:</p>
-
 <pre class="prettyprint">apt-get install php-pear
 </pre>
-
 <p>Get patchfork</p>
-
 <pre class="prettyprint">cd /var/www
 git clone http://git.joshuawise.com/git/patchfork.git
 chmod 775 config
 </pre>
-
 <p>4. Start patchfork</p>
-
 <pre class="prettyprint">http://127.0.0.1/patchfork
 </pre>
-
 <p>Add the config to find the local mpd server:</p>
-
-<p><img src="/imgcontent/pitchfork1.JPG" alt="pitchfork1.JPG" /></p>
-
+<p><img src="/imgcontent/pitchfork1.JPG" alt="pitchfork1.JPG"></p>
 <p>The status info should switch to green:</p>
-
-<p><img src="/imgcontent/pitchfork2.JPG" alt="pitchfork2.JPG" /></p>
-
+<p><img src="/imgcontent/pitchfork2.JPG" alt="pitchfork2.JPG"></p>
 <p>5. Setup a frame (or what you want)</p>
-
 <pre class="prettyprint">nano /var/www/radio.html
 </pre>
-
 <p>Content:</p>
-
 <pre class="prettyprint"><html>
 <head>
 <title>Radio</title>
@@ -144,11 +114,8 @@ chmod 775 config
 </html>
 
 </pre>
-
 <p>So you do not have to open another window to listen to the music.</p>
-
 <p>And for the shoutcast lovers: Patchfork does have a shoutcast integration too.</p>
-
 <p>Looking forward to other &ldquo;stream my music&rdquo; setups.</p>
 
             </div>

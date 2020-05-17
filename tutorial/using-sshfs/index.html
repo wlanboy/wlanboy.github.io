@@ -41,43 +41,37 @@
     <h2 class="content-head is-center" >Tutorial</h2>
         <div class="pure-g">
             <div class="l-box-lrg pure-u-1">
-            
-
-<h2 id="tutorial-using-sshfs">Tutorial: using sshfs</h2>
-
+            <h2 id="tutorial-using-sshfs">Tutorial: using sshfs</h2>
 <p>Use sshfs to mount a remote path through ssh:</p>
-
 <ol>
-<li><p>Create folder and add sshfs link</p>
-
+<li>
+<p>Create folder and add sshfs link</p>
 <pre class="prettyprint prettyprinted">
 mkdir ~/my-folder
 sshfs username@remoteserverip:/foldertomount/ ~/my-folder
-</pre></li>
-
-<li><p>Mount external folder</p>
-
+</pre>
+</li>
+<li>
+<p>Mount external folder</p>
 <pre class="prettyprint prettyprinted">fusermount -u ~/my-folder
-</pre></li>
+</pre>
+</li>
+<li>
+<p>Add reconnect options</p>
+<pre class="prettyprint prettyprinted">sshfs -o reconnect,ServerAliveInterval=15,ServerAliveCountMax=3 username@remoteserverip:/foldertomount/ ~/my-folder
 
-<li><p>Add reconnect options</p>
-
-<p><pre class="prettyprint prettyprinted">sshfs -o reconnect,ServerAliveInterval=15,ServerAliveCountMax=3 username@remoteserverip:/foldertomount/ ~/my-folder</p>
-
-<ul>
-<li>Allow reconnects</li>
-<li>Check remote server every 15 seconds</li>
-<li>Allow up to 3 failed checks
-</pre></li>
-</ul>
-
+- Allow reconnects
+- Check remote server every 15 seconds
+- Allow up to 3 failed checks
+</pre>
 <p>Identify the disk by &ldquo;lable&rdquo; and copy the &ldquo;uuid&rdquo;.
-</pre></p></li>
-
-<li><p>Add ssh key for automatic login</p>
-
+</pre></p>
+</li>
+<li>
+<p>Add ssh key for automatic login</p>
 <pre class="prettyprint prettyprinted">sshfs -o IdentityFile=~/.ssh/myprivatekey
-</pre>        </li>
+</pre>        
+</li>
 </ol>
 
             </div>

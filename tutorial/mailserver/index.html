@@ -19,6 +19,7 @@
         <ul class="pure-menu-list">
             <li class="pure-menu-item pure-menu-selected"><a href="/#" class="pure-menu-link">Home</a></li>
             <li class="pure-menu-item"><a href="/#Tutorials" class="pure-menu-link">Tutorials</a></li>
+            <li class="pure-menu-item"><a href="/#Gists" class="pure-menu-link">Gists</a></li>
             <li class="pure-menu-item"><a href="/#System" class="pure-menu-link">System</a></li>
             <li class="pure-menu-item"><a href="/#About" class="pure-menu-link">About</a></li>
         </ul>
@@ -57,7 +58,7 @@ I want to keep my own emails and I want to keep my own backups.</p>
 </ul>
 <p>I will mark every step that is just adding a feature as <span style="color:#008080"><strong>OPTIONAL</strong></span>.</p>
 <p>So let&rsquo;s start with the preparations:</p>
-<p><span style="color:#ff0000"><span style="font-size:18px">**1. Setup your DNS:**</span></span></p>
+<p><span style="color:#ff0000"><span style="font-size:18px"><strong>1. Setup your DNS:</strong></span></span></p>
 <p><strong>Create an A record</strong> that is pointing to your vps (which should run the mailserver).</p>
 <pre class="prettyprint">mailserver 55.55.55.55 A 1800
 mailserver 2500:f5f5:25::b25f:2525 AAAA 1800
@@ -446,7 +447,7 @@ postmap relay_transport
 <p>You can even decide to drop the iptables/ip6tables rules for <span>SMTP/POP3/IMAP to ensure every client is only using SSL secured connections.</span></p>
 <p>If you need a GUI for this mail server:</p>
 <p>Use a second vps with webserver and php and install <a href="http://roundcube.net/" title="External link">roundcube</a>.</p>
-<p><span style="font-size:18px">**Additional notes:**</span></p>
+<p><span style="font-size:18px"><strong>Additional notes:</strong></span></p>
 <p>Yup you are right there is not a fancy clicky GUI to add new mailboxes. But I like the idea to keep things simple.</p>
 <p>Adding a user to a linux system (one without a console access) is dead simple. Adding an alias for him too.</p>
 <p>This is a private server - so you will not add new users every minute.</p>

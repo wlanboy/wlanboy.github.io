@@ -19,6 +19,7 @@
         <ul class="pure-menu-list">
             <li class="pure-menu-item pure-menu-selected"><a href="/#" class="pure-menu-link">Home</a></li>
             <li class="pure-menu-item"><a href="/#Tutorials" class="pure-menu-link">Tutorials</a></li>
+            <li class="pure-menu-item"><a href="/#Gists" class="pure-menu-link">Gists</a></li>
             <li class="pure-menu-item"><a href="/#System" class="pure-menu-link">System</a></li>
             <li class="pure-menu-item"><a href="/#About" class="pure-menu-link">About</a></li>
         </ul>
@@ -281,7 +282,7 @@ PRIMARY> db.simple.find()
 <pre class="prettyprint">db.logins.ensureIndex( { "user_id": 1 }, { unique: true } )
 </pre>
 <p>By default, <span>unique</span> is <span>false</span> on MongoDB indexes - so you have to set this option.</p>
-<p>If you have a lot of documents in one collection you should set the option &ldquo;<span>{</span><span>background</span><span>:</span> <span>true</span><span>}&ldquo;</span> to ensure that the index creation is done in background and is therefore non blocking.</p>
+<p>If you have a lot of documents in one collection you should set the option &ldquo;<span>{</span><span>background</span><span>:</span> <span>true</span><span>}&quot;</span> to ensure that the index creation is done in background and is therefore non blocking.</p>
 <p>That&rsquo;s it.</p>
 <p>Select you fav mongodb driver - you will find a lot: <a href="http://docs.mongodb.org/ecosystem/drivers/" title="External link">http://docs.mongodb&hellip;.system/drivers/</a> - and start using your MongoDB.</p>
 

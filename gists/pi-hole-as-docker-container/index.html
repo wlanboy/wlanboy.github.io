@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta name="generator" content="wlanboy" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="wlanboy wlanboy.com tutorials and ruby scripts">
+    <title>wlanboy - tutorials and ruby scripts - pi-hole-as-docker-container</title>
+
+    <link rel="stylesheet" href="/css/pure-min.css">
+    <link rel="stylesheet" href="/css/grids-responsive-min.css">
+    <link rel="stylesheet" href="/css/font-awesome.css">
+    <link rel="stylesheet" href="/css/layouts/wlanboy.css">
+</head>
+<body>
+
+<div class="header" id="header">
+    <div class="home-menu pure-menu pure-menu-horizontal pure-menu-fixed">
+        <ul class="pure-menu-list">
+            <li class="pure-menu-item pure-menu-selected"><a href="/#" class="pure-menu-link">Home</a></li>
+            <li class="pure-menu-item"><a href="/#Tutorials" class="pure-menu-link">Tutorials</a></li>
+            <li class="pure-menu-item"><a href="/#Gists" class="pure-menu-link">Gists</a></li>
+            <li class="pure-menu-item"><a href="/#System" class="pure-menu-link">System</a></li>
+            <li class="pure-menu-item"><a href="/#About" class="pure-menu-link">About</a></li>
+        </ul>
+    </div>
+</div>
+
+<div class="splash-container">
+    <div class="splash">
+        <h1 class="splash-head">wlanboy</h1>
+        <p class="splash-subhead">
+            tutorials and ruby scripts
+        </p>
+        <p>
+            <a href="/#Tutorials" class="pure-button pure-button-primary">Read my tutorials</a>
+        </p>
+    </div>
+</div>
+<div class="content-wrapper" id="Gist">
+    <div class="content">
+    <h2 class="content-head is-center" >Gist</h2>
+        <div class="pure-g">
+            <div class="l-box-lrg pure-u-1">
+            <h2 id="gist-pi-hole-as-docker-container">Gist: pi-hole-as-docker-container</h2>
+<pre class="prettyprint prettyprinted">
+docker pull pihole/pihole:latest
+
+vim docker-compose.yml
+
+============================================================
+pihole:
+  restart: unless-stopped
+  container_name: pihole
+  image: pihole/pi-hole:latest
+  volumes:
+    - /home/wlanboy/pihole/:/etc/pihole/
+    - /home/wlanboy/pihole-dnsmasq/:/etc/dnsmasq.d/'
+  environment:
+    - TZ=Europe/Berlin
+    - ServerIP=your-docker-host-public-ip
+    - WEBPASSWORD=your-secure-password
+  dns:
+    - 8.8.8.8
+    - 8.8.4.4
+  ports:
+    - "53:53/tcp"
+    - "53:53/udp"
+    - "80:80"
+============================================================
+docker-compose up
+
+List of the Black Lists
+============================================================
+https://raw.githubusercontent.com/crazy-max/WindowsSpyBlocker/master/data/hosts/win10/spy.txt
+https://raw.githubusercontent.com/quidsup/notrack/master/trackers.txt
+https://github.com/chadmayfield/pihole-blocklists/raw/master/lists/pi_blocklist_porn_all.list
+https://v.firebog.net/hosts/Prigent-Phishing.txt
+https://v.firebog.net/hosts/Prigent-Malware.txt
+https://mirror.cedia.org.ec/malwaredomains/immortal_domains.txt
+============================================================
+
+
+Windows set DNS primary and secondary DNS servers:
+============================================================
+#get index of your network card:
+Get-NetAdapter | Select-Object InterfaceAlias , InterfaceIndex
+#get dns info
+Get-DnsClientServerAddress -InterfaceIndex 9
+#set dns info
+Set-DNSClientServerAddress –interfaceIndex 9 –ServerAddresses ("ip-of-docker-host")
+============================================================
+</pre><blockquote>
+</blockquote>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="footer l-box is-center">
+        <p class="footer">
+            wlanboy.com | Proudly powered by Ruby | Github
+        </p>
+    </div>
+</div>
+
+</body></html>

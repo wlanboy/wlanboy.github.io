@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta name="generator" content="wlanboy" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="wlanboy wlanboy.com tutorials and ruby scripts">
+    <title>wlanboy - tutorials and ruby scripts - two-php-versions-and-apache2</title>
+
+    <link rel="stylesheet" href="/css/pure-min.css">
+    <link rel="stylesheet" href="/css/grids-responsive-min.css">
+    <link rel="stylesheet" href="/css/font-awesome.css">
+    <link rel="stylesheet" href="/css/layouts/wlanboy.css">
+</head>
+<body>
+
+<div class="header" id="header">
+    <div class="home-menu pure-menu pure-menu-horizontal pure-menu-fixed">
+        <ul class="pure-menu-list">
+            <li class="pure-menu-item pure-menu-selected"><a href="/#" class="pure-menu-link">Home</a></li>
+            <li class="pure-menu-item"><a href="/#Tutorials" class="pure-menu-link">Tutorials</a></li>
+            <li class="pure-menu-item"><a href="/#Gists" class="pure-menu-link">Gists</a></li>
+            <li class="pure-menu-item"><a href="/#System" class="pure-menu-link">System</a></li>
+            <li class="pure-menu-item"><a href="/#About" class="pure-menu-link">About</a></li>
+        </ul>
+    </div>
+</div>
+
+<div class="splash-container">
+    <div class="splash">
+        <h1 class="splash-head">wlanboy</h1>
+        <p class="splash-subhead">
+            tutorials and ruby scripts
+        </p>
+        <p>
+            <a href="/#Tutorials" class="pure-button pure-button-primary">Read my tutorials</a>
+        </p>
+    </div>
+</div>
+<div class="content-wrapper" id="Gist">
+    <div class="content">
+    <h2 class="content-head is-center" >Gist</h2>
+        <div class="pure-g">
+            <div class="l-box-lrg pure-u-1">
+            <h2 id="gist-two-php-versions-and-apache2">Gist: two-php-versions-and-apache2</h2>
+<pre class="prettyprint prettyprinted">
+apt update
+apt install apache2 libapache2-mod-fcgid apache2-utils software-properties-common
+
+apt install php5.6 php5.6-fpm php5.6-zip php5.6-sqlite3 php5.6-mysql php5.6-mcrypt php5.6-mbstring php5.6-gd php5.6-imagick
+apt install php7.2 php7.2-fpm php7.2-zip php7.2-sqlite3 php7.2-mysql php7.2-mbstring php7.2-gd php7.2-imagick
+
+a2enmod actions alias proxy_fcgi fcgid
+systemctl restart apache2
+
+nano /etc/apache2/apache2.conf
+-------------------------------------------------------------
+<Directory /var/www/>
+        Options Indexes FollowSymLinks
+        AllowOverride All
+        Require all granted
+</Directory>
+<Directory /var/www/html/php56>
+        Options Indexes FollowSymLinks
+        AllowOverride All
+        Require all granted
+</Directory>
+<Directory /var/www/html/php72>
+        Options Indexes FollowSymLinks
+        AllowOverride All
+        Require all granted
+</Directory>
+-------------------------------------------------------------
+
+mkdir /var/www/html/php56 
+echo "<?php phpinfo(); ?>" > /var/www/html/php56/index.php
+echo -e "<FilesMatch \.php>\nSetHandler \"proxy:unix:/var/run/php/php5.6-fpm.sock|fcgi://localhost/\"\n</FilesMatch>" > /var/www/html/php56/.htaccess
+
+mkdir /var/www/html/php72
+echo "<?php phpinfo(); ?>" > /var/www/html/php72/index.php
+echo -e "<FilesMatch \.php>\nSetHandler \"proxy:unix:/var/run/php/php7.2-fpm.sock|fcgi://localhost/\"\n</FilesMatch>" > /var/www/html/php72/.htaccess
+
+http://127.0.0.1/php56/index.php
+http://127.0.0.1/php72/index.php
+</pre><blockquote>
+</blockquote>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="footer l-box is-center">
+        <p class="footer">
+            wlanboy.com | Proudly powered by Ruby | Github
+        </p>
+    </div>
+</div>
+
+</body></html>

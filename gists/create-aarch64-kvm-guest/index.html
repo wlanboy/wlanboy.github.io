@@ -47,6 +47,9 @@
             <div class="l-box-lrg pure-u-1">
             <h2 id="gist-create-aarch64-kvm-guest">Gist: create-aarch64-kvm-guest</h2>
 <pre class="prettyprint prettyprinted">
+sudo apt-get install qemu-system-arm qemu-efi-aarch64 qemu-utils
+</pre>
+<pre class="prettyprint prettyprinted">
 qemu-img create -f qcow2 debian-aarch64.qcow2 5G
 wget https://cdimage.debian.org/debian-cd/current/arm64/iso-cd/debian-10.3.0-arm64-netinst.iso
 

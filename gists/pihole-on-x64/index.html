@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta name="generator" content="wlanboy" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="wlanboy wlanboy.com tutorials and ruby scripts">
+    <title>wlanboy - tutorials and ruby scripts - pihole-on-x64</title>
+
+    <link rel="stylesheet" href="/css/pure-min.css">
+    <link rel="stylesheet" href="/css/grids-responsive-min.css">
+    <link rel="stylesheet" href="/css/font-awesome.css">
+    <link rel="stylesheet" href="/css/layouts/wlanboy.css">
+</head>
+<body>
+
+<div class="header" id="header">
+    <div class="home-menu pure-menu pure-menu-horizontal pure-menu-fixed">
+        <ul class="pure-menu-list">
+            <li class="pure-menu-item"><a href="/#" class="pure-menu-link">Home</a></li>
+            <li class="pure-menu-item"><a href="/#Tutorials" class="pure-menu-link">Tutorials</a></li>
+            <li class="pure-menu-item pure-menu-selected"><a href="/#Gists" class="pure-menu-link">Gists</a></li>
+            <li class="pure-menu-item"><a href="/#System" class="pure-menu-link">System</a></li>
+            <li class="pure-menu-item"><a href="/#About" class="pure-menu-link">About</a></li>
+        </ul>
+    </div>
+</div>
+
+<div class="splash-container">
+    <div class="splash">
+        <h1 class="splash-head">wlanboy</h1>
+        <p class="splash-subhead">
+            tutorials and ruby scripts
+        </p>
+        <p>
+            <a href="/#Tutorials" class="pure-button pure-button-primary">Read my tutorials</a>
+        </p>
+        <p>
+            <a href="/#Gists" class="pure-button pure-button-primary">Read my gists</a>
+        </p>
+    </div>
+</div>
+<div class="content-wrapper" id="Gist">
+    <div class="content">
+    <h2 class="content-head is-center" >Gist</h2>
+        <div class="pure-g">
+            <div class="l-box-lrg pure-u-1">
+            <h2 id="gist-pihole-on-x64">Gist: pihole-on-x64</h2>
+<ol>
+<li>Prepare parameters</li>
+</ol>
+<pre class="prettyprint prettyprinted">
+export MYIP=192.168.0.10
+export DNS1=192.168.0.1
+export DNS2=8.8.8.8
+
+mkdir -p ~/pihole/{etc,dns}
+</pre>
+<ol start="2">
+<li>Run PiHole instance on your pc</li>
+</ol>
+<pre class="prettyprint prettyprinted">
+docker run -d --name pihole \
+    -p 8080:80 -p $MYIP:53:53/tcp -p $MYIP:53:53/udp -p 67:67/udp \
+    -v ./pihole/etc/:/etc/pihole/ \
+    -v ./pihole/dns:/etc/dnsmasq.d/ \
+    -e TZ=Europe/Berlin \
+    -e ServerIP=$MYIP \
+    -e WEBPASSWORD=pihole \
+    -e DNS1=$DNS1 \
+    -e DNS2=$DNS2 \
+    --restart unless-stopped \
+    pihole/pihole:latest
+</pre><blockquote>
+</blockquote>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="footer l-box is-center">
+        <p class="footer">
+            wlanboy.com | Proudly powered by Ruby | Github
+        </p>
+    </div>
+</div>
+
+</body></html>

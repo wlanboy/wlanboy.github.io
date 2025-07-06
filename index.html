@@ -1,254 +1,71 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="de">
 <head>
-    <meta name="generator" content="wlanboy" />
-    <meta charset="utf-8">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="wlanboy wlanboy.com tutorials and ruby scripts">
-    <title>wlanboy - tutorials and ruby scripts</title>
-
-    <link rel="stylesheet" href="/css/pure-min.css">
-    <link rel="stylesheet" href="/css/grids-responsive-min.css">
-    <link rel="stylesheet" href="/css/font-awesome.css">
-    <link rel="stylesheet" href="/css/layouts/wlanboy.css">
+    <title>Homelab Terminal</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <div class="terminal-container">
+        <div class="terminal-header">
+            <span>user@homelab:~</span>
+            <button id="themeToggleButton" class="theme-toggle-button">Toggle Theme</button>
+        </div>
+        <div class="terminal-output" id="terminalOutput">
+            <p>Welcome to the Homelab Terminal!</p>
+            <p>Type '<span class="menu-command">help</span>' for a list of commands.</p>
+            <p>Type '<span class="menu-command">clear</span>' to clear the terminal.</p>
+            <p>Type '<span class="menu-command">menu</span>' to see available pages.</p>
+        </div>
+        <div class="terminal-input-line">
+            <span>user@homelab:~ $</span>
+            <input type="text" class="terminal-input" id="terminalInput" autofocus>
+        </div>
+    </div>
 
-<div class="header" id="header">
-    <div class="home-menu pure-menu pure-menu-horizontal pure-menu-fixed">
-        <ul class="pure-menu-list">
-            <li class="pure-menu-item pure-menu-selected"><a href="/#" class="pure-menu-link">Home</a></li>
-            <li class="pure-menu-item"><a href="/#Tutorials" class="pure-menu-link">Tutorials</a></li>
-            <li class="pure-menu-item"><a href="/#Gists" class="pure-menu-link">Gists</a></li>
-            <li class="pure-menu-item"><a href="/#System" class="pure-menu-link">System</a></li>
-            <li class="pure-menu-item"><a href="/#About" class="pure-menu-link">About</a></li>
+    <div id="homepage" class="page-content">
+        <p>Welcome to the Homelab Terminal!</p>
+        <p>Type '<span class="menu-command">help</span>' for a list of commands.</p>
+        <p>Type '<span class="menu-command">clear</span>' to clear the terminal.</p>
+        <p>Type '<span class="menu-command">menu</span>' to see available pages.</p>
+    </div>
+
+    <div id="homelabPage" class="page-content">
+        <h2>Homelab Software</h2>
+        <ul>
+            <li><strong>Proxmox VE:</strong> Virtualization environment for VMs and containers.</li>
+            <li><strong>TrueNAS SCALE:</strong> Network-attached storage (NAS) and application platform.</li>
+            <li><strong>PiHole</strong> DNS blocking service, DNS for local serviecs.</li>
+            <li><strong>Immich:</strong> Local photo sync and backup service.</li>
+            <li><strong>Grafana & Prometheus:</strong> Monitoring and alerting for the homelab.</li>
+            <li><strong>k3s:</strong> Container runtime.</li>
         </ul>
     </div>
-</div>
 
-<div class="splash-container">
-    <div class="splash">
-        <h1 class="splash-head">wlanboy</h1>
-        <p class="splash-subhead">
-            tutorials and ruby scripts
-        </p>
-        <p>
-            <a href="/#Tutorials" class="pure-button pure-button-primary">Read my tutorials</a>
-        </p>
-        <p>
-            <a href="/#Gists" class="pure-button pure-button-primary">Read my gists</a>
-        </p>
-    </div>
-</div>
-<div class="content-wrapper" id="Tutorials">
-    <div class="content">
-        <h2 class="content-head is-center">Tutorials</h2>
-        <div class="pure-g">
-            <div class="l-box-lrg pure-u-1 pure-u-md-3-5">
-            <p><ul>
-                
-                    <li><a class='pure-content-link' href='/tutorial/caldav/index.html#Tutorial' target='_self'>caldav</a></li>
-                
-                    <li><a class='pure-content-link' href='/tutorial/dd-wrt-vpn/index.html#Tutorial' target='_self'>dd-wrt-vpn</a></li>
-                
-                    <li><a class='pure-content-link' href='/tutorial/dns-failover/index.html#Tutorial' target='_self'>dns-failover</a></li>
-                
-                    <li><a class='pure-content-link' href='/tutorial/docker-on-arm/index.html#Tutorial' target='_self'>docker-on-arm</a></li>
-                
-                    <li><a class='pure-content-link' href='/tutorial/console-find-files/index.html#Tutorial' target='_self'>find files</a></li>
-                
-                    <li><a class='pure-content-link' href='/tutorial/freebsd/index.html#Tutorial' target='_self'>freebsd</a></li>
-                
-                    <li><a class='pure-content-link' href='/tutorial/freebsd-lighttpd/index.html#Tutorial' target='_self'>freebsd lighttpd</a></li>
-                
-                    <li><a class='pure-content-link' href='/tutorial/freebsd-mysql/index.html#Tutorial' target='_self'>freebsd mysql</a></li>
-                
-                    <li><a class='pure-content-link' href='/tutorial/freebsd-redis/index.html#Tutorial' target='_self'>freebsd redis</a></li>
-                
-                    <li><a class='pure-content-link' href='/tutorial/ftpserver/index.html#Tutorial' target='_self'>ftpserver</a></li>
-                
-                    <li><a class='pure-content-link' href='/tutorial/haveged/index.html#Tutorial' target='_self'>haveged</a></li>
-                
-                    <li><a class='pure-content-link' href='/tutorial/iptables/index.html#Tutorial' target='_self'>iptables</a></li>
-                
-                    <li><a class='pure-content-link' href='/tutorial/ipv6/index.html#Tutorial' target='_self'>ipv6</a></li>
-                
-                    <li><a class='pure-content-link' href='/tutorial/ipv6-only-vps-behind-cloudflare/index.html#Tutorial' target='_self'>ipv6-only-vps-behind-cloudflare</a></li>
-                
-                    <li><a class='pure-content-link' href='/tutorial/jetty/index.html#Tutorial' target='_self'>jetty</a></li>
-                
-                    <li><a class='pure-content-link' href='/tutorial/kvm/index.html#Tutorial' target='_self'>kvm</a></li>
-                
-                    <li><a class='pure-content-link' href='/tutorial/kvm-aarch64-guest/index.html#Tutorial' target='_self'>kvm-aarch64-guest</a></li>
-                
-                    <li><a class='pure-content-link' href='/tutorial/kvm-windows-guest/index.html#Tutorial' target='_self'>kvm-windows-guest</a></li>
-                
-                    <li><a class='pure-content-link' href='/tutorial/lighttpd/index.html#Tutorial' target='_self'>lighttpd</a></li>
-                
-                    <li><a class='pure-content-link' href='/tutorial/lxc/index.html#Tutorial' target='_self'>lxc</a></li>
-                
-                    <li><a class='pure-content-link' href='/tutorial/mailserver/index.html#Tutorial' target='_self'>mailserver</a></li>
-                
-                    <li><a class='pure-content-link' href='/tutorial/mirror-git-repro/index.html#Tutorial' target='_self'>mirror a local git repository</a></li>
-                
-                    <li><a class='pure-content-link' href='/tutorial/mongodb/index.html#Tutorial' target='_self'>mongodb</a></li>
-                
-                    <li><a class='pure-content-link' href='/tutorial/mosquitto/index.html#Tutorial' target='_self'>mosquitto</a></li>
-                
-                    <li><a class='pure-content-link' href='/tutorial/motd/index.html#Tutorial' target='_self'>motd</a></li>
-                
-                    <li><a class='pure-content-link' href='/tutorial/munin/index.html#Tutorial' target='_self'>munin</a></li>
-                
-                    <li><a class='pure-content-link' href='/tutorial/nullmailer/index.html#Tutorial' target='_self'>nullmailer</a></li>
-                
-                    <li><a class='pure-content-link' href='/tutorial/openvpn/index.html#Tutorial' target='_self'>openvpn</a></li>
-                
-                    <li><a class='pure-content-link' href='/tutorial/pi-hole-on-docker/index.html#Tutorial' target='_self'>pi hole on docker</a></li>
-                
-                    <li><a class='pure-content-link' href='/tutorial/prefer-ipv4/index.html#Tutorial' target='_self'>prefer ipv4 over ipv6</a></li>
-                
-                    <li><a class='pure-content-link' href='/tutorial/proxy/index.html#Tutorial' target='_self'>proxy</a></li>
-                
-                    <li><a class='pure-content-link' href='/tutorial/pxe-boot/index.html#Tutorial' target='_self'>pxe-boot</a></li>
-                
-                    <li><a class='pure-content-link' href='/tutorial/rabbitmq/index.html#Tutorial' target='_self'>rabbitmq</a></li>
-                
-                    <li><a class='pure-content-link' href='/tutorial/rabbitmq-bash/index.html#Tutorial' target='_self'>rabbitmq-bash</a></li>
-                
-                    <li><a class='pure-content-link' href='/tutorial/radiorecorder/index.html#Tutorial' target='_self'>radiorecorder</a></li>
-                
-                    <li><a class='pure-content-link' href='/tutorial/raspberrypi-electronics-i/index.html#Tutorial' target='_self'>raspberrypi-electronics-I</a></li>
-                
-                    <li><a class='pure-content-link' href='/tutorial/raspberrypi-electronics-ii/index.html#Tutorial' target='_self'>raspberrypi-electronics-II</a></li>
-                
-                    <li><a class='pure-content-link' href='/tutorial/raspberrypi-electronics-iii/index.html#Tutorial' target='_self'>raspberrypi-electronics-III</a></li>
-                
-                    <li><a class='pure-content-link' href='/tutorial/raspberrypi-electronics-iv/index.html#Tutorial' target='_self'>raspberrypi-electronics-IV</a></li>
-                
-                    <li><a class='pure-content-link' href='/tutorial/redis/index.html#Tutorial' target='_self'>redis</a></li>
-                
-                    <li><a class='pure-content-link' href='/tutorial/ruby/index.html#Tutorial' target='_self'>ruby</a></li>
-                
-                    <li><a class='pure-content-link' href='/tutorial/scp&#43;otpw/index.html#Tutorial' target='_self'>scp&#43;otpw</a></li>
-                
-                    <li><a class='pure-content-link' href='/tutorial/streaming/index.html#Tutorial' target='_self'>streaming</a></li>
-                
-                    <li><a class='pure-content-link' href='/tutorial/system-stats/index.html#Tutorial' target='_self'>system-stats</a></li>
-                
-                    <li><a class='pure-content-link' href='/tutorial/tmux/index.html#Tutorial' target='_self'>tmux</a></li>
-                
-                    <li><a class='pure-content-link' href='/tutorial/tmux-configuration/index.html#Tutorial' target='_self'>tmux-configuration</a></li>
-                
-                    <li><a class='pure-content-link' href='/tutorial/ubuntu-mouse-cursor-stuck-in-corner/index.html#Tutorial' target='_self'>ubuntu-mouse-cursor-stuck-in-corner</a></li>
-                
-                    <li><a class='pure-content-link' href='/tutorial/usefull-git-commands/index.html#Tutorial' target='_self'>usefull-git-commands</a></li>
-                
-                    <li><a class='pure-content-link' href='/tutorial/using-sshfs/index.html#Tutorial' target='_self'>using sshfs</a></li>
-                
-                    <li><a class='pure-content-link' href='/tutorial/varnish/index.html#Tutorial' target='_self'>varnish</a></li>
-                
-                    <li><a class='pure-content-link' href='/tutorial/visual-studio-code-webserver/index.html#Tutorial' target='_self'>visual-studio-code-webserver</a></li>
-                
-                    <li><a class='pure-content-link' href='/tutorial/web-kanban-board/index.html#Tutorial' target='_self'>web-kanban-board</a></li>
-                
-                    <li><a class='pure-content-link' href='/tutorial/web-ssh/index.html#Tutorial' target='_self'>web-ssh</a></li>
-                
-                    <li><a class='pure-content-link' href='/tutorial/windows-remove-uefi-entry/index.html#Tutorial' target='_self'>windows-remove-uefi-entry</a></li>
-                
-                    <li><a class='pure-content-link' href='/tutorial/wlan-hotspot/index.html#Tutorial' target='_self'>wlan-hotspot</a></li>
-                
-                    <li><a class='pure-content-link' href='/tutorial/wordpress-security/index.html#Tutorial' target='_self'>wordpress security</a></li>
-                
-                    <li><a class='pure-content-link' href='/tutorial/xfce/index.html#Tutorial' target='_self'>xfce</a></li>
-                
-            </ul></p>
-            </div>
-        </div>
+    <div id="githubPage" class="page-content">
+        <h2>GitHub Repositories</h2>
+        <ul>
+            <li><strong><a href="https://github.com/wlanboy/Dockerfiles" target="_blank">wlanboy/Dockerfiles:</a></strong> My current list of Docker run commands.</li>
+            <li><strong><a href="https://github.com/wlanboy/raspberrypi" target="_blank">wlanboy/raspberrypi:</a></strong> My Raspberry Pi projects.</li>
+            <li><strong><a href="https://github.com/wlanboy/vagrantkind" target="_blank">wlanboy/vagrantkind:</a></strong> Repro to create a vm with vagrant and install kind with istio on it.</li>
+            <li><strong><a href="https://github.com/wlanboy/httptester" target="_blank">wlanboy/httptester:</a></strong> Microservice to test get requests and dns lookups within kubernetes and vms.</li>
+        </ul>
     </div>
 
-    <div class="content" id="Gists">
-        <h2 class="content-head is-center">Gists</h2>
-        <div class="pure-g">
-            <div class="l-box-lrg pure-u-1 pure-u-md-3-5">
-            <p><ul>
-                
-                    <li><a class='pure-content-link' href='/gists/chromeos-vscode-install/index.html#Gist' target='_self'>chromeos-vscode-install</a></li>
-                
-                    <li><a class='pure-content-link' href='/gists/clone-all-git-repros/index.html#Gist' target='_self'>clone-all-git-repros</a></li>
-                
-                    <li><a class='pure-content-link' href='/gists/create-aarch64-kvm-guest/index.html#Gist' target='_self'>create-aarch64-kvm-guest</a></li>
-                
-                    <li><a class='pure-content-link' href='/gists/create-floppy-image/index.html#Gist' target='_self'>create-floppy-image</a></li>
-                
-                    <li><a class='pure-content-link' href='/gists/disable-ipv6/index.html#Gist' target='_self'>disable-ipv6</a></li>
-                
-                    <li><a class='pure-content-link' href='/gists/docker-delete-dangling-images/index.html#Gist' target='_self'>docker-delete-dangling-images</a></li>
-                
-                    <li><a class='pure-content-link' href='/gists/enable-openvpn-client/index.html#Gist' target='_self'>enable-openvpn-client</a></li>
-                
-                    <li><a class='pure-content-link' href='/gists/fix-bridge/index.html#Gist' target='_self'>fix-bridge</a></li>
-                
-                    <li><a class='pure-content-link' href='/gists/git-mirror/index.html#Gist' target='_self'>git-mirror</a></li>
-                
-                    <li><a class='pure-content-link' href='/gists/git-update-all-directories/index.html#Gist' target='_self'>git-update-all-directories</a></li>
-                
-                    <li><a class='pure-content-link' href='/gists/install-golang-on-arm/index.html#Gist' target='_self'>install-golang-on-arm</a></li>
-                
-                    <li><a class='pure-content-link' href='/gists/java-info-for-processes/index.html#Gist' target='_self'>java-info-for-processes</a></li>
-                
-                    <li><a class='pure-content-link' href='/gists/pi-hole-as-docker-container/index.html#Gist' target='_self'>pi-hole-as-docker-container</a></li>
-                
-                    <li><a class='pure-content-link' href='/gists/pihole-on-x64/index.html#Gist' target='_self'>pihole-on-x64</a></li>
-                
-                    <li><a class='pure-content-link' href='/gists/run-vscode-server/index.html#Gist' target='_self'>run-vscode-server</a></li>
-                
-                    <li><a class='pure-content-link' href='/gists/two-php-versions-and-apache2/index.html#Gist' target='_self'>two-php-versions-and-apache2</a></li>
-                
-                    <li><a class='pure-content-link' href='/gists/ubuntu-on-docker/index.html#Gist' target='_self'>ubuntu-on-docker</a></li>
-                
-                    <li><a class='pure-content-link' href='/gists/virtual-console/index.html#Gist' target='_self'>virtual-console</a></li>
-                
-            </ul></p>
-            </div>
-        </div>
+    <div id="minipcsPage" class="page-content">
+        <h2>Mini PCs for Homelab</h2>
+        <pre>
++------------------------------------+------------+-------------------+
+| MiniPC                             | RAM        | Speicher          |
++------------------------------------+------------+-------------------+
+| GMKtex G3 Plus N150                |  16 GB     | 2x 512 GB SSD     |
+| Beelink SER5 Ryzon 5 5600H         |  32 GB     | 2x 2 TB SSD       |
+| Raspberry Pi 2                     | 512 MB     | 16 GB SD          |
++------------------------------------+------------+-------------------+
+        </pre>
     </div>
 
-    <div class="ribbon l-box-lrg pure-g" id="System">
-        <div class="pure-u-1 pure-u-md-1-2 pure-u-lg-3-5">
-            <h2 class="content-head content-head-ribbon">System information</h2>
-            <p>
-                This site is:<br>
-                * using Github Pages hosting<br>
-                * using Github Actions for deployment<br>
-                * using a odroid c2 to run the ruby and golang code<br>
-            </p>
-        </div>
-    </div>    
-
-    <div class="content" id="About">
-        <h2 class="content-head is-center">About</h2>
-        <div class="pure-g">
-            <div class="l-box pure-u-1">
-                <h3 class="content-subhead">
-                <i class="fa fa-rocket"></i>
-                Links:
-                </h3>
-                <p>
-                * This site: https://wlanboy.com<br>
-                * Github: https://github.com/wlanboy<br>
-                * My Repros: https://github.com/wlanboy?tab=repositories<br>
-                * Github Pages: https://github.com/wlanboy/wlanboy.github.io<br>
-                * Mail: me - at - wlanboy dot com
-                </p>
-            </div>
-        </div>
-    </div>
-
-<div class="footer l-box is-center">
-        <p class="footer">
-            wlanboy.com | Proudly powered by Ruby | Github
-        </p>
-    </div>
-</div>
-
-</body></html>
+    <script src="terminal.js"></script>
+</body>
+</html>

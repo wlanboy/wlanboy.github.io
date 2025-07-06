@@ -1,3 +1,5 @@
+import { generateCowSay } from './cowsay.js';
+
 const terminalInput = document.getElementById('terminalInput');
 const terminalOutput = document.getElementById('terminalOutput');
 const homepageContent = document.getElementById('homepage').innerHTML;
@@ -39,6 +41,7 @@ const commands = {
     'homelab': 'Loading Homelab Software...',
     'github': 'Loading GitHub Repositories...',
     'minipcs': 'Loading Mini PCs information...',
+    'cowsay': 'A cow living on the terminal lands...',
     'clear': '' // Handled separately
 };
 
@@ -66,11 +69,18 @@ function showPageContent(pageId) {
 
 terminalInput.addEventListener('keydown', function(event) {
     if (event.key === 'Enter') {
-        const command = terminalInput.value.trim().toLowerCase();
-        addOutput(command, true); // Echo the command
+        const fullCommand = terminalInput.value.trim();
+        const parts = fullCommand.split(' ');
+        const command = parts[0].toLowerCase(); // Only the command itself should be lowercased
+        const message = parts.slice(1).join(' '); // Get the rest as message
+
+        addOutput(fullCommand, true); // Echo the command
 
         if (command === 'clear') {
             terminalOutput.innerHTML = homepageContent; // Restore homepage content
+        } else if (command === 'cowsay') {
+            const cowArt = generateCowSay(message);
+            addOutput(cowArt);
         } else if (commands[command]) {
             if (command === 'homelab' || command === 'github' || command === 'minipcs') {
                 addOutput(commands[command]); // Show "Loading..." message

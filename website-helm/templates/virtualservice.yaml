@@ -1,0 +1,28 @@
+{{- if .Values.istio.enabled }}
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: {{ include "wlanboy-site.fullname" . | default .Release.Name }}
+  {{- if .Values.istio.namespace }}
+  namespace: {{ .Values.istio.namespace }}
+  {{- end }}
+spec:
+  hosts:
+    - {{ .Values.istio.host }}
+  exportTo:
+  - "."
+  - istio-ingress
+  - istio-systems
+  gateways:
+    - {{ .Values.istio.gatewayName }}
+    - mesh
+  http:
+    - match:
+        - uri:
+            prefix: /
+      route:
+        - destination:
+            host: {{ .Values.service.name }}
+            port:
+              number: {{ .Values.service.port }}
+{{- end }}

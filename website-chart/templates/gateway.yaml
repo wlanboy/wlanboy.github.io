@@ -1,0 +1,28 @@
+{{- if and .Values.istio.enabled .Values.istio.tls.enabled }}
+apiVersion: networking.istio.io/v1beta1
+kind: Gateway
+metadata:
+  name: {{ .Values.istio.gatewayName }}
+  {{- if .Values.istio.namespace }}
+  namespace: {{ .Values.istio.namespace }}
+  {{- end }}
+spec:
+  selector:
+    istio: ingressgateway
+  servers:
+    - port:
+        number: 443
+        name: https
+        protocol: HTTPS
+      hosts:
+        - {{ .Values.istio.host }}
+      tls:
+        mode: SIMPLE
+        credentialName: {{ .Values.istio.tls.secretName }}
+    - port:
+        number: 80
+        name: http
+        protocol: HTTP
+      hosts:
+        - {{ .Values.istio.host }}
+{{- end }}

@@ -1,0 +1,6 @@
+apiVersion: v2
+name: wlanboy-site
+description: Static site served by Nginx behind Istio, with PVC populated from Git repo and TLS via cert-manager
+type: application
+version: 0.1.0
+appVersion: "1.0.0"

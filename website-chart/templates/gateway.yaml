@@ -3,13 +3,14 @@ apiVersion: networking.istio.io/v1beta1
 kind: Gateway
 metadata:
   name: {{ .Values.istio.gatewayName }}
-  {{- if .Values.istio.namespace }}
-  namespace: {{ .Values.istio.namespace }}
+  {{- if .Values.istio.gatewayNamespace }}
+  namespace: {{ .Values.istio.gatewayNamespace }}
   {{- end }}
 spec:
   selector:
     istio: ingressgateway
   servers:
+  {{- if .Values.istio.tls.enabled }}
     - port:
         number: 443
         name: https
@@ -19,6 +20,7 @@ spec:
       tls:
         mode: SIMPLE
         credentialName: {{ .Values.istio.tls.secretName }}
+  {{- end }}
     - port:
         number: 80
         name: http

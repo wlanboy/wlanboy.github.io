@@ -1,5 +1,8 @@
 ```bash
-helm install wlanboy . -n website --create-namespace
+# with certmanager and tls
+helm install wlanboy . -n website --create-namespace -f values.yaml
+# without ssl
+helm install wlanboy . -n website --create-namespace -f values-simple.yaml
 ```
 
 ```bash

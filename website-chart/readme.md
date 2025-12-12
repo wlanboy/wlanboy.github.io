@@ -11,7 +11,8 @@ kubectl get gateway,virtualservice -n website
 ```
 
 ```bash
-helm upgrade wlanboy . -n website 
+helm upgrade wlanboy . -n website
+helm status wlanboy -n website --show-resources
 ```
 
 ```bash

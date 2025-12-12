@@ -31,7 +31,6 @@ service:
 
 istio:
   enabled: true
-  namespace: ""
   gatewayNamespace: "istio-ingress"
   gatewayName: "wlanboy-gw"
   host: "wlanboy.tp.lan"

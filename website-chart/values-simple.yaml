@@ -1,0 +1,42 @@
+image:
+  repository: nginx
+  tag: "1.25-alpine"
+  pullPolicy: IfNotPresent
+
+replicaCount: 1
+
+site:
+  repoUrl: "https://github.com/wlanboy/wlanboy.github.io.git"
+  ref: "main"
+  subPath: ""
+  mountPath: "/usr/share/nginx/html"
+
+resources: {}
+nodeSelector: {}
+tolerations: []
+affinity: {}
+
+pvc:
+  enabled: true
+  name: "wlanboy-site-pvc"
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: "" 
+  size: "10Mi"
+
+service:
+  type: ClusterIP
+  port: 80
+  name: "wlanboy-site-svc"
+
+istio:
+  enabled: true
+  namespace: ""
+  gatewayNamespace: "istio-ingress"
+  gatewayName: "wlanboy-gw"
+  host: "wlanboy.kube.lan"
+  tls:
+    enabled: false
+
+certManager:
+  enabled: false

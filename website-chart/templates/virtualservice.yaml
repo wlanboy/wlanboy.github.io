@@ -11,7 +11,7 @@ spec:
   - istio-ingress
   - istio-systems
   gateways:
-    - {{ .Values.istio.gatewayName }}
+    - {{ .Values.istio.gatewayNamespace }}/{{ .Values.istio.gatewayName }}
     - mesh
   http:
     - match:

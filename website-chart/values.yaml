@@ -33,7 +33,9 @@ istio:
   enabled: true
   gatewayNamespace: "istio-ingress"
   gatewayName: "wlanboy-gw"
-  host: "wlanboy.tp.lan"
+  hosts: 
+    - "wlanboy.tp.lan"
+    - "wlanboy.gmk.lan"
   tls:
     enabled: true
     secretName: "wlanboy-tls"

@@ -16,7 +16,9 @@ spec:
         name: https
         protocol: HTTPS
       hosts:
-        - {{ .Values.istio.host }}
+      {{- range .Values.istio.hosts }}
+        - {{ . }}
+      {{- end }}
       tls:
         mode: SIMPLE
         credentialName: {{ .Values.istio.tls.secretName }}
@@ -26,5 +28,7 @@ spec:
         name: http
         protocol: HTTP
       hosts:
-        - {{ .Values.istio.host }}
+      {{- range .Values.istio.hosts }}
+        - {{ . }}
+      {{- end }}
 {{- end }}

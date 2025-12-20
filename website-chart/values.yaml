@@ -45,3 +45,4 @@ certManager:
     name: "local-ca-issuer"
   dnsNames:
     - "wlanboy.tp.lan"
+    - "wlanboy.gmk.lan"

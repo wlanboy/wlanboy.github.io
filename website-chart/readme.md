@@ -1,3 +1,7 @@
+## Helm Chart
+Helm Chart to install the webpage within a kubernetes cluster. 
+Using an init container to pull from this repro. Using Istio, Ingress Gateway and Certmanager.
+
 ```bash
 # with certmanager and tls
 helm install wlanboy . -n website --create-namespace -f values.yaml

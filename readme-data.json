@@ -112,18 +112,12 @@
     "name": "Dockerfiles",
     "description": "Collection of docker scripts",
     "url": "https://github.com/wlanboy/Dockerfiles",
-    "pushed_at": "2025-12-27T17:57:17Z",
+    "pushed_at": "2025-12-27T18:54:53Z",
     "readmes": [
-      {
-        "path": "CODE_OF_CONDUCT.md",
-        "title": "Contributor Covenant Code of Conduct",
-        "description": "## Our Pledge",
-        "type": "text"
-      },
       {
         "path": "PiHole/password.md",
         "title": "create new password",
-        "description": "''' docker exec -it pihole /bin/bash > pihole -a -p '''",
+        "description": "How to create or change password on Pi Hole Docker container.",
         "type": "text"
       },
       {
@@ -135,13 +129,13 @@
       {
         "path": "docker-on-windows.md",
         "title": "Docker on Windows",
-        "description": "> All powershell commmands",
+        "description": "All powershell commmands to install wsl and a linux container to run docker containers in Windows.",
         "type": "text"
       },
       {
         "path": "start-webtop.md",
         "title": "Start webtop instance",
-        "description": "``` docker run -d \\ --name=webtop \\ -e PUID=1000 \\ -e PGID=1000 \\ -e TZ=Europe/Berlin \\ -e SUBFOLDER=/ \\ -e KEYBOARD=de-de-qwertz\\ -e TITLE=Webtop \\ -p 3000:3000 \\ -v /home/samuel/desk:/config \\ --shm-size=\"2gb\" \\ lscr.io/linuxserver/webtop:ubuntu-mate ``` # access instance * http://127.0.0.1:3000/",
+        "description": "Command to start a Ubuntu based webtop instance. You can now access a Ubuntu Desktop Client through your browser.",
         "type": "text"
       }
     ]
@@ -337,7 +331,7 @@
     "name": "raspberrypi",
     "description": "Raspberry Pi scripts for all my homelab services",
     "url": "https://github.com/wlanboy/raspberrypi",
-    "pushed_at": "2025-12-27T18:44:56Z",
+    "pushed_at": "2025-12-27T18:52:13Z",
     "readmes": [
       {
         "path": "README.md",
@@ -462,7 +456,7 @@
       {
         "path": "openwrt.md",
         "title": "Flash openwrt image to sd and boot your Raspberry Pi",
-        "description": "## check Raspberry Pi version * https://openwrt.org/toh/raspberry_pi_foundation/raspberry_pi#hardware_highlights",
+        "description": "How to flash openwrt to an sd and setup USB LAN and WLAN adapters.",
         "type": "text"
       },
       {
@@ -516,7 +510,7 @@
       {
         "path": "wlan-access-point.md",
         "title": "Wlan Access Point with Adblocker",
-        "description": "## install dependencies",
+        "description": "How to install a wlan access point with dhcp server and ad blocker on your Raspberry Pi or Linux server.",
         "type": "text"
       },
       {
@@ -601,7 +595,7 @@
     "name": "vagrantkind",
     "description": "vagrant machine installing docker, kubectrl and kind to run a simple dev kubernetes cluster",
     "url": "https://github.com/wlanboy/vagrantkind",
-    "pushed_at": "2025-12-27T18:09:59Z",
+    "pushed_at": "2025-12-27T18:50:16Z",
     "readmes": [
       {
         "path": "README.md",
@@ -612,7 +606,7 @@
       {
         "path": "arm64-steps.md",
         "title": "kind + calico + ngxin ingress",
-        "description": "see: * https://www.armbian.com/odroid-c2/#kernels-archive-all * https://docs.armbian.com/",
+        "description": "Commands to install kind, calico and nginx on arm64.",
         "type": "text"
       },
       {
@@ -667,7 +661,7 @@
     "name": "wlanboy.github.io",
     "description": "website",
     "url": "https://github.com/wlanboy/wlanboy.github.io",
-    "pushed_at": "2025-12-27T18:28:52Z",
+    "pushed_at": "2025-12-27T18:46:45Z",
     "readmes": [
       {
         "path": "README.md",

@@ -1,6 +1,7 @@
 let allItems = [];
 let filteredItems = [];
 let index = 0;
+let sortMode = "date";
 const batchSize = 20;
 
 const grid = document.getElementById("grid");
@@ -49,7 +50,8 @@ async function loadData() {
       description: r.description,
       path: r.path,
       url: repo.url,
-      fullText: `# ${r.title}\n\n${r.description}`
+      fullText: `# ${r.title}\n\n${r.description}`,
+      pushed_at: repo.pushed_at
     }))
   );
 
@@ -63,6 +65,7 @@ async function loadData() {
   });
 
   filteredItems = [...allItems];
+  filteredItems.sort((a, b) => new Date(b.pushed_at) - new Date(a.pushed_at));
 
   setupLazyLoading();
   loadMore();
@@ -136,9 +139,18 @@ repoFilter.addEventListener("change", applyFilters);
 // SORT BY REPO
 // -------------------------------
 sortBtn.addEventListener("click", () => {
-  filteredItems.sort((a, b) => a.repo.localeCompare(b.repo));
+  if (sortMode === "date") {
+    filteredItems.sort((a, b) => a.repo.localeCompare(b.repo));
+    sortMode = "repo";
+    sortBtn.textContent = "Sortiere nach Datum";
+  } else {
+    filteredItems.sort((a, b) => new Date(b.pushed_at) - new Date(a.pushed_at));
+    sortMode = "date";
+    sortBtn.textContent = "Sortiere nach Repo";
+  }
   resetGrid();
 });
+
 
 // -------------------------------
 // FILTER LOGIC

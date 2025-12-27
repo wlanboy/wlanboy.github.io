@@ -182,6 +182,7 @@ def main():
             "name": repo_name,
             "description": repo.get("description"),
             "url": repo.get("html_url"),
+            "pushed_at": repo.get("pushed_at"),
             "readmes": readme_entries
         })
 

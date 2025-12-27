@@ -2,9 +2,8 @@ name: Generate README Data
 
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - main
+  schedule: 
+    - cron: "0 12 * * *"
 
 jobs:
   build:

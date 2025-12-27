@@ -155,7 +155,7 @@ def main():
 
         readme_entries = []
         for item in tree:
-            if item.get("type") == "blob" and item.get("path", "").lower().endswith("readme.md"):
+            if item.get("type") == "blob" and item.get("path", "").lower().endswith(".md"):
                 path = item["path"]
                 log(f"📄 README gefunden: {path}")
 
@@ -172,10 +172,18 @@ def main():
                 else:
                     log("   ➜ Keine Beschreibung (Paragraph) gefunden")
 
+                # Typ bestimmen
+                filename = path.lower()
+                if filename.endswith("readme.md"):
+                    filetype = "readme"
+                else:
+                    filetype = "text"
+
                 readme_entries.append({
                     "path": path,
-                    "title": title or "(kein Titel gefunden)",
-                    "description": description or ""
+                    "title": title or item["path"].split("/")[-1].replace(".md", ""),
+                    "description": description or "",
+                    "type": filetype
                 })
 
         result.append({

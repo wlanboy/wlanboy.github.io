@@ -5,7 +5,7 @@ import json
 from datetime import datetime, timedelta, timezone
 
 GITHUB_USER = "wlanboy"
-TOKEN = os.getenv("GH")
+TOKEN = os.getenv("GITHUB_TOKEN")
 HEADERS = {"Authorization": f"token {TOKEN}"} if TOKEN else {}
 
 DAYS = 300

@@ -22,15 +22,15 @@ let observer;
 // THEME HANDLING
 // -------------------------------
 function applyTheme() {
-  const theme = localStorage.getItem("theme") || "dark";
-  document.body.classList.toggle("light", theme === "light");
+    const theme = localStorage.getItem("theme") || "dark";
+    document.body.classList.toggle("light", theme === "light");
 }
 
 themeBtn.addEventListener("click", () => {
-  const current = localStorage.getItem("theme") || "dark";
-  const next = current === "dark" ? "light" : "dark";
-  localStorage.setItem("theme", next);
-  applyTheme();
+    const current = localStorage.getItem("theme") || "dark";
+    const next = current === "dark" ? "light" : "dark";
+    localStorage.setItem("theme", next);
+    applyTheme();
 });
 
 applyTheme();
@@ -39,90 +39,94 @@ applyTheme();
 // LOAD JSON
 // -------------------------------
 async function loadData() {
-  const response = await fetch("readme-data.json");
-  const repos = await response.json();
+    const response = await fetch("readme-data.json");
+    const repos = await response.json();
 
-  // Flatten: jede README wird eine eigene Kachel
-  allItems = repos.flatMap(repo =>
-    repo.readmes.map(r => ({
-      repo: repo.name,
-      title: r.title,
-      description: r.description,
-      path: r.path,
-      url: repo.url,
-      fullText: `# ${r.title}\n\n${r.description}`,
-      pushed_at: repo.pushed_at
-    }))
-  );
+    // Flatten: jede README wird eine eigene Kachel
+    allItems = repos.flatMap(repo =>
+        repo.readmes.map(r => ({
+            repo: repo.name,
+            title: r.title,
+            description: r.description,
+            path: r.path,
+            url: repo.url,
+            fullText: `# ${r.title}\n\n${r.description}`,
+            pushed_at: repo.pushed_at
+        }))
+    );
 
-  // Repo-Liste für Dropdown
-  const repoNames = [...new Set(allItems.map(i => i.repo))].sort();
-  repoNames.forEach(name => {
-    const opt = document.createElement("option");
-    opt.value = name;
-    opt.textContent = name;
-    repoFilter.appendChild(opt);
-  });
+    // Repo-Liste für Dropdown
+    const repoNames = [...new Set(allItems.map(i => i.repo))].sort();
+    repoNames.forEach(name => {
+        const opt = document.createElement("option");
+        opt.value = name;
+        opt.textContent = name;
+        repoFilter.appendChild(opt);
+    });
 
-  filteredItems = [...allItems];
-  filteredItems.sort((a, b) => new Date(b.pushed_at) - new Date(a.pushed_at));
+    filteredItems = [...allItems];
+    filteredItems.sort((a, b) => new Date(b.pushed_at) - new Date(a.pushed_at));
 
-  setupLazyLoading();
-  loadMore();
+    setupLazyLoading();
+    loadMore();
 }
 
 // -------------------------------
 // LAZY LOADING
 // -------------------------------
 function setupLazyLoading() {
-  observer = new IntersectionObserver(entries => {
-    if (entries.some(e => e.isIntersecting)) {
-      loadMore();
-    }
-  });
+    observer = new IntersectionObserver(entries => {
+        if (entries.some(e => e.isIntersecting)) {
+            loadMore();
+        }
+    });
 }
 
 function loadMore() {
-  const slice = filteredItems.slice(index, index + batchSize);
-  index += batchSize;
+    const slice = filteredItems.slice(index, index + batchSize);
+    index += batchSize;
 
-  slice.forEach(item => {
-    const card = document.createElement("div");
-    card.className = "card";
+    slice.forEach(item => {
+        const card = document.createElement("div");
+        card.className = "card";
 
-    card.innerHTML = `
+        const badgeClass = item.type === "readme" ? "badge-readme" : "badge-text"; 
+        const badgeLabel = item.type === "readme" ? "README" : "MD";
+
+        card.innerHTML = `
+      <div class="badge ${badgeClass}">${badgeLabel}</div>
       <div class="repo-name">${item.repo}</div>
       <div class="card-title">${item.title}</div>
       <div class="card-desc">${item.description}</div>
     `;
 
-    // README direkt öffnen
-    card.addEventListener("click", () => {
-      const readmeUrl = `${item.url}/blob/main/${item.path}`;
-      window.open(readmeUrl, "_blank");
+        // README direkt öffnen
+        card.addEventListener("click", () => {
+            const readmeUrl = `${item.url}/blob/main/${item.path}`;
+            window.open(readmeUrl, "_blank");
+        });
+
+        grid.appendChild(card);
     });
 
-    grid.appendChild(card);
-  });
-
-  const sentinel = document.createElement("div");
-  sentinel.style.height = "1px";
-  grid.appendChild(sentinel);
-  observer.observe(sentinel);
+    const sentinel = document.createElement("div");
+    sentinel.style.height = "1px";
+    grid.appendChild(sentinel);
+    observer.observe(sentinel);
 }
 
 // -------------------------------
 // MODAL
 // -------------------------------
 function openModal(item) {
-  modalTitle.textContent = item.title;
-  modalRepo.textContent = item.repo;
-  modalText.textContent = item.fullText;
-  modal.classList.remove("hidden");
+    modalTitle.textContent = item.title;
+    modalRepo.textContent = item.repo;
+    modalText.textContent = item.fullText;
+    modal.classList.remove("hidden");
 }
 
 modalClose.addEventListener("click", () => {
-  modal.classList.add("hidden");
+    modal.classList.add("hidden");
 });
 
 // -------------------------------
@@ -139,16 +143,16 @@ repoFilter.addEventListener("change", applyFilters);
 // SORT BY REPO
 // -------------------------------
 sortBtn.addEventListener("click", () => {
-  if (sortMode === "date") {
-    filteredItems.sort((a, b) => a.repo.localeCompare(b.repo));
-    sortMode = "repo";
-    sortBtn.textContent = "Sortiere nach Datum";
-  } else {
-    filteredItems.sort((a, b) => new Date(b.pushed_at) - new Date(a.pushed_at));
-    sortMode = "date";
-    sortBtn.textContent = "Sortiere nach Repo";
-  }
-  resetGrid();
+    if (sortMode === "date") {
+        filteredItems.sort((a, b) => a.repo.localeCompare(b.repo));
+        sortMode = "repo";
+        sortBtn.textContent = "Sortiere nach Datum";
+    } else {
+        filteredItems.sort((a, b) => new Date(b.pushed_at) - new Date(a.pushed_at));
+        sortMode = "date";
+        sortBtn.textContent = "Sortiere nach Repo";
+    }
+    resetGrid();
 });
 
 
@@ -156,26 +160,26 @@ sortBtn.addEventListener("click", () => {
 // FILTER LOGIC
 // -------------------------------
 function applyFilters() {
-  const q = searchInput.value.toLowerCase();
-  const repo = repoFilter.value;
+    const q = searchInput.value.toLowerCase();
+    const repo = repoFilter.value;
 
-  filteredItems = allItems.filter(item =>
-    (repo === "" || item.repo === repo) &&
-    (item.title.toLowerCase().includes(q) ||
-     item.description.toLowerCase().includes(q) ||
-     item.repo.toLowerCase().includes(q))
-  );
+    filteredItems = allItems.filter(item =>
+        (repo === "" || item.repo === repo) &&
+        (item.title.toLowerCase().includes(q) ||
+            item.description.toLowerCase().includes(q) ||
+            item.repo.toLowerCase().includes(q))
+    );
 
-  resetGrid();
+    resetGrid();
 }
 
 // -------------------------------
 // RESET GRID
 // -------------------------------
 function resetGrid() {
-  grid.innerHTML = "";
-  index = 0;
-  loadMore();
+    grid.innerHTML = "";
+    index = 0;
+    loadMore();
 }
 
 // -------------------------------

@@ -28,7 +28,7 @@ jobs:
 
       - name: Run generator
         env:
-          GH: ${{ secrets.GH }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: python3 generate.py
 
       - name: Commit changes if needed

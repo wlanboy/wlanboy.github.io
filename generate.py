@@ -125,9 +125,6 @@ def extract_title_and_paragraph(content):
 
 
 def main():
-    if not TOKEN:
-        log("❌ Kein GH‑Token gefunden. Bitte export GH=dein_token")
-        return
 
     repos = get_repos(GITHUB_USER)
 

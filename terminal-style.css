@@ -1,0 +1,195 @@
+/* CSS Variablen für Farben */
+:root {
+    --background-color: #f0f0f0;
+    --text-color: #333;
+    --terminal-bg: #fff;
+    --terminal-border: #ccc;
+    --input-bg: #eee;
+    --input-text: #333;
+    --button-bg: #ddd;
+    --button-text: #333;
+    --button-hover-bg: #bbb;
+}
+
+/* Standard Dark Mode über prefers-color-scheme (Systemeinstellung) */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --background-color: #222;
+        --text-color: #eee;
+        --terminal-bg: #1a1a1a;
+        --terminal-border: #555;
+        --input-bg: #333;
+        --input-text: #eee;
+        --button-bg: #555;
+        --button-text: #eee;
+        --button-hover-bg: #777;
+    }
+}
+
+/* Manuell aktivierter Dark Mode (überschreibt prefers-color-scheme) */
+html.dark-mode {
+    --background-color: #222;
+    --text-color: #eee;
+    --terminal-bg: #1a1a1a;
+    --terminal-border: #555;
+    --input-bg: #333;
+    --input-text: #eee;
+    --button-bg: #555;
+    --button-text: #eee;
+    --button-hover-bg: #777;
+}
+
+/* Manuell aktivierter Light Mode (überschreibt prefers-color-scheme) */
+html.light-mode {
+    --background-color: #f0f0f0;
+    --text-color: #333;
+    --terminal-bg: #fff;
+    --terminal-border: #ccc;
+    --input-bg: #eee;
+    --input-text: #333;
+    --button-bg: #ddd;
+    --button-text: #333;
+    --button-hover-bg: #bbb;
+}
+
+body {
+    font-family: 'Courier New', Courier, monospace;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    overflow: hidden;
+}
+
+.terminal-container {
+    width: 90%;
+    max-width: 800px;
+    height: 60vh;
+    background-color: var(--terminal-bg);
+    border: 1px solid var(--terminal-border);
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    border-radius: 8px;
+}
+
+.terminal-header {
+    background-color: var(--terminal-border);
+    color: var(--terminal-bg);
+    padding: 8px 15px;
+    font-size: 0.9em;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+.terminal-header span:first-child {
+    font-weight: bold;
+}
+
+/* Dark Mode Toggle Button Styling */
+.theme-toggle-button {
+    background-color: var(--button-bg);
+    color: var(--button-text);
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+    font-size: 0.8em;
+    transition: background-color 0.2s ease;
+}
+
+.theme-toggle-button:hover {
+    background-color: var(--button-hover-bg);
+}
+
+.terminal-output {
+    flex-grow: 1;
+    padding: 6px;
+    overflow-y: auto;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    font-size: 1em;
+    line-height: 1;
+    color: var(--text-color);
+}
+
+.terminal-output p {
+    margin: 0 0 5px 0;
+}
+
+.terminal-input-line {
+    display: flex;
+    padding: 10px 15px;
+    border-top: 1px solid var(--terminal-border);
+    align-items: center;
+    background-color: var(--terminal-bg);
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+}
+
+.terminal-input-line span {
+    color: limegreen; /* Prompt color */
+    margin-right: 2px;
+}
+
+.terminal-input {
+    flex-grow: 1;
+    background-color: var(--input-bg);
+    border: none;
+    outline: none;
+    color: var(--input-text);
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 1em;
+    padding: 5px;
+    caret-color: var(--input-text); /* Blinking cursor color */
+}
+
+.terminal-input:focus {
+    outline: 1px dashed var(--terminal-border);
+}
+
+.page-content {
+    display: none; /* Sie bleiben immer unsichtbar */
+}
+
+.page-content h2 {
+    color: limegreen;
+    margin-top: 0;
+    margin-bottom: 1px;
+    font-size: 1.2em;
+}
+
+.page-content ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.page-content li {
+    margin-top: 0;
+    margin-bottom: 2px;
+}
+
+/* Befehls- und Schlüsselwortfarben (können hier zentralisiert werden, wenn nötig) */
+.page-content strong,
+.terminal-output .command-highlight {
+    color: dodgerblue; /* Standard für Schlüsselwörter und hervorgehobene Befehle */
+}
+.page-content a {
+    color: skyblue;
+    text-decoration: none;
+}
+.page-content a:hover {
+    text-decoration: underline;
+}
+
+/* Neue Farbe für Menübefehle */
+.terminal-output .menu-command {
+    color: dodgerblue; /* Oder eine andere Blau-Nuance */
+}

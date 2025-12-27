@@ -331,7 +331,7 @@
     "name": "raspberrypi",
     "description": "Raspberry Pi scripts for all my homelab services",
     "url": "https://github.com/wlanboy/raspberrypi",
-    "pushed_at": "2025-12-27T19:18:49Z",
+    "pushed_at": "2025-12-27T19:57:25Z",
     "readmes": [
       {
         "path": "README.md",
@@ -400,6 +400,12 @@
         "type": "readme"
       },
       {
+        "path": "create-floppy-image.md",
+        "title": "Erstellen und Befüllen eines DOS‑Disketten‑Images",
+        "description": "Diese Anleitung beschreibt, wie du mit mtools ein 1,44‑MB‑Disketten‑Image erstellst und anschließend Dateien hinein kopierst. Sie eignet sich z. B. für DOS‑Treiber, Bootdisketten oder virtuelle Maschinen.",
+        "type": "text"
+      },
+      {
         "path": "create-raid1.md",
         "title": "create raid with two usb disks",
         "description": "Commands to create a raid level 1 array with two usb disks on Linux.",
@@ -421,6 +427,12 @@
         "path": "headless-wlan-client.md",
         "title": "headless configuration of wlan client",
         "description": "Mount sd card on your pc and change following settings to enable ssh daemon and wlan login for your Raspberry Pi.",
+        "type": "text"
+      },
+      {
+        "path": "java-process-info.md",
+        "title": "Monitoring von Java‑Prozessen unter Linux",
+        "description": "(PID‑Liste, JAR‑Name, Heap‑Usage, CPU‑Usage, RAM‑Usage)",
         "type": "text"
       },
       {
@@ -493,6 +505,12 @@
         "path": "tl-wn823n.md",
         "title": "TP Link TL-WN823N",
         "description": "Information collection on hardware module.",
+        "type": "text"
+      },
+      {
+        "path": "tmux.md",
+        "title": "tmux cheatsheet",
+        "description": "start new:",
         "type": "text"
       },
       {
@@ -661,7 +679,7 @@
     "name": "wlanboy.github.io",
     "description": "website",
     "url": "https://github.com/wlanboy/wlanboy.github.io",
-    "pushed_at": "2025-12-27T19:09:27Z",
+    "pushed_at": "2025-12-27T19:19:49Z",
     "readmes": [
       {
         "path": "README.md",

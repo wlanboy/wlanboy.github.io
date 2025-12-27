@@ -112,11 +112,11 @@
     "name": "Dockerfiles",
     "description": "Collection of docker scripts",
     "url": "https://github.com/wlanboy/Dockerfiles",
-    "pushed_at": "2025-12-27T18:54:53Z",
+    "pushed_at": "2025-12-27T19:15:07Z",
     "readmes": [
       {
         "path": "PiHole/password.md",
-        "title": "create new password",
+        "title": "Pi Hole new password for web ui",
         "description": "How to create or change password on Pi Hole Docker container.",
         "type": "text"
       },
@@ -178,7 +178,7 @@
     "name": "failoverdns",
     "description": "Failover DNS for nodeping and cloudflare",
     "url": "https://github.com/wlanboy/failoverdns",
-    "pushed_at": "2025-09-13T07:35:05Z",
+    "pushed_at": "2025-12-27T19:11:54Z",
     "readmes": []
   },
   {
@@ -331,7 +331,7 @@
     "name": "raspberrypi",
     "description": "Raspberry Pi scripts for all my homelab services",
     "url": "https://github.com/wlanboy/raspberrypi",
-    "pushed_at": "2025-12-27T18:52:13Z",
+    "pushed_at": "2025-12-27T19:18:49Z",
     "readmes": [
       {
         "path": "README.md",
@@ -383,14 +383,14 @@
       },
       {
         "path": "ca/readme.md",
-        "title": "1\\. Create a Local Certificate Authority",
-        "description": "This section walks you through creating your own self-signed root CA certificate. This certificate will be used to sign other certificates for your local devices.",
+        "title": "Create a Local Certificate Authority",
+        "description": "Creating a local Certificate Authority (CA) and using `acme.sh` with it is a great way to manage certificates for your homelab. This section walks you through creating your own self-signed root CA certificate. This certificate will be used to sign other certificates for your local devices.",
         "type": "readme"
       },
       {
         "path": "ceph.md",
-        "title": "Step by stop ceph install",
-        "description": "## packages",
+        "title": "Local ceph install",
+        "description": "Commands to install a local ceph instance with loopback devices instead of real hard disks.",
         "type": "text"
       },
       {
@@ -402,13 +402,13 @@
       {
         "path": "create-raid1.md",
         "title": "create raid with two usb disks",
-        "description": "# install tools",
+        "description": "Commands to create a raid level 1 array with two usb disks on Linux.",
         "type": "text"
       },
       {
         "path": "docker.md",
         "title": "Docker Installation on Raspberry Pi",
-        "description": "Details: [official Docker documentation](https://docs.docker.com/engine/install/debian/).",
+        "description": "All commands to install and configure Docker on a Raspberry Pi.",
         "type": "text"
       },
       {
@@ -420,7 +420,7 @@
       {
         "path": "headless-wlan-client.md",
         "title": "headless configuration of wlan client",
-        "description": "(mount sd card)",
+        "description": "Mount sd card on your pc and change following settings to enable ssh daemon and wlan login for your Raspberry Pi.",
         "type": "text"
       },
       {
@@ -479,8 +479,8 @@
       },
       {
         "path": "timing-server.md",
-        "title": "get a gps module",
-        "description": "GPS-Modul VK-162 with TCXO EEPROM",
+        "title": "Linux timing server with gps source",
+        "description": "How to build your own ntp server which is using a usb gsp module as timing source.",
         "type": "text"
       },
       {
@@ -492,7 +492,7 @@
       {
         "path": "tl-wn823n.md",
         "title": "TP Link TL-WN823N",
-        "description": "```bash uname -a Linux raspberrypione 5.10.17+ #1421 Thu May 27 13:58:02 BST 2021 armv6l GNU/Linux ```",
+        "description": "Information collection on hardware module.",
         "type": "text"
       },
       {
@@ -661,7 +661,7 @@
     "name": "wlanboy.github.io",
     "description": "website",
     "url": "https://github.com/wlanboy/wlanboy.github.io",
-    "pushed_at": "2025-12-27T19:08:28Z",
+    "pushed_at": "2025-12-27T19:09:27Z",
     "readmes": [
       {
         "path": "README.md",

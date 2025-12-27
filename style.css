@@ -1,195 +1,179 @@
-/* CSS Variablen für Farben */
+/* Theme Variablen */
 :root {
-    --background-color: #f0f0f0;
-    --text-color: #333;
-    --terminal-bg: #fff;
-    --terminal-border: #ccc;
-    --input-bg: #eee;
-    --input-text: #333;
-    --button-bg: #ddd;
-    --button-text: #333;
-    --button-hover-bg: #bbb;
+  --bg: #111;
+  --text: #eee;
+  --card-bg: #1a1a1a;
+  --card-shadow: rgba(0,0,0,0.4);
+  --repo-bg: #333;
+  --modal-bg: #222;
 }
 
-/* Standard Dark Mode über prefers-color-scheme (Systemeinstellung) */
-@media (prefers-color-scheme: dark) {
-    :root {
-        --background-color: #222;
-        --text-color: #eee;
-        --terminal-bg: #1a1a1a;
-        --terminal-border: #555;
-        --input-bg: #333;
-        --input-text: #eee;
-        --button-bg: #555;
-        --button-text: #eee;
-        --button-hover-bg: #777;
-    }
-}
-
-/* Manuell aktivierter Dark Mode (überschreibt prefers-color-scheme) */
-html.dark-mode {
-    --background-color: #222;
-    --text-color: #eee;
-    --terminal-bg: #1a1a1a;
-    --terminal-border: #555;
-    --input-bg: #333;
-    --input-text: #eee;
-    --button-bg: #555;
-    --button-text: #eee;
-    --button-hover-bg: #777;
-}
-
-/* Manuell aktivierter Light Mode (überschreibt prefers-color-scheme) */
-html.light-mode {
-    --background-color: #f0f0f0;
-    --text-color: #333;
-    --terminal-bg: #fff;
-    --terminal-border: #ccc;
-    --input-bg: #eee;
-    --input-text: #333;
-    --button-bg: #ddd;
-    --button-text: #333;
-    --button-hover-bg: #bbb;
+.light {
+  --bg: #f5f5f5;
+  --text: #222;
+  --card-bg: #fff;
+  --card-shadow: rgba(0,0,0,0.1);
+  --repo-bg: #ddd;
+  --modal-bg: #fff;
 }
 
 body {
-    font-family: 'Courier New', Courier, monospace;
-    background-color: var(--background-color);
-    color: var(--text-color);
-    margin: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    overflow: hidden;
+  margin: 0;
+  font-family: system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  transition: background 0.3s, color 0.3s;
 }
 
-.terminal-container {
-    width: 90%;
-    max-width: 800px;
-    height: 60vh;
-    background-color: var(--terminal-bg);
-    border: 1px solid var(--terminal-border);
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    border-radius: 8px;
+header {
+  padding: 20px;
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 600;
+  position: sticky;
+  top: 0;
+  background: var(--bg);
+  z-index: 10;
 }
 
-.terminal-header {
-    background-color: var(--terminal-border);
-    color: var(--terminal-bg);
-    padding: 8px 15px;
-    font-size: 0.9em;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-top-left-radius: 8px;
-    border-top-right-radius: 8px;
+#controls {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  padding: 10px;
+  background: var(--bg);
+  position: sticky;
+  top: 70px; /* unterhalb des Headers */
+  z-index: 9;
+  border-bottom: 1px solid var(--repo-bg);
 }
 
-.terminal-header span:first-child {
-    font-weight: bold;
+input, select, button {
+  padding: 8px 12px;
+  font-size: 1rem;
+  border-radius: 8px;
+  border: none;
 }
 
-/* Dark Mode Toggle Button Styling */
-.theme-toggle-button {
-    background-color: var(--button-bg);
-    color: var(--button-text);
-    border: none;
-    border-radius: 5px;
-    padding: 5px 10px;
-    cursor: pointer;
-    font-size: 0.8em;
-    transition: background-color 0.2s ease;
+button {
+  cursor: pointer;
+  background: var(--repo-bg);
+  color: var(--text);
 }
 
-.theme-toggle-button:hover {
-    background-color: var(--button-hover-bg);
+#grid {
+  column-count: 1;
+  column-gap: 1rem;
+  padding: 1rem;
 }
 
-.terminal-output {
-    flex-grow: 1;
-    padding: 6px;
-    overflow-y: auto;
-    white-space: pre-wrap;
-    word-wrap: break-word;
-    font-size: 1em;
-    line-height: 1;
-    color: var(--text-color);
+@media (min-width: 600px) { #grid { column-count: 2; } }
+@media (min-width: 900px) { #grid { column-count: 3; } }
+@media (min-width: 1300px) { #grid { column-count: 4; } }
+
+.card {
+  background: var(--card-bg);
+  margin: 0 0 1rem;
+  padding: 1rem;
+  border-radius: 12px;
+  display: inline-block;
+  width: 100%;
+  box-sizing: border-box;
+  break-inside: avoid;
+  position: relative;
+  box-shadow: 0 4px 12px var(--card-shadow);
+  transition: transform 0.15s ease;
+  cursor: pointer;
 }
 
-.terminal-output p {
-    margin: 0 0 5px 0;
+.card:hover {
+  transform: translateY(-4px);
 }
 
-.terminal-input-line {
-    display: flex;
-    padding: 10px 15px;
-    border-top: 1px solid var(--terminal-border);
-    align-items: center;
-    background-color: var(--terminal-bg);
-    border-bottom-left-radius: 8px;
-    border-bottom-right-radius: 8px;
+.repo-name {
+  position: absolute;
+  top: 10px;
+  right: 14px;
+  font-size: 0.7rem;
+  background: var(--repo-bg);
+  padding: 3px 6px;
+  border-radius: 6px;
+  opacity: 0.85;
+  z-index: 2; /* WICHTIG */
+  pointer-events: none; /* verhindert Klick-Blockade */
 }
 
-.terminal-input-line span {
-    color: limegreen; /* Prompt color */
-    margin-right: 2px;
+.card-title {
+  font-size: 1.3rem;
+  margin: 1.8rem 0 0.5rem; /* Abstand nach oben erhöht */
+  font-weight: 600;
+  position: relative;
+  z-index: 1;
 }
 
-.terminal-input {
-    flex-grow: 1;
-    background-color: var(--input-bg);
-    border: none;
-    outline: none;
-    color: var(--input-text);
-    font-family: 'Courier New', Courier, monospace;
-    font-size: 1em;
-    padding: 5px;
-    caret-color: var(--input-text); /* Blinking cursor color */
+.card-desc {
+  font-size: 0.95rem;
+  line-height: 1.4;
+  opacity: 0.9;
 }
 
-.terminal-input:focus {
-    outline: 1px dashed var(--terminal-border);
+/* Modal */
+#modal.hidden {
+  display: none;
 }
 
-.page-content {
-    display: none; /* Sie bleiben immer unsichtbar */
+#modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 20;
 }
 
-.page-content h2 {
-    color: limegreen;
-    margin-top: 0;
-    margin-bottom: 1px;
-    font-size: 1.2em;
+#modalContent {
+  background: var(--modal-bg);
+  padding: 2rem;
+  border-radius: 12px;
+  width: 80%;
+  max-height: 80%;
+  overflow-y: auto;
+  position: relative;
 }
 
-.page-content ul {
-    list-style-type: none;
-    padding: 0;
+#modalClose {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  border: none;
+  background: var(--repo-bg);
+  color: var(--text);
+  padding: 6px 10px;
+  border-radius: 6px;
+  cursor: pointer;
 }
 
-.page-content li {
-    margin-top: 0;
-    margin-bottom: 2px;
+pre {
+  white-space: pre-wrap;
+  font-family: monospace;
 }
 
-/* Befehls- und Schlüsselwortfarben (können hier zentralisiert werden, wenn nötig) */
-.page-content strong,
-.terminal-output .command-highlight {
-    color: dodgerblue; /* Standard für Schlüsselwörter und hervorgehobene Befehle */
-}
-.page-content a {
-    color: skyblue;
-    text-decoration: none;
-}
-.page-content a:hover {
-    text-decoration: underline;
+input[type="text"],
+select {
+  background: var(--card-bg);
+  color: var(--text);
+  border: 1px solid var(--repo-bg);
+  outline: none;
+  transition: background 0.3s, color 0.3s, border 0.3s;
 }
 
-/* Neue Farbe für Menübefehle */
-.terminal-output .menu-command {
-    color: dodgerblue; /* Oder eine andere Blau-Nuance */
+input[type="text"]::placeholder {
+  color: var(--text);
+  opacity: 0.6;
+}
+
+select option {
+  background: var(--card-bg);
+  color: var(--text);
 }

@@ -1,73 +1,35 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Homelab Terminal</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <title>Explorer for my recent projects</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="terminal-container">
-        <div class="terminal-header">
-            <span>user@homelab:~</span>
-            <button id="themeToggleButton" class="theme-toggle-button">Toggle Theme</button>
-        </div>
-        <div class="terminal-output" id="terminalOutput">
-            <p>Welcome to the Homelab Terminal!</p>
-            <p>Type '<span class="menu-command">help</span>' for a list of commands.</p>
-            <p>Type '<span class="menu-command">clear</span>' to clear the terminal.</p>
-            <p>Type '<span class="menu-command">menu</span>' to see available pages.</p>
-            <p>Type '<span class="menu-command">cowsay &lt;message&gt;</span>' for a special greeting.</p>
-        </div>
-        <div class="terminal-input-line">
-            <span>user@homelab:~ $</span>
-            <input type="text" class="terminal-input" id="terminalInput" autofocus>
-        </div>
-    </div>
 
-    <div id="homepage" class="page-content">
-        <p>Welcome to the Terminal!</p>
-        <p>Type '<span class="menu-command">help</span>' for a list of commands.</p>
-        <p>Type '<span class="menu-command">clear</span>' to clear the terminal.</p>
-        <p>Type '<span class="menu-command">menu</span>' to see available pages.</p>
-        <p>Type '<span class="menu-command">cowsay &lt;message&gt;</span>' for a special greeting.</p>
-    </div>
+<header>Explorer for my recent projects</header>
 
-    <div id="homelabPage" class="page-content">
-        <h2>Used Software</h2>
-        <ul>
-            <li><strong>Proxmox VE:</strong> Virtualization environment for VMs and containers.</li>
-            <li><strong>TrueNAS SCALE:</strong> Network-attached storage (NAS) and application platform.</li>
-            <li><strong>PiHole</strong> DNS blocking service, DNS for local serviecs.</li>
-            <li><strong>Immich:</strong> Local photo sync and backup service.</li>
-            <li><strong>Grafana & Prometheus:</strong> Monitoring and alerting for the homelab.</li>
-            <li><strong>k3s:</strong> Container runtime.</li>
-        </ul>
-    </div>
+<div id="controls">
+  <input type="text" id="search" placeholder="Suche…">
+  <select id="repoFilter">
+    <option value="">Alle Repos</option>
+  </select>
+  <button id="toggleTheme">🌙/☀️</button>
+  <button id="sortRepo">Sortiere nach Repo</button>
+</div>
 
-    <div id="githubPage" class="page-content">
-        <h2>GitHub Repositories</h2>
-        <ul>
-            <li><strong><a href="https://github.com/wlanboy/Dockerfiles" target="_blank">wlanboy/Dockerfiles:</a></strong> My current list of Docker run commands.</li>
-            <li><strong><a href="https://github.com/wlanboy/raspberrypi" target="_blank">wlanboy/raspberrypi:</a></strong> My Raspberry Pi projects.</li>
-            <li><strong><a href="https://github.com/wlanboy/vagrantkind" target="_blank">wlanboy/vagrantkind:</a></strong> Repro to create a vm with vagrant and install kind with istio on it.</li>
-            <li><strong><a href="https://github.com/wlanboy/httptester" target="_blank">wlanboy/httptester:</a></strong> Microservice to test get requests and dns lookups within kubernetes and vms.</li>
-        </ul>
-    </div>
+<div id="grid"></div>
 
-    <div id="minipcsPage" class="page-content">
-        <h2>Mini PCs in usage</h2>
-        <pre>
-+------------------------------------+------------+-------------------+
-| MiniPC                             | RAM        | Speicher          |
-+------------------------------------+------------+-------------------+
-| GMKtex G3 Plus N150                |  16 GB     | 2x 512 GB SSD     |
-| Beelink SER5 Ryzon 5 5600H         |  32 GB     | 2x 2 TB SSD       |
-| Raspberry Pi 2                     | 512 MB     | 16 GB SD          |
-+------------------------------------+------------+-------------------+
-        </pre>
-    </div>
+<!-- Modal für README-Detailansicht -->
+<div id="modal" class="hidden">
+  <div id="modalContent">
+    <button id="modalClose">✖</button>
+    <h2 id="modalTitle"></h2>
+    <h4 id="modalRepo"></h4>
+    <pre id="modalText"></pre>
+  </div>
+</div>
 
-    <script type="module" src="terminal.js"></script>
+<script src="script.js"></script>
 </body>
 </html>

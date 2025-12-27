@@ -1,0 +1,442 @@
+[
+  {
+    "name": "ansible_uml",
+    "description": "UML generator for ansible playbooks and inventories",
+    "url": "https://github.com/wlanboy/ansible_uml",
+    "readmes": [
+      {
+        "path": "README.md",
+        "title": "Ansible UML Visualizer",
+        "description": "A small FastAPI web app that scans an Ansible repository (local path or git URL), finds inventories and playbooks, and generates a Mermaid diagram showing groups, hosts and tasks."
+      }
+    ]
+  },
+  {
+    "name": "bcrypt",
+    "description": "bcrypt command line tool",
+    "url": "https://github.com/wlanboy/bcrypt",
+    "readmes": [
+      {
+        "path": "README.md",
+        "title": "bcrypt",
+        "description": "bcrypt command line tool"
+      }
+    ]
+  },
+  {
+    "name": "blackbox",
+    "description": "configs for blackbox exporter, prometheus and grafana",
+    "url": "https://github.com/wlanboy/blackbox",
+    "readmes": []
+  },
+  {
+    "name": "caweb",
+    "description": "Python based web frontend to create ssl certs for hostname on a given ca",
+    "url": "https://github.com/wlanboy/caweb",
+    "readmes": [
+      {
+        "path": "README.md",
+        "title": "caweb",
+        "description": "A tiny certificate authority (CA) web UI for issuing and managing certificates. This repository contains a small FastAPI (uvicorn) web application and a Dockerfile so you can run it locally or inside a container."
+      },
+      {
+        "path": "caweb-chart/readme.md",
+        "title": "helm chart to deploy caweb",
+        "description": "Needs a secret for the ca. Create secret befor deploying the helm chart."
+      }
+    ]
+  },
+  {
+    "name": "debian-cloud-init",
+    "description": "virsh install debian 12 and 13 with cloud init",
+    "url": "https://github.com/wlanboy/debian-cloud-init",
+    "readmes": [
+      {
+        "path": "README.md",
+        "title": "debian kvm virsh install with cloud init",
+        "description": "This repo describes how to auto install debain12 and debian13 with virsh-install and cloud-init. Which images you can use, and which images you should not use. How to add user passwords with hashes and how to create harddisk images from templates."
+      }
+    ]
+  },
+  {
+    "name": "deployer",
+    "description": "Spring Boot Rest API to controll git repros and ansible playbook based deployments",
+    "url": "https://github.com/wlanboy/deployer",
+    "readmes": [
+      {
+        "path": "README.md",
+        "title": "Deployer",
+        "description": "Spring Boot Projekt zur Verwaltung und Ausführung von Ansible-Playbooks in lokalen Repositories."
+      }
+    ]
+  },
+  {
+    "name": "deployment_monitor",
+    "description": "python based ansible deployment monitor, using sqlite as storage and pushing results to prometheus",
+    "url": "https://github.com/wlanboy/deployment_monitor",
+    "readmes": [
+      {
+        "path": "README.md",
+        "title": "Ansible Deployment Monitor",
+        "description": "Dieses Tool führt mehrere Ansible-Playbooks aus, misst deren Laufzeit und Status, speichert Metriken in SQLite und pusht sie an Prometheus Pushgateway."
+      },
+      {
+        "path": "prometheus/readme.md",
+        "title": "Prometheus + Pushgateway Monitoring Setup",
+        "description": "Dieses Setup stellt eine einfache Monitoring-Infrastruktur bereit, bestehend aus:"
+      }
+    ]
+  },
+  {
+    "name": "Dockerfiles",
+    "description": "Collection of docker scripts",
+    "url": "https://github.com/wlanboy/Dockerfiles",
+    "readmes": [
+      {
+        "path": "README.md",
+        "title": "Dockerfiles",
+        "description": "Repository for my docker files, scripts and configs"
+      }
+    ]
+  },
+  {
+    "name": "eurekaclient",
+    "description": "Python based fake eureka client to register services in legacy eureka server instance",
+    "url": "https://github.com/wlanboy/eurekaclient",
+    "readmes": [
+      {
+        "path": "README.md",
+        "title": "Eureka service registering all services in services.json",
+        "description": "Goal of this project is a simple and small client to provide a migration path for everyone stuck with Spring Eureka. The microservices that are your own responsibility should be freed from the burden of running a Eureka client that is no longer in use but is still needed for your customers. In a Cloud Native world, the microservices are hidden behind one or more load balancers. Therefore, we need a client that handles the registration of the microservices and uses the load balancer addresses as the destination url."
+      },
+      {
+        "path": "example/readme.md",
+        "title": "documentation of rest api",
+        "description": "https://github.com/Netflix/eureka/wiki/Eureka-REST-operations"
+      }
+    ]
+  },
+  {
+    "name": "eurekaclientjava",
+    "description": "Java based service to create several eureka clients entries without having to use the eureka lib",
+    "url": "https://github.com/wlanboy/eurekaclientjava",
+    "readmes": [
+      {
+        "path": "README.md",
+        "title": "Projektbeschreibung",
+        "description": "Dieses Repository enthält eine kleine Java-Anwendung (Eureka Client) zur Demonstration von Service-Discovery- und Konfigurationsmustern. Die Anwendung ist als Spring Boot–basiertes Microservice-Beispiel aufgebaut, lässt sich lokal mit Maven bauen, in einem Docker-Container betreiben."
+      }
+    ]
+  },
+  {
+    "name": "failoverdns",
+    "description": "Failover DNS for nodeping and cloudflare",
+    "url": "https://github.com/wlanboy/failoverdns",
+    "readmes": []
+  },
+  {
+    "name": "gitops",
+    "description": "Simple way to create project, repros and apps in argocd",
+    "url": "https://github.com/wlanboy/gitops",
+    "readmes": [
+      {
+        "path": "readme.md",
+        "title": "📘 ArgoCD Deployment – Erweiterte Dokumentation",
+        "description": "Dieses Dokument beschreibt die Initialisierung und Verwaltung verschiedener ArgoCD‑Applikationen innerhalb eines Kubernetes‑Clusters. Es führt Schritt für Schritt durch die Einrichtung der benötigten Projekte, Namespaces und Applikationen sowie die Nutzung der ArgoCD‑CLI."
+      }
+    ]
+  },
+  {
+    "name": "hadoop",
+    "description": null,
+    "url": "https://github.com/wlanboy/hadoop",
+    "readmes": [
+      {
+        "path": "readme.md",
+        "title": "Projektbeschreibung",
+        "description": "Dieses Repro baut ein eigenes Docker Image für die aktuelles Hadoop Version mit Java 11 auf. Es nutzt dieses Image um einen Hadoop Cluster mit zwei Namenodes, 3 Journalnodes, 3 Zookeepernodes, 3 Datanodes, einem Ressourcemanager und einem Nodemanager."
+      }
+    ]
+  },
+  {
+    "name": "JavaHttpClient",
+    "description": "Spring based rest service to test http call within k8s and istio",
+    "url": "https://github.com/wlanboy/JavaHttpClient",
+    "readmes": [
+      {
+        "path": "README.md",
+        "title": "JavaHttpClient",
+        "description": "Spring based rest service to test http routes in kubernetes. Showing http status, response, timing and istio envy settings."
+      },
+      {
+        "path": "javahttpclient-chart/readme.md",
+        "title": "Helm chart usage",
+        "description": "How to install the java based http client via helm."
+      }
+    ]
+  },
+  {
+    "name": "kanbantabs",
+    "description": "golang based console kanban board",
+    "url": "https://github.com/wlanboy/kanbantabs",
+    "readmes": [
+      {
+        "path": "README.md",
+        "title": "kanbantabs",
+        "description": "golang based console kanban board with local storage"
+      }
+    ]
+  },
+  {
+    "name": "kind-web-controller",
+    "description": "FastApi based web frontend to manage kind clusters with metallb and istio integration",
+    "url": "https://github.com/wlanboy/kind-web-controller",
+    "readmes": [
+      {
+        "path": "README.md",
+        "title": "Kurzbeschreibung",
+        "description": "Dieses Projekt startet einen FastAPI-Server (`main:app`) und nutzt Uvicorn als ASGI-Server. Siehe [`main:app`](main.py) für die App-Instanz und [pyproject.toml](pyproject.toml) für die deklarierte Abhängigkeiten. Mit dieser Weboberfläche kann:"
+      }
+    ]
+  },
+  {
+    "name": "logbacktest",
+    "description": "Simple CLI tool to test logback on command line",
+    "url": "https://github.com/wlanboy/logbacktest",
+    "readmes": [
+      {
+        "path": "README.md",
+        "title": "logbacktest",
+        "description": "Simple CLI tool to test logback on localhost"
+      }
+    ]
+  },
+  {
+    "name": "mcp-md-fileserver",
+    "description": "A FastMCP python based mcp server to search in markdown files",
+    "url": "https://github.com/wlanboy/mcp-md-fileserver",
+    "readmes": [
+      {
+        "path": "README.md",
+        "title": "MCP Markdown File Server",
+        "description": "A FastMCP-compliant Python server that scans Markdown files, extracts subject/verb keywords using spaCy, stores metadata in SQLite, and exposes endpoints for keyword-based search and content retrieval."
+      }
+    ]
+  },
+  {
+    "name": "me",
+    "description": null,
+    "url": "https://github.com/wlanboy/me",
+    "readmes": [
+      {
+        "path": "README.md",
+        "title": "me",
+        "description": "github page for using CNAME record"
+      }
+    ]
+  },
+  {
+    "name": "mindmap",
+    "description": "Simple python, alpinejs mindmap webfrontend",
+    "url": "https://github.com/wlanboy/mindmap",
+    "readmes": [
+      {
+        "path": "README.md",
+        "title": "Mindmap",
+        "description": "A web application for creating and managing tasks with connections between them, built with FastAPI, SQLAlchemy, and HTMX."
+      }
+    ]
+  },
+  {
+    "name": "MirrorService",
+    "description": "Spring Framework based service mirroring requests with parameterized wait time and http response codes",
+    "url": "https://github.com/wlanboy/MirrorService",
+    "readmes": [
+      {
+        "path": "README.md",
+        "title": "MirrorService",
+        "description": "Spring Framework based Service which is mirroring requests with the option to delay requests and alter http response codes"
+      }
+    ]
+  },
+  {
+    "name": "raspberrypi",
+    "description": "Raspberry Pi scripts for all my homelab services",
+    "url": "https://github.com/wlanboy/raspberrypi",
+    "readmes": [
+      {
+        "path": "README.md",
+        "title": "raspberrypi",
+        "description": "Raspberry Pi projects I am using for my own homelab."
+      },
+      {
+        "path": "ca/cert-manager/readme.md",
+        "title": "Install cert-manager in k3s with local ca",
+        "description": "All kubectl commands to install and configure a cert manager with your own ca on any kubernetes cluster."
+      },
+      {
+        "path": "ca/external-ca/readme.md",
+        "title": "trust for external ca",
+        "description": "Example to inject an external ca to Istio sidecars."
+      },
+      {
+        "path": "ca/istio/readme.md",
+        "title": "use cert-manager with istio ingress gateway",
+        "description": "Kubectl commands to install Istio, IngressGateway and a simple nginx based test service with certmanager issued certificate."
+      },
+      {
+        "path": "ca/local-dns/readme.md",
+        "title": "use local pihole dns server in k3s",
+        "description": "How to change DNS servers in Ubuntu and k3s cluster running on Ubuntu."
+      },
+      {
+        "path": "ca/readme.md",
+        "title": "1\\. Create a Local Certificate Authority",
+        "description": "This section walks you through creating your own self-signed root CA certificate. This certificate will be used to sign other certificates for your local devices."
+      },
+      {
+        "path": "chat/README.md",
+        "title": "simple local chat",
+        "description": "Simple Python based websocket chat example for fun."
+      },
+      {
+        "path": "minioaccess/README.md",
+        "title": "simple minio web manager for user and buckets of minio community edition",
+        "description": "* uses mc client for access to the admin api"
+      },
+      {
+        "path": "tekton/readme.md",
+        "title": "use tekton pipelines on k3s",
+        "description": "How to install tekton pipelines on your local kubernetes cluster. Including bugfixed for yet privilaged mode."
+      }
+    ]
+  },
+  {
+    "name": "redis-from-source",
+    "description": "Build debian based docker container for redis to run on gcr.io/distroless/cc",
+    "url": "https://github.com/wlanboy/redis-from-source",
+    "readmes": [
+      {
+        "path": "README.md",
+        "title": "Redis base image with static linking",
+        "description": "This is a build container to compile redis-server and redis-cli to run on a gcr.io/distroless/cc"
+      }
+    ]
+  },
+  {
+    "name": "ServiceConfig",
+    "description": "Spring Framework based configuration service",
+    "url": "https://github.com/wlanboy/ServiceConfig",
+    "readmes": [
+      {
+        "path": "README.md",
+        "title": "ServiceConfig",
+        "description": "Spring Framework based Service Configuration"
+      }
+    ]
+  },
+  {
+    "name": "ServiceRegistry",
+    "description": "Spring Framework based Service Registry",
+    "url": "https://github.com/wlanboy/ServiceRegistry",
+    "readmes": [
+      {
+        "path": "README.md",
+        "title": "ServiceRegistry [DEPRECATED]",
+        "description": "Spring Framework based Service Registry - DO NOT USE THIS ANY LONGER"
+      }
+    ]
+  },
+  {
+    "name": "SimpleService",
+    "description": "Simple Spring Rest Hateos Service using Cloud Config, JPA and H2",
+    "url": "https://github.com/wlanboy/SimpleService",
+    "readmes": [
+      {
+        "path": "README.md",
+        "title": "SimpleService",
+        "description": "Simple Spring Rest Service using Cloud Config, Spring Data, PostgreSQL, Hateos"
+      }
+    ]
+  },
+  {
+    "name": "uhren",
+    "description": "my watch collection",
+    "url": "https://github.com/wlanboy/uhren",
+    "readmes": [
+      {
+        "path": "readme.md",
+        "title": "simple website for my watches",
+        "description": "https://wlanboy.github.io/uhren/"
+      }
+    ]
+  },
+  {
+    "name": "vagrantkind",
+    "description": "vagrant machine installing docker, kubectrl and kind to run a simple dev kubernetes cluster",
+    "url": "https://github.com/wlanboy/vagrantkind",
+    "readmes": [
+      {
+        "path": "README.md",
+        "title": "vagrantkind",
+        "description": "vagrant machine installing docker, kubectrl, istioctl, helm and kind to run a simple local kubernetes cluster"
+      },
+      {
+        "path": "mariadb-replica/README.md",
+        "title": "Install mariadb replica cluster",
+        "description": "Kubectl commands to install a mariadb replica cluster in kubernetes."
+      },
+      {
+        "path": "mariadb-single/README.md",
+        "title": "Install mariadb",
+        "description": "Kubectl commands to install a mariadb instance in kubernetes."
+      }
+    ]
+  },
+  {
+    "name": "webpyshell",
+    "description": "Python Flask web based terminal for container runtime testing",
+    "url": "https://github.com/wlanboy/webpyshell",
+    "readmes": [
+      {
+        "path": "README.md",
+        "title": "http web shell to test kubernetes runtimes",
+        "description": "A simple web ui to run console commands within the container"
+      }
+    ]
+  },
+  {
+    "name": "WebShell",
+    "description": "Spring Boot Web Shell",
+    "url": "https://github.com/wlanboy/WebShell",
+    "readmes": [
+      {
+        "path": "README.md",
+        "title": "WebShell",
+        "description": "Spring Boot based webfrontend for local shell access"
+      },
+      {
+        "path": "webshell-chart/readme.md",
+        "title": "Helm install",
+        "description": "This helm script installs the WebShell within a kubernetes cluster."
+      }
+    ]
+  },
+  {
+    "name": "wlanboy.github.io",
+    "description": "website",
+    "url": "https://github.com/wlanboy/wlanboy.github.io",
+    "readmes": [
+      {
+        "path": "README.md",
+        "title": "wlanboy.github.io",
+        "description": "private homepage hosted by github pages."
+      },
+      {
+        "path": "website-chart/readme.md",
+        "title": "Helm Chart",
+        "description": "Helm Chart to install the webpage within a kubernetes cluster. Using an init container to pull from this repro. Using Istio, Ingress Gateway and Certmanager."
+      }
+    ]
+  }
+]

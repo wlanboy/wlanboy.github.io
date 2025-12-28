@@ -1,0 +1,441 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta name="generator" content="wlanboy" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>mailserver</title>
+</head>
+<body>
+
+<div class="content-wrapper" id="Tutorial">
+    <div class="content">
+        <div class="pure-g">
+            <div class="l-box-lrg pure-u-1">
+            <h2 id="tutorial-mailserver">Tutorial: mailserver</h2>
+<p>This tutorial is about setting up a mailserver. It is based on my own efforts to not use gmail any longer.<br>
+I want to keep my own emails and I want to keep my own backups.</p>
+<p>Running your own mail server is pain. This is something you have to monitor all the time. And as long as your server is not encrypted (and even if) you should use a client based enryption for your email client.</p>
+<p>It is also a good idea to separate this from your other services. I am using a small 128 MB vps that is only running the mail server. It is fine for 5 users. If you want to run additional services like clamav and if you have more than 5 users you should use 512 MB of RAM.</p>
+<p>This post will be updated once a week. This topic is quite huge so I will need some iterations to complete this tutorial. I also want to include all feedback to ensure that this tutorial is up to date.</p>
+<p>Because email servers can have a lot of features like:</p>
+<ul>
+<li>marking spam</li>
+<li>graylisting</li>
+<li>virus scanning</li>
+<li>virtual mappings</li>
+<li>etc</li>
+</ul>
+<p>I will mark every step that is just adding a feature as <span style="color:#008080"><strong>OPTIONAL</strong></span>.</p>
+<p>So let&rsquo;s start with the preparations:</p>
+<p><span style="color:#ff0000"><span style="font-size:18px"><strong>1. Setup your DNS:</strong></span></span></p>
+<p><strong>Create an A record</strong> that is pointing to your vps (which should run the mailserver).</p>
+<pre class="prettyprint">mailserver 55.55.55.55 A 1800
+mailserver 2500:f5f5:25::b25f:2525 AAAA 1800
+</pre>
+<p>I use a service oriented nameing shema so in my case: &ldquo;mailserver.domain.com&rdquo;. This name is quite important because it is used in a lot of different places.</p>
+<p>You can add additional cnames to ensure that all the mail clients find the correct ips:</p>
+<pre class="prettyprint">pop3 mailserver.domain.com. CNAME 1800
+pop mailserver.domain.com. CNAME 1800
+imap mailserver.domain.com. CNAME 1800
+smtp mailserver.domain.com. CNAME 1800
+</pre>
+<p>And the AAAA records too if you want to support IPv6.</p>
+<p><strong>Create a MX record</strong> for your domain and subdomains</p>
+<pre class="prettyprint">@ mailserver.domain.com. MX 10 3600
+</pre>
+<p>&ldquo;@&rdquo; is an alias for you domain. So all email for your domain should be sent to &ldquo;mailserver.domain.com&rdquo;</p>
+<p>You have to create records for your subdomains too:</p>
+<pre class="prettyprint">mysubdomain mailserver.mydomain.com. MX 10 3600
+</pre>
+<p>And to ensure that SPF gets more support add this TXT DNS entry too:</p>
+<pre class="prettyprint">  @		IN	TXT	"v=spf1 mx -all"
+</pre>
+<p>This adds the additional security that you say that only your MX entries are allowed to send emails for your domains. Quite obvious but you can add other ips too:</p>
+<pre class="prettyprint">  @		IN	TXT	"v=spf1 mx ip4:11.22.33.44 a:mail.company.com -all"
+</pre>
+<p>This states that all MX servers, the IP 11.22.33.44 and the mail.company.com are allowed to send emails for your domains.</p>
+<p>Why? Because sometimes (e.g. for forums/mailing lists) an external company is sending emails for your domains. This is a way to approve them.</p>
+<p><span style="color:#ff0000"><strong><span style="font-size:18px">2. Setup your rDNS:</span></strong></span><br>
+Go to your vps control panel and add the DNS record &ldquo;mailserver.domain.com&rdquo; to your IP address 55.55.55.55.</p>
+<p><span style="color:#ff0000"><strong><span style="font-size:18px">3. Setup your mailname in /etc</span></strong></span></p>
+<pre class="prettyprint">sudo nano /etc/mailname
+Add "mailserver.mydomain.com"
+</pre>
+<p><strong><span style="color:#ff0000"><span style="font-size:18px">4. Setup your iptables rules:</span></span></strong></p>
+<pre class="prettyprint"> # allow SMTP
+ iptables -A INPUT -i $device -m state --state NEW -p tcp --dport 25 -j ACCEPT
+ ip6tables -A INPUT -i $device -p tcp --dport 25 -j ACCEPT
+
+ # allow SMTPS
+ iptables -A INPUT -i $device -m state --state NEW -p tcp --dport 465 -j ACCEPT
+ iptables -A INPUT -i $device -m state --state NEW -p tcp --dport 587 -j ACCEPT
+
+ ip6tables -A INPUT -i $device -p tcp --dport 465 -j ACCEPT
+ ip6tables -A INPUT -i $device -p tcp --dport 587 -j ACCEPT
+
+ # allow POP3
+ iptables -A INPUT -i $device -m state --state NEW -p tcp --dport 110 -j ACCEPT
+ ip6tables -A INPUT -i $device -p tcp --dport 110 -j ACCEPT
+
+ # allow POP3S
+ iptables -A INPUT -i $device -m state --state NEW -p tcp --dport 995 -j ACCEPT
+ ip6tables -A INPUT -i $device -p tcp --dport 995 -j ACCEPT
+
+ # allow IMAP
+ iptables -A INPUT -i $device -m state --state NEW -p tcp --dport 143 -j ACCEPT
+ ip6tables -A INPUT -i $device -p tcp --dport 143 -j ACCEPT
+
+ # allow IMAPS
+ iptables -A INPUT -i $device -m state --state NEW -p tcp --dport 993 -j ACCEPT
+ ip6tables -A INPUT -i $device -p tcp --dport 993 -j ACCEPT
+</pre>
+<p><span style="color:#ff0000"><strong><span style="font-size:18px">5. Setup your mail server</span></strong></span><br>
+Installation is really simple because of the great package: <strong>dovecot-postfix</strong></p>
+<pre class="prettyprint">sudo apt-get install dovecot-postfix
+</pre>
+<p>After using some other mail daemons for a while I do prefer the postfix/dovecot combo.</p>
+<p>Postfix is mail daemon like sendmail but whith a real nice pipe framework. It is really easy to tunnel email through different modules. Dovecot is a daemon that provides pop3 and imap access to the mail accounts.</p>
+<p><span style="color:#ff0000"><strong><span style="font-size:18px">6. Config dovecot</span></strong></span><br>
+Dovecot is providing access to your emails via pop/imap.<br>
+Only file to edit is /etc/dovecot/conf.d/10-auth.conf</p>
+<pre class="prettyprint">nano /etc/dovecot/conf.d/10-auth.conf
+</pre>
+<p>Remove the # of the line &ldquo;disable_plaintext_auth = yes&rdquo;</p>
+<p><span style="color:#ff0000"><strong><span style="font-size:18px">7. Config postfix</span></strong></span><br>
+<strong>Edit the file /etc/postfix/main.cf</strong></p>
+<pre class="prettyprint">nano /etc/postfix/main.cf
+</pre>
+<p>Things to edit:</p>
+<pre class="prettyprint">mydomain = domain.com
+myorigin = domain.com
+myhostname = mailserver.domain.com
+alias_maps = hash:/etc/aliases
+alias_database = hash:/etc/aliases
+local_recipient_maps = $alias_maps
+mydestination = domain.com, mailserver.domain.com, subdomain.domain.com, localhost
+
+smtpd_recipient_restrictions = 
+  reject_unknown_sender_domain, 
+  reject_unknown_recipient_domain, 
+  reject_unauth_pipelining, 
+  permit_mynetworks, 
+  permit_sasl_authenticated, 
+  reject_unauth_destination,
+  reject_rbl_client zen.spamhaus.org, 
+  reject_rbl_client bl.spamcop.org
+
+smtpd_data_restrictions =
+  reject_unauth_pipelining,
+  reject_multi_recipient_bounce,
+  permit
+</pre>
+<p>So what I am doning here?</p>
+<p>I define the domain and origin of the mail server. He should handle the domain &ldquo;domain.com&rdquo;.</p>
+<p>I define an alias map to map different email accounts to different linux users.</p>
+<p>And I define all allowed destinations - including all subdomains. And of course &ldquo;localhost&rdquo; for all my scripts.</p>
+<p>All mail for a different domain will be rejected.</p>
+<p>&ldquo;smtpd_recipient_restrictions&rdquo; is a list of filters to ensure that we did not get spammed.</p>
+<p>&ldquo;reject_rbl_client&rdquo; is a referrer to one of the spam lists provided by different groups. I do like spamhaus and spamcop.</p>
+<p>&ldquo;check_policy_service&rdquo; is used for my favorit greylister. Greylister do something very bad. They dismiss emails - out of the fact that real and good mail servers will try again. A lot of spammers don&rsquo;t have time to wait for any retries.</p>
+<p>I know that this is &hellip; still in discussion &hellip; but for a private mail server it just saves a lot of time.</p>
+<p>Another time saver is local_recipient_maps. So every email like &ldquo;<a href="mailto:markting@domain.com">markting@domain.com</a>&rdquo; will be rejected if the mail address is not within the alias map. You do only receive emails to mailboxes you added.</p>
+<p><strong>Edit the file /etc/postfix/master.cf</strong></p>
+<pre class="prettyprint">nano  /etc/postfix/master.cf 
+</pre>
+<p>Things to edit:</p>
+<pre class="prettyprint">submission inet n       -       -       -       -       smtpd
+  -o syslog_name=postfix/submission
+  -o smtpd_tls_security_level=encrypt
+  -o smtpd_sasl_auth_enable=yes
+  -o smtpd_client_restrictions=permit_sasl_authenticated,reject
+  -o milter_macro_daemon_name=ORIGINATING
+
+dovecot   unix  -       n       n       -       -       pipe
+  flags=DRhu argv=/usr/lib/dovecot/deliver -f ${sender} -d ${recipient}
+</pre>
+<p>Be carefull &hellip; spaces etc. do count!</p>
+<p>So what did I change?</p>
+<p>I have added an output pipe for spam assassin and one for dovecot.</p>
+<p>Postfix is recieving all mails and has to forward them to dovecot. Additionally a content_filter is set (defined at the end of the file) to ensure that the mails are sent to spamassassin and afterwards to dovecot.</p>
+<p><span style="color:#ff0000"><span style="font-size:18px"><strong>8. Config aliases</strong></span></span></p>
+<p>I do prefer aliases instead of virtual mappings. I don&rsquo;t want to run a MySQL server to choose who is getting what email. There are a lot of tutorial on how to use virtual mappings. I stick to simple config files.</p>
+<p>There are some DDOS attacks too that aim at a high load of MySQL querries too.</p>
+<p>Now edit the file /etc/aliases</p>
+<pre class="prettyprint">nano /etc/aliases
+</pre>
+<p>Content:</p>
+<pre class="prettyprint">#
+# Mail aliases for sendmail
+#
+# You must run newaliases(1) after making changes to this file.
+#
+
+# Required aliases
+postmaster:	wlanboy
+MAILER-DAEMON:	postmaster
+
+# Common aliases
+abuse:		postmaster
+spam:		postmaster
+
+# Other aliases
+webmaster:      wlanboy
+contact:        wlanboy
+root:           wlanboy
+user1:          user1
+wlanboy:        wlanboy
+</pre>
+<p>Double check that you do not map circles like: postmaster -&gt; spam -&gt; wlanboy -&gt; admin -&gt; admin -&gt; postmaster.</p>
+<p>You wont have any chance to see the cause in the logfiles.</p>
+<p>On the left side are email addresses like &ldquo;<a href="/cdn-cgi/l/email-protection">[email protected]</a><script data-cfhash="f9e31" type="text/javascript">/* <![CDATA[ */!function(t,e,r,n,c,a,p){try{t=document.currentScript||function(){for(t=document.getElementsByTagName('script'),e=t.length;e--;)if(t[e].getAttribute('data-cfhash'))return t[e]}();if(t&&(c=t.previousSibling)){p=t.parentNode;if(a=c.getAttribute('data-cfemail')){for(e='',r='0x'+a.substr(0,2)|0,n=2;a.length-n;n+=2)e+='%'+('0'+('0x'+a.substr(n,2)^r).toString(16)).slice(-2);p.replaceChild(document.createTextNode(decodeURIComponent(e)),c)}p.removeChild(t)}}catch(u){}}()/* ]]> */</script>&rdquo;.</p>
+<p>On the rigth side there are linux users which will receive the emails.</p>
+<p>Afterwards you have to run &ldquo;newaliases&rdquo; to generate the alias map file.</p>
+<pre class="prettyprint">sudo newaliases
+</pre>
+<p>To add a new user just type:</p>
+<pre class="prettyprint">sudo useradd -m -s /bin/false [username]
+passwd [username]
+</pre>
+<p>This ensures that this user can only login into your mail server and not use any other services like ssh/scp/rsync.</p>
+<p><span style="color:#008080"><strong><span style="font-size:18px">9. OPTIONAL: Install postgrey</span></strong></span></p>
+<pre class="prettyprint">sudo apt-get install postgrey
+sudo nano /etc/default/postgrey
+add:
+POSTGREY_OPTS="--inet=127.0.0.1:10023 --delay=55"
+</pre>
+<p>The OPTS I add are:</p>
+<ul>
+<li>listening to localhost only</li>
+<li>add a delay of 55 seconds</li>
+</ul>
+<p>Afterwards you have to <strong>edit the file /etc/postfix/main.cf</strong></p>
+<pre class="prettyprint">nano /etc/postfix/main.cf
+</pre>
+<pre class="prettyprint">smtpd_recipient_restrictions = 
+  reject_unknown_sender_domain, 
+  reject_unknown_recipient_domain, 
+  reject_unauth_pipelining, 
+  permit_mynetworks, 
+  permit_sasl_authenticated, 
+  reject_unauth_destination,
+  reject_rbl_client zen.spamhaus.org, 
+  reject_rbl_client bl.spamcop.org,
+  check_policy_service inet:127.0.0.1:10023
+</pre>
+<p>Add the check_policy_service inet:127.0.0.1:10023 to the smtpd_recipient_restrictions.</p>
+<p><span style="color:#008080"><strong><span style="font-size:18px">10. OPTIONAL: Install spam assassine</span></strong></span></p>
+<p>Enhance postfix configuration:</p>
+<pre class="prettyprint">nano /etc/postfix/master.cf
+</pre>
+<p>Things to edit:</p>
+<pre class="prettyprint">smtp      inet  n       -       -       -       -       smtpd
+  -o content_filter=spamassassin
+
+submission [.....]
+dovecot [.....]
+
+spamassassin unix -     n       n       -       -       pipe
+        user=spamd argv=/usr/bin/spamc -f -e    
+        /usr/sbin/sendmail -oi -f ${sender} ${recipient}
+</pre>
+<p>And now install spam assassine</p>
+<pre class="prettyprint">sudo apt-get install libnet-dns-perl pyzor razor libdigest-sha-perl libencode-detect-perl libdbi-perl libgeo-ipfree-perl libnet-ident-perl 
+sudo apt-get install spamassassin
+sudo adduser --system --no-create-home spamd
+</pre>
+<p>Afterwards you have to activate it:</p>
+<pre class="prettyprint">sudo nano /etc/default/spamassassin
+change to: ENABLED=1
+sudo service spamassassin restart
+</pre>
+<p>Update spam asssasin rules:</p>
+<pre class="prettyprint">cd /etc/spamassassin/
+wget http://yerp.org/rules/GPG.KEY
+sa-update --import GPG.KEY
+sa-update --gpgkey 6C6191E3 --channel sought.rules.yerp.org
+
+sa-update -D -v
+</pre>
+<p><span style="color:#ff0000"><strong><span style="font-size:18px">11. Install fail2ban</span></strong></span></p>
+<pre class="prettyprint">sudo apt-get install fail2ban
+</pre>
+<p>You have to configure the services fail2ban has to check:</p>
+<pre class="prettyprint">sudo nano /etc/fail2ban/jail.conf
+</pre>
+<p>Things to edit:</p>
+<pre class="prettyprint">bantime  = 3600
+maxretry = 2
+
+action = %(action_mw)s
+
+[pam-generic]
+enabled  = true
+
+[postfix]
+enabled  = true
+port     = smtp,ssmtp
+filter   = postfix
+logpath  = /var/log/mail.log
+
+[sasl]
+enabled  = true
+port     = smtp,ssmtp,imap2,imap3,imaps,pop3,pop3s
+filter   = sasl
+# You might consider monitoring /var/log/mail.warn instead if you are
+# running postfix since it would provide the same log lines at the
+# "warn" level but overall at the smaller filesize.
+logpath  = /var/log/mail.log
+
+[dovecot]
+enabled = true
+port    = smtp,ssmtp,imap2,imap3,imaps,pop3,pop3s
+filter  = dovecot
+logpath = /var/log/mail.log
+</pre>
+<p>What did I do?</p>
+<p>Set the bantime to 1 hour and the number of retries before ban to 2.</p>
+<p>And enabled the observation of pam-generic, postfix, sasl and dovecot.</p>
+<p>So all mail related login actions are checked.</p>
+<p><span style="color:#008080"><strong><span style="font-size:18px">12. OPTIONAL: Own SSL configuration</span></strong></span></p>
+<p><span>The pa</span>ckage is creating self signed certificates. So if you want to change them because you want to use official ssl certs edit following lines:</p>
+<ul>
+<li>/etc/postfix/main.cf</li>
+<li>/etc/dovecot/conf.d/10-ssl.conf</li>
+<li>/etc/dovecot/conf.d/01-mail-stack-delivery.conf</li>
+</ul>
+<pre class="prettyprint">/etc/postfix/main.cf:smtpd_tls_cert_file = /etc/ssl/certs/ssl-mail.pem
+/etc/postfix/main.cf:smtpd_tls_key_file = /etc/ssl/private/ssl-mail.key
+
+/etc/dovecot/conf.d/10-ssl.conf:ssl_cert = </etc/ssl/certs/dovecot.pem
+/etc/dovecot/conf.d/10-ssl.conf:ssl_key = </etc/ssl/private/dovecot.pem
+/etc/dovecot/conf.d/01-mail-stack-delivery.conf:ssl_cert = </etc/ssl/certs/ssl-mail.pem
+/etc/dovecot/conf.d/01-mail-stack-delivery.conf:ssl_key = </etc/ssl/private/ssl-mail.key
+</pre>
+<p><span style="color:#008080"><span style="font-size:18px"><strong>13. OPTIONAL: Set rate limits</strong></span></span></p>
+<p>If your mail server is used by yourself &hellip; you do not need to limit the number of emails a user can send.</p>
+<p>Edit /etc/postfix/main.cf</p>
+<pre class="prettyprint">sudo nano /etc/postfix/main.cf
+</pre>
+<p>And add these lines at the end of file:</p>
+<pre class="prettyprint">smtpd_client_event_limit_exceptions = $mynetworks
+#Clients that are excluded from connection count
+anvil_rate_time_unit = 60s 
+#The time unit over which client connection rates and other rates are calculated. 
+anvil_status_update_time = 120s 
+#How frequently the server logs peak usage information. 
+smtpd_client_message_rate_limit=5 
+#The maximal number of message delivery requests that any client is allowed to make to this service per time unit.
+</pre>
+<p>So each client - not connected through $mynetworks - is only able to send 5 emails per 60 seconds.</p>
+<p><span style="color:#008080"><span style="font-size:18px"><strong>14. OPTIONAL: DKIM</strong></span></span></p>
+<p>Well &hellip;.</p>
+<blockquote>
+<p>DomainKeys Identified Mail (DKIM) is a method for E-mail authentication, allowing a person who receives email to verify that the message actually comes from the domain that it claims to have come from. The need for this type of authentication arises because spam often has forged headers.</p>
+</blockquote>
+<p>So your mail server can sign your emails to ensure that someone can check if the emails are from your approved mail servers.</p>
+<p>Installation is quite easy:</p>
+<pre class="prettyprint">sudo apt-get install opendkim opendkim-tools
+</pre>
+<p>For 12.04 you have to use backports:</p>
+<pre class="prettyprint">sudo apt-get install opendkim/precise-backports
+sudo apt-get install opendkim-tools/precise-backports
+</pre>
+<p>Configuration is done on two files:</p>
+<pre>/etc/opendkim.conf
+/etc/default/opendkim</pre>
+<p>Things you have to change:</p>
+<pre class="prettyprint">nano /etc/opendkim.conf
+UserID                 105 # 'id postfix' in your shell
+Domain                 domain.com
+KeyFile                 /etc/mail/dkim.key
+</pre>
+<pre class="prettyprint">nano /etc/default/opendkim
+SOCKET="inet:54321" # listen on all interfaces on port 54321
+#Don't forget to allow this port on iptables
+</pre>
+<p>Now we have to tell postfix to use this service:</p>
+<pre class="prettyprint">nano /etc/postfix/main.cf
+# DKIM
+milter_default_action = accept
+milter_protocol = 2
+smtpd_milters = inet:localhost:8891
+non_smtpd_milters = inet:localhost:8891
+</pre>
+<p>To generate the key run following command:</p>
+<pre class="prettyprint">cd /etc/mail
+sudo opendkim-genkey -t -s mail -d domain.com
+cp mail.private /etc/mail/dkim.key
+</pre>
+<p>The DNS TXT entry should be a copy&amp;paste of mail.txt</p>
+<pre class="prettyprint">mail._domainkey.domain.com. IN TXT "v=DKIM1; g=*; k=rsa; p=openssl_public_key";
+</pre>
+<p><span style="color:#008080"><strong><span style="font-size:18px">15. OPTIONAL: Add backup MX</span></strong></span></p>
+<p>First of all you have to add an additional MX record with a higher priority:</p>
+<pre class="prettyprint">@ mailserver.domain.com. MX 10 3600
+@ backupmailserver.domain.com. MX 20 3600
+</pre>
+<p>Everyone is first trying to send the email to mailserver.domain.com, if it is not reachable backupmailserver.domain.com is used.</p>
+<p>The higher the priority the lower the chance that someone is using the MX server.</p>
+<p>Next change of the backup mail server is the main.cf:</p>
+<pre class="prettyprint">relay_domains = $mydestination, hash:/etc/postfix/relay_domains
+transport_maps = hash:/etc/postfix/relay_transport
+</pre>
+<p>Now we have to define the relay domains:</p>
+<pre class="prettyprint">nano /etc/postfix/relay_domains
+</pre>
+<p>Content:</p>
+<pre class="prettyprint">domain1.com anything
+domain2.com anything
+domain3.com anything
+</pre>
+<p>A backup MX can be responsible for more than one domain.</p>
+<p>Now we have to define what the backup mail server should do with an incoming email:</p>
+<pre class="prettyprint">nano /etc/postfix/relay_transport
+</pre>
+<p>Conent:</p>
+<pre class="prettyprint">domain1.com relay:mailserver.domain1.com
+domain2.com relay:mailserver.domain2.com
+domaint3.com relay:mailserver.domain3.com
+</pre>
+<p>Just forward them to the real mail servers.</p>
+<p>Last step is to map both files:</p>
+<pre class="prettyprint">cd /etc/postfix
+postmap relay_domains
+postmap relay_transport
+</pre>
+<p>If you want you can add a time to live for the emails too:</p>
+<pre class="prettyprint">maximal_queue_lifetime = 60d 
+</pre>
+<p>So the backup server will store the mails for 60 days. Hopefully your main mail server will not be offline for more than 60 days.</p>
+<p><span style="color:#ff0000"><strong><span style="font-size:18px">16. Restart you vps</span></strong></span></p>
+<p>Done.</p>
+<p><strong><span style="font-size:18px">Comments:</span></strong></p>
+<p>We now have a smtp/pop3/imap server that uses graylisting, spam assassine and a white list of mail addresses to ensure that you only receive mails you want.</p>
+<p>Additionally fail2ban bans everyone trying to get access to your mail server.</p>
+<p>Postfix and dovecot are by default supporting IPv6. You only have to add the AAAA records to ensure you mail server is accessable via IPv6.</p>
+<p>You can even decide to drop the iptables/ip6tables rules for <span>SMTP/POP3/IMAP to ensure every client is only using SSL secured connections.</span></p>
+<p>If you need a GUI for this mail server:</p>
+<p>Use a second vps with webserver and php and install <a href="http://roundcube.net/" title="External link">roundcube</a>.</p>
+<p><span style="font-size:18px"><strong>Additional notes:</strong></span></p>
+<p>Yup you are right there is not a fancy clicky GUI to add new mailboxes. But I like the idea to keep things simple.</p>
+<p>Adding a user to a linux system (one without a console access) is dead simple. Adding an alias for him too.</p>
+<p>This is a private server - so you will not add new users every minute.</p>
+<p>A lot of things a file based so the whole system is not using a lot of resources. A real low end mail server running on a 128 MB vps:</p>
+<pre class="prettyprint">free
+             total       used       free     shared    buffers     cached
+Mem:        131072      82560      48512          0          0      28564
+-/+ buffers/cache:      53996      77076
+Swap:       131072      15808     115264
+</pre>
+<p>This is the state without any active connections. Dovecot is using some RAM for each logged-in user.</p>
+<p>This tutorial is quite long and as you can see most of the steps is about securing your mail server. Mail servers are still targets of quite a lot of attacks. These attacks are simple and don&rsquo;t need a lot of time of traffic. So an easy target. The ports cannot be changed too so you know that port 25 is listening.</p>
+<p>So a lot of arguments to run your mail server on another vps.</p>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+</body></html>

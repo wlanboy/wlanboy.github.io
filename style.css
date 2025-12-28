@@ -202,3 +202,19 @@ select option {
   background: #666; 
   color: white;
 }
+
+#terminalLink {
+  padding: 8px 12px;
+  border-radius: 8px;
+  background: var(--repo-bg);
+  color: var(--text);
+  text-decoration: none;
+  font-size: 1rem;
+  display: inline-flex;
+  align-items: center;
+  transition: background 0.2s;
+}
+
+#terminalLink:hover {
+  background: #888;
+}

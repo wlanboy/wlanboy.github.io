@@ -38,7 +38,7 @@
     "name": "caweb",
     "description": "Python based web frontend to create ssl certs for hostname on a given ca",
     "url": "https://github.com/wlanboy/caweb",
-    "pushed_at": "2025-12-27T17:28:55Z",
+    "pushed_at": "2025-12-31T10:46:41Z",
     "readmes": [
       {
         "path": "README.md",
@@ -58,13 +58,19 @@
     "name": "debian-cloud-init",
     "description": "virsh install debian 12 and 13 with cloud init",
     "url": "https://github.com/wlanboy/debian-cloud-init",
-    "pushed_at": "2025-12-25T18:46:58Z",
+    "pushed_at": "2025-12-31T11:44:24Z",
     "readmes": [
       {
         "path": "README.md",
         "title": "debian kvm virsh install with cloud init",
         "description": "This repo describes how to auto install debain12 and debian13 with virsh-install and cloud-init. Which images you can use, and which images you should not use. How to add user passwords with hashes and how to create harddisk images from templates.",
         "type": "readme"
+      },
+      {
+        "path": "rec/rec.md",
+        "title": "record terminal",
+        "description": "## install tools",
+        "type": "text"
       }
     ]
   },
@@ -164,7 +170,7 @@
     "name": "eurekaclientjava",
     "description": "Java based service to create several eureka clients entries without having to use the eureka lib",
     "url": "https://github.com/wlanboy/eurekaclientjava",
-    "pushed_at": "2025-12-23T08:19:40Z",
+    "pushed_at": "2025-12-31T10:38:58Z",
     "readmes": [
       {
         "path": "README.md",
@@ -213,7 +219,7 @@
     "name": "JavaHttpClient",
     "description": "Spring based rest service to test http call within k8s and istio",
     "url": "https://github.com/wlanboy/JavaHttpClient",
-    "pushed_at": "2025-12-27T18:01:11Z",
+    "pushed_at": "2025-12-31T10:46:59Z",
     "readmes": [
       {
         "path": "README.md",
@@ -317,7 +323,7 @@
     "name": "MirrorService",
     "description": "Spring Framework based service mirroring requests with parameterized wait time and http response codes",
     "url": "https://github.com/wlanboy/MirrorService",
-    "pushed_at": "2025-12-27T18:37:01Z",
+    "pushed_at": "2025-12-31T10:47:07Z",
     "readmes": [
       {
         "path": "README.md",
@@ -585,7 +591,7 @@
     "name": "SimpleService",
     "description": "Simple Spring Rest Hateos Service using Cloud Config, JPA and H2",
     "url": "https://github.com/wlanboy/SimpleService",
-    "pushed_at": "2025-12-27T18:39:45Z",
+    "pushed_at": "2025-12-31T10:46:48Z",
     "readmes": [
       {
         "path": "README.md",
@@ -613,7 +619,7 @@
     "name": "vagrantkind",
     "description": "vagrant machine installing docker, kubectrl and kind to run a simple dev kubernetes cluster",
     "url": "https://github.com/wlanboy/vagrantkind",
-    "pushed_at": "2025-12-27T18:50:16Z",
+    "pushed_at": "2025-12-30T15:19:38Z",
     "readmes": [
       {
         "path": "README.md",
@@ -645,7 +651,7 @@
     "name": "webpyshell",
     "description": "Python Flask web based terminal for container runtime testing",
     "url": "https://github.com/wlanboy/webpyshell",
-    "pushed_at": "2025-08-30T18:02:41Z",
+    "pushed_at": "2025-12-31T10:34:25Z",
     "readmes": [
       {
         "path": "README.md",
@@ -679,7 +685,7 @@
     "name": "wlanboy.github.io",
     "description": "website",
     "url": "https://github.com/wlanboy/wlanboy.github.io",
-    "pushed_at": "2025-12-29T12:49:58Z",
+    "pushed_at": "2025-12-30T12:49:21Z",
     "readmes": [
       {
         "path": "README.md",

@@ -351,7 +351,7 @@
     "name": "raspberrypi",
     "description": "Raspberry Pi scripts for all my homelab services",
     "url": "https://github.com/wlanboy/raspberrypi",
-    "pushed_at": "2026-01-01T11:01:23Z",
+    "pushed_at": "2026-01-01T12:49:41Z",
     "readmes": [
       {
         "path": "README.md",
@@ -380,7 +380,7 @@
       {
         "path": "c64.md",
         "title": "C64 Emulator",
-        "description": "## Install build dependencies ```bash sudo apt install build-essential automake autoconf libtool \\ libreadline-dev libgtk-3-dev libvte-dev libasound2-dev \\ libpulse-dev libxaw7-dev libxmu-dev libxpm-dev libxext-dev \\ libcurl4-openssl-dev libpng-dev libjpeg-dev zlib1g-dev \\ libglew-dev libmpg123-dev libvorbis-dev libflac-dev \\ libavformat-dev libavcodec-dev libswscale-dev \\ libfreetype6-dev libtiff-dev libgif-dev \\ flex bison dos2unix xa65 libevdev-dev \\ libavformat-dev libavcodec-dev libswscale-dev libavutil-dev \\ libmpg123-dev libvorbis-dev libflac-dev \\ libgtk-3-dev libglew-dev libpulse-dev libasound2-dev \\ libxaw7-dev libxmu-dev libxpm-dev libxext-dev ```",
+        "description": "How to compile vice emulator on the latest sources.",
         "type": "text"
       },
       {
@@ -705,7 +705,7 @@
     "name": "wlanboy.github.io",
     "description": "website",
     "url": "https://github.com/wlanboy/wlanboy.github.io",
-    "pushed_at": "2026-01-01T12:38:13Z",
+    "pushed_at": "2026-01-01T12:47:24Z",
     "readmes": [
       {
         "path": "README.md",

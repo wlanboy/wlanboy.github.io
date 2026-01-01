@@ -17,7 +17,7 @@
     "name": "bcrypt",
     "description": "bcrypt command line tool",
     "url": "https://github.com/wlanboy/bcrypt",
-    "pushed_at": "2025-11-16T17:12:19Z",
+    "pushed_at": "2026-01-01T08:05:12Z",
     "readmes": [
       {
         "path": "README.md",
@@ -202,6 +202,20 @@
     ]
   },
   {
+    "name": "gosmtp",
+    "description": "golang mock smtp server for local testing - writes sent mail to local directory",
+    "url": "https://github.com/wlanboy/gosmtp",
+    "pushed_at": "2026-01-01T12:15:52Z",
+    "readmes": [
+      {
+        "path": "README.md",
+        "title": "gosmtp",
+        "description": "golang mock smtp and imap server for local testing - writes sent mail to local directory",
+        "type": "readme"
+      }
+    ]
+  },
+  {
     "name": "hadoop",
     "description": null,
     "url": "https://github.com/wlanboy/hadoop",
@@ -337,7 +351,7 @@
     "name": "raspberrypi",
     "description": "Raspberry Pi scripts for all my homelab services",
     "url": "https://github.com/wlanboy/raspberrypi",
-    "pushed_at": "2025-12-28T09:45:30Z",
+    "pushed_at": "2026-01-01T11:01:23Z",
     "readmes": [
       {
         "path": "README.md",
@@ -361,6 +375,12 @@
         "path": "bluetooth-serial.md",
         "title": "Create bluetooth serial console",
         "description": "Commands to create a bluetooth serial console to connect your phone via bluetooth to your linux pc.",
+        "type": "text"
+      },
+      {
+        "path": "c64.md",
+        "title": "C64 Emulator",
+        "description": "## Install build dependencies ```bash sudo apt install build-essential automake autoconf libtool \\ libreadline-dev libgtk-3-dev libvte-dev libasound2-dev \\ libpulse-dev libxaw7-dev libxmu-dev libxpm-dev libxext-dev \\ libcurl4-openssl-dev libpng-dev libjpeg-dev zlib1g-dev \\ libglew-dev libmpg123-dev libvorbis-dev libflac-dev \\ libavformat-dev libavcodec-dev libswscale-dev \\ libfreetype6-dev libtiff-dev libgif-dev \\ flex bison dos2unix xa65 libevdev-dev \\ libavformat-dev libavcodec-dev libswscale-dev libavutil-dev \\ libmpg123-dev libvorbis-dev libflac-dev \\ libgtk-3-dev libglew-dev libpulse-dev libasound2-dev \\ libxaw7-dev libxmu-dev libxpm-dev libxext-dev ```",
         "type": "text"
       },
       {
@@ -426,7 +446,7 @@
       {
         "path": "gitea.md",
         "title": "Git server with web frontend",
-        "description": "https://gitea.com/",
+        "description": "Install and run your own github like instance with gitea.",
         "type": "text"
       },
       {
@@ -685,7 +705,7 @@
     "name": "wlanboy.github.io",
     "description": "website",
     "url": "https://github.com/wlanboy/wlanboy.github.io",
-    "pushed_at": "2025-12-30T12:49:21Z",
+    "pushed_at": "2025-12-31T12:47:24Z",
     "readmes": [
       {
         "path": "README.md",

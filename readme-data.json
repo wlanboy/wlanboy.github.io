@@ -72,7 +72,7 @@
     "name": "CloudConfigPropertyGenerator",
     "description": "Spring based property generator",
     "url": "https://github.com/wlanboy/CloudConfigPropertyGenerator",
-    "pushed_at": "2026-01-01T13:45:19Z",
+    "pushed_at": "2026-01-01T15:22:01Z",
     "readmes": [
       {
         "path": "CODE_OF_CONDUCT.md",
@@ -132,7 +132,7 @@
     "name": "deployment_monitor",
     "description": "python based ansible deployment monitor, using sqlite as storage and pushing results to prometheus",
     "url": "https://github.com/wlanboy/deployment_monitor",
-    "pushed_at": "2025-11-16T16:43:15Z",
+    "pushed_at": "2026-01-01T15:12:36Z",
     "readmes": [
       {
         "path": "README.md",
@@ -158,7 +158,7 @@
     "name": "Dockerfiles",
     "description": "Collection of docker scripts",
     "url": "https://github.com/wlanboy/Dockerfiles",
-    "pushed_at": "2026-01-01T13:52:14Z",
+    "pushed_at": "2026-01-01T14:28:29Z",
     "readmes": [
       {
         "path": "PiHole/password.md",
@@ -196,7 +196,7 @@
     "name": "eurekaclient",
     "description": "Python based fake eureka client to register services in legacy eureka server instance",
     "url": "https://github.com/wlanboy/eurekaclient",
-    "pushed_at": "2025-11-16T18:34:51Z",
+    "pushed_at": "2026-01-01T15:13:49Z",
     "readmes": [
       {
         "path": "README.md",
@@ -237,7 +237,7 @@
     "name": "gitops",
     "description": "Simple way to create project, repros and apps in argocd",
     "url": "https://github.com/wlanboy/gitops",
-    "pushed_at": "2025-12-27T08:50:53Z",
+    "pushed_at": "2026-01-01T19:45:36Z",
     "readmes": [
       {
         "path": "readme.md",
@@ -338,6 +338,26 @@
     ]
   },
   {
+    "name": "kubeevent",
+    "description": "Kubeevent listener with python. Stores last events in sqlite db.",
+    "url": "https://github.com/wlanboy/kubeevent",
+    "pushed_at": "2026-01-01T21:06:08Z",
+    "readmes": [
+      {
+        "path": "README.md",
+        "title": "📡Kubernetes Event Dashboard",
+        "description": "A lightweight, real‑time dashboard for collecting, storing, searching, and visualizing Kubernetes Events. This project provides: - A FastAPI backend that watches Kubernetes events, stores them in a database, and exposes REST + SSE endpoints - A minimal frontend for live event streaming, searching, filtering, and pagination - Prometheus metrics for monitoring event activity - A clean, self‑contained solution for debugging clusters and understanding workload behavior",
+        "type": "readme"
+      },
+      {
+        "path": "kubeevent-chart/readme.md",
+        "title": "Helm install",
+        "description": "This helm script installs the WebShell within a kubernetes cluster.",
+        "type": "readme"
+      }
+    ]
+  },
+  {
     "name": "logbacktest",
     "description": "Simple CLI tool to test logback on command line",
     "url": "https://github.com/wlanboy/logbacktest",
@@ -411,7 +431,7 @@
     "name": "raspberrypi",
     "description": "Raspberry Pi scripts for all my homelab services",
     "url": "https://github.com/wlanboy/raspberrypi",
-    "pushed_at": "2026-01-01T12:49:41Z",
+    "pushed_at": "2026-01-01T14:20:51Z",
     "readmes": [
       {
         "path": "README.md",
@@ -643,12 +663,12 @@
     "name": "ServiceConfig",
     "description": "Spring Framework based configuration service",
     "url": "https://github.com/wlanboy/ServiceConfig",
-    "pushed_at": "2026-01-01T13:16:42Z",
+    "pushed_at": "2026-01-01T15:03:43Z",
     "readmes": [
       {
         "path": "README.md",
         "title": "ServiceConfig",
-        "description": "Spring Framework based Service Configuration",
+        "description": "Spring Framework based Service Configuration Server",
         "type": "readme"
       }
     ]
@@ -731,12 +751,18 @@
     "name": "webpyshell",
     "description": "Python Flask web based terminal for container runtime testing",
     "url": "https://github.com/wlanboy/webpyshell",
-    "pushed_at": "2025-12-31T10:34:25Z",
+    "pushed_at": "2026-01-01T15:46:18Z",
     "readmes": [
       {
         "path": "README.md",
         "title": "http web shell to test kubernetes runtimes",
         "description": "A simple web ui to run console commands within the container",
+        "type": "readme"
+      },
+      {
+        "path": "webpyshell-chart/readme.md",
+        "title": "Helm install",
+        "description": "This helm script installs the WebShell within a kubernetes cluster.",
         "type": "readme"
       }
     ]
@@ -745,7 +771,7 @@
     "name": "WebShell",
     "description": "Spring Boot Web Shell",
     "url": "https://github.com/wlanboy/WebShell",
-    "pushed_at": "2025-12-27T18:10:41Z",
+    "pushed_at": "2026-01-01T15:15:10Z",
     "readmes": [
       {
         "path": "README.md",
@@ -765,7 +791,7 @@
     "name": "wlanboy.github.io",
     "description": "website",
     "url": "https://github.com/wlanboy/wlanboy.github.io",
-    "pushed_at": "2026-01-01T13:36:39Z",
+    "pushed_at": "2026-01-01T14:30:42Z",
     "readmes": [
       {
         "path": "README.md",

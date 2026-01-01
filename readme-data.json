@@ -69,6 +69,32 @@
     ]
   },
   {
+    "name": "CloudConfigPropertyGenerator",
+    "description": "Spring based property generator",
+    "url": "https://github.com/wlanboy/CloudConfigPropertyGenerator",
+    "pushed_at": "2026-01-01T13:45:19Z",
+    "readmes": [
+      {
+        "path": "CODE_OF_CONDUCT.md",
+        "title": "Contributor Covenant Code of Conduct",
+        "description": "## Our Pledge",
+        "type": "text"
+      },
+      {
+        "path": "CONTRIBUTING.md",
+        "title": "CONTRIBUTING",
+        "description": "",
+        "type": "text"
+      },
+      {
+        "path": "README.md",
+        "title": "Spring Cloud Config property file generator",
+        "description": "Spring Boot and Spring Cloud Config based property file generator > Loads profiles from Spring Cloud Config server and generates a bootstrap.properties file.",
+        "type": "readme"
+      }
+    ]
+  },
+  {
     "name": "debian-cloud-init",
     "description": "virsh install debian 12 and 13 with cloud init",
     "url": "https://github.com/wlanboy/debian-cloud-init",
@@ -92,7 +118,7 @@
     "name": "deployer",
     "description": "Spring Boot Rest API to controll git repros and ansible playbook based deployments",
     "url": "https://github.com/wlanboy/deployer",
-    "pushed_at": "2025-11-23T19:49:05Z",
+    "pushed_at": "2026-01-01T13:42:08Z",
     "readmes": [
       {
         "path": "README.md",
@@ -132,7 +158,7 @@
     "name": "Dockerfiles",
     "description": "Collection of docker scripts",
     "url": "https://github.com/wlanboy/Dockerfiles",
-    "pushed_at": "2026-01-01T13:35:07Z",
+    "pushed_at": "2026-01-01T13:52:14Z",
     "readmes": [
       {
         "path": "PiHole/password.md",
@@ -145,6 +171,12 @@
         "title": "Dockerfiles",
         "description": "Repository for my docker files, scripts and configs",
         "type": "readme"
+      },
+      {
+        "path": "clean-history.md",
+        "title": "clean git repro",
+        "description": "How to clean a git repro from old files.",
+        "type": "text"
       },
       {
         "path": "docker-on-windows.md",
@@ -625,7 +657,7 @@
     "name": "ServiceRegistry",
     "description": "Spring Framework based Service Registry",
     "url": "https://github.com/wlanboy/ServiceRegistry",
-    "pushed_at": "2025-12-27T18:42:24Z",
+    "pushed_at": "2026-01-01T13:41:28Z",
     "readmes": [
       {
         "path": "README.md",
@@ -733,7 +765,7 @@
     "name": "wlanboy.github.io",
     "description": "website",
     "url": "https://github.com/wlanboy/wlanboy.github.io",
-    "pushed_at": "2026-01-01T12:50:53Z",
+    "pushed_at": "2026-01-01T13:36:39Z",
     "readmes": [
       {
         "path": "README.md",

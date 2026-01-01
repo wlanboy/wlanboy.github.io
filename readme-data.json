@@ -55,6 +55,20 @@
     ]
   },
   {
+    "name": "cloudconfig",
+    "description": null,
+    "url": "https://github.com/wlanboy/cloudconfig",
+    "pushed_at": "2026-01-01T13:07:24Z",
+    "readmes": [
+      {
+        "path": "README.md",
+        "title": "Simple Spring Cloud Config repro",
+        "description": "This will be empty.",
+        "type": "readme"
+      }
+    ]
+  },
+  {
     "name": "debian-cloud-init",
     "description": "virsh install debian 12 and 13 with cloud init",
     "url": "https://github.com/wlanboy/debian-cloud-init",
@@ -118,7 +132,7 @@
     "name": "Dockerfiles",
     "description": "Collection of docker scripts",
     "url": "https://github.com/wlanboy/Dockerfiles",
-    "pushed_at": "2025-12-27T19:15:07Z",
+    "pushed_at": "2026-01-01T13:35:07Z",
     "readmes": [
       {
         "path": "PiHole/password.md",
@@ -225,6 +239,20 @@
         "path": "readme.md",
         "title": "Projektbeschreibung",
         "description": "Dieses Repro baut ein eigenes Docker Image für die aktuelles Hadoop Version mit Java 11 auf. Es nutzt dieses Image um einen Hadoop Cluster mit zwei Namenodes, 3 Journalnodes, 3 Zookeepernodes, 3 Datanodes, einem Ressourcemanager und einem Nodemanager.",
+        "type": "readme"
+      }
+    ]
+  },
+  {
+    "name": "hadoopmetrics",
+    "description": "Spring boot service scanning a directory of a hadoop cluster for subdirectories and their sizes to provide this information as metrics",
+    "url": "https://github.com/wlanboy/hadoopmetrics",
+    "pushed_at": "2026-01-01T13:21:00Z",
+    "readmes": [
+      {
+        "path": "README.md",
+        "title": "hadoopmetrics",
+        "description": "simple service polling all base directories of a path, getting the size of the folder and save this pair of information in a hashmap. This hashmap is used to create prometheus metrics for each folder.",
         "type": "readme"
       }
     ]
@@ -583,7 +611,7 @@
     "name": "ServiceConfig",
     "description": "Spring Framework based configuration service",
     "url": "https://github.com/wlanboy/ServiceConfig",
-    "pushed_at": "2025-12-27T18:38:17Z",
+    "pushed_at": "2026-01-01T13:16:42Z",
     "readmes": [
       {
         "path": "README.md",
@@ -705,7 +733,7 @@
     "name": "wlanboy.github.io",
     "description": "website",
     "url": "https://github.com/wlanboy/wlanboy.github.io",
-    "pushed_at": "2026-01-01T12:47:24Z",
+    "pushed_at": "2026-01-01T12:50:53Z",
     "readmes": [
       {
         "path": "README.md",

@@ -58,7 +58,7 @@
     "name": "cloudconfig",
     "description": null,
     "url": "https://github.com/wlanboy/cloudconfig",
-    "pushed_at": "2026-01-01T13:07:24Z",
+    "pushed_at": "2026-01-02T06:50:08Z",
     "readmes": [
       {
         "path": "README.md",
@@ -70,9 +70,9 @@
   },
   {
     "name": "CloudConfigPropertyGenerator",
-    "description": "Spring based property generator",
+    "description": "Spring based property generator - generated k8s ConfigMap from Spring Cloud Config Server",
     "url": "https://github.com/wlanboy/CloudConfigPropertyGenerator",
-    "pushed_at": "2026-01-01T15:22:01Z",
+    "pushed_at": "2026-01-02T06:54:33Z",
     "readmes": [
       {
         "path": "CODE_OF_CONDUCT.md",
@@ -89,14 +89,14 @@
       {
         "path": "README.md",
         "title": "Spring Cloud Config property file generator",
-        "description": "Spring Boot and Spring Cloud Config based property file generator > Loads profiles from Spring Cloud Config server and generates a bootstrap.properties file.",
+        "description": "Spring Boot and Spring Cloud Config based property file generator to migrate from Spring Cloud Config Server. Loads profiles from Spring Cloud Config server and generates a Kubernetes Config Map.",
         "type": "readme"
       }
     ]
   },
   {
     "name": "debian-cloud-init",
-    "description": "virsh install debian 12 and 13 with cloud init",
+    "description": "Create libvirt  vm of debian 12 and 13 with cloud init - with amd64 and arm64 support",
     "url": "https://github.com/wlanboy/debian-cloud-init",
     "pushed_at": "2025-12-31T11:44:24Z",
     "readmes": [
@@ -339,9 +339,9 @@
   },
   {
     "name": "kubeevent",
-    "description": "Kubeevent listener with python. Stores last events in sqlite db.",
+    "description": "Python based k8s event listener. Stores events in sqlite db.",
     "url": "https://github.com/wlanboy/kubeevent",
-    "pushed_at": "2026-01-02T06:02:44Z",
+    "pushed_at": "2026-01-02T07:18:04Z",
     "readmes": [
       {
         "path": "README.md",
@@ -791,7 +791,7 @@
     "name": "wlanboy.github.io",
     "description": "website",
     "url": "https://github.com/wlanboy/wlanboy.github.io",
-    "pushed_at": "2026-01-01T21:07:38Z",
+    "pushed_at": "2026-01-02T06:05:55Z",
     "readmes": [
       {
         "path": "README.md",

@@ -237,8 +237,14 @@
     "name": "gitops",
     "description": "Simple way to create project, repros and apps in argocd",
     "url": "https://github.com/wlanboy/gitops",
-    "pushed_at": "2026-01-01T19:45:36Z",
+    "pushed_at": "2026-01-02T08:56:22Z",
     "readmes": [
+      {
+        "path": "kubectl-cheatsheet.md",
+        "title": "Kubernetes cheat sheet for node oversight",
+        "description": "Kubectl custom-colums and json table formats for node info, ressouce allocation and pod per node lists.",
+        "type": "text"
+      },
       {
         "path": "readme.md",
         "title": "📘 ArgoCD Deployment – Erweiterte Dokumentation",
@@ -341,7 +347,7 @@
     "name": "kubeevent",
     "description": "Python based k8s event listener. Stores events in sqlite db.",
     "url": "https://github.com/wlanboy/kubeevent",
-    "pushed_at": "2026-01-02T07:18:04Z",
+    "pushed_at": "2026-01-02T10:27:56Z",
     "readmes": [
       {
         "path": "README.md",
@@ -791,7 +797,7 @@
     "name": "wlanboy.github.io",
     "description": "website",
     "url": "https://github.com/wlanboy/wlanboy.github.io",
-    "pushed_at": "2026-01-02T06:05:55Z",
+    "pushed_at": "2026-01-02T08:34:56Z",
     "readmes": [
       {
         "path": "README.md",

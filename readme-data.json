@@ -237,7 +237,7 @@
     "name": "gitops",
     "description": "Simple way to create project, repros and apps in argocd",
     "url": "https://github.com/wlanboy/gitops",
-    "pushed_at": "2026-01-02T08:56:22Z",
+    "pushed_at": "2026-01-03T06:21:12Z",
     "readmes": [
       {
         "path": "kubectl-cheatsheet.md",
@@ -250,6 +250,12 @@
         "title": "📘 ArgoCD Deployment – Erweiterte Dokumentation",
         "description": "Dieses Dokument beschreibt die Initialisierung und Verwaltung verschiedener ArgoCD‑Applikationen innerhalb eines Kubernetes‑Clusters. Es führt Schritt für Schritt durch die Einrichtung der benötigten Projekte, Namespaces und Applikationen sowie die Nutzung der ArgoCD‑CLI.",
         "type": "readme"
+      },
+      {
+        "path": "remotecluster.md",
+        "title": "Add remote cluster",
+        "description": "## serviceaccount and token ```bash kubectl create namespace argocd-manager --dry-run=client -o yaml | kubectl apply -f - kubectl -n argocd-manager create serviceaccount argocd-manager kubectl create clusterrolebinding argocd-manager-binding \\ --clusterrole=cluster-admin \\ --serviceaccount=argocd-manager:argocd-manager SECRET=$(kubectl -n argocd-manager get sa argocd-manager -o jsonpath=\"{.secrets[0].name}\") export CLUSTER_TOKEN=$(kubectl -n argocd-manager get secret $SECRET -o jsonpath=\"{.data.token}\" | base64 -d) export CLUSTER_CA=$(kubectl -n argocd-manager get secret $SECRET -o jsonpath=\"{.data['ca\\.crt']}\")",
+        "type": "text"
       }
     ]
   },
@@ -347,7 +353,7 @@
     "name": "kubeevent",
     "description": "Python based k8s event listener. Stores events in sqlite db.",
     "url": "https://github.com/wlanboy/kubeevent",
-    "pushed_at": "2026-01-02T10:27:56Z",
+    "pushed_at": "2026-01-03T08:51:25Z",
     "readmes": [
       {
         "path": "README.md",
@@ -429,6 +435,26 @@
         "path": "README.md",
         "title": "MirrorService",
         "description": "Spring Framework based Service which is mirroring requests with the option to delay requests and alter http response codes",
+        "type": "readme"
+      }
+    ]
+  },
+  {
+    "name": "randomfail",
+    "description": "Python based microservice that will return 500 responses every second request and failes the healtiness hcheck and readyness check randomly",
+    "url": "https://github.com/wlanboy/randomfail",
+    "pushed_at": "2026-01-03T09:29:07Z",
+    "readmes": [
+      {
+        "path": "README.md",
+        "title": "Unstable FastAPI Service",
+        "description": "This project provides an intentionally unstable FastAPI service designed for testing Kubernetes liveness/readiness probes, self‑healing behavior, and failure‑handling mechanisms.",
+        "type": "readme"
+      },
+      {
+        "path": "randomfail-chart/readme.md",
+        "title": "Helm install",
+        "description": "This helm script installs the WebShell within a kubernetes cluster.",
         "type": "readme"
       }
     ]
@@ -737,7 +763,7 @@
     "name": "vagrantkind",
     "description": "vagrant machine installing docker, kubectrl and kind to run a simple dev kubernetes cluster",
     "url": "https://github.com/wlanboy/vagrantkind",
-    "pushed_at": "2025-12-30T15:19:38Z",
+    "pushed_at": "2026-01-03T04:45:29Z",
     "readmes": [
       {
         "path": "README.md",
@@ -809,7 +835,7 @@
     "name": "wlanboy.github.io",
     "description": "website",
     "url": "https://github.com/wlanboy/wlanboy.github.io",
-    "pushed_at": "2026-01-02T12:45:44Z",
+    "pushed_at": "2026-01-02T12:50:20Z",
     "readmes": [
       {
         "path": "README.md",

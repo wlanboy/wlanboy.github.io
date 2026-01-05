@@ -237,7 +237,7 @@
     "name": "gitops",
     "description": "Simple way to create project, repros and apps in argocd",
     "url": "https://github.com/wlanboy/gitops",
-    "pushed_at": "2026-01-03T06:21:12Z",
+    "pushed_at": "2026-01-04T20:29:14Z",
     "readmes": [
       {
         "path": "kubectl-cheatsheet.md",
@@ -254,7 +254,7 @@
       {
         "path": "remotecluster.md",
         "title": "Add remote cluster",
-        "description": "## serviceaccount and token ```bash kubectl create namespace argocd-manager --dry-run=client -o yaml | kubectl apply -f - kubectl -n argocd-manager create serviceaccount argocd-manager kubectl create clusterrolebinding argocd-manager-binding \\ --clusterrole=cluster-admin \\ --serviceaccount=argocd-manager:argocd-manager SECRET=$(kubectl -n argocd-manager get sa argocd-manager -o jsonpath=\"{.secrets[0].name}\") export CLUSTER_TOKEN=$(kubectl -n argocd-manager get secret $SECRET -o jsonpath=\"{.data.token}\" | base64 -d) export CLUSTER_CA=$(kubectl -n argocd-manager get secret $SECRET -o jsonpath=\"{.data['ca\\.crt']}\")",
+        "description": "## serviceaccount and token ```bash kubectl create namespace argocd-manager --dry-run=client -o yaml | kubectl apply -f - kubectl -n argocd-manager create serviceaccount argocd-manager kubectl create clusterrolebinding argocd-manager-binding \\ --clusterrole=cluster-admin \\ --serviceaccount=argocd-manager:argocd-manager SECRET=$(kubectl -n argocd-manager get sa argocd-manager -o jsonpath=\"{.secrets[0].name}\") CLUSTER_TOKEN=$(kubectl -n argocd-manager get secret $SECRET -o jsonpath=\"{.data.token}\" | base64 -d) CLUSTER_CA=$(kubectl -n argocd-manager get secret $SECRET -o jsonpath=\"{.data['ca\\.crt']}\")",
         "type": "text"
       }
     ]
@@ -353,7 +353,7 @@
     "name": "kubeevent",
     "description": "Python based k8s event listener. Stores events in sqlite db.",
     "url": "https://github.com/wlanboy/kubeevent",
-    "pushed_at": "2026-01-03T08:51:25Z",
+    "pushed_at": "2026-01-04T15:25:31Z",
     "readmes": [
       {
         "path": "README.md",
@@ -463,7 +463,7 @@
     "name": "raspberrypi",
     "description": "Raspberry Pi scripts for all my homelab services",
     "url": "https://github.com/wlanboy/raspberrypi",
-    "pushed_at": "2026-01-02T12:48:24Z",
+    "pushed_at": "2026-01-04T20:33:04Z",
     "readmes": [
       {
         "path": "README.md",
@@ -835,7 +835,7 @@
     "name": "wlanboy.github.io",
     "description": "website",
     "url": "https://github.com/wlanboy/wlanboy.github.io",
-    "pushed_at": "2026-01-03T12:43:10Z",
+    "pushed_at": "2026-01-04T12:43:57Z",
     "readmes": [
       {
         "path": "README.md",

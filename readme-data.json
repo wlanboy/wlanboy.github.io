@@ -237,7 +237,7 @@
     "name": "gitops",
     "description": "Simple way to create project, repros and apps in argocd",
     "url": "https://github.com/wlanboy/gitops",
-    "pushed_at": "2026-01-07T15:51:43Z",
+    "pushed_at": "2026-01-08T14:05:46Z",
     "readmes": [
       {
         "path": "kubectl-cheatsheet.md",
@@ -761,9 +761,9 @@
   },
   {
     "name": "vagrantkind",
-    "description": "vagrant machine installing docker, kubectrl and kind to run a simple dev kubernetes cluster",
+    "description": "scripts to installing containerd, tools, k3s or kind with certmanager, istio and argocd to run a local dev kubernetes cluster",
     "url": "https://github.com/wlanboy/vagrantkind",
-    "pushed_at": "2026-01-07T15:43:44Z",
+    "pushed_at": "2026-01-08T20:29:09Z",
     "readmes": [
       {
         "path": "README.md",
@@ -835,7 +835,7 @@
     "name": "wlanboy.github.io",
     "description": "website",
     "url": "https://github.com/wlanboy/wlanboy.github.io",
-    "pushed_at": "2026-01-08T06:44:58Z",
+    "pushed_at": "2026-01-08T12:51:22Z",
     "readmes": [
       {
         "path": "README.md",

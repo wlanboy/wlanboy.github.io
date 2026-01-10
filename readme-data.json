@@ -237,7 +237,7 @@
     "name": "gitops",
     "description": "Simple way to create project, repros and apps in argocd",
     "url": "https://github.com/wlanboy/gitops",
-    "pushed_at": "2026-01-08T14:05:46Z",
+    "pushed_at": "2026-01-10T07:49:06Z",
     "readmes": [
       {
         "path": "kubectl-cheatsheet.md",
@@ -353,7 +353,7 @@
     "name": "kubeevent",
     "description": "Python based k8s event listener. Stores events in sqlite db.",
     "url": "https://github.com/wlanboy/kubeevent",
-    "pushed_at": "2026-01-06T20:24:57Z",
+    "pushed_at": "2026-01-09T20:36:37Z",
     "readmes": [
       {
         "path": "README.md",
@@ -363,6 +363,26 @@
       },
       {
         "path": "kubeevent-chart/readme.md",
+        "title": "Helm install",
+        "description": "This helm script installs the WebShell within a kubernetes cluster.",
+        "type": "readme"
+      }
+    ]
+  },
+  {
+    "name": "kubeeventjava",
+    "description": null,
+    "url": "https://github.com/wlanboy/kubeeventjava",
+    "pushed_at": "2026-01-10T11:58:02Z",
+    "readmes": [
+      {
+        "path": "README.md",
+        "title": "Kubernetes Event Dashboard",
+        "description": "A lightweight, real‑time dashboard for collecting, storing, searching, and visualizing Kubernetes Events. This project provides:",
+        "type": "readme"
+      },
+      {
+        "path": "kubeeventjava-chart/readme.md",
         "title": "Helm install",
         "description": "This helm script installs the WebShell within a kubernetes cluster.",
         "type": "readme"
@@ -835,7 +855,7 @@
     "name": "wlanboy.github.io",
     "description": "website",
     "url": "https://github.com/wlanboy/wlanboy.github.io",
-    "pushed_at": "2026-01-08T12:51:22Z",
+    "pushed_at": "2026-01-09T12:50:29Z",
     "readmes": [
       {
         "path": "README.md",

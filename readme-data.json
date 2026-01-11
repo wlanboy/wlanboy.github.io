@@ -483,7 +483,7 @@
     "name": "raspberrypi",
     "description": "Raspberry Pi scripts for all my homelab services",
     "url": "https://github.com/wlanboy/raspberrypi",
-    "pushed_at": "2026-01-04T20:33:04Z",
+    "pushed_at": "2026-01-10T16:10:31Z",
     "readmes": [
       {
         "path": "README.md",
@@ -507,6 +507,12 @@
         "path": "bluetooth-serial.md",
         "title": "Create bluetooth serial console",
         "description": "Commands to create a bluetooth serial console to connect your phone via bluetooth to your linux pc.",
+        "type": "text"
+      },
+      {
+        "path": "bridge-second-lan.md",
+        "title": "Dedicated Network Bridge",
+        "description": "This setup isolates your second physical NIC (enp3s0) and turns it into a virtual switch (br0). Your host will not have an IP address on this interface, making it act as a \"transparent pipe\" for your VM.",
         "type": "text"
       },
       {
@@ -669,6 +675,12 @@
         "path": "tor-hidden-service.md",
         "title": "Create tor service",
         "description": "Commands to setup torrc and provide a tor service on your own risk.",
+        "type": "text"
+      },
+      {
+        "path": "usb-lan-adapter.md",
+        "title": "Use USB LAN adapter in libvirt vm",
+        "description": "This guide explains how to isolate a USB LAN adapter from your host OS and pass it through directly to a VM using libvirt and virt-install. This ensures the host doesn't interfere with the network traffic of your OPNsense/Firewall VM.",
         "type": "text"
       },
       {
@@ -855,7 +867,7 @@
     "name": "wlanboy.github.io",
     "description": "website",
     "url": "https://github.com/wlanboy/wlanboy.github.io",
-    "pushed_at": "2026-01-09T12:50:29Z",
+    "pushed_at": "2026-01-10T12:43:37Z",
     "readmes": [
       {
         "path": "README.md",

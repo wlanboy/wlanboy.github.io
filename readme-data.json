@@ -3,7 +3,7 @@
     "name": "ansible_uml",
     "description": "UML generator for ansible playbooks and inventories",
     "url": "https://github.com/wlanboy/ansible_uml",
-    "pushed_at": "2025-10-18T07:12:19Z",
+    "pushed_at": "2026-01-20T05:12:38Z",
     "readmes": [
       {
         "path": "README.md",
@@ -98,7 +98,7 @@
     "name": "debian-cloud-init",
     "description": "Create libvirt  vm of debian 12 and 13 with cloud init - with amd64 and arm64 support",
     "url": "https://github.com/wlanboy/debian-cloud-init",
-    "pushed_at": "2026-01-11T14:29:22Z",
+    "pushed_at": "2026-01-19T17:50:26Z",
     "readmes": [
       {
         "path": "README.md",
@@ -216,7 +216,7 @@
     "name": "eurekaclientjava",
     "description": "Java based service to create several eureka clients entries without having to use the eureka lib",
     "url": "https://github.com/wlanboy/eurekaclientjava",
-    "pushed_at": "2026-01-17T21:30:01Z",
+    "pushed_at": "2026-01-19T20:09:31Z",
     "readmes": [
       {
         "path": "README.md",
@@ -305,7 +305,7 @@
     "name": "JavaHttpClient",
     "description": "Spring based rest service to test http call within k8s and istio",
     "url": "https://github.com/wlanboy/JavaHttpClient",
-    "pushed_at": "2026-01-17T20:13:20Z",
+    "pushed_at": "2026-01-19T19:38:06Z",
     "readmes": [
       {
         "path": "README.md",
@@ -373,7 +373,7 @@
     "name": "kubeeventjava",
     "description": null,
     "url": "https://github.com/wlanboy/kubeeventjava",
-    "pushed_at": "2026-01-17T20:08:12Z",
+    "pushed_at": "2026-01-19T19:29:04Z",
     "readmes": [
       {
         "path": "README.md",
@@ -446,10 +446,24 @@
     ]
   },
   {
+    "name": "minioaccess",
+    "description": "Minimal minio admin webpage to replace removed features of open source web frontend",
+    "url": "https://github.com/wlanboy/minioaccess",
+    "pushed_at": "2026-01-19T17:20:01Z",
+    "readmes": [
+      {
+        "path": "README.md",
+        "title": "simple minio web manager for minio community edition",
+        "description": "* uses mc client for access to the admin api * provides management of * users * buckets * ACLs",
+        "type": "readme"
+      }
+    ]
+  },
+  {
     "name": "MirrorService",
     "description": "Spring Framework based service mirroring requests with parameterized wait time and http response codes",
     "url": "https://github.com/wlanboy/MirrorService",
-    "pushed_at": "2026-01-18T09:37:46Z",
+    "pushed_at": "2026-01-19T20:17:15Z",
     "readmes": [
       {
         "path": "README.md",
@@ -483,7 +497,7 @@
     "name": "raspberrypi",
     "description": "Raspberry Pi scripts for all my homelab services",
     "url": "https://github.com/wlanboy/raspberrypi",
-    "pushed_at": "2026-01-18T10:25:44Z",
+    "pushed_at": "2026-01-19T16:30:06Z",
     "readmes": [
       {
         "path": "README.md",
@@ -618,12 +632,6 @@
         "type": "text"
       },
       {
-        "path": "minioaccess/README.md",
-        "title": "simple minio web manager for user and buckets of minio community edition",
-        "description": "* uses mc client for access to the admin api",
-        "type": "readme"
-      },
-      {
         "path": "openwrt.md",
         "title": "Flash openwrt image to sd and boot your Raspberry Pi",
         "description": "How to flash openwrt to an sd and setup USB LAN and WLAN adapters.",
@@ -631,7 +639,7 @@
       },
       {
         "path": "pi-hole.md",
-        "title": "🚀 Pi-hole Installation via Script",
+        "title": "Pi-hole Installation via Script",
         "description": "This document describes how to create a flexible shell script that sets up a Pi-hole Docker container. You only need to pass the IP address of your server as an argument.",
         "type": "text"
       },
@@ -767,12 +775,12 @@
     "name": "SimpleService",
     "description": "Simple Spring Rest Service playing Blockchain",
     "url": "https://github.com/wlanboy/SimpleService",
-    "pushed_at": "2026-01-17T21:14:12Z",
+    "pushed_at": "2026-01-19T20:24:34Z",
     "readmes": [
       {
         "path": "README.md",
         "title": "SimpleService",
-        "description": "Simple Spring Rest Service using Cloud Config, Spring Data, PostgreSQL, Hateos",
+        "description": "Simple Spring Rest Service using Cloud Config, Spring Data, H2, Hateos to show how simple Blockchains are.",
         "type": "readme"
       }
     ]
@@ -867,7 +875,7 @@
     "name": "wlanboy.github.io",
     "description": "website",
     "url": "https://github.com/wlanboy/wlanboy.github.io",
-    "pushed_at": "2026-01-18T12:43:23Z",
+    "pushed_at": "2026-01-19T12:54:53Z",
     "readmes": [
       {
         "path": "README.md",

@@ -3,7 +3,7 @@
     "name": "ansible_uml",
     "description": "UML generator for ansible playbooks and inventories",
     "url": "https://github.com/wlanboy/ansible_uml",
-    "pushed_at": "2026-01-20T05:12:38Z",
+    "pushed_at": "2026-01-23T17:54:35Z",
     "readmes": [
       {
         "path": "README.md",
@@ -38,7 +38,7 @@
     "name": "caweb",
     "description": "Python based web frontend to create ssl certs for hostname on a given ca",
     "url": "https://github.com/wlanboy/caweb",
-    "pushed_at": "2026-01-18T18:45:56Z",
+    "pushed_at": "2026-01-23T17:57:40Z",
     "readmes": [
       {
         "path": "README.md",
@@ -305,7 +305,7 @@
     "name": "JavaHttpClient",
     "description": "Spring based rest service to test http call within k8s and istio",
     "url": "https://github.com/wlanboy/JavaHttpClient",
-    "pushed_at": "2026-01-19T19:38:06Z",
+    "pushed_at": "2026-01-23T14:08:14Z",
     "readmes": [
       {
         "path": "README.md",
@@ -353,7 +353,7 @@
     "name": "kubeevent",
     "description": "Python based k8s event listener. Stores events in sqlite db.",
     "url": "https://github.com/wlanboy/kubeevent",
-    "pushed_at": "2026-01-17T16:19:09Z",
+    "pushed_at": "2026-01-23T17:52:41Z",
     "readmes": [
       {
         "path": "README.md",
@@ -373,7 +373,7 @@
     "name": "kubeeventjava",
     "description": null,
     "url": "https://github.com/wlanboy/kubeeventjava",
-    "pushed_at": "2026-01-23T08:23:10Z",
+    "pushed_at": "2026-01-23T17:51:11Z",
     "readmes": [
       {
         "path": "README.md",
@@ -407,13 +407,19 @@
     "name": "mcp-md-fileserver",
     "description": "A FastMCP python based mcp server to search in markdown files",
     "url": "https://github.com/wlanboy/mcp-md-fileserver",
-    "pushed_at": "2025-09-21T12:19:20Z",
+    "pushed_at": "2026-01-23T18:48:39Z",
     "readmes": [
       {
         "path": "README.md",
-        "title": "MCP Markdown File Server",
-        "description": "A FastMCP-compliant Python server that scans Markdown files, extracts subject/verb keywords using spaCy, stores metadata in SQLite, and exposes endpoints for keyword-based search and content retrieval.",
+        "title": "MCP Markdown Wissensdatenbank",
+        "description": "Ein MCP-Server (Model Context Protocol) zur Verwaltung von Markdown-Dokumenten mit automatischer Stichwort-Extraktion. LLMs können damit eine Sammlung von Markdown-Dateien durchsuchen und deren Inhalte abrufen.",
         "type": "readme"
+      },
+      {
+        "path": "qwen-thinking-prompt.md",
+        "title": "example prompt",
+        "description": "```Plaintext haben wir informationen über openwrt? ```",
+        "type": "text"
       }
     ]
   },
@@ -432,24 +438,10 @@
     ]
   },
   {
-    "name": "mindmap",
-    "description": "Simple python, alpinejs mindmap webfrontend",
-    "url": "https://github.com/wlanboy/mindmap",
-    "pushed_at": "2025-11-02T16:55:14Z",
-    "readmes": [
-      {
-        "path": "README.md",
-        "title": "Mindmap",
-        "description": "A web application for creating and managing tasks with connections between them, built with FastAPI, SQLAlchemy, and HTMX.",
-        "type": "readme"
-      }
-    ]
-  },
-  {
     "name": "minioaccess",
     "description": "Minimal minio admin webpage to replace removed features of open source web frontend",
     "url": "https://github.com/wlanboy/minioaccess",
-    "pushed_at": "2026-01-19T17:20:01Z",
+    "pushed_at": "2026-01-23T17:56:34Z",
     "readmes": [
       {
         "path": "README.md",
@@ -463,7 +455,7 @@
     "name": "MirrorService",
     "description": "Spring Framework based service mirroring requests with parameterized wait time and http response codes",
     "url": "https://github.com/wlanboy/MirrorService",
-    "pushed_at": "2026-01-19T20:17:15Z",
+    "pushed_at": "2026-01-23T13:48:26Z",
     "readmes": [
       {
         "path": "README.md",
@@ -477,7 +469,7 @@
     "name": "randomfail",
     "description": "Python based microservice that will return 500 responses every second request and failes the healtiness hcheck and readyness check randomly",
     "url": "https://github.com/wlanboy/randomfail",
-    "pushed_at": "2026-01-07T17:04:40Z",
+    "pushed_at": "2026-01-23T18:13:16Z",
     "readmes": [
       {
         "path": "README.md",
@@ -803,7 +795,7 @@
     "name": "vagrantkind",
     "description": "scripts to installing containerd, tools, k3s or kind with certmanager, istio and argocd to run a local dev kubernetes cluster",
     "url": "https://github.com/wlanboy/vagrantkind",
-    "pushed_at": "2026-01-18T10:19:24Z",
+    "pushed_at": "2026-01-23T17:46:57Z",
     "readmes": [
       {
         "path": "README.md",
@@ -875,7 +867,7 @@
     "name": "wlanboy.github.io",
     "description": "website",
     "url": "https://github.com/wlanboy/wlanboy.github.io",
-    "pushed_at": "2026-01-22T12:54:56Z",
+    "pushed_at": "2026-01-23T12:52:33Z",
     "readmes": [
       {
         "path": "README.md",

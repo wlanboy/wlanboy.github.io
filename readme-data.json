@@ -72,20 +72,8 @@
     "name": "CloudConfigPropertyGenerator",
     "description": "Spring based property generator - generated k8s ConfigMap from Spring Cloud Config Server",
     "url": "https://github.com/wlanboy/CloudConfigPropertyGenerator",
-    "pushed_at": "2026-01-02T06:54:33Z",
+    "pushed_at": "2026-01-25T07:52:12Z",
     "readmes": [
-      {
-        "path": "CODE_OF_CONDUCT.md",
-        "title": "Contributor Covenant Code of Conduct",
-        "description": "## Our Pledge",
-        "type": "text"
-      },
-      {
-        "path": "CONTRIBUTING.md",
-        "title": "CONTRIBUTING",
-        "description": "",
-        "type": "text"
-      },
       {
         "path": "README.md",
         "title": "Spring Cloud Config property file generator",
@@ -216,7 +204,7 @@
     "name": "eurekaclientjava",
     "description": "Java based service to create several eureka clients entries without having to use the eureka lib",
     "url": "https://github.com/wlanboy/eurekaclientjava",
-    "pushed_at": "2026-01-19T20:09:31Z",
+    "pushed_at": "2026-01-24T17:51:27Z",
     "readmes": [
       {
         "path": "README.md",
@@ -237,8 +225,20 @@
     "name": "gitops",
     "description": "Simple way to create project, repros and apps in argocd",
     "url": "https://github.com/wlanboy/gitops",
-    "pushed_at": "2026-01-10T07:49:06Z",
+    "pushed_at": "2026-01-25T08:31:57Z",
     "readmes": [
+      {
+        "path": "kaniko/argo-workflows/readme.md",
+        "title": "Argo Workflows + Kaniko",
+        "description": "Kubernetes-native Build Pipelines mit Argo Workflows und Kaniko.",
+        "type": "readme"
+      },
+      {
+        "path": "kaniko/readme.md",
+        "title": "Kaniko Build Jobs",
+        "description": "Minimales Setup für Docker Image Builds mit Kaniko in Kubernetes.",
+        "type": "readme"
+      },
       {
         "path": "kubectl-cheatsheet.md",
         "title": "Kubernetes cheat sheet for node oversight",
@@ -256,6 +256,18 @@
         "title": "Add remote cluster",
         "description": "## serviceaccount and token ```bash kubectl create namespace argocd-manager --dry-run=client -o yaml | kubectl apply -f - kubectl -n argocd-manager create serviceaccount argocd-manager kubectl create clusterrolebinding argocd-manager-binding \\ --clusterrole=cluster-admin \\ --serviceaccount=argocd-manager:argocd-manager SECRET=$(kubectl -n argocd-manager get sa argocd-manager -o jsonpath=\"{.secrets[0].name}\") CLUSTER_TOKEN=$(kubectl -n argocd-manager get secret $SECRET -o jsonpath=\"{.data.token}\" | base64 -d) CLUSTER_CA=$(kubectl -n argocd-manager get secret $SECRET -o jsonpath=\"{.data['ca\\.crt']}\")",
         "type": "text"
+      },
+      {
+        "path": "tekton/argocd/readme.md",
+        "title": "Nutzung",
+        "description": "Tekton Scripts für ArgoCD App Definitionen",
+        "type": "readme"
+      },
+      {
+        "path": "tekton/readme.md",
+        "title": "Tekton Builds",
+        "description": "Tekton Pipelines für deine GitHub-Projekte und ArgoCD Apps einrichten.",
+        "type": "readme"
       }
     ]
   },
@@ -277,7 +289,7 @@
     "name": "hadoop",
     "description": null,
     "url": "https://github.com/wlanboy/hadoop",
-    "pushed_at": "2025-12-27T18:00:01Z",
+    "pushed_at": "2026-01-24T14:56:17Z",
     "readmes": [
       {
         "path": "readme.md",
@@ -305,7 +317,7 @@
     "name": "JavaHttpClient",
     "description": "Spring based rest service to test http call within k8s and istio",
     "url": "https://github.com/wlanboy/JavaHttpClient",
-    "pushed_at": "2026-01-23T14:08:14Z",
+    "pushed_at": "2026-01-25T07:10:20Z",
     "readmes": [
       {
         "path": "README.md",
@@ -407,7 +419,7 @@
     "name": "mcp-md-fileserver",
     "description": "A FastMCP python based mcp server to search in markdown files",
     "url": "https://github.com/wlanboy/mcp-md-fileserver",
-    "pushed_at": "2026-01-23T18:48:39Z",
+    "pushed_at": "2026-01-25T12:23:17Z",
     "readmes": [
       {
         "path": "README.md",
@@ -419,6 +431,12 @@
         "path": "qwen-thinking-prompt.md",
         "title": "example prompt",
         "description": "```Plaintext haben wir informationen über openwrt? ```",
+        "type": "text"
+      },
+      {
+        "path": "spec.md",
+        "title": "MCP Markdown Fileserver - Technische Spezifikation",
+        "description": "## Übersicht",
         "type": "text"
       }
     ]
@@ -867,7 +885,7 @@
     "name": "wlanboy.github.io",
     "description": "website",
     "url": "https://github.com/wlanboy/wlanboy.github.io",
-    "pushed_at": "2026-01-23T12:52:33Z",
+    "pushed_at": "2026-01-24T12:44:45Z",
     "readmes": [
       {
         "path": "README.md",

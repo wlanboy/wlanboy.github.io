@@ -317,7 +317,7 @@
     "name": "JavaHttpClient",
     "description": "Spring based rest service to test http call within k8s and istio",
     "url": "https://github.com/wlanboy/JavaHttpClient",
-    "pushed_at": "2026-01-25T07:10:20Z",
+    "pushed_at": "2026-02-05T07:54:43Z",
     "readmes": [
       {
         "path": "README.md",
@@ -885,7 +885,7 @@
     "name": "wlanboy.github.io",
     "description": "website",
     "url": "https://github.com/wlanboy/wlanboy.github.io",
-    "pushed_at": "2026-02-03T13:05:30Z",
+    "pushed_at": "2026-02-04T13:04:08Z",
     "readmes": [
       {
         "path": "README.md",

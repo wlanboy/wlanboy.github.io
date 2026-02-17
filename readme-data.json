@@ -416,6 +416,26 @@
     ]
   },
   {
+    "name": "mcp-dotnet-websearch",
+    "description": "MCP Server in dotnet core für websuche",
+    "url": "https://github.com/wlanboy/mcp-dotnet-websearch",
+    "pushed_at": "2026-02-17T11:14:15Z",
+    "readmes": [
+      {
+        "path": "README.md",
+        "title": "mcp-dotnet-server",
+        "description": "Ein MCP-Server (Model Context Protocol) auf Basis von ASP.NET Core mit HTTP-Transport. Der Server stellt AI-Clients verschiedene Tools zur Verfuegung.",
+        "type": "readme"
+      },
+      {
+        "path": "first-steps.md",
+        "title": "MCP Server mit ASP.NET Core (HTTP) – Schritt fuer Schritt",
+        "description": "Diese Anleitung beschreibt, wie der `mcp-dotnet-server` erstellt wurde.",
+        "type": "text"
+      }
+    ]
+  },
+  {
     "name": "mcp-md-fileserver",
     "description": "A FastMCP python based mcp server to search in markdown files",
     "url": "https://github.com/wlanboy/mcp-md-fileserver",
@@ -813,7 +833,7 @@
     "name": "vagrantkind",
     "description": "scripts to installing containerd, tools, k3s or kind with certmanager, istio and argocd to run a local dev kubernetes cluster",
     "url": "https://github.com/wlanboy/vagrantkind",
-    "pushed_at": "2026-02-16T10:26:02Z",
+    "pushed_at": "2026-02-16T18:18:55Z",
     "readmes": [
       {
         "path": "README.md",
@@ -891,7 +911,7 @@
     "name": "wlanboy.github.io",
     "description": "website",
     "url": "https://github.com/wlanboy/wlanboy.github.io",
-    "pushed_at": "2026-02-15T12:56:09Z",
+    "pushed_at": "2026-02-16T13:08:42Z",
     "readmes": [
       {
         "path": "README.md",

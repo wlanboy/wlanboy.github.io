@@ -86,12 +86,12 @@
     "name": "debian-cloud-init",
     "description": "Create libvirt  vm of debian 12 and 13 with cloud init - with amd64 and arm64 support",
     "url": "https://github.com/wlanboy/debian-cloud-init",
-    "pushed_at": "2026-02-19T11:00:04Z",
+    "pushed_at": "2026-02-19T16:07:36Z",
     "readmes": [
       {
         "path": "README.md",
-        "title": "debian kvm virsh install with cloud init",
-        "description": "This repo describes how to auto install debain12 and debian13 with virsh-install and cloud-init. Which images you can use, and which images you should not use. How to add user passwords with hashes and how to create harddisk images from templates.",
+        "title": "debian/ubuntu kvm virsh install with cloud init",
+        "description": "This repo describes how to auto install Debian 12, Debian 13, Ubuntu 22.04 and Ubuntu 24.04 with virsh-install and cloud-init. Which images you can use, and which images you should not use. How to add user passwords with hashes and how to create harddisk images from templates.",
         "type": "readme"
       },
       {
@@ -419,7 +419,7 @@
     "name": "mcp-dotnet-websearch",
     "description": "MCP Server in dotnet core für websuche",
     "url": "https://github.com/wlanboy/mcp-dotnet-websearch",
-    "pushed_at": "2026-02-17T11:14:15Z",
+    "pushed_at": "2026-02-20T12:19:10Z",
     "readmes": [
       {
         "path": "README.md",
@@ -527,7 +527,7 @@
     "name": "raspberrypi",
     "description": "Raspberry Pi scripts for all my homelab services",
     "url": "https://github.com/wlanboy/raspberrypi",
-    "pushed_at": "2026-02-07T11:45:32Z",
+    "pushed_at": "2026-02-19T16:21:46Z",
     "readmes": [
       {
         "path": "README.md",
@@ -833,12 +833,12 @@
     "name": "vagrantkind",
     "description": "scripts to installing containerd, tools, k3s or kind with certmanager, istio and argocd to run a local dev kubernetes cluster",
     "url": "https://github.com/wlanboy/vagrantkind",
-    "pushed_at": "2026-02-19T10:22:36Z",
+    "pushed_at": "2026-02-20T12:48:56Z",
     "readmes": [
       {
         "path": "README.md",
         "title": "Kubernetes Cluster Setup",
-        "description": "Dieses Repository enthält Skripte zum Aufbau eines lokalen Kubernetes-Clusters mit MetalLB, Istio, Cert-Manager und ArgoCD.",
+        "description": "Dieses Repository enthält Skripte zum Aufbau eines lokalen Kubernetes-Clusters mit MetalLB, Istio, Cert-Manager und ArgoCD, sowie zur Einrichtung von KVM-Virtualisierung.",
         "type": "readme"
       },
       {
@@ -911,7 +911,7 @@
     "name": "wlanboy.github.io",
     "description": "website",
     "url": "https://github.com/wlanboy/wlanboy.github.io",
-    "pushed_at": "2026-02-18T13:09:22Z",
+    "pushed_at": "2026-02-19T13:10:46Z",
     "readmes": [
       {
         "path": "README.md",

@@ -3,7 +3,7 @@
     "name": "ansible_uml",
     "description": "UML generator for ansible playbooks and inventories",
     "url": "https://github.com/wlanboy/ansible_uml",
-    "pushed_at": "2026-02-08T06:52:00Z",
+    "pushed_at": "2026-02-21T07:50:43Z",
     "readmes": [
       {
         "path": "README.md",
@@ -38,7 +38,7 @@
     "name": "caweb",
     "description": "Python based web frontend to create ssl certs for hostname on a given ca",
     "url": "https://github.com/wlanboy/caweb",
-    "pushed_at": "2026-01-31T12:32:56Z",
+    "pushed_at": "2026-02-21T07:11:22Z",
     "readmes": [
       {
         "path": "README.md",
@@ -72,7 +72,7 @@
     "name": "CloudConfigPropertyGenerator",
     "description": "Spring based property generator - generated k8s ConfigMap from Spring Cloud Config Server",
     "url": "https://github.com/wlanboy/CloudConfigPropertyGenerator",
-    "pushed_at": "2026-01-25T07:52:12Z",
+    "pushed_at": "2026-02-21T11:25:11Z",
     "readmes": [
       {
         "path": "README.md",
@@ -86,7 +86,7 @@
     "name": "debian-cloud-init",
     "description": "Create libvirt  vm of debian 12 and 13 with cloud init - with amd64 and arm64 support",
     "url": "https://github.com/wlanboy/debian-cloud-init",
-    "pushed_at": "2026-02-19T16:07:36Z",
+    "pushed_at": "2026-02-21T08:09:30Z",
     "readmes": [
       {
         "path": "README.md",
@@ -98,6 +98,12 @@
         "path": "rec/rec.md",
         "title": "record terminal",
         "description": "## install tools",
+        "type": "text"
+      },
+      {
+        "path": "tests.md",
+        "title": "tests",
+        "description": "",
         "type": "text"
       }
     ]
@@ -120,7 +126,7 @@
     "name": "deployment_monitor",
     "description": "python based ansible deployment monitor, using sqlite as storage and pushing results to prometheus",
     "url": "https://github.com/wlanboy/deployment_monitor",
-    "pushed_at": "2026-02-08T11:54:29Z",
+    "pushed_at": "2026-02-21T08:00:11Z",
     "readmes": [
       {
         "path": "README.md",
@@ -204,7 +210,7 @@
     "name": "eurekaclientjava",
     "description": "Java based service to create several eureka clients entries without having to use the eureka lib",
     "url": "https://github.com/wlanboy/eurekaclientjava",
-    "pushed_at": "2026-01-26T18:26:53Z",
+    "pushed_at": "2026-02-21T11:23:36Z",
     "readmes": [
       {
         "path": "README.md",
@@ -225,7 +231,7 @@
     "name": "gitops",
     "description": "Simple way to create project, repros and apps in argocd",
     "url": "https://github.com/wlanboy/gitops",
-    "pushed_at": "2026-01-25T08:31:57Z",
+    "pushed_at": "2026-02-20T16:22:49Z",
     "readmes": [
       {
         "path": "kaniko/argo-workflows/readme.md",
@@ -317,7 +323,7 @@
     "name": "JavaHttpClient",
     "description": "Spring based rest service to test http call within k8s and istio",
     "url": "https://github.com/wlanboy/JavaHttpClient",
-    "pushed_at": "2026-02-05T07:54:43Z",
+    "pushed_at": "2026-02-21T09:25:47Z",
     "readmes": [
       {
         "path": "README.md",
@@ -365,7 +371,7 @@
     "name": "kubeevent",
     "description": "Python based k8s event listener. Stores events in sqlite db.",
     "url": "https://github.com/wlanboy/kubeevent",
-    "pushed_at": "2026-02-10T20:50:56Z",
+    "pushed_at": "2026-02-21T06:40:57Z",
     "readmes": [
       {
         "path": "README.md",
@@ -385,7 +391,7 @@
     "name": "kubeeventjava",
     "description": null,
     "url": "https://github.com/wlanboy/kubeeventjava",
-    "pushed_at": "2026-01-23T17:51:11Z",
+    "pushed_at": "2026-02-21T11:22:39Z",
     "readmes": [
       {
         "path": "README.md",
@@ -439,7 +445,7 @@
     "name": "mcp-md-fileserver",
     "description": "A FastMCP python based mcp server to search in markdown files",
     "url": "https://github.com/wlanboy/mcp-md-fileserver",
-    "pushed_at": "2026-02-10T21:29:53Z",
+    "pushed_at": "2026-02-21T07:00:46Z",
     "readmes": [
       {
         "path": "README.md",
@@ -457,6 +463,12 @@
         "path": "spec.md",
         "title": "MCP Markdown Fileserver - Technische Spezifikation",
         "description": "## Übersicht",
+        "type": "text"
+      },
+      {
+        "path": "tests.md",
+        "title": "tests",
+        "description": "",
         "type": "text"
       }
     ]
@@ -479,7 +491,7 @@
     "name": "minioaccess",
     "description": "Minimal minio admin webpage to replace removed features of open source web frontend",
     "url": "https://github.com/wlanboy/minioaccess",
-    "pushed_at": "2026-01-23T17:56:34Z",
+    "pushed_at": "2026-02-21T07:57:24Z",
     "readmes": [
       {
         "path": "README.md",
@@ -493,7 +505,7 @@
     "name": "MirrorService",
     "description": "Spring Framework based service mirroring requests with parameterized wait time and http response codes",
     "url": "https://github.com/wlanboy/MirrorService",
-    "pushed_at": "2026-01-23T13:48:26Z",
+    "pushed_at": "2026-02-21T11:24:14Z",
     "readmes": [
       {
         "path": "README.md",
@@ -507,7 +519,7 @@
     "name": "randomfail",
     "description": "Python based microservice that will return 500 responses every second request and failes the healtiness hcheck and readyness check randomly",
     "url": "https://github.com/wlanboy/randomfail",
-    "pushed_at": "2026-01-23T18:13:16Z",
+    "pushed_at": "2026-02-21T07:37:37Z",
     "readmes": [
       {
         "path": "README.md",
@@ -805,7 +817,7 @@
     "name": "SimpleService",
     "description": "Simple Spring Rest Service playing Blockchain",
     "url": "https://github.com/wlanboy/SimpleService",
-    "pushed_at": "2026-01-19T20:24:34Z",
+    "pushed_at": "2026-02-21T11:24:00Z",
     "readmes": [
       {
         "path": "README.md",
@@ -833,18 +845,12 @@
     "name": "vagrantkind",
     "description": "scripts to installing containerd, tools, k3s or kind with certmanager, istio and argocd to run a local dev kubernetes cluster",
     "url": "https://github.com/wlanboy/vagrantkind",
-    "pushed_at": "2026-02-20T12:48:56Z",
+    "pushed_at": "2026-02-21T06:32:31Z",
     "readmes": [
       {
         "path": "README.md",
         "title": "Kubernetes Cluster Setup",
         "description": "Dieses Repository enthält Skripte zum Aufbau eines lokalen Kubernetes-Clusters mit MetalLB, Istio, Cert-Manager und ArgoCD, sowie zur Einrichtung von KVM-Virtualisierung.",
-        "type": "readme"
-      },
-      {
-        "path": "argocd/README.md",
-        "title": "ArgoCD Setup Tool",
-        "description": "Interaktives Python-Script zum Einrichten von ArgoCD-Ressourcen auf einem bestehenden Kubernetes-Cluster.",
         "type": "readme"
       },
       {
@@ -911,7 +917,7 @@
     "name": "wlanboy.github.io",
     "description": "website",
     "url": "https://github.com/wlanboy/wlanboy.github.io",
-    "pushed_at": "2026-02-19T13:10:46Z",
+    "pushed_at": "2026-02-20T13:03:06Z",
     "readmes": [
       {
         "path": "README.md",

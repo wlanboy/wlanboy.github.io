@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Focus</title>
+  <link rel="stylesheet" href="focus-style.css">
+</head>
+<body>
+
+  <header>
+    <a href="index.html" class="back-link">← Explorer</a>
+    <h1>Focus</h1>
+    <button id="toggleTheme">🌙/☀️</button>
+  </header>
+
+  <div id="canvas-wrap">
+    <svg id="graph" xmlns="http://www.w3.org/2000/svg">
+      <g id="graph-layer"></g>
+    </svg>
+  </div>
+
+  <div id="detail" class="hidden">
+    <button id="detail-close">✖</button>
+    <h2 id="detail-title"></h2>
+    <p id="detail-desc"></p>
+    <div id="detail-links"></div>
+  </div>
+
+  <script src="focus.js"></script>
+</body>
+</html>

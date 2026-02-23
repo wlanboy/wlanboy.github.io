@@ -1,0 +1,272 @@
+{
+  "groups": [
+    { "id": "jvm",    "label": "JVM Builds",       "cx": -285, "cy": -160 },
+    { "id": "argocd", "label": "ArgoCD / GitOps",   "cx":  285, "cy": -160 },
+    { "id": "mcp",    "label": "A2A + MCP",          "cx":    0, "cy":  205 }
+  ],
+  "topics": [
+
+    {
+      "id": "jdeps",
+      "label": "jdeps",
+      "group": "jvm",
+      "description": "Analysiert die Java-Modulabhängigkeiten der extrahierten JAR-Layer. Mit --print-module-deps und --multi-release 25 erzeugt jdeps eine präzise Liste aller benötigten JDK-Module. Die Ausgabe (modules.txt) fließt direkt als Input in jlink – nur wirklich genutzte Module landen im Custom-JRE.",
+      "connections": ["jlink", "layered-jar"]
+    },
+    {
+      "id": "jlink",
+      "label": "jlink",
+      "group": "jvm",
+      "description": "Erzeugt aus der jdeps-Modulliste ein maßgeschneidertes minimales JRE. Flags: --strip-debug entfernt Debug-Symbole, --compress zip-9 maximiert Komprimierung, --no-man-pages und --no-header-files sparen Platz. Laufzeit-Optionen wie ZGC und ExitOnOutOfMemoryError werden via --add-options direkt ins JRE gebacken.",
+      "connections": ["jdeps", "cds-base", "distroless", "zgc", "java-modules"]
+    },
+    {
+      "id": "java-modules",
+      "label": "Java Modules",
+      "group": "jvm",
+      "description": "jlink benötigt eine explizite Modulliste: jdeps liefert die App-Module via modules.txt, zusätzliche Module werden manuell ergänzt. java.base (immer nötig), jdk.crypto.ec (TLS/EC-Kryptografie), jdk.charsets (UTF-8-only String-Handling). java.desktop: PropertyEditorSupport von Spring. java.management + jdk.management: JMX, Metriken und GC-Notifications. jdk.zipfs: JAR-Dateizugriff zur Laufzeit (z.B. Swagger). java.instrument: Bytecode-Instrumentierung. java.sql: JPA-Typen (java.sql.Date). java.naming: JNDI-Konfiguration von Jetty. jdk.unsupported: sun.misc.Unsafe, genutzt von Objenesis/CGLIB. java.security.jgss + java.security.sasl: GSSAPI/Kerberos (org.ietf.jgss.GSSException).",
+      "connections": ["jlink", "jdeps", "zgc"]
+    },
+    {
+      "id": "cds-base",
+      "label": "CDS Base",
+      "group": "jvm",
+      "description": "Class Data Sharing Basis-Archiv: java -Xshare:dump erzeugt ein Shared Archive des Custom JRE. Beim App-Start wird dieses Archiv direkt in den Speicher gemappt – Klassen-Metadaten müssen nicht neu gelesen werden, was den JVM-Startup messbar beschleunigt.",
+      "connections": ["jlink", "app-cds"]
+    },
+    {
+      "id": "app-cds",
+      "label": "AppCDS",
+      "group": "jvm",
+      "description": "Application Class Data Sharing erweitert CDS auf Anwendungsklassen. -XX:ArchiveClassesAtExit=app.jsa mit spring.context.exit=onRefresh trainiert beim Build alle beim Spring-Start geladenen Klassen. Das fertige Archiv liegt im Container-Image und wird via -XX:SharedArchiveFile beim Start aktiviert.",
+      "connections": ["cds-base", "spring-aot"]
+    },
+    {
+      "id": "distroless",
+      "label": "distroless/cc",
+      "group": "jvm",
+      "description": "gcr.io/distroless/cc als Runtime-Base-Image: keine Shell, kein Paketmanager, keine unnötigen OS-Binaries. Enthält nur libc und grundlegende C-Runtime – die Java-Runtime (jlink-Custom-JRE) benötigt diese C-Runtime als Fundament, da die JVM intern auf native C-Bibliotheken (glibc, libstdc++) aufbaut. Zusammen mit dem Custom-JRE ergibt das ein minimales, angriffsflächen-armes Container-Image. Der Container läuft als nonroot-User (65532).",
+      "connections": ["jlink", "multi-stage"]
+    },
+    {
+      "id": "zgc",
+      "label": "ZGC",
+      "group": "jvm",
+      "description": "Z Garbage Collector für niedrige Pause-Zeiten unabhängig von der Heap-Größe. Wird über --add-options in jlink direkt ins JRE eingebettet und via -XX:+UseZGC beim Start aktiviert. ExitOnOutOfMemoryError beendet den Container-Prozess bei OOM für sauberes Kubernetes-Restart. MaxRAMPercentage=80 nutzt den Container-Speicher effizient.",
+      "connections": ["jlink", "java-modules"]
+    },
+    {
+      "id": "spring-aot",
+      "label": "Spring AOT",
+      "group": "jvm",
+      "description": "Spring Boot AOT (Ahead-of-Time) Compilation generiert beim Build statische Proxy-Klassen und Bean-Definitionen via spring-boot:process-aot. Reduziert Reflection zur Laufzeit und optimiert den ApplicationContext-Aufbau. -Dspring.aot.enabled=true aktiviert den AOT-Pfad im Container. Voraussetzung für effizientes AppCDS-Training.",
+      "connections": ["app-cds", "layered-jar", "multi-stage"]
+    },
+    {
+      "id": "layered-jar",
+      "label": "Layered JAR",
+      "group": "jvm",
+      "description": "Spring Boot JAR Layering extrahiert das Fat-JAR in Schichten: dependencies, observability-dependencies, spring-boot-loader, snapshot-dependencies, application-resources, application. Stabile Schichten (dependencies) kommen in frühe Docker-Layers – nur die sich ändernde application-Schicht invalidiert den Image-Cache bei jedem Build.",
+      "connections": ["jdeps", "spring-aot", "multi-stage", "layers-xml"]
+    },
+    {
+      "id": "layers-xml",
+      "label": "layers.xml",
+      "group": "jvm",
+      "description": "Konfiguriert die genaue Schichtenstruktur und -reihenfolge des Layered JARs. Sechs Schichten nach Änderungshäufigkeit: dependencies (stabile Release-Libs), observability-dependencies (Micrometer, Prometheus, OpenTelemetry – eigener Release-Zyklus), spring-boot-loader (nur bei Spring-Boot-Version-Upgrade), snapshot-dependencies (SNAPSHOT-Artefakte separat), application-resources (YML/Properties/Templates – Konfigurationsänderungen invalidieren nicht den Class-Layer), application (kompilierter Code + AOT-Metadaten, ändert sich am häufigsten). Reihenfolge: stabilste Layer zuerst → optimales Docker-Cache-Verhalten.",
+      "connections": ["layered-jar", "spring-aot"]
+    },
+    {
+      "id": "multi-stage",
+      "label": "Multi-Stage Build",
+      "group": "jvm",
+      "description": "Dreistufiger Docker-Build: Stage 1 (Build) kompiliert mit Spring AOT. Stage 2 (JRE) analysiert mit jdeps, erstellt mit jlink das Custom-JRE, trainiert CDS und AppCDS. Stage 3 (Runtime) nutzt distroless/cc, kopiert nur Custom-JRE und Layer-Verzeichnisse – keine Build-Tools im finalen Image.",
+      "connections": ["distroless", "spring-aot", "layered-jar", "maven-cache"]
+    },
+    {
+      "id": "maven-cache",
+      "label": "Maven Cache",
+      "group": "jvm",
+      "description": "BuildKit Mount-Cache (--mount=type=cache,target=/root/.m2) persistiert das lokale Maven-Repository zwischen Docker-Build-Runs. dependency:go-offline lädt alle Abhängigkeiten vorab in den Cache. Folge-Builds brauchen keine Netzwerkzugriffe für bekannte Artefakte – deutlich schnellere CI-Builds.",
+      "connections": ["multi-stage"]
+    },
+
+    {
+      "id": "argo-workflow",
+      "label": "Workflow",
+      "group": "argocd",
+      "description": "WorkflowTemplate definiert wiederverwendbare, parameterisierte Build-Pipelines in Kubernetes. Das main-Template orchestriert zwei Steps sequenziell: kaniko-build baut das Container-Image, git-update committed den neuen Tag ins Helm-Chart. Parameter image-tag, git-ref und dockerfile werden vom aufrufenden Sensor oder CronWorkflow übergeben.",
+      "connections": ["kaniko", "git-update", "cron-workflow", "workflow-sa"]
+    },
+    {
+      "id": "kaniko",
+      "label": "Kaniko",
+      "group": "argocd",
+      "description": "Baut Container-Images direkt im Kubernetes-Cluster ohne Docker-Daemon. Kontext kommt per git://-URL direkt aus GitHub, --destination pusht parallel auf Docker Hub mit spezifischem Tag und :latest. Docker-Credentials werden als Kubernetes-Secret (regcred) in /kaniko/.docker gemounted. Kein privilegierter Container nötig.",
+      "connections": ["argo-workflow"]
+    },
+    {
+      "id": "git-update",
+      "label": "Git Update",
+      "group": "argocd",
+      "description": "Nach jedem Build committed ein Alpine-Git-Container automatisch den neuen image.tag in die values.yaml des Helm-Charts. Ablauf: GitHub-Token aus Secret, git clone → sed → git diff → git commit → git push. Idempotent: git diff --cached --quiet prüft ob Änderungen vorhanden sind, bevor committed wird.",
+      "connections": ["argo-workflow", "argo-apps"]
+    },
+    {
+      "id": "eventbus",
+      "label": "EventBus",
+      "group": "argocd",
+      "description": "Argo Events EventBus ist der zentrale Message-Broker zwischen EventSources und Sensoren. Implementiert als NATS-Cluster innerhalb des Namespaces argo-workflows. EventSources publizieren Events auf den Bus, Sensoren subscriben auf bestimmte Event-Namen und reagieren darauf.",
+      "connections": ["eventsource", "sensor"]
+    },
+    {
+      "id": "eventsource",
+      "label": "EventSource",
+      "group": "argocd",
+      "description": "Webhook-basierte EventSource empfängt HTTP POST-Requests mit image-tag und git_ref als JSON-Body. Jeder Service (mirrorservice, simpleservice, randomfail, javahttpclient) hat eine eigene EventSource-Definition. Publiziert Events in den EventBus unter dem jeweiligen Service-Namen.",
+      "connections": ["eventbus"]
+    },
+    {
+      "id": "sensor",
+      "label": "Sensor",
+      "group": "argocd",
+      "description": "Sensor wartet auf Events vom EventBus und triggert bei Match ein Argo Workflow. Extrahiert per JSONPath (body.tag, body.git_ref) die Parameter aus dem Event-Payload und übergibt sie als Workflow-Parameter via dest-Mapping. conditions definiert welche EventSource-Kombination den Trigger auslöst.",
+      "connections": ["eventbus", "argo-workflow", "workflow-sa"]
+    },
+    {
+      "id": "cron-workflow",
+      "label": "CronWorkflow",
+      "group": "argocd",
+      "description": "CronWorkflow als Tag-Poller: Prüft regelmäßig ob ein neues Docker-Image-Tag für einen Service existiert. Referenziert dasselbe WorkflowTemplate wie der Event-Trigger. Stellt sicher dass Builds auch ohne Webhook-Trigger nicht ausbleiben – Fallback für fehlende Webhook-Konfiguration.",
+      "connections": ["argo-workflow"]
+    },
+    {
+      "id": "workflow-sa",
+      "label": "Service Account",
+      "group": "argocd",
+      "description": "Service Account (workflow-sa) mit ClusterRole für Argo Workflows: Berechtigung zum Erstellen von Pods, Lesen von Secrets (regcred, github-token) und Submit von Workflows. Sensor und WorkflowTemplate nutzen denselben SA. Minimale RBAC-Konfiguration nach Least-Privilege-Prinzip.",
+      "connections": ["argo-workflow", "sensor"]
+    },
+    {
+      "id": "argo-apps",
+      "label": "ArgoCD Apps",
+      "group": "argocd",
+      "description": "ArgoCD Applications verwalten den Deployment-Zustand der Services im Cluster. Sync-Policy mit automated.prune und selfHeal sorgt dafür, dass der Cluster-Zustand immer dem Git-Repository entspricht. git-update triggert ArgoCD indirekt: der Helm-Chart-Commit löst einen automatischen Sync aus.",
+      "connections": ["git-update", "argo-projects"]
+    },
+    {
+      "id": "argo-projects",
+      "label": "ArgoCD Projects",
+      "group": "argocd",
+      "description": "ArgoCD Projects scopen und isolieren Application-Gruppen. Definieren erlaubte Source-Repos, Destination-Cluster und Namespaces. selector.py automatisiert die Projekt-Zuweisung von Applications über Label-Selektoren – neuen Services werden automatisch dem richtigen Projekt zugeordnet.",
+      "connections": ["argo-apps"]
+    },
+
+    {
+      "id": "a2a-protocol",
+      "label": "A2A Protokoll",
+      "group": "mcp",
+      "description": "Agent-to-Agent Protokoll für standardisierte, technologieneutrale Kommunikation zwischen LLM-Agenten. Vier Schichten: Transport (HTTP/SSE/WebSocket), Message (JSON-RPC 2.0), Protocol (Discovery/Task-Routing), Application (Skills/Business Logic). Implementiert in Spring Boot ohne offizielle SDK-Abhängigkeit – SDK unterstützt nur Quarkus.",
+      "connections": ["agent-card", "task-lifecycle", "mcp-server"]
+    },
+    {
+      "id": "agent-card",
+      "label": "AgentCard",
+      "group": "mcp",
+      "description": "AgentCard ist die Visitenkarte eines A2A-Agenten, bereitgestellt unter /.well-known/agent-card.json. Enthält Name, URL, protocolVersion, Skills mit Beispiel-Prompts und Tags, Capabilities (streaming, pushNotifications, stateTransitionHistory) sowie Auth-Schemas. Clients cachen die AgentCard und registrieren Skills als lokale Tools.",
+      "connections": ["a2a-protocol", "a2a-client", "mcp-tools"]
+    },
+    {
+      "id": "a2a-client",
+      "label": "A2A Client",
+      "group": "mcp",
+      "description": "A2AClientService kapselt den vollständigen Client-Lebenszyklus: AgentCard-Discovery per well-known URL, Caching, JSON-RPC message/send-Aufrufe mit TaskSendParams (id, sessionId, message mit Parts). ResilientAgentExecutor fügt Retry-Logik und Fehlerbehandlung hinzu. Unterstützt sessionId für zusammenhängende Konversationen.",
+      "connections": ["agent-card", "task-lifecycle", "remote-agent"]
+    },
+    {
+      "id": "task-lifecycle",
+      "label": "Task Lifecycle",
+      "group": "mcp",
+      "description": "Tasks durchlaufen eine Zustandsmaschine: submitted → working → completed (oder failed/canceled/input-required). ConcurrentHashMap als In-Memory-Speicher. Tasks haben id, sessionId, history (veränderliche Messages für Konversationsfluss) und artifacts (immutable Ergebnisse mit Parts: TextPart, DataPart, FilePart).",
+      "connections": ["a2a-protocol", "a2a-client", "remote-agent", "mcp-openapi"]
+    },
+    {
+      "id": "remote-agent",
+      "label": "Remote Agent",
+      "group": "mcp",
+      "description": "RemoteAgentTool macht einen A2A-Server als lokales Spring AI Tool nutzbar. ChatClient kann via Tool-Call an beliebige Remote-Agenten delegieren. AgentCard-Discovery beim ersten Aufruf, danach gecacht. Verbindet das A2A-Protokoll mit dem Spring AI Tool-Framework – ein Agent kann andere Agenten als Tools nutzen.",
+      "connections": ["a2a-client", "a2a-protocol", "task-lifecycle", "mcp-openapi", "mcp-websearch", "mcp-md-search"]
+    },
+    {
+      "id": "mcp-server",
+      "label": "MCP Server",
+      "group": "mcp",
+      "description": "Spring AI MCP Server exponiert Tools über Server-Sent Events (SSE). McpServerConfig registriert ToolCallbackProvider. spring-ai-mcp-server-spring-boot-starter als Basis. Workaround für fehlenden notifications/cancelled-Handler: Reflection-basiertes Session-Factory-Wrapping via SmartInitializingSingleton.",
+      "connections": ["a2a-protocol", "mcp-tools", "mcp-registry"]
+    },
+    {
+      "id": "mcp-registry",
+      "label": "MCP Registry",
+      "group": "mcp",
+      "description": "McpRegistryRegistration veröffentlicht den MCP-Server beim Start in einer zentralen Registry (API v0.1). Prüft ob Version bereits publiziert (idempotent), holt Registry-Token über /auth/none, validiert Server-Definition gegen Schema (schema.json 2025-12-11), publiziert mit name, description, version, transport-type, repository-URL und icon.",
+      "connections": ["mcp-server", "mcp-tools"]
+    },
+    {
+      "id": "mcp-tools",
+      "label": "MCP Tools",
+      "group": "mcp",
+      "description": "MCP Tool-Definitionen via OpenAPI-Spec (openapi_document_tool_service.yaml) und Maven openapi-generator-Plugin. Mustache-Templates generieren @Tool-annotierte Java-Methoden für Spring AI. Der Generator erzeugt dabei nicht nur die Tool-Methoden, sondern auch alle DTOs (Request/Response-Typen) sowie die Service-Interfaces, die die eigentliche Implementierung beschreiben. Damit ist die OpenAPI-Spec die einzige Quelle der Wahrheit – Änderungen am API-Vertrag propagieren automatisch in Tools, DTOs und Interfaces. Dieselbe Spec steuert zusätzlich die AgentCard: Skills, Beispiel-Prompts und Tags werden aus den OpenAPI-Operationen abgeleitet, sodass der A2A-Agent sich selbst korrekt und konsistent beschreibt.",
+      "connections": ["mcp-server", "mcp-registry", "agent-card", "mcp-websearch", "mcp-codesearch", "mcp-openapi", "mcp-md-search"]
+    },
+    {
+      "id": "mcp-websearch",
+      "label": "MCP Web Search",
+      "group": "mcp",
+      "description": "ASP.NET Core MCP-Server mit HTTP-Transport. SearchWeb-Tool nutzt DuckDuckGo, filtert Ergebnisse per konfigurierbarer Domain-Whitelist in appsettings.json auf vertrauenswürdige Quellen (learn.microsoft.com, github.com, …). Direkt in Claude Code, VS Code Copilot und LM Studio per mcp.json einbindbar.",
+      "connections": ["mcp-tools", "remote-agent", "sqlite"]
+    },
+    {
+      "id": "mcp-codesearch",
+      "label": "MCP Code Search",
+      "group": "mcp",
+      "description": "ASP.NET Core MCP-Server indexiert alle Git-Repos unter ~/git. Keyword-Suche via SQLite FTS5 mit BM25-Ranking. Semantische Suche via ONNX Embeddings (all-MiniLM-L6-v2) + sqlite-vec für KNN-Vektorsuche. Roslyn-Chunker für C#, Regex-Chunker für TypeScript/Python/Java. CLI: scan (Full) und update (inkrementell via git diff).",
+      "connections": ["mcp-tools", "onnx-embed", "sqlite"]
+    },
+    {
+      "id": "mcp-openapi",
+      "label": "MCP OpenAPI",
+      "group": "mcp",
+      "description": "Spring Boot MCP-Server der OpenAPI-Specs (OAS 2/3) aus lokalen Dateien oder Remote-URLs lädt und in SQLite persistiert. Kernidee: aus beliebigen APIs automatisch MCP Tool-Definitionen ableiten – jeder OpenAPI-Endpoint wird zu einem beschreibbaren, suchbaren Tool. Daneben bietet der Server eine vollständige Schema-Suche: welche Specs verwenden ein bestimmtes Schema, wie ist ein Schema aufgebaut, welche Endpoints teilen denselben Datentyp. MCP-Tools: searchEndpoints, describeEndpoint, searchSchemas, describeSchema, findSpecsUsingSchema. Damit wird jede dokumentierte REST-API für LLM-Agenten navigierbar – ohne manuelle Tool-Programmierung.",
+      "connections": ["mcp-tools", "remote-agent", "task-lifecycle", "sqlite"]
+    },
+    {
+      "id": "mcp-md-search",
+      "label": "MCP MD Search",
+      "group": "mcp",
+      "description": "Spring Boot MCP-Server der eine Markdown-Wissensdatenbank verwaltet und für LLM-Agenten durchsuchbar macht. Periodischer Scanner erkennt geänderte .md-Dateien via mtime und aktualisiert den Index inkrementell. Kapitel-Erkennung: Der Parser erkennt Markdown-Überschriften (# bis ####) als Strukturgrenzen und behandelt Abschnitte als eigenständige Sucheinheiten. Spracherkennung via Lingua: Vor der NLP-Verarbeitung wird die Sprache des Dokuments automatisch erkannt (Deutsch/Englisch) und das passende OpenNLP-Modell geladen. Stichwort-Erkennung via Apache OpenNLP: POS-Tagger klassifiziert alle Tokens nach Wortart, nur Nomen und Verben werden extrahiert. Lemmatisierung reduziert Flexionsformen auf die Grundform ('running' → 'run'). 5 MCP-Tools: Zeige alle Stichwörter (mit Häufigkeit), Finde Dateien mit (Keyword-Schnittmenge), Liste alle Dateien, Volltextsuche (mit Preview-Kontext), Zeige die Datei. 3 MCP-Prompts für systematische Recherche, Dokumentzusammenfassung und Wissenslücken-Analyse. Eigenes URI-Schema markdowndatei:// als MCP-Resource.",
+      "connections": ["mcp-server", "mcp-tools", "sqlite", "remote-agent"]
+    },
+    {
+      "id": "sqlite",
+      "label": "SQLite",
+      "group": "mcp",
+      "description": "SQLite als eingebettete Persistenzschicht für alle drei MCP-Server. Volltext-Suche via FTS5 (Fifth Generation Full-Text Search): Dokumente werden tokenisiert, aus den Tokens wird ein invertierter Index aufgebaut – jedem Token wird die Liste aller Dokumente zugeordnet, in denen er vorkommt. BM25 (Best Match 25) gewichtet Treffer nach Term-Frequenz im Dokument (TF) und inverser Dokumenthäufigkeit (IDF), sodass seltene, spezifische Begriffe stärker zählen als häufige Füllwörter. Für semantische Suche erweitert sqlite-vec die SQLite-Engine um native Vektorspeicherung: Embeddings (384-dimensionale Float-Vektoren) werden direkt in SQLite-Spalten gespeichert. KNN-Suche (K-Nearest Neighbors) findet die k ähnlichsten Vektoren via Cosine- oder L2-Distanz – ohne externen Vektordatenbank-Dienst. Ergebnis: Keyword-Suche (FTS5/BM25) und semantische Suche (sqlite-vec/KNN) in einer einzigen, dateibasierten Datenbank.",
+      "connections": ["mcp-openapi", "mcp-codesearch", "mcp-websearch", "mcp-md-search"]
+    },
+    {
+      "id": "onnx-embed",
+      "label": "ONNX Embeddings",
+      "group": "mcp",
+      "description": "ONNX Runtime mit all-MiniLM-L6-v2 erzeugt 384-dimensionale Sentence-Embeddings für semantische Codesuche – lokal, ohne externen Embedding-Service. sqlite-vec speichert Vektoren direkt in SQLite. FindSimilarCodeByIntent sucht per natürlichsprachiger Beschreibung, FindSimilarCodeBySnippet per Code-Snippet (KNN-Suche).",
+      "connections": ["mcp-codesearch"]
+    }
+  ],
+
+  "crossConnections": [
+    {
+      "from": "kaniko",
+      "to": "multi-stage",
+      "label": "baut Dockerfile"
+    }
+  ]
+}

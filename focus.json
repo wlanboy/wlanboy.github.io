@@ -148,6 +148,13 @@
       "connections": ["argo-workflow", "sensor"]
     },
     {
+      "id": "cache-registry",
+      "label": "Cache Registry",
+      "group": "argocd",
+      "description": "Eine lokale In-Cluster-Registry (z.B. registry:2 oder Zot) löst zwei Probleme gleichzeitig. Erstens: Docker Hub Rate Limits – der Kind-Cluster zieht bei jedem Build den Kaniko-Executor (gcr.io/kaniko-project/executor:latest) und den Alpine-Git-Container (docker.io/alpine/git:latest) neu. Containerd-Mirror-Konfiguration in kind-local.yaml leitet Pull-Anfragen an die lokale Registry um: containerd cached die Images nach dem ersten Pull und bedient Folge-Anfragen ohne externen Netzwerkzugriff. Zweitens: Kaniko Layer-Cache – ohne Cache baut Kaniko bei jedem Workflow-Run alle Image-Layer neu auf. Mit --cache=true und --cache-repo=registry.local:5000/kaniko-cache speichert Kaniko die gecachten Layer in der lokalen Registry. Folge-Builds überspringen unveränderte Layer und werden deutlich schneller. Setup: Docker-Container mit registry:2 im kind-Netzwerk deployen, Kind-Nodes via containerd-Konfiguration (mirrors) darauf zeigen, Kaniko-Workflow-Args um --cache=true und --cache-repo erweitern. Das regcred-Secret bleibt für Docker Hub Push bestehen – die Cache-Registry ist nur für Pull und Layer-Storage zuständig.",
+      "connections": ["kaniko", "argo-workflow", "multi-stage", "layered-jar"]
+    },
+    {
       "id": "argo-apps",
       "label": "ArgoCD Apps",
       "group": "argocd",

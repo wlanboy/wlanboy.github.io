@@ -210,7 +210,7 @@
     "name": "eurekaclientjava",
     "description": "Java based service to create several eureka clients entries without having to use the eureka lib",
     "url": "https://github.com/wlanboy/eurekaclientjava",
-    "pushed_at": "2026-02-21T11:23:36Z",
+    "pushed_at": "2026-02-23T17:00:08Z",
     "readmes": [
       {
         "path": "README.md",
@@ -323,7 +323,7 @@
     "name": "JavaHttpClient",
     "description": "Spring based rest service to test http call within k8s and istio",
     "url": "https://github.com/wlanboy/JavaHttpClient",
-    "pushed_at": "2026-02-22T07:57:13Z",
+    "pushed_at": "2026-02-23T16:50:23Z",
     "readmes": [
       {
         "path": "README.md",
@@ -511,7 +511,7 @@
     "name": "MirrorService",
     "description": "Spring Framework based service mirroring requests with parameterized wait time and http response codes",
     "url": "https://github.com/wlanboy/MirrorService",
-    "pushed_at": "2026-02-22T07:42:37Z",
+    "pushed_at": "2026-02-24T04:56:39Z",
     "readmes": [
       {
         "path": "README.md",
@@ -823,7 +823,7 @@
     "name": "SimpleService",
     "description": "Simple Spring Rest Service playing Blockchain",
     "url": "https://github.com/wlanboy/SimpleService",
-    "pushed_at": "2026-02-22T07:27:48Z",
+    "pushed_at": "2026-02-23T16:41:43Z",
     "readmes": [
       {
         "path": "README.md",
@@ -851,12 +851,24 @@
     "name": "vagrantkind",
     "description": "scripts to installing containerd, tools, k3s or kind with certmanager, istio and argocd to run a local dev kubernetes cluster",
     "url": "https://github.com/wlanboy/vagrantkind",
-    "pushed_at": "2026-02-22T08:41:13Z",
+    "pushed_at": "2026-02-24T04:42:06Z",
     "readmes": [
       {
         "path": "README.md",
         "title": "Kubernetes Cluster Setup",
         "description": "Dieses Repository enthält Skripte zum Aufbau eines lokalen Kubernetes-Clusters mit MetalLB, Istio, Cert-Manager und ArgoCD, sowie zur Einrichtung von KVM-Virtualisierung.",
+        "type": "readme"
+      },
+      {
+        "path": "argocd/readme.md",
+        "title": "ArgoCD GitOps CI/CD Pipeline",
+        "description": "Dieses Verzeichnis enthält alle Konfigurationen für eine vollautomatische GitOps-Pipeline auf Basis von ArgoCD und Argo Workflows. Die Pipeline verwaltet vier Microservices, baut deren Docker-Images automatisch bei neuen GitHub-Tags und synchronisiert die Deployments über Helm-Charts in einen lokalen Kubernetes-Cluster mit Istio Service Mesh.",
+        "type": "readme"
+      },
+      {
+        "path": "ca_dns/readme.md",
+        "title": "CA und DNS Trust Setup",
+        "description": "Dieses Verzeichnis enthält Skripte und Zertifikate zur Einrichtung einer lokalen Zertifizierungsstelle (CA) sowie zur Konfiguration eines benutzerdefinierten DNS-Servers im Homelab-Netzwerk.",
         "type": "readme"
       },
       {
@@ -923,7 +935,7 @@
     "name": "wlanboy.github.io",
     "description": "website",
     "url": "https://github.com/wlanboy/wlanboy.github.io",
-    "pushed_at": "2026-02-22T12:54:10Z",
+    "pushed_at": "2026-02-24T07:02:08Z",
     "readmes": [
       {
         "path": "README.md",

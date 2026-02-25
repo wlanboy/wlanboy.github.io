@@ -851,12 +851,24 @@
     "name": "vagrantkind",
     "description": "scripts to installing containerd, tools, k3s or kind with certmanager, istio and argocd to run a local dev kubernetes cluster",
     "url": "https://github.com/wlanboy/vagrantkind",
-    "pushed_at": "2026-02-24T04:42:06Z",
+    "pushed_at": "2026-02-24T19:55:32Z",
     "readmes": [
       {
         "path": "README.md",
         "title": "Kubernetes Cluster Setup",
         "description": "Dieses Repository enthält Skripte zum Aufbau eines lokalen Kubernetes-Clusters mit MetalLB, Istio, Cert-Manager und ArgoCD, sowie zur Einrichtung von KVM-Virtualisierung.",
+        "type": "readme"
+      },
+      {
+        "path": "argocd/argocd-workflows-BuildKit/readme.md",
+        "title": "Argo Workflows - CI/CD Pipeline mit BuildKit",
+        "description": "Die Workflows implementieren eine vollständige GitOps-CI/CD-Pipeline mit zwei Schritten:",
+        "type": "readme"
+      },
+      {
+        "path": "argocd/argocd-workflows/readme.md",
+        "title": "Argo Workflows - CI/CD Pipeline",
+        "description": "Die Workflows implementieren eine vollständige GitOps-CI/CD-Pipeline mit zwei Schritten:",
         "type": "readme"
       },
       {
@@ -935,7 +947,7 @@
     "name": "wlanboy.github.io",
     "description": "website",
     "url": "https://github.com/wlanboy/wlanboy.github.io",
-    "pushed_at": "2026-02-24T07:02:08Z",
+    "pushed_at": "2026-02-24T13:11:17Z",
     "readmes": [
       {
         "path": "README.md",

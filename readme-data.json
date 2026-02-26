@@ -851,7 +851,7 @@
     "name": "vagrantkind",
     "description": "scripts to installing containerd, tools, k3s or kind with certmanager, istio and argocd to run a local dev kubernetes cluster",
     "url": "https://github.com/wlanboy/vagrantkind",
-    "pushed_at": "2026-02-24T19:55:32Z",
+    "pushed_at": "2026-02-25T19:28:03Z",
     "readmes": [
       {
         "path": "README.md",
@@ -875,6 +875,12 @@
         "path": "argocd/readme.md",
         "title": "ArgoCD GitOps CI/CD Pipeline",
         "description": "Dieses Verzeichnis enthält alle Konfigurationen für eine vollautomatische GitOps-Pipeline auf Basis von ArgoCD und Argo Workflows. Die Pipeline verwaltet vier Microservices, baut deren Docker-Images automatisch bei neuen GitHub-Tags und synchronisiert die Deployments über Helm-Charts in einen lokalen Kubernetes-Cluster mit Istio Service Mesh.",
+        "type": "readme"
+      },
+      {
+        "path": "argocd/tekton-BuildKit/readme.md",
+        "title": "Tekton Pipeline - CI/CD mit BuildKit",
+        "description": "Die Pipeline implementiert eine vollständige GitOps-CI/CD-Pipeline mit zwei Schritten:",
         "type": "readme"
       },
       {
@@ -947,7 +953,7 @@
     "name": "wlanboy.github.io",
     "description": "website",
     "url": "https://github.com/wlanboy/wlanboy.github.io",
-    "pushed_at": "2026-02-24T13:11:17Z",
+    "pushed_at": "2026-02-25T13:10:08Z",
     "readmes": [
       {
         "path": "README.md",

@@ -545,7 +545,7 @@
     "name": "raspberrypi",
     "description": "Raspberry Pi scripts for all my homelab services",
     "url": "https://github.com/wlanboy/raspberrypi",
-    "pushed_at": "2026-03-01T14:29:34Z",
+    "pushed_at": "2026-03-03T06:48:57Z",
     "readmes": [
       {
         "path": "README.md",
@@ -677,6 +677,18 @@
         "path": "mariadb-in-docker.md",
         "title": "create mariadb instance with docker",
         "description": "Simple commands to create mariadb instance with docker.",
+        "type": "text"
+      },
+      {
+        "path": "mcp-a2a/a2a-agentcard.md",
+        "title": "AgentCard",
+        "description": "Die AgentCard ist die \"Visitenkarte\" eines A2A-Agenten. Sie wird als JSON unter `/.well-known/agent-card.json` bereitgestellt und ermoeglicht anderen Agenten und Clients, die Faehigkeiten des Agenten zu erkennen.",
+        "type": "text"
+      },
+      {
+        "path": "mcp-a2a/a2a.md",
+        "title": "A2A-Architektur: Komponenten, Protokoll und Scopes",
+        "description": "## Inhaltsverzeichnis",
         "type": "text"
       },
       {
@@ -959,7 +971,7 @@
     "name": "wlanboy.github.io",
     "description": "website",
     "url": "https://github.com/wlanboy/wlanboy.github.io",
-    "pushed_at": "2026-03-01T12:53:03Z",
+    "pushed_at": "2026-03-02T13:03:43Z",
     "readmes": [
       {
         "path": "README.md",

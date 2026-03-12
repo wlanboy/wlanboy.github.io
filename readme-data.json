@@ -522,6 +522,20 @@
     ]
   },
   {
+    "name": "python-sqlplus-checker",
+    "description": "Python based pl/sql sqlplus checker for devs",
+    "url": "https://github.com/wlanboy/python-sqlplus-checker",
+    "pushed_at": "2026-03-12T09:05:26Z",
+    "readmes": [
+      {
+        "path": "README.md",
+        "title": "sqlplus-checker",
+        "description": "Statische Analyse von Oracle SQL-Skripten auf SQLPlus-Kompatibilität.",
+        "type": "readme"
+      }
+    ]
+  },
+  {
     "name": "randomfail",
     "description": "Python based microservice that will return 500 responses every second request and failes the healtiness hcheck and readyness check randomly",
     "url": "https://github.com/wlanboy/randomfail",
@@ -971,7 +985,7 @@
     "name": "wlanboy.github.io",
     "description": "website",
     "url": "https://github.com/wlanboy/wlanboy.github.io",
-    "pushed_at": "2026-03-10T13:05:43Z",
+    "pushed_at": "2026-03-11T13:05:29Z",
     "readmes": [
       {
         "path": "README.md",

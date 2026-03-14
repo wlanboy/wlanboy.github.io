@@ -291,6 +291,13 @@
       "connections": ["micrometer", "grafana", "actuator"]
     },
     {
+      "id": "alertmanager",
+      "label": "Alertmanager",
+      "group": "observability",
+      "description": "Prometheus Alertmanager empfängt Firing-Alerts von Prometheus und übernimmt Routing, Grouping, Inhibition und Silencing. Routing: Alert-Rules in Prometheus definieren Schwellwerte (z.B. CPU > 90% für 5 Minuten), Alertmanager leitet per Receiver-Konfiguration weiter (Slack-Channel, PagerDuty, E-Mail). Grouping bündelt ähnliche Alerts zu einer Benachrichtigung – verhindert Alert-Flooding bei Kaskadenausfällen. Inhibition unterdrückt nachgelagerte Alerts wenn ein übergeordneter bereits feuert (z.B. Node down inhibiert alle Pod-Alerts desselben Nodes). Silencing schaltet Alerts zeitlich aus – nützlich für geplante Wartungsfenster. AlertmanagerConfig als Kubernetes-CRD ermöglicht namespace-scoped Routing-Konfiguration.",
+      "connections": ["prometheus-scrape", "remote-agent"]
+    },
+    {
       "id": "grafana",
       "label": "Grafana",
       "group": "observability",
@@ -299,10 +306,17 @@
     },
     {
       "id": "opentelemetry",
-      "label": "OpenTelemetry",
+      "label": "Open Telemetry",
       "group": "observability",
       "description": "OpenTelemetry (OTel) standardisiert Telemetrie-Daten: Traces, Metrics und Logs unter einem einheitlichen API/SDK. Java-Agent (opentelemetry-javaagent.jar) instrumentiert Spring Boot per Bytecode-Manipulation ohne Code-Änderungen – HTTP-Requests, JDBC-Queries, gRPC-Calls werden automatisch als Spans erfasst. OTLP (OpenTelemetry Protocol) überträgt Telemetrie an den OTel Collector. TraceContext-Propagation via W3C Trace Context Header (traceparent): jeder eingehende HTTP-Request erzeugt eine Span-ID, ausgehende Calls propagieren die Trace-ID weiter – ermöglicht lückenlose Request-Verfolgung über Microservice-Grenzen. A2A-Aufrufe zwischen Agenten propagieren den TraceContext ebenfalls, sodass ein vollständiger Agent-Aufrufbaum als einzelner Trace sichtbar wird.",
       "connections": ["micrometer", "tempo", "prometheus-scrape"]
+    },
+    {
+      "id": "otel-collector",
+      "label": "OTel Collector",
+      "group": "observability",
+      "description": "OpenTelemetry Collector ist der zentrale Telemetrie-Hub zwischen Applikationen und Backends. Pipeline-Architektur: Receivers nehmen Daten entgegen (OTLP/gRPC, OTLP/HTTP, Jaeger, Zipkin), Processors transformieren (Batch, MemoryLimiter, Attribute-Enrichment, Tail-Based Sampling), Exporters leiten weiter (otlp→Tempo, opensearch→OLK Stack, prometheus→Prometheus). Tail-Based Sampling trifft Sampling-Entscheidungen erst nach Abschluss eines Trace – ermöglicht 100% Retention bei Fehlern, Sampling nur bei erfolgreichen langsamen Requests. Deployment als DaemonSet (Agent-Modus, sammelt von lokalen Pods) oder Deployment (Gateway-Modus, zentraler Aggregationspunkt). Ersetzt Logstash im OLK-Stack: OTLP-Receiver + OpenSearch-Exporter ohne zusätzliche Pipeline-Konfiguration.",
+      "connections": ["opentelemetry", "tempo", "olk-stack", "opensearch-trace"]
     },
     {
       "id": "tempo",

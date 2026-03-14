@@ -144,6 +144,7 @@ header h1 {
   stroke-width: 1.5;
   transition: fill 0.3s, stroke 0.3s, stroke-width 0.3s;
 }
+.node-optional circle { stroke-dasharray: 6 3; }
 .node:hover circle { stroke-width: 2.5; }
 .node.selected circle { stroke-width: 2.5; }
 .node.connected circle { stroke-width: 2; }

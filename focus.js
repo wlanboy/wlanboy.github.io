@@ -151,6 +151,7 @@ function drawNodes(layer) {
     circle.setAttribute('cx', t.x);
     circle.setAttribute('cy', t.y);
     circle.setAttribute('r',  NODE_R);
+    if (t.optional) g.classList.add('node-optional');
     g.appendChild(circle);
 
     appendLabel(g, t.label, t.x, t.y);

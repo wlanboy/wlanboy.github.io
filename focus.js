@@ -15,6 +15,7 @@ const BLOB_PAD    = 28;    // extra space around outermost nodes
 
 let groups = [], topics = [], crossConnections = [];
 let selectedId = null;
+let selectedGroup = null;
 let svgW = 0, svgH = 0;
 
 // ─── Initialise ─────────────────────────────────────────────────────────────
@@ -54,14 +55,18 @@ async function init() {
 
   // Background click → deselect
   svg.addEventListener('click', e => {
-    if (e.target.tagName === 'svg' || e.target.id === 'graph-layer') deselect();
+    if (e.target.tagName === 'svg' || e.target.id === 'graph-layer') {
+      selectedGroup ? deselectGroup() : deselect();
+    }
   });
   document.getElementById('detail-close').addEventListener('click', deselect);
   document.addEventListener('keydown', e => { if (e.key === 'Escape') deselect(); });
   window.addEventListener('resize', () => {
     svgW = svg.clientWidth;
     svgH = svg.clientHeight;
-    selectedId ? centerOn(topics.find(t => t.id === selectedId)) : resetView();
+    if      (selectedId)    centerOn(topics.find(t => t.id === selectedId));
+    else if (selectedGroup) centerOnGroup(groups.find(g => g.id === selectedGroup));
+    else                    resetView();
   });
 }
 
@@ -88,6 +93,8 @@ function drawBlobs(layer) {
     el.setAttribute('ry', g.blobRy);
     el.classList.add('blob');
     el.dataset.group = g.id;
+    el.style.cursor = 'pointer';
+    el.addEventListener('click', e => { e.stopPropagation(); selectGroup(g.id); });
     layer.appendChild(el);
 
     const txt = svgEl('text');
@@ -97,6 +104,8 @@ function drawBlobs(layer) {
     txt.classList.add('group-label');
     txt.dataset.group = g.id;
     txt.textContent = g.label;
+    txt.style.cursor = 'pointer';
+    txt.addEventListener('click', e => { e.stopPropagation(); selectGroup(g.id); });
     layer.appendChild(txt);
   });
 }
@@ -223,6 +232,24 @@ function updateStyles() {
     });
   });
 
+  // Dim all groups except the selected one
+  if (selectedGroup) {
+    document.querySelectorAll('.node').forEach(n => {
+      if (n.dataset.group !== selectedGroup) n.classList.add('dim');
+    });
+    document.querySelectorAll('.blob').forEach(b => {
+      if (b.dataset.group !== selectedGroup) b.classList.add('dim');
+    });
+    document.querySelectorAll('.group-label').forEach(l => {
+      if (l.dataset.group !== selectedGroup) l.classList.add('dim');
+    });
+    document.querySelectorAll('.edge').forEach(e => {
+      const ta = topics.find(t => t.id === e.dataset.a);
+      const tb = topics.find(t => t.id === e.dataset.b);
+      if (!ta || !tb || ta.group !== selectedGroup || tb.group !== selectedGroup) e.classList.add('dim');
+    });
+  }
+
   if (!selectedId) return;
 
   const sel     = topics.find(t => t.id === selectedId);
@@ -267,6 +294,7 @@ function updateStyles() {
 // ─── Selection ──────────────────────────────────────────────────────────────
 
 function selectNode(id) {
+  selectedGroup = null;
   selectedId = id;
   const topic = topics.find(t => t.id === id);
   updateStyles();
@@ -276,6 +304,7 @@ function selectNode(id) {
 
 function deselect() {
   selectedId = null;
+  selectedGroup = null;
   updateStyles();
   resetView();
   document.getElementById('detail').classList.add('hidden');
@@ -289,6 +318,27 @@ function centerOn(topic) {
 function resetView() {
   const layer = document.getElementById('graph-layer');
   layer.style.transform = `translate(${svgW / 2}px, ${svgH / 2 - 20}px)`;
+}
+
+function selectGroup(id) {
+  if (selectedGroup === id) { deselectGroup(); return; }
+  selectedGroup = id;
+  selectedId = null;
+  document.getElementById('detail').classList.add('hidden');
+  updateStyles();
+  centerOnGroup(groups.find(g => g.id === id));
+}
+
+function deselectGroup() {
+  selectedGroup = null;
+  updateStyles();
+  resetView();
+}
+
+function centerOnGroup(g) {
+  const scale = 1.5;
+  const layer = document.getElementById('graph-layer');
+  layer.style.transform = `translate(${svgW / 2 - g.cx * scale}px, ${svgH / 2 - g.cy * scale}px) scale(${scale})`;
 }
 
 // ─── Detail Panel ────────────────────────────────────────────────────────────

@@ -319,6 +319,13 @@
       "connections": ["opentelemetry"]
     },
     {
+      "id": "node-exporter",
+      "label": "Node Exporter",
+      "group": "observability",
+      "description": "Prometheus Node Exporter sammelt Hardware- und Betriebssystem-Metriken von Linux-Hosts: CPU-Auslastung (node_cpu_seconds_total), Speicher (node_memory_MemAvailable_bytes), Festplatten-I/O (node_disk_read_bytes_total), Netzwerk (node_network_receive_bytes_total) und Dateisystem-Nutzung. Läuft als DaemonSet im Kubernetes-Cluster – jeder Node exponiert Metriken auf Port 9100. Prometheus scrapt alle Node-Exporter-Instanzen via ServiceMonitor oder statischer Scrape-Konfiguration. Ergänzt die JVM-Anwendungsmetriken (Micrometer) um die Host-Perspektive: Während Micrometer zeigt wie viel Heap die App nutzt, zeigt Node Exporter wie viel RAM der gesamte Kubernetes-Node noch frei hat. Typische Alerts: node_filesystem_avail_bytes < 10% (Disk full), node_load15 > Anzahl CPUs (Sustained high load), node_memory_MemAvailable_bytes < 512MB (Memory pressure).",
+      "connections": ["prometheus-scrape", "grafana"]
+    },
+    {
       "id": "opensearch-trace",
       "label": "OpenSearch Trace",
       "group": "observability",

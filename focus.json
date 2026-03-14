@@ -317,6 +317,14 @@
       "group": "observability",
       "description": "OLK Stack: OpenSearch + Logstash + Kibana – die OpenSearch-basierte Alternative zum klassischen ELK Stack. OpenSearch (Fork von Elasticsearch) speichert und indiziert Logs, Metriken und Traces als invertierter Index über JSON-Dokumente – Volltextsuche und Aggregationen über beliebige Felder. Logstash empfängt Telemetrie-Daten, transformiert sie per Filter-Pipeline (grok, mutate, date) und leitet sie an OpenSearch weiter. OpenTelemetry Collector kann direkt als Logstash-Ersatz fungieren: OTLP-Receiver nimmt Traces/Metrics/Logs entgegen, opensearch-Exporter schreibt ins OpenSearch-Backend. Kibana (OpenSearch Dashboards) visualisiert: Discover für Log-Explorer, Visualize für Aggregations-Charts, Dashboard für kombinierte Ansichten. Index Lifecycle Management (ILM) rotiert und archiviert Indices automatisch nach Alter oder Größe. Im Vergleich zu Loki: OLK indiziert alle Felder vollständig – schnellere Ad-hoc-Queries über beliebige Log-Felder, aber höherer Speicherbedarf.",
       "connections": ["opentelemetry"]
+    },
+    {
+      "id": "opensearch-trace",
+      "label": "OpenSearch Trace",
+      "group": "observability",
+      "optional": true,
+      "description": "OpenSearch Trace Analytics als Alternative zu Grafana Tempo. Data Prepper empfängt Spans via OTLP-Exporter des OpenTelemetry Collectors und schreibt sie in OpenSearch-Indices (ss4o – Simple Schema for Observability). Vorteil: Traces, Logs und Metriken im selben OpenSearch-Backend – keine separate Tempo-Instanz nötig. OpenSearch Dashboards (Kibana) visualisiert Traces im Trace Analytics Plugin: Service Map zeigt Abhängigkeiten und Latenz zwischen Services, Trace-Detail-Ansicht entspricht dem Waterfall-View von Jaeger/Tempo. TraceQL-äquivalente Filterung über OpenSearch Query DSL. Konsequente Wahl wenn der OLK Stack bereits im Einsatz ist.",
+      "connections": ["opentelemetry", "olk-stack"]
     }
   ],
 

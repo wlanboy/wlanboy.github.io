@@ -1,8 +1,9 @@
 {
   "groups": [
-    { "id": "jvm",    "label": "JVM Builds",       "cx": -285, "cy": -160 },
-    { "id": "argocd", "label": "ArgoCD / GitOps",   "cx":  285, "cy": -160 },
-    { "id": "mcp",    "label": "A2A + MCP",          "cx":    0, "cy":  205 }
+    { "id": "jvm",           "label": "JVM Builds",       "cx": -285, "cy": -160 },
+    { "id": "argocd",        "label": "ArgoCD / GitOps",   "cx":  285, "cy": -160 },
+    { "id": "mcp",           "label": "A2A + MCP",          "cx": -285, "cy":  260 },
+    { "id": "observability", "label": "Observability",       "cx":  285, "cy":  260 }
   ],
   "topics": [
 
@@ -25,7 +26,7 @@
       "label": "Java Modules",
       "group": "jvm",
       "description": "jlink benötigt eine explizite Modulliste: jdeps liefert die App-Module via modules.txt, zusätzliche Module werden manuell ergänzt. java.base (immer nötig), jdk.crypto.ec (TLS/EC-Kryptografie), jdk.charsets (UTF-8-only String-Handling). java.desktop: PropertyEditorSupport von Spring. java.management + jdk.management: JMX, Metriken und GC-Notifications. jdk.zipfs: JAR-Dateizugriff zur Laufzeit (z.B. Swagger). java.instrument: Bytecode-Instrumentierung. java.sql: JPA-Typen (java.sql.Date). java.naming: JNDI-Konfiguration von Jetty. jdk.unsupported: sun.misc.Unsafe, genutzt von Objenesis/CGLIB. java.security.jgss + java.security.sasl: GSSAPI/Kerberos (org.ietf.jgss.GSSException).",
-      "connections": ["jlink", "jdeps", "zgc"]
+      "connections": ["jlink", "jdeps", "zgc", "prometheus-scrape"]
     },
     {
       "id": "cds-base",
@@ -266,6 +267,56 @@
       "group": "mcp",
       "description": "ONNX Runtime mit all-MiniLM-L6-v2 erzeugt 384-dimensionale Sentence-Embeddings für semantische Codesuche – lokal, ohne externen Embedding-Service. sqlite-vec speichert Vektoren direkt in SQLite. FindSimilarCodeByIntent sucht per natürlichsprachiger Beschreibung, FindSimilarCodeBySnippet per Code-Snippet (KNN-Suche).",
       "connections": ["mcp-codesearch"]
+    },
+
+    {
+      "id": "actuator",
+      "label": "Spring Actuator",
+      "group": "observability",
+      "description": "Spring Boot Actuator exponiert HTTP-Endpunkte für Health, Metrics, Info und mehr. /actuator/health liefert detaillierten Zustand aller Health-Indikatoren (DB, Cache, Upstream-Services). /actuator/prometheus stellt alle Micrometer-Metriken im Prometheus-Textformat bereit – der primäre Scrape-Endpunkt. /actuator/info zeigt Build-Metadaten (Git-Commit, Version, Build-Zeitstempel) aus dem Maven-Build-Prozess. management.endpoints.web.exposure.include steuert welche Endpunkte erreichbar sind. Im distroless-Container läuft Actuator typisch auf separatem Management-Port (8081), damit der Haupt-Port (8080) unabhängig gesichert werden kann.",
+      "connections": ["micrometer", "prometheus-scrape", "java-modules"]
+    },
+    {
+      "id": "micrometer",
+      "label": "Micrometer",
+      "group": "observability",
+      "description": "Micrometer ist die Metriken-Fassade für JVM-Anwendungen – analog zu SLF4J für Logging. Kernkonzepte: Counter (monoton steigend, z.B. HTTP-Requests), Gauge (aktueller Wert, z.B. aktive Verbindungen), Timer (Latenz + Throughput kombiniert), DistributionSummary (Histogramme). Tags (Dimensions) erlauben mehrdimensionale Filterung in Prometheus/Grafana ohne separate Metriken pro Dimension. MeterRegistry ist der zentrale Sammelknoten – PrometheusMeterRegistry serialisiert in Prometheus-Textformat. Automatische JVM-Metriken: GC-Pausen (ZGC-spezifisch: zgc.*, pause.*), Heap/Non-Heap-Nutzung, Thread-Status, ClassLoader, CPU-Auslastung. Spring Boot Actuator registriert automatisch HTTP-Server-Metriken (http.server.requests) mit Methode, URI, Status-Tags. layered-jar enthält Micrometer in der observability-dependencies-Schicht – eigener Release-Zyklus ohne App-Code-Änderung aktualisierbar.",
+      "connections": ["actuator", "prometheus-scrape", "opentelemetry", "java-modules"]
+    },
+    {
+      "id": "prometheus-scrape",
+      "label": "Prometheus",
+      "group": "observability",
+      "description": "Prometheus scrapt HTTP-Endpunkte im Pull-Modell – Gegensatz zu Push-basierten Systemen. ServiceMonitor (Prometheus Operator) definiert welche Kubernetes-Services gescrapt werden: matchLabels wählt Services, endpoints.path=/actuator/prometheus, interval=15s. Prometheus speichert Zeitreihen als TSDB (Time Series Database) mit Label-Dimensionen. PromQL (Prometheus Query Language) aggregiert über Labels: rate(http_server_requests_seconds_count[5m]) ergibt Requests/Sekunde, histogram_quantile(0.99, ...) das 99. Perzentil. Recording Rules materialisieren häufig benötigte PromQL-Ausdrücke als neue Zeitreihen – reduziert Query-Zeit in Grafana-Dashboards. Alertmanager empfängt Firing-Alerts von Prometheus und routet per Receiver-Konfiguration (PagerDuty, Slack, E-Mail).",
+      "connections": ["micrometer", "grafana", "actuator"]
+    },
+    {
+      "id": "grafana",
+      "label": "Grafana",
+      "group": "observability",
+      "description": "Grafana visualisiert Metriken (Prometheus), Logs (Loki) und Traces (Tempo) in einem einheitlichen UI – die drei Säulen der Observability. Dashboard-as-Code: JSON-Modell erlaubt Dashboards in Git zu versionieren und per Grafana Operator automatisch zu deployen. Exemplars verbinden Metriken direkt mit Traces: ein Datenpunkt in einem Latenz-Histogram enthält eine Trace-ID, ein Klick springt zum konkreten Request-Trace in Tempo. Korrelation via Label-Konventionen: service_name in Prometheus = service_name in Loki = service.name in OpenTelemetry – Grafana verknüpft automatisch. Grafana Alloy (ehemals Grafana Agent) läuft als DaemonSet, scrapt Logs via Kubernetes API und leitet an Loki weiter.",
+      "connections": ["prometheus-scrape", "tempo"]
+    },
+    {
+      "id": "opentelemetry",
+      "label": "OpenTelemetry",
+      "group": "observability",
+      "description": "OpenTelemetry (OTel) standardisiert Telemetrie-Daten: Traces, Metrics und Logs unter einem einheitlichen API/SDK. Java-Agent (opentelemetry-javaagent.jar) instrumentiert Spring Boot per Bytecode-Manipulation ohne Code-Änderungen – HTTP-Requests, JDBC-Queries, gRPC-Calls werden automatisch als Spans erfasst. OTLP (OpenTelemetry Protocol) überträgt Telemetrie an den OTel Collector. TraceContext-Propagation via W3C Trace Context Header (traceparent): jeder eingehende HTTP-Request erzeugt eine Span-ID, ausgehende Calls propagieren die Trace-ID weiter – ermöglicht lückenlose Request-Verfolgung über Microservice-Grenzen. A2A-Aufrufe zwischen Agenten propagieren den TraceContext ebenfalls, sodass ein vollständiger Agent-Aufrufbaum als einzelner Trace sichtbar wird.",
+      "connections": ["micrometer", "tempo", "prometheus-scrape"]
+    },
+    {
+      "id": "tempo",
+      "label": "Tempo",
+      "group": "observability",
+      "description": "Grafana Tempo speichert Distributed Traces im OTLP-Format – skalierbar auf Objektspeicher (S3/GCS/MinIO). Traces bestehen aus Spans: jeder Span hat TraceID, SpanID, ParentSpanID, Service-Name, Operation-Name, Start/End-Zeit und Attributes (HTTP-Status, DB-Query, Error). TraceQL ermöglicht Trace-Suche: {.http.status_code=500 && duration > 1s} findet alle fehlerhaften, langsamen Requests. Integration mit Grafana: Exemplars in Prometheus-Metriken enthalten TraceIDs – ein Klick auf einen Ausreißer-Datenpunkt öffnet direkt den zugehörigen Trace. OTel Collector routet Spans an Tempo weiter und kann Sampling-Strategien anwenden (Head/Tail-Based Sampling).",
+      "connections": ["opentelemetry", "grafana"]
+    },
+    {
+      "id": "olk-stack",
+      "label": "OLK Stack",
+      "group": "observability",
+      "description": "OLK Stack: OpenSearch + Logstash + Kibana – die OpenSearch-basierte Alternative zum klassischen ELK Stack. OpenSearch (Fork von Elasticsearch) speichert und indiziert Logs, Metriken und Traces als invertierter Index über JSON-Dokumente – Volltextsuche und Aggregationen über beliebige Felder. Logstash empfängt Telemetrie-Daten, transformiert sie per Filter-Pipeline (grok, mutate, date) und leitet sie an OpenSearch weiter. OpenTelemetry Collector kann direkt als Logstash-Ersatz fungieren: OTLP-Receiver nimmt Traces/Metrics/Logs entgegen, opensearch-Exporter schreibt ins OpenSearch-Backend. Kibana (OpenSearch Dashboards) visualisiert: Discover für Log-Explorer, Visualize für Aggregations-Charts, Dashboard für kombinierte Ansichten. Index Lifecycle Management (ILM) rotiert und archiviert Indices automatisch nach Alter oder Größe. Im Vergleich zu Loki: OLK indiziert alle Felder vollständig – schnellere Ad-hoc-Queries über beliebige Log-Felder, aber höherer Speicherbedarf.",
+      "connections": ["opentelemetry"]
     }
   ],
 
@@ -274,6 +325,11 @@
       "from": "kaniko",
       "to": "multi-stage",
       "label": "baut Dockerfile"
+    },
+    {
+      "from": "remote-agent",
+      "to": "opentelemetry",
+      "label": "TraceContext Propagation"
     }
   ]
 }

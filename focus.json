@@ -394,6 +394,21 @@
       "from": "remote-agent",
       "to": "opentelemetry",
       "label": "TraceContext Propagation"
+    },
+    {
+      "from": "remote-agent",
+      "to": "argo-workflow",
+      "label": "triggert Builds"
+    },
+    {
+      "from": "remote-agent",
+      "to": "argo-apps",
+      "label": "fragt Sync-Status ab"
+    },
+    {
+      "from": "remote-agent",
+      "to": "sensor",
+      "label": "sendet Events"
     }
   ]
 }

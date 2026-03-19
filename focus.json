@@ -1,9 +1,10 @@
 {
   "groups": [
-    { "id": "jvm",           "label": "JVM Builds",       "cx": -285, "cy": -160 },
-    { "id": "argocd",        "label": "ArgoCD / GitOps",   "cx":  285, "cy": -160 },
-    { "id": "mcp",           "label": "A2A + MCP",          "cx": -285, "cy":  260 },
-    { "id": "observability", "label": "Observability",       "cx":  285, "cy":  260 }
+    { "id": "jvm",           "label": "JVM Builds",       "cx": -380, "cy": -124 },
+    { "id": "argocd",        "label": "ArgoCD / GitOps",   "cx":  380, "cy": -124 },
+    { "id": "mcp",           "label": "A2A + MCP",          "cx": -235, "cy":  324 },
+    { "id": "observability", "label": "Observability",       "cx":  235, "cy":  324 },
+    { "id": "servicemesh",   "label": "Service Mesh",        "cx":    0, "cy": -400, "color": "#C62828" }
   ],
   "topics": [
 
@@ -381,6 +382,98 @@
       "optional": true,
       "description": "OpenSearch Trace Analytics als Alternative zu Grafana Tempo. Data Prepper empfängt Spans via OTLP-Exporter des OpenTelemetry Collectors und schreibt sie in OpenSearch-Indices (ss4o – Simple Schema for Observability). Vorteil: Traces und Logs im selben OpenSearch-Backend – keine separate Tempo-Instanz nötig. OpenSearch Dashboards (Kibana) visualisiert Traces im Trace Analytics Plugin: Service Map zeigt Abhängigkeiten und Latenz zwischen Services, Trace-Detail-Ansicht entspricht dem Waterfall-View von Jaeger/Tempo. TraceQL-äquivalente Filterung über OpenSearch Query DSL. Grafana kann Opensearch auch als Datenquelle für Traces nutzen. Konsequente Wahl wenn der OLK Stack bereits im Einsatz ist.",
       "connections": ["opentelemetry", "olk-stack", "grafana"]
+    },
+
+    {
+      "id": "istio",
+      "label": "Istio",
+      "group": "servicemesh",
+      "description": "Istio ist die führende Service-Mesh-Implementierung für Kubernetes. Control Plane: istiod bündelt Pilot (xDS-Konfiguration an Envoy-Proxies), Citadel (Zertifikatsverwaltung via SPIFFE/X.509) und Galley (Konfigurationsvalidierung). Data Plane: Envoy-Sidecar-Proxies werden automatisch via MutatingWebhookConfiguration in jeden Pod injiziert – Anwendungscode bleibt unverändert. Istio interceptet allen Traffic via iptables-Rules und leitet ihn durch den Envoy-Proxy. Ermöglicht mTLS, Traffic Management, Observability und Access Control ohne Anwendungsänderungen. Ambient Mode als Alternative: ztunnel-Proxy auf Node-Ebene (L4) und optionale Waypoint Proxies (L7) ohne Sidecar-Injection.",
+      "connections": ["envoy", "mtls", "traffic-management", "vm-integration", "ingress-gateway", "egress-gateway", "authorization-policy"]
+    },
+    {
+      "id": "envoy",
+      "label": "Envoy Proxy",
+      "group": "servicemesh",
+      "description": "Envoy Proxy ist der Data-Plane-Proxy von Istio – läuft als Sidecar-Container in jedem Pod. xDS-API (Discovery Services): Pilot schickt Konfigurationsänderungen via gRPC an alle Envoy-Instanzen (Listener Discovery Service, Route Discovery Service, Cluster Discovery Service, Endpoint Discovery Service). Envoy implementiert: HTTP/2 und gRPC nativ, Retry-Logik, Circuit Breaker, Health Checks, Load Balancing (Round Robin, Least Request, Random). Admin-API auf Port 15000: /config_dump zeigt vollständige xDS-Konfiguration, /clusters listet alle Upstream-Services mit Health-Status – unverzichtbar für Debugging. Interceptet Traffic transparent via iptables ohne Anwendungsänderung.",
+      "connections": ["istio", "mtls", "virtual-service", "authorization-policy"]
+    },
+    {
+      "id": "mtls",
+      "label": "mTLS",
+      "group": "servicemesh",
+      "description": "Mutual TLS sichert die gesamte Service-zu-Service-Kommunikation im Mesh automatisch. istiod betreibt eine interne CA und stellt jedem Workload ein SPIFFE-konformes X.509-Zertifikat aus (SVID: spiffe://cluster.local/ns/default/sa/myservice). Zertifikate rotieren automatisch alle 24h ohne Neustart. PeerAuthentication definiert den mTLS-Modus pro Namespace oder Workload: STRICT (nur mTLS, plaintext abgelehnt), PERMISSIVE (mTLS und plaintext – nützlich für schrittweise Migration), DISABLE. Im STRICT-Modus ist jede Verbindung authentifiziert und verschlüsselt ohne separates TLS-Setup in der Anwendung.",
+      "connections": ["istio", "envoy", "authorization-policy", "network-segmentation"]
+    },
+    {
+      "id": "virtual-service",
+      "label": "VirtualService",
+      "group": "servicemesh",
+      "description": "VirtualService definiert Routing-Regeln für Traffic zu einem Service. Header-basiertes Routing: Requests mit Header x-version: canary werden auf Subset v2 geleitet. Gewichtsbasiertes Routing: 90% auf v1, 10% auf v2 – Grundlage für Canary Deployments. URI-Prefix-Matching und Regex-Matching. Rewrite-Rules: URI-Pfade umschreiben bevor der Request den Upstream erreicht. Mirror: Traffic-Spiegelung auf einen Shadow-Service ohne Auswirkung auf den Antwortpfad – Shadow Testing neuer Versionen mit Produktionstraffic ohne Risiko. VirtualService bindet an einen oder mehrere Gateways oder wirkt cluster-intern zwischen Services.",
+      "connections": ["traffic-management", "canary", "ingress-gateway", "egress-gateway", "envoy"]
+    },
+    {
+      "id": "traffic-management",
+      "label": "Traffic Management",
+      "group": "servicemesh",
+      "description": "Istio Traffic Management steuert den Datenfluss zwischen Services über VirtualServices und DestinationRules. DestinationRule definiert Subsets (z.B. version: v1, version: v2 via Label-Selektor) und Traffic-Policies pro Subset: Connection Pool (max. gleichzeitige Requests), Outlier Detection (Circuit Breaker – Service-Instanzen bei Fehlerquote aus Rotation nehmen), Load Balancing Algorithmus. Retries: Automatische Wiederholungsversuche bei 5xx-Fehlern konfigurierbar. Timeouts pro Route. Fault Injection: httpFault.delay injiziert künstliche Latenz, httpFault.abort simuliert HTTP-Fehler – Resilience-Tests ohne Codeänderung.",
+      "connections": ["virtual-service", "canary", "ingress-gateway", "egress-gateway", "istio"]
+    },
+    {
+      "id": "canary",
+      "label": "Canary / Migration",
+      "group": "servicemesh",
+      "description": "Canary Deployments mit Istio ermöglichen schrittweise Migrationen zwischen Plattformen oder Service-Versionen ohne Downtime. Muster: Beide Versionen laufen parallel, VirtualService verteilt Traffic gewichtsbasiert (95/5 → 80/20 → 50/50 → 0/100). Plattform-Migration: Altlast läuft on-premise via VM Integration oder ServiceEntry, neue Version im Kubernetes-Cluster – Istio routet Traffic gesteuert um, Rollback in Sekunden durch Gewichtsanpassung im VirtualService. Header-basiertes Canary: Interne Tests mit x-canary: true Header, 100% Produktionstraffic bleibt auf v1. Kiali visualisiert Traffic-Verteilung und Fehlerquoten pro Version live.",
+      "connections": ["virtual-service", "traffic-management", "vm-integration"]
+    },
+    {
+      "id": "vm-integration",
+      "label": "VM Integration",
+      "group": "servicemesh",
+      "description": "Istio VM Integration bindet nicht-containerisierte Workloads (VMs, Bare Metal, Legacy-Systeme) in das Service Mesh ein. WorkloadEntry definiert eine VM als Mesh-Teilnehmer (IP-Adresse, Labels, ServiceAccount). WorkloadGroup ist das VM-Äquivalent zu einem Deployment (Template für mehrere VMs desselben Typs). Istio-Agent auf der VM übernimmt: Zertifikatsverwaltung (SPIFFE-SVID via istiod), iptables-Interception analog zum Kubernetes-Sidecar, xDS-Konfiguration von Pilot. Ergebnis: VMs partizipieren an mTLS, Traffic Management und AuthorizationPolicies wie native Kubernetes-Pods. Schlüsselkomponente für Cloud-Migrationen: Legacy-VMs bleiben im Mesh und werden iterativ zu Kubernetes-Services migriert.",
+      "connections": ["istio", "service-entry", "canary", "mtls"]
+    },
+    {
+      "id": "loadbalancer-replacement",
+      "label": "Ablösung Load Balancer",
+      "group": "servicemesh",
+      "description": "Istio Ingress Gateway ersetzt klassische externe Load Balancer (AWS ALB, F5, nginx-Ingress). Konsolidierung: statt eines Load Balancers pro Microservice ein einzelner Istio Ingress Gateway mit N VirtualServices – drastische Kostenreduktion und vereinfachte Zertifikatsverwaltung. Vorteil gegenüber klassischen Load Balancern: L7-Routing-Logik (Header, URI, Gewichte), mTLS auch für externe Clients via Gateway-TLS-Mode MUTUAL, einheitliche Observability aller Ingress-Metriken in Prometheus ohne Log-Parsing. Wildcard-Hosts und SNI-basiertes Routing für Multi-Tenant-Setups. cert-manager erstellt TLS-Secrets automatisch, Gateway referenziert sie via credentialName.",
+      "connections": ["ingress-gateway", "istio"]
+    },
+    {
+      "id": "network-segmentation",
+      "label": "Netzwerksegmentierung",
+      "group": "servicemesh",
+      "description": "Netzwerksegmentierung im Service Mesh ersetzt klassische VLAN/Firewall-Regeln durch Policy-as-Code. AuthorizationPolicy definiert wer (source.principal, source.namespace) wen (destination.host) auf welchem Pfad (HTTP-Methode, URI) aufrufen darf – L7-Granularität statt IP/Port-Regeln. Zero-Trust-Netzwerk: Default-Deny-Policy blockiert allen Traffic, explizite Allow-Policies öffnen nur notwendige Kommunikationspfade. Namespace-Isolation: PeerAuthentication STRICT und AuthorizationPolicy verhindern namespace-übergreifende Aufrufe ohne explizite Freigabe. Auditierbar: Policies als Kubernetes-CRDs in Git versioniert – Compliance-Nachweis durch Git-History.",
+      "connections": ["mtls", "authorization-policy"]
+    },
+    {
+      "id": "authorization-policy",
+      "label": "AuthorizationPolicy",
+      "group": "servicemesh",
+      "description": "AuthorizationPolicy ist Istios L7-Zugriffskontrolle – feingranularer Ersatz für Netzwerk-Firewalls. Regelstruktur: from (Quell-Principal, Namespace, IP), to (Operation: Methode, Pfad, Port), when (Bedingungen: JWT-Claims, Header-Werte). Action: ALLOW, DENY oder AUDIT. SPIFFE-Identitäten als Quelle: source.principal=cluster.local/ns/frontend/sa/frontend-sa statt IP-Adressen – identitätsbasiert statt netzwerkbasiert. JWT-Integration: when.key=request.auth.claims[role] value=admin erlaubt Admin-Endpoints nur für authentifizierte Admin-Nutzer. Dry-Run-Modus via Annotation: Policies testen ohne Traffic zu blockieren, Verstöße nur loggen.",
+      "connections": ["istio", "envoy", "mtls", "network-segmentation"]
+    },
+    {
+      "id": "service-entry",
+      "label": "ServiceEntry",
+      "group": "servicemesh",
+      "description": "ServiceEntry integriert externe Services in das Istio Service Mesh – macht externe Hosts für Mesh-Policies sichtbar. Anwendungsfälle: externe APIs (api.payment.com), Legacy-Datenbanken außerhalb des Clusters, Services auf VMs via WorkloadEntry. Ohne ServiceEntry: Egress-Traffic ist unkontrolliert, keine mTLS-Terminierung, keine Retry-Logik, kein Monitoring. Mit ServiceEntry: Egress Gateway leitet Traffic durch kontrollierte Ausgangspunkte, DestinationRule konfiguriert TLS-Origination (Istio baut TLS zur externen API auf), VirtualService definiert Timeouts und Retries auch für externe Calls. Resolution-Modi: DNS, STATIC (feste IPs), NONE (passthrough).",
+      "connections": ["egress-gateway", "vm-integration", "istio"]
+    },
+    {
+      "id": "ingress-gateway",
+      "label": "Ingress Gateway",
+      "group": "servicemesh",
+      "description": "Istio Ingress Gateway kontrolliert eingehenden Traffic in das Cluster. Gateway-Ressource definiert welche Hosts und Ports akzeptiert werden sowie TLS-Konfiguration (SIMPLE, MUTUAL, PASSTHROUGH). VirtualService bindet an den Gateway und definiert internes Routing. Zertifikatsverwaltung: cert-manager erstellt TLS-Secrets, Gateway referenziert sie via credentialName. Multi-Cluster: Ingress Gateway als einheitlicher Einstiegspunkt für Services die über mehrere Cluster verteilt sind. Observability: alle Ingress-Metriken (Requests, Latenz, Fehlerquoten) fließen automatisch in Prometheus – kein separates Log-Parsing nötig.",
+      "connections": ["istio", "virtual-service", "traffic-management", "loadbalancer-replacement"]
+    },
+    {
+      "id": "egress-gateway",
+      "label": "Egress Gateway",
+      "group": "servicemesh",
+      "description": "Istio Egress Gateway kontrolliert ausgehenden Traffic aus dem Cluster zu externen Services. Ohne Egress Gateway: Pods kommunizieren direkt mit externen APIs – unkontrolliert, unprotokolliert, nicht auditierbar. Mit Egress Gateway: aller externer Traffic wird durch einen dedizierten Gateway-Pod geleitet (Whitelist-Prinzip). ServiceEntry definiert erlaubte externe Hosts, VirtualService routet matching Traffic zum Egress Gateway, dort werden Policies angewendet. TLS-Origination: Istio übernimmt den TLS-Aufbau zur externen API – interne Services kommunizieren plaintext zum Egress Gateway, Gateway baut TLS auf. Compliance: vollständige Protokollierung aller externen Verbindungen an einem zentralen Punkt.",
+      "connections": ["istio", "virtual-service", "service-entry", "traffic-management"]
     }
   ],
 

@@ -91,6 +91,13 @@
       "description": "BuildKit Mount-Cache (--mount=type=cache,target=/root/.m2) persistiert das lokale Maven-Repository zwischen Docker-Build-Runs. dependency:go-offline lädt alle Abhängigkeiten vorab in den Cache. Folge-Builds brauchen keine Netzwerkzugriffe für bekannte Artefakte – deutlich schnellere CI-Builds.",
       "connections": ["multi-stage"]
     },
+    {
+      "id": "entrypoint-sh",
+      "label": "entrypoint.sh",
+      "group": "jvm",
+      "description": "entrypoint.sh orchestriert den JVM-Start des Spring Boot Containers und kombiniert alle Laufzeit-Optimierungen an einem Ort. -Dspring.aot.enabled=true aktiviert den AOT-Pfad, -XX:SharedArchiveFile=app.jsa lädt das AppCDS-Archiv direkt beim Start. -XX:+UseZGC setzt den Garbage Collector, -XX:MaxRAMPercentage=80 begrenzt den Heap auf Container-Speicher-Anteil statt absoluter Größe, -XX:+ExitOnOutOfMemoryError beendet den Prozess bei OOM für sauberes Kubernetes-Restart. org.springframework.boot.loader.launch.JarLauncher startet die Anwendung aus den extrahierten Layered-JAR-Verzeichnissen (dependencies/, application/ etc.). Die Kombination von AOT, AppCDS und ZGC minimiert Startup-Zeit und Speicherverbrauch messbar.",
+      "connections": ["spring-aot", "app-cds", "zgc", "layered-jar"]
+    },
 
     {
       "id": "argo-workflow",
@@ -149,13 +156,6 @@
       "connections": ["argo-workflow", "sensor"]
     },
     {
-      "id": "cache-registry",
-      "label": "Cache Registry",
-      "group": "argocd",
-      "description": "Eine lokale In-Cluster-Registry (z.B. registry:2 oder Zot) löst zwei Probleme gleichzeitig. Erstens: Docker Hub Rate Limits – der Kind-Cluster zieht bei jedem Build den Kaniko-Executor (gcr.io/kaniko-project/executor:latest) und den Alpine-Git-Container (docker.io/alpine/git:latest) neu. Containerd-Mirror-Konfiguration in kind-local.yaml leitet Pull-Anfragen an die lokale Registry um: containerd cached die Images nach dem ersten Pull und bedient Folge-Anfragen ohne externen Netzwerkzugriff. Zweitens: Kaniko Layer-Cache – ohne Cache baut Kaniko bei jedem Workflow-Run alle Image-Layer neu auf. Mit --cache=true und --cache-repo=registry.local:5000/kaniko-cache speichert Kaniko die gecachten Layer in der lokalen Registry. Folge-Builds überspringen unveränderte Layer und werden deutlich schneller. Setup: Docker-Container mit registry:2 im kind-Netzwerk deployen, Kind-Nodes via containerd-Konfiguration (mirrors) darauf zeigen, Kaniko-Workflow-Args um --cache=true und --cache-repo erweitern. Das regcred-Secret bleibt für Docker Hub Push bestehen – die Cache-Registry ist nur für Pull und Layer-Storage zuständig.",
-      "connections": ["kaniko", "argo-workflow", "multi-stage", "layered-jar"]
-    },
-    {
       "id": "argo-apps",
       "label": "ArgoCD Apps",
       "group": "argocd",
@@ -168,6 +168,27 @@
       "group": "argocd",
       "description": "ArgoCD Projects scopen und isolieren Application-Gruppen. Definieren erlaubte Source-Repos, Destination-Cluster und Namespaces. selector.py automatisiert die Projekt-Zuweisung von Applications über Label-Selektoren – neuen Services werden automatisch dem richtigen Projekt zugeordnet.",
       "connections": ["argo-apps"]
+    },
+    {
+      "id": "helm",
+      "label": "Helm",
+      "group": "argocd",
+      "description": "Helm ist der Paketmanager für Kubernetes-Anwendungen. Chart-Struktur: Chart.yaml (Metadaten), values.yaml (konfigurierbare Defaults), templates/ (Kubernetes-Manifeste als Go-Templates). GitOps-Integration: git-update committed den neuen image.tag direkt in values.yaml – ArgoCD erkennt die Änderung und synct den Cluster automatisch. OCI Registry für Helm Charts: Seit Helm 3.8 können Charts als OCI-Artefakte in jeder Container-Registry gespeichert werden (docker.io, ghcr.io oder lokale Registry). helm push myapp/ oci://registry.local:5000/charts, helm pull oci://registry.local:5000/charts/myapp. Vorteil: eine einzige Registry für Container-Images und Helm-Charts mit einheitlicher Authentifizierung via regcred. Kein separater Chart-Repository-Server nötig – Standard OCI-Pull/Push-Semantik. ArgoCD unterstützt OCI-Helm-Repos direkt als Repository-Konfiguration (type: oci). Helm-Hooks (pre-install, post-upgrade) ermöglichen Datenbankmigrationen oder Smoke-Tests als Teil des Deployment-Zyklus.",
+      "connections": ["argo-apps", "git-update", "cluster-registry"]
+    },
+    {
+      "id": "cluster-registry",
+      "label": "Cluster Registry",
+      "group": "argocd",
+      "description": "In-Cluster-Registry (registry:2 oder Zot) als Containerd-Mirror für den Kind-Cluster. Löst Docker Hub Rate Limits: containerd-Mirror-Konfiguration in kind-local.yaml leitet alle Pull-Anfragen (gcr.io/kaniko-project/executor, docker.io/alpine/git) über die lokale Registry um. Nach dem ersten Pull bedient die Registry alle Folge-Anfragen ohne externen Netzwerkzugriff – kein Throttling durch Docker Hub. Setup: Registry-Container im kind-Netzwerk deployen, Kind-Nodes per containerd-Konfiguration (registry.mirrors) auf die lokale Registry zeigen. Das regcred-Secret bleibt für Docker Hub Push bestehen – die Cluster-Registry übernimmt nur den Pull-Pfad.",
+      "connections": ["kaniko", "argo-workflow", "helm", "kaniko-layer-cache"]
+    },
+    {
+      "id": "kaniko-layer-cache",
+      "label": "Kaniko Layer Cache",
+      "group": "argocd",
+      "description": "Kaniko Layer-Cache in der Cluster-Registry beschleunigt Folge-Builds durch Wiederverwendung unveränderter Image-Layer. --cache=true aktiviert den Layer-Cache, --cache-repo=registry.local:5000/kaniko-cache speichert gecachte Layer in der lokalen Registry. Kaniko vergleicht beim Build Layer-Hash-Werte: unveränderte Basis-Layer (distroless/cc, Custom-JRE) werden aus dem Cache gelesen statt neu gebaut. Zusammenspiel mit Layered-JAR: stabile dependency-Layer werden gecacht, nur der sich ändernde application-Layer muss bei jedem Build neu erstellt werden. Folge-Builds überspringen alle unveränderten Layer – deutlich kürzere Workflow-Laufzeiten.",
+      "connections": ["kaniko", "multi-stage", "layered-jar", "cluster-registry"]
     },
 
     {
@@ -203,7 +224,7 @@
       "label": "Remote Agent",
       "group": "mcp",
       "description": "RemoteAgentTool macht einen A2A-Server als lokales Spring AI Tool nutzbar. ChatClient kann via Tool-Call an beliebige Remote-Agenten delegieren. AgentCard-Discovery beim ersten Aufruf, danach gecacht. Verbindet das A2A-Protokoll mit dem Spring AI Tool-Framework – ein Agent kann andere Agenten als Tools nutzen.",
-      "connections": ["a2a-client", "a2a-protocol", "task-lifecycle", "mcp-openapi", "mcp-websearch", "mcp-md-search"]
+      "connections": ["a2a-client", "a2a-protocol", "task-lifecycle", "mcp-openapi", "mcp-websearch", "mcp-md-search", "spring-ai"]
     },
     {
       "id": "mcp-server",
@@ -255,6 +276,13 @@
       "connections": ["mcp-server", "mcp-tools", "sqlite", "remote-agent"]
     },
     {
+      "id": "spring-ai",
+      "label": "Spring AI",
+      "group": "mcp",
+      "description": "Spring AI ist das offizielle Spring-Framework für AI-Anwendungen – AI-Abstraktion für Java analog zu LangChain in Python. Kernkonzepte: ChatClient als fluente API für LLM-Interaktionen (withSystem, withUser, withTools), ToolCallbackProvider registriert Tools am ChatClient, @Tool-Annotierungen generieren automatisch JSON-Schema aus Java-Methoden. MCP-Integration via spring-ai-mcp-server-spring-boot-starter (SSE-Transport) und spring-ai-mcp-client für externe MCP-Server. Advisor-Pattern: RequestResponseAdvisor kapselt Querschnittsbelange (Logging, Retry, RAG-Kontext-Anreicherung) transparent um den ChatClient. Geplante Unterstützung: A2A-Protokoll als nativer Transport neben MCP (Google Agent2Agent), Streaming-Verbesserungen für lange Agenten-Ketten via Reactive Streams, strukturierter Output via Bean-Validation direkt aus LLM-Antworten, Vector Store Integration für RAG-Pipelines (PGVector, Chroma, Redis), erweiterte Multimodalität (Bild/Audio als ChatMessage-Parts), Kotlin Coroutines-kompatibles API für nicht-blockierende Agenten-Orchestrierung.",
+      "connections": ["mcp-server", "remote-agent", "a2a-protocol", "mcp-tools"]
+    },
+    {
       "id": "sqlite",
       "label": "SQLite",
       "group": "mcp",
@@ -295,14 +323,14 @@
       "label": "Alertmanager",
       "group": "observability",
       "description": "Prometheus Alertmanager empfängt Firing-Alerts von Prometheus und übernimmt Routing, Grouping, Inhibition und Silencing. Routing: Alert-Rules in Prometheus definieren Schwellwerte (z.B. CPU > 90% für 5 Minuten), Alertmanager leitet per Receiver-Konfiguration weiter (Slack-Channel, PagerDuty, E-Mail). Grouping bündelt ähnliche Alerts zu einer Benachrichtigung – verhindert Alert-Flooding bei Kaskadenausfällen. Inhibition unterdrückt nachgelagerte Alerts wenn ein übergeordneter bereits feuert (z.B. Node down inhibiert alle Pod-Alerts desselben Nodes). Silencing schaltet Alerts zeitlich aus – nützlich für geplante Wartungsfenster. AlertmanagerConfig als Kubernetes-CRD ermöglicht namespace-scoped Routing-Konfiguration.",
-      "connections": ["prometheus-scrape", "remote-agent"]
+      "connections": ["prometheus-scrape", "grafana"]
     },
     {
       "id": "grafana",
       "label": "Grafana",
       "group": "observability",
-      "description": "Grafana visualisiert Metriken (Prometheus), Logs (Loki) und Traces (Tempo) in einem einheitlichen UI – die drei Säulen der Observability. Dashboard-as-Code: JSON-Modell erlaubt Dashboards in Git zu versionieren und per Grafana Operator automatisch zu deployen. Exemplars verbinden Metriken direkt mit Traces: ein Datenpunkt in einem Latenz-Histogram enthält eine Trace-ID, ein Klick springt zum konkreten Request-Trace in Tempo. Korrelation via Label-Konventionen: service_name in Prometheus = service_name in Loki = service.name in OpenTelemetry – Grafana verknüpft automatisch. Grafana Alloy (ehemals Grafana Agent) läuft als DaemonSet, scrapt Logs via Kubernetes API und leitet an Loki weiter.",
-      "connections": ["prometheus-scrape", "tempo"]
+      "description": "Grafana visualisiert Metriken (Prometheus), Traces (Tempo) und Logs in einem einheitlichen UI – die drei Säulen der Observability. Für Logs unterstützt Grafana zwei Backends: Loki (leichtgewichtig, label-basiert, kein Volltext-Index) oder OpenSearch via OLK Stack (vollständig indiziert, schnellere Ad-hoc-Queries über beliebige Felder). Beide sind als Grafana-Datasource einbindbar – die Wahl hängt von Abfrageanforderungen und Speicherbudget ab. Dashboard-as-Code: JSON-Modell erlaubt Dashboards in Git zu versionieren und per Grafana Operator automatisch zu deployen. Exemplars verbinden Metriken direkt mit Traces: ein Datenpunkt in einem Latenz-Histogram enthält eine Trace-ID, ein Klick springt zum konkreten Request-Trace in Tempo oder OpenSearch Trace Analytics. Korrelation via Label-Konventionen: service_name in Prometheus = service_name in Loki/OpenSearch = service.name in OpenTelemetry – Grafana verknüpft automatisch. Grafana Unified Alerting: Alertmanager ist direkt in Grafana integriert – Alert-Rules werden im Grafana-UI definiert, Alertmanager übernimmt Routing und Notification. Contact Points (Slack, PagerDuty, E-Mail) und Notification Policies werden zentral in Grafana verwaltet statt in separaten Alertmanager-Config-Dateien.",
+      "connections": ["prometheus-scrape", "tempo", "alertmanager", "olk-stack"]
     },
     {
       "id": "opentelemetry",
@@ -340,12 +368,19 @@
       "connections": ["prometheus-scrape", "grafana"]
     },
     {
+      "id": "kube-state-metrics",
+      "label": "kube-state-metrics",
+      "group": "observability",
+      "description": "kube-state-metrics (KSM) ist ein Prometheus-Exporter der den Zustand von Kubernetes-Objekten als Metriken exponiert – das Gegenstück zu Node Exporter (Hardware-Metriken). KSM überwacht die Kubernetes-API und erzeugt Metriken über Cluster-Objekte: Deployments (kube_deployment_status_replicas_available vs. kube_deployment_spec_replicas – Soll/Ist-Vergleich), Pods (kube_pod_status_phase, kube_pod_container_status_restarts_total – CrashLoopBackOff-Erkennung), HorizontalPodAutoscaler (kube_horizontalpodautoscaler_status_current_replicas), PersistentVolumeClaims (kube_persistentvolumeclaim_status_phase), Jobs und CronJobs (kube_job_status_failed). Deployment als einzelnes Deployment im Cluster – Scraping via ServiceMonitor wie andere Exporters. Typische Alerts: kube_deployment_status_replicas_available < kube_deployment_spec_replicas (Deployment degraded), kube_pod_container_status_restarts_total > 5 in 15m (CrashLoopBackOff), kube_node_status_condition{condition='Ready',status='false'} (Node NotReady). Kombiniert mit Node Exporter: KSM zeigt den Kubernetes-Objekt-Zustand, Node Exporter zeigt den Hardware-Zustand der Nodes – zusammen ergibt sich ein vollständiges Cluster-Monitoring.",
+      "connections": ["prometheus-scrape", "grafana", "node-exporter"]
+    },
+    {
       "id": "opensearch-trace",
       "label": "OpenSearch Trace",
       "group": "observability",
       "optional": true,
       "description": "OpenSearch Trace Analytics als Alternative zu Grafana Tempo. Data Prepper empfängt Spans via OTLP-Exporter des OpenTelemetry Collectors und schreibt sie in OpenSearch-Indices (ss4o – Simple Schema for Observability). Vorteil: Traces und Logs im selben OpenSearch-Backend – keine separate Tempo-Instanz nötig. OpenSearch Dashboards (Kibana) visualisiert Traces im Trace Analytics Plugin: Service Map zeigt Abhängigkeiten und Latenz zwischen Services, Trace-Detail-Ansicht entspricht dem Waterfall-View von Jaeger/Tempo. TraceQL-äquivalente Filterung über OpenSearch Query DSL. Grafana kann Opensearch auch als Datenquelle für Traces nutzen. Konsequente Wahl wenn der OLK Stack bereits im Einsatz ist.",
-      "connections": ["opentelemetry", "olk-stack"]
+      "connections": ["opentelemetry", "olk-stack", "grafana"]
     }
   ],
 

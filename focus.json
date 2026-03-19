@@ -344,7 +344,7 @@
       "label": "OpenSearch Trace",
       "group": "observability",
       "optional": true,
-      "description": "OpenSearch Trace Analytics als Alternative zu Grafana Tempo. Data Prepper empfängt Spans via OTLP-Exporter des OpenTelemetry Collectors und schreibt sie in OpenSearch-Indices (ss4o – Simple Schema for Observability). Vorteil: Traces, Logs und Metriken im selben OpenSearch-Backend – keine separate Tempo-Instanz nötig. OpenSearch Dashboards (Kibana) visualisiert Traces im Trace Analytics Plugin: Service Map zeigt Abhängigkeiten und Latenz zwischen Services, Trace-Detail-Ansicht entspricht dem Waterfall-View von Jaeger/Tempo. TraceQL-äquivalente Filterung über OpenSearch Query DSL. Konsequente Wahl wenn der OLK Stack bereits im Einsatz ist.",
+      "description": "OpenSearch Trace Analytics als Alternative zu Grafana Tempo. Data Prepper empfängt Spans via OTLP-Exporter des OpenTelemetry Collectors und schreibt sie in OpenSearch-Indices (ss4o – Simple Schema for Observability). Vorteil: Traces und Logs im selben OpenSearch-Backend – keine separate Tempo-Instanz nötig. OpenSearch Dashboards (Kibana) visualisiert Traces im Trace Analytics Plugin: Service Map zeigt Abhängigkeiten und Latenz zwischen Services, Trace-Detail-Ansicht entspricht dem Waterfall-View von Jaeger/Tempo. TraceQL-äquivalente Filterung über OpenSearch Query DSL. Grafana kann Opensearch auch als Datenquelle für Traces nutzen. Konsequente Wahl wenn der OLK Stack bereits im Einsatz ist.",
       "connections": ["opentelemetry", "olk-stack"]
     }
   ],

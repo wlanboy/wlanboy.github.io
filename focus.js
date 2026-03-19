@@ -5,7 +5,8 @@ const GROUP_PALETTE = {
   jvm:    { fill: 'rgba(29,78,216,0.10)',   stroke: '#3b82f6', node: '#2563eb', lfill: 'rgba(219,234,254,0.45)', lstroke: '#2563eb', lnode: '#1d4ed8' },
   argocd: { fill: 'rgba(4,120,87,0.10)',    stroke: '#10b981', node: '#059669', lfill: 'rgba(209,250,229,0.45)', lstroke: '#059669', lnode: '#047857' },
   mcp:    { fill: 'rgba(109,40,217,0.10)',  stroke: '#8b5cf6', node: '#7c3aed', lfill: 'rgba(237,233,254,0.45)', lstroke: '#7c3aed', lnode: '#6d28d9' },
-  observability: { fill: 'rgba(180,83,9,0.10)', stroke: '#f59e0b', node: '#d97706', lfill: 'rgba(254,243,199,0.45)', lstroke: '#d97706', lnode: '#b45309' }
+  observability: { fill: 'rgba(180,83,9,0.10)', stroke: '#f59e0b', node: '#d97706', lfill: 'rgba(254,243,199,0.45)', lstroke: '#d97706', lnode: '#b45309' },
+  servicemesh:   { fill: 'rgba(198,40,40,0.10)',  stroke: '#ef5350', node: '#e53935', lfill: 'rgba(255,235,238,0.45)', lstroke: '#e53935', lnode: '#c62828' }
 };
 
 const NODE_R      = 30;

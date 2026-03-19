@@ -9,15 +9,14 @@ const GROUP_PALETTE = {
   servicemesh:   { fill: 'rgba(198,40,40,0.10)',  stroke: '#ef5350', node: '#e53935', lfill: 'rgba(255,235,238,0.45)', lstroke: '#e53935', lnode: '#c62828' }
 };
 
-const NODE_R      = 30;
-const GROUP_R_SM  = 118;   // ≤10 nodes
-const GROUP_R_LG  = 148;   // >10 nodes
-const BLOB_PAD    = 28;    // extra space around outermost nodes
+const NODE_R   = 30;
+const BLOB_PAD = 28;
 
 let groups = [], topics = [], crossConnections = [];
 let selectedId = null;
 let selectedGroup = null;
 let svgW = 0, svgH = 0;
+let currentNodeR = NODE_R;
 
 // ─── Initialise ─────────────────────────────────────────────────────────────
 
@@ -34,23 +33,10 @@ async function init() {
   topics       = data.topics;
   crossConnections = data.crossConnections || [];
 
-  // Compute positions for every node (circular within its group)
-  groups.forEach(g => {
-    const members = topics.filter(t => t.group === g.id);
-    const r = members.length <= 10 ? GROUP_R_SM : GROUP_R_LG;
-    g.nodeRadius = r;
-    g.blobRx     = r + NODE_R + BLOB_PAD;
-    g.blobRy     = r + NODE_R + BLOB_PAD;
-    members.forEach((t, i) => {
-      const angle = (2 * Math.PI * i / members.length) - Math.PI / 2;
-      t.x = g.cx + r * Math.cos(angle);
-      t.y = g.cy + r * Math.sin(angle);
-    });
-  });
-
   const svg = document.getElementById('graph');
   svgW = svg.clientWidth;
   svgH = svg.clientHeight;
+  computeLayout();
 
   render();
 
@@ -65,9 +51,56 @@ async function init() {
   window.addEventListener('resize', () => {
     svgW = svg.clientWidth;
     svgH = svg.clientHeight;
+    computeLayout();
+    render();
     if      (selectedId)    centerOn(topics.find(t => t.id === selectedId));
     else if (selectedGroup) centerOnGroup(groups.find(g => g.id === selectedGroup));
-    else                    resetView();
+  });
+}
+
+// ─── Dynamic Layout ──────────────────────────────────────────────────────────
+
+function computeLayout() {
+  const margin = 48;
+
+  // Step 1: ring radius per group – chord formula ensures no node overlap
+  groups.forEach(g => {
+    const n = topics.filter(t => t.group === g.id).length;
+    const minRing = n <= 2 ? NODE_R * 2.5 : NODE_R / Math.sin(Math.PI / n) * 1.3;
+    g.ringR = Math.max(minRing, 80);
+    g.blobR = g.ringR + NODE_R + BLOB_PAD;   // unscaled
+  });
+
+  // Step 2: bounding box in design space (using cx/cy from focus.json)
+  let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
+  groups.forEach(g => {
+    minX = Math.min(minX, g.cx - g.blobR);
+    maxX = Math.max(maxX, g.cx + g.blobR);
+    minY = Math.min(minY, g.cy - g.blobR);
+    maxY = Math.max(maxY, g.cy + g.blobR);
+  });
+
+  // Step 3: uniform scale to fit viewport
+  const scale = Math.min(
+    (svgW - margin * 2) / (maxX - minX),
+    (svgH - margin * 2) / (maxY - minY)
+  );
+  currentNodeR = Math.max(NODE_R * scale, 12);
+
+  // Step 4: scaled group centres + node positions
+  groups.forEach(g => {
+    g.scaledCx   = g.cx * scale;
+    g.scaledCy   = g.cy * scale;
+    g.blobRx     = g.blobR * scale;
+    g.blobRy     = g.blobR * scale;
+    g.nodeRadius = g.ringR * scale;
+
+    const members = topics.filter(t => t.group === g.id);
+    members.forEach((t, i) => {
+      const angle = (2 * Math.PI * i / members.length) - Math.PI / 2;
+      t.x = g.scaledCx + g.nodeRadius * Math.cos(angle);
+      t.y = g.scaledCy + g.nodeRadius * Math.sin(angle);
+    });
   });
 }
 
@@ -88,8 +121,8 @@ function render() {
 function drawBlobs(layer) {
   groups.forEach(g => {
     const el = svgEl('ellipse');
-    el.setAttribute('cx', g.cx);
-    el.setAttribute('cy', g.cy);
+    el.setAttribute('cx', g.scaledCx);
+    el.setAttribute('cy', g.scaledCy);
     el.setAttribute('rx', g.blobRx);
     el.setAttribute('ry', g.blobRy);
     el.classList.add('blob');
@@ -99,8 +132,8 @@ function drawBlobs(layer) {
     layer.appendChild(el);
 
     const txt = svgEl('text');
-    txt.setAttribute('x', g.cx);
-    txt.setAttribute('y', g.cy - g.blobRy + 22);
+    txt.setAttribute('x', g.scaledCx);
+    txt.setAttribute('y', g.scaledCy - g.blobRy + 22);
     txt.setAttribute('text-anchor', 'middle');
     txt.classList.add('group-label');
     txt.dataset.group = g.id;
@@ -160,7 +193,7 @@ function drawNodes(layer) {
     const circle = svgEl('circle');
     circle.setAttribute('cx', t.x);
     circle.setAttribute('cy', t.y);
-    circle.setAttribute('r',  NODE_R);
+    circle.setAttribute('r',  currentNodeR);
     if (t.optional) g.classList.add('node-optional');
     g.appendChild(circle);
 
@@ -175,10 +208,12 @@ function drawNodes(layer) {
 }
 
 function appendLabel(g, label, cx, cy) {
-  const words = label.split(' ');
-  const text  = svgEl('text');
+  const words    = label.split(' ');
+  const fontSize = Math.max(Math.round(currentNodeR * 0.4), 8);
+  const text     = svgEl('text');
   text.setAttribute('text-anchor', 'middle');
   text.setAttribute('dominant-baseline', 'middle');
+  text.setAttribute('font-size', `${fontSize}px`);
 
   if (words.length === 1) {
     text.setAttribute('x', cx);
@@ -339,7 +374,7 @@ function deselectGroup() {
 function centerOnGroup(g) {
   const scale = 1.5;
   const layer = document.getElementById('graph-layer');
-  layer.style.transform = `translate(${svgW / 2 - g.cx * scale}px, ${svgH / 2 - g.cy * scale}px) scale(${scale})`;
+  layer.style.transform = `translate(${svgW / 2 - g.scaledCx * scale}px, ${svgH / 2 - g.scaledCy * scale}px) scale(${scale})`;
 }
 
 // ─── Detail Panel ────────────────────────────────────────────────────────────

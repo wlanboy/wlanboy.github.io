@@ -149,7 +149,7 @@ function buildTopics(gi) {
   const list = document.getElementById('topics-list');
   list.innerHTML = '';
 
-  topics.filter(t => t.group === g.id).forEach(topic => {
+  topics.filter(t => t.group === g.id).sort((a, b) => a.label.localeCompare(b.label, 'de')).forEach(topic => {
     const connIds = new Set(topic.connections || []);
     crossConnections.forEach(cc => {
       if (cc.from === topic.id) connIds.add(cc.to);

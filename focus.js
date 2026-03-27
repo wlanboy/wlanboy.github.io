@@ -1,436 +1,259 @@
 'use strict';
 
-// Group color palettes  [dark-fill, dark-stroke, node-color,  light-fill,              light-stroke, light-node]
-const GROUP_PALETTE = {
-  jvm:    { fill: 'rgba(29,78,216,0.10)',   stroke: '#3b82f6', node: '#2563eb', lfill: 'rgba(219,234,254,0.45)', lstroke: '#2563eb', lnode: '#1d4ed8' },
-  argocd: { fill: 'rgba(4,120,87,0.10)',    stroke: '#10b981', node: '#059669', lfill: 'rgba(209,250,229,0.45)', lstroke: '#059669', lnode: '#047857' },
-  mcp:    { fill: 'rgba(109,40,217,0.10)',  stroke: '#8b5cf6', node: '#7c3aed', lfill: 'rgba(237,233,254,0.45)', lstroke: '#7c3aed', lnode: '#6d28d9' },
-  observability: { fill: 'rgba(180,83,9,0.10)', stroke: '#f59e0b', node: '#d97706', lfill: 'rgba(254,243,199,0.45)', lstroke: '#d97706', lnode: '#b45309' },
-  servicemesh:   { fill: 'rgba(198,40,40,0.10)',  stroke: '#ef5350', node: '#e53935', lfill: 'rgba(255,235,238,0.45)', lstroke: '#e53935', lnode: '#c62828' }
+const PALETTE = {
+  jvm:           { dark: '#2563eb', light: '#1d4ed8' },
+  argocd:        { dark: '#059669', light: '#047857' },
+  mcp:           { dark: '#7c3aed', light: '#6d28d9' },
+  observability: { dark: '#d97706', light: '#b45309' },
+  servicemesh:   { dark: '#e53935', light: '#c62828' }
 };
 
-const NODE_R   = 30;
-const BLOB_PAD = 28;
-
 let groups = [], topics = [], crossConnections = [];
-let selectedId = null;
-let selectedGroup = null;
-let svgW = 0, svgH = 0;
-let currentNodeR = NODE_R;
+let activeGroupIndex = 0;
+let carouselCtrl = null; // AbortController for scroll listeners
+let navLock = false;     // prevents scroll detection from overriding manual navigation
 
-// ─── Initialise ─────────────────────────────────────────────────────────────
+function accent(groupId) {
+  const p = PALETTE[groupId] || { dark: '#555', light: '#333' };
+  return document.body.classList.contains('light') ? p.light : p.dark;
+}
+
+// ─── Init ────────────────────────────────────────────────────────────────────
 
 async function init() {
   if (localStorage.getItem('theme') === 'light') document.body.classList.add('light');
+  syncThemeIcon();
+
   document.getElementById('toggleTheme').addEventListener('click', () => {
     document.body.classList.toggle('light');
     localStorage.setItem('theme', document.body.classList.contains('light') ? 'light' : 'dark');
-    updateStyles();
+    syncThemeIcon();
+    rebuild();
   });
 
-  const data  = await fetch('focus.json').then(r => r.json());
-  groups       = data.groups;
-  topics       = data.topics;
+  const data = await fetch('focus.json').then(r => r.json());
+  groups           = data.groups;
+  topics           = data.topics;
   crossConnections = data.crossConnections || [];
 
-  const svg = document.getElementById('graph');
-  svgW = svg.clientWidth;
-  svgH = svg.clientHeight;
-  computeLayout();
-
-  render();
-
-  // Background click → deselect
-  svg.addEventListener('click', e => {
-    if (e.target.tagName === 'svg' || e.target.id === 'graph-layer') {
-      selectedGroup ? deselectGroup() : deselect();
-    }
-  });
-  document.getElementById('detail-close').addEventListener('click', deselect);
-  document.addEventListener('keydown', e => { if (e.key === 'Escape') deselect(); });
-  window.addEventListener('resize', () => {
-    svgW = svg.clientWidth;
-    svgH = svg.clientHeight;
-    computeLayout();
-    render();
-    if      (selectedId)    centerOn(topics.find(t => t.id === selectedId));
-    else if (selectedGroup) centerOnGroup(groups.find(g => g.id === selectedGroup));
-  });
+  rebuild();
 }
 
-// ─── Dynamic Layout ──────────────────────────────────────────────────────────
+function syncThemeIcon() {
+  document.getElementById('toggleTheme').textContent =
+    document.body.classList.contains('light') ? '🌙' : '☀️';
+}
 
-function computeLayout() {
-  const margin = 48;
+// ─── Rebuild (called on init + theme change) ─────────────────────────────────
 
-  // Step 1: ring radius per group – chord formula ensures no node overlap
-  groups.forEach(g => {
-    const n = topics.filter(t => t.group === g.id).length;
-    const minRing = n <= 2 ? NODE_R * 2.5 : NODE_R / Math.sin(Math.PI / n) * 1.3;
-    g.ringR = Math.max(minRing, 80);
-    g.blobR = g.ringR + NODE_R + BLOB_PAD;   // unscaled
-  });
+function rebuild() {
+  buildCarousel();
+  updateDots(activeGroupIndex);
+  buildTopics(activeGroupIndex);
+}
 
-  // Step 2: bounding box in design space (using cx/cy from focus.json)
-  let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
-  groups.forEach(g => {
-    minX = Math.min(minX, g.cx - g.blobR);
-    maxX = Math.max(maxX, g.cx + g.blobR);
-    minY = Math.min(minY, g.cy - g.blobR);
-    maxY = Math.max(maxY, g.cy + g.blobR);
-  });
+// ─── Carousel ────────────────────────────────────────────────────────────────
 
-  // Step 3: uniform scale to fit viewport
-  const scale = Math.min(
-    (svgW - margin * 2) / (maxX - minX),
-    (svgH - margin * 2) / (maxY - minY)
-  );
-  currentNodeR = Math.max(NODE_R * scale, 12);
+function buildCarousel() {
+  const track  = document.getElementById('groups-track');
+  const dotsEl = document.getElementById('groups-dots');
+  track.innerHTML  = '';
+  dotsEl.innerHTML = '';
 
-  // Step 4: scaled group centres + node positions
-  groups.forEach(g => {
-    g.scaledCx   = g.cx * scale;
-    g.scaledCy   = g.cy * scale;
-    g.blobRx     = g.blobR * scale;
-    g.blobRy     = g.blobR * scale;
-    g.nodeRadius = g.ringR * scale;
+  // Remove old scroll listeners
+  if (carouselCtrl) carouselCtrl.abort();
+  carouselCtrl = new AbortController();
+  const { signal } = carouselCtrl;
 
-    const members = topics.filter(t => t.group === g.id);
-    members.forEach((t, i) => {
-      const angle = (2 * Math.PI * i / members.length) - Math.PI / 2;
-      t.x = g.scaledCx + g.nodeRadius * Math.cos(angle);
-      t.y = g.scaledCy + g.nodeRadius * Math.sin(angle);
+  groups.forEach((g, i) => {
+    const count = topics.filter(t => t.group === g.id).length;
+    const a     = accent(g.id);
+
+    const card = document.createElement('div');
+    card.className     = 'group-card';
+    card.dataset.index = i;
+    card.style.setProperty('--a', a);
+    card.innerHTML = `
+      <div class="card-stripe"></div>
+      <div class="card-body">
+        <div class="card-name">${g.label}</div>
+        <div class="card-count">${count} Themen</div>
+      </div>
+    `;
+    // Click: scroll into center AND immediately activate
+    card.addEventListener('click', () => {
+      card.scrollIntoView({ behavior: 'instant', inline: 'center', block: 'nearest' });
+      setActiveGroup(i);
     });
-  });
-}
+    track.appendChild(card);
 
-// ─── Render ─────────────────────────────────────────────────────────────────
-
-function render() {
-  const layer = document.getElementById('graph-layer');
-  layer.innerHTML = '';
-
-  drawBlobs(layer);
-  drawEdges(layer);
-  drawNodes(layer);
-
-  resetView();
-  updateStyles();
-}
-
-function drawBlobs(layer) {
-  groups.forEach(g => {
-    const el = svgEl('ellipse');
-    el.setAttribute('cx', g.scaledCx);
-    el.setAttribute('cy', g.scaledCy);
-    el.setAttribute('rx', g.blobRx);
-    el.setAttribute('ry', g.blobRy);
-    el.classList.add('blob');
-    el.dataset.group = g.id;
-    el.style.cursor = 'pointer';
-    el.addEventListener('click', e => { e.stopPropagation(); selectGroup(g.id); });
-    layer.appendChild(el);
-
-    const txt = svgEl('text');
-    txt.setAttribute('x', g.scaledCx);
-    txt.setAttribute('y', g.scaledCy - g.blobRy + 22);
-    txt.setAttribute('text-anchor', 'middle');
-    txt.classList.add('group-label');
-    txt.dataset.group = g.id;
-    txt.textContent = g.label;
-    txt.style.cursor = 'pointer';
-    txt.addEventListener('click', e => { e.stopPropagation(); selectGroup(g.id); });
-    layer.appendChild(txt);
-  });
-}
-
-function drawEdges(layer) {
-  // Intra-group edges (deduplicated)
-  const drawn = new Set();
-  topics.forEach(t => {
-    (t.connections || []).forEach(cid => {
-      const key = [t.id, cid].sort().join('|');
-      if (drawn.has(key)) return;
-      drawn.add(key);
-      const target = topics.find(x => x.id === cid);
-      if (!target) return;
-      const line = svgEl('line');
-      line.setAttribute('x1', t.x);
-      line.setAttribute('y1', t.y);
-      line.setAttribute('x2', target.x);
-      line.setAttribute('y2', target.y);
-      line.classList.add('edge', 'edge-intra');
-      line.dataset.a = t.id;
-      line.dataset.b = cid;
-      layer.appendChild(line);
+    const dot = document.createElement('button');
+    dot.className = 'dot';
+    dot.setAttribute('aria-label', g.label);
+    dot.addEventListener('click', () => {
+      document.querySelectorAll('.group-card')[i]
+        ?.scrollIntoView({ behavior: 'instant', inline: 'center', block: 'nearest' });
+      setActiveGroup(i);
     });
+    dotsEl.appendChild(dot);
   });
 
-  // Cross-group edges (dashed)
-  crossConnections.forEach(cc => {
-    const src = topics.find(t => t.id === cc.from);
-    const tgt = topics.find(t => t.id === cc.to);
-    if (!src || !tgt) return;
-    const line = svgEl('line');
-    line.setAttribute('x1', src.x);
-    line.setAttribute('y1', src.y);
-    line.setAttribute('x2', tgt.x);
-    line.setAttribute('y2', tgt.y);
-    line.classList.add('edge', 'edge-cross');
-    line.dataset.a = cc.from;
-    line.dataset.b = cc.to;
-    layer.appendChild(line);
-  });
-}
-
-function drawNodes(layer) {
-  topics.forEach(t => {
-    const g = svgEl('g');
-    g.classList.add('node');
-    g.dataset.id    = t.id;
-    g.dataset.group = t.group;
-
-    const circle = svgEl('circle');
-    circle.setAttribute('cx', t.x);
-    circle.setAttribute('cy', t.y);
-    circle.setAttribute('r',  currentNodeR);
-    if (t.optional) g.classList.add('node-optional');
-    g.appendChild(circle);
-
-    appendLabel(g, t.label, t.x, t.y);
-
-    g.addEventListener('click', e => {
-      e.stopPropagation();
-      selectedId === t.id ? deselect() : selectNode(t.id);
+  // After scroll settles, find which card is closest to center
+  const wrapper = document.getElementById('groups-track-wrapper');
+  const detectCenter = () => {
+    const wRect = wrapper.getBoundingClientRect();
+    const wMid  = wRect.left + wRect.width / 2;
+    let best = activeGroupIndex, bestDist = Infinity;
+    document.querySelectorAll('.group-card').forEach(card => {
+      const r    = card.getBoundingClientRect();
+      const dist = Math.abs(r.left + r.width / 2 - wMid);
+      if (dist < bestDist) { bestDist = dist; best = +card.dataset.index; }
     });
-    layer.appendChild(g);
-  });
-}
+    setActiveGroup(best);
+  };
 
-function appendLabel(g, label, cx, cy) {
-  const words    = label.split(' ');
-  const fontSize = Math.max(Math.round(currentNodeR * 0.4), 8);
-  const text     = svgEl('text');
-  text.setAttribute('text-anchor', 'middle');
-  text.setAttribute('dominant-baseline', 'middle');
-  text.setAttribute('font-size', `${fontSize}px`);
-
-  if (words.length === 1) {
-    text.setAttribute('x', cx);
-    text.setAttribute('y', cy);
-    text.textContent = label;
+  if ('onscrollend' in wrapper) {
+    wrapper.addEventListener('scrollend', detectCenter, { passive: true, signal });
   } else {
-    text.setAttribute('x', cx);
-    text.setAttribute('y', cy);
-    const half = Math.ceil(words.length / 2);
-    const s1   = svgEl('tspan');
-    s1.setAttribute('x', cx);
-    s1.setAttribute('dy', '-0.65em');
-    s1.textContent = words.slice(0, half).join(' ');
-    const s2   = svgEl('tspan');
-    s2.setAttribute('x', cx);
-    s2.setAttribute('dy', '1.3em');
-    s2.textContent = words.slice(half).join(' ');
-    text.appendChild(s1);
-    text.appendChild(s2);
+    let t;
+    wrapper.addEventListener('scroll', () => {
+      clearTimeout(t);
+      t = setTimeout(detectCenter, 100);
+    }, { passive: true, signal });
   }
-  g.appendChild(text);
 }
 
-// ─── Styles ─────────────────────────────────────────────────────────────────
-
-function updateStyles() {
-  const isLight = document.body.classList.contains('light');
-
-  // Reset all
-  document.querySelectorAll('.node').forEach(n => n.classList.remove('dim', 'selected', 'connected'));
-  document.querySelectorAll('.edge').forEach(e => e.classList.remove('dim', 'active'));
-  document.querySelectorAll('.blob').forEach(b => b.classList.remove('dim'));
-  document.querySelectorAll('.group-label').forEach(l => l.classList.remove('dim'));
-
-  // Apply group colours to blobs, labels and node circles
-  groups.forEach(g => {
-    const pal    = GROUP_PALETTE[g.id] || GROUP_PALETTE.mcp;
-    const fill   = isLight ? pal.lfill   : pal.fill;
-    const stroke = isLight ? pal.lstroke : pal.stroke;
-    const nodeC  = isLight ? pal.lnode   : pal.node;
-
-    document.querySelectorAll(`.blob[data-group="${g.id}"]`).forEach(b => {
-      b.style.fill   = fill;
-      b.style.stroke = stroke;
-    });
-    document.querySelectorAll(`.group-label[data-group="${g.id}"]`).forEach(lbl => {
-      lbl.style.fill = stroke;
-    });
-    document.querySelectorAll(`.node[data-group="${g.id}"] circle`).forEach(c => {
-      c.style.stroke = nodeC;
-      c.style.fill   = '';   // reset any selection highlight
-    });
-  });
-
-  // Dim all groups except the selected one
-  if (selectedGroup) {
-    document.querySelectorAll('.node').forEach(n => {
-      if (n.dataset.group !== selectedGroup) n.classList.add('dim');
-    });
-    document.querySelectorAll('.blob').forEach(b => {
-      if (b.dataset.group !== selectedGroup) b.classList.add('dim');
-    });
-    document.querySelectorAll('.group-label').forEach(l => {
-      if (l.dataset.group !== selectedGroup) l.classList.add('dim');
-    });
-    document.querySelectorAll('.edge').forEach(e => {
-      const ta = topics.find(t => t.id === e.dataset.a);
-      const tb = topics.find(t => t.id === e.dataset.b);
-      if (!ta || !tb || ta.group !== selectedGroup || tb.group !== selectedGroup) e.classList.add('dim');
-    });
-  }
-
-  if (!selectedId) return;
-
-  const sel     = topics.find(t => t.id === selectedId);
-  const connSet = new Set(sel.connections || []);
-  crossConnections.forEach(cc => {
-    if (cc.from === selectedId) connSet.add(cc.to);
-    if (cc.to   === selectedId) connSet.add(cc.from);
-  });
-
-  document.querySelectorAll('.node').forEach(n => {
-    if      (n.dataset.id === selectedId)  n.classList.add('selected');
-    else if (connSet.has(n.dataset.id))    n.classList.add('connected');
-    else                                    n.classList.add('dim');
-  });
-
-  document.querySelectorAll('.edge').forEach(e => {
-    const active = e.dataset.a === selectedId || e.dataset.b === selectedId;
-    active ? e.classList.add('active') : e.classList.add('dim');
-  });
-
-  // Dim other groups' blobs and labels
-  document.querySelectorAll('.blob').forEach(b => {
-    if (b.dataset.group !== sel.group) b.classList.add('dim');
-  });
-  document.querySelectorAll('.group-label').forEach(lbl => {
-    if (lbl.dataset.group !== sel.group) lbl.classList.add('dim');
-  });
-
-  // Highlight selected node with group accent fill
-  const pal     = GROUP_PALETTE[sel.group] || GROUP_PALETTE.mcp;
-  const accent  = isLight ? pal.lnode : pal.node;
-  const selCirc = document.querySelector(`.node[data-id="${selectedId}"] circle`);
-  if (selCirc) {
-    selCirc.style.fill   = accent;
-    selCirc.style.stroke = accent;
-  }
-
-  // Propagate accent colour to detail panel
-  document.getElementById('detail-title').style.color = accent;
+function updateDots(i) {
+  document.querySelectorAll('.dot').forEach((d, j) => d.classList.toggle('active', j === i));
 }
 
-// ─── Selection ──────────────────────────────────────────────────────────────
+function setActiveGroup(i) {
+  if (navLock) return; // navigateToTopic is in progress — don't let scroll override it
+  // Skip if already active and list is populated (avoids resetting open accordions on scroll)
+  if (i === activeGroupIndex && document.getElementById('topics-list').children.length > 0) return;
+  activeGroupIndex = i;
+  updateDots(i);
+  buildTopics(i);
+}
 
-function selectNode(id) {
-  selectedGroup = null;
-  selectedId = id;
+// ─── Topic list with accordion ───────────────────────────────────────────────
+
+function buildTopics(gi) {
+  const g = groups[gi];
+  const a = accent(g.id);
+
+  const titleEl = document.getElementById('topics-title');
+  titleEl.textContent = g.label;
+  titleEl.style.color = a;
+
+  const list = document.getElementById('topics-list');
+  list.innerHTML = '';
+
+  topics.filter(t => t.group === g.id).forEach(topic => {
+    const connIds = new Set(topic.connections || []);
+    crossConnections.forEach(cc => {
+      if (cc.from === topic.id) connIds.add(cc.to);
+      if (cc.to   === topic.id) connIds.add(cc.from);
+    });
+    const conns = [...connIds].map(id => topics.find(t => t.id === id)).filter(Boolean);
+
+    // Wrapper
+    const item = document.createElement('div');
+    item.className  = 'topic-item' + (topic.optional ? ' optional' : '');
+    item.dataset.id = topic.id;
+    item.style.setProperty('--a', a);
+
+    // Clickable header row
+    const header = document.createElement('div');
+    header.className = 'topic-header';
+    header.innerHTML = `
+      <span class="ti-name">${topic.label}</span>
+      ${connIds.size ? `<span class="ti-meta">${connIds.size}&thinsp;Verbindungen</span>` : ''}
+      <span class="ti-chevron" aria-hidden="true">›</span>
+    `;
+    header.addEventListener('click', () => toggleTopic(item));
+
+    // Collapsible body (CSS grid trick for height animation)
+    const body  = document.createElement('div');
+    body.className = 'topic-body';
+
+    const inner = document.createElement('div');
+    inner.className = 'topic-body-inner';
+
+    const desc = document.createElement('p');
+    desc.className   = 'topic-desc';
+    desc.textContent = topic.description;
+    inner.appendChild(desc);
+
+    if (conns.length) {
+      const lbl = document.createElement('p');
+      lbl.className   = 'conn-label';
+      lbl.textContent = 'Verbunden mit:';
+      inner.appendChild(lbl);
+
+      const tags = document.createElement('div');
+      tags.className = 'conn-tags';
+      conns.forEach(t => {
+        const tag = document.createElement('button');
+        tag.className   = 'conn-tag';
+        tag.textContent = t.label;
+        tag.addEventListener('click', e => {
+          e.stopPropagation();
+          navigateToTopic(t.id);
+        });
+        tags.appendChild(tag);
+      });
+      inner.appendChild(tags);
+    }
+
+    body.appendChild(inner);
+    item.appendChild(header);
+    item.appendChild(body);
+    list.appendChild(item);
+  });
+}
+
+function toggleTopic(item) {
+  const wasOpen = item.classList.contains('open');
+  // Close all
+  document.querySelectorAll('.topic-item.open').forEach(el => el.classList.remove('open'));
+  if (!wasOpen) {
+    item.classList.add('open');
+    requestAnimationFrame(() =>
+      item.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
+    );
+  }
+}
+
+// Navigate to a connected topic (possibly in a different group)
+function navigateToTopic(id) {
   const topic = topics.find(t => t.id === id);
-  updateStyles();
-  centerOn(topic);
-  showDetail(topic);
-}
+  if (!topic) return;
 
-function deselect() {
-  selectedId = null;
-  selectedGroup = null;
-  updateStyles();
-  resetView();
-  document.getElementById('detail').classList.add('hidden');
-}
+  const gi = groups.findIndex(g => g.id === topic.group);
+  if (gi < 0) return;
 
-function centerOn(topic) {
-  const layer = document.getElementById('graph-layer');
-  layer.style.transform = `translate(${svgW / 2 - topic.x}px, ${svgH / 2 - topic.y - 85}px)`;
-}
+  document.querySelectorAll('.topic-item.open').forEach(el => el.classList.remove('open'));
 
-function resetView() {
-  const layer = document.getElementById('graph-layer');
-  layer.style.transform = `translate(${svgW / 2}px, ${svgH / 2 - 20}px)`;
-}
+  if (gi !== activeGroupIndex) {
+    // Block scroll detection until carousel animation finishes (~600ms)
+    navLock = true;
+    setTimeout(() => { navLock = false; }, 700);
 
-function selectGroup(id) {
-  if (selectedGroup === id) { deselectGroup(); return; }
-  selectedGroup = id;
-  selectedId = null;
-  document.getElementById('detail').classList.add('hidden');
-  updateStyles();
-  centerOnGroup(groups.find(g => g.id === id));
-}
-
-function deselectGroup() {
-  selectedGroup = null;
-  updateStyles();
-  resetView();
-}
-
-function centerOnGroup(g) {
-  const scale = 1.5;
-  const layer = document.getElementById('graph-layer');
-  layer.style.transform = `translate(${svgW / 2 - g.scaledCx * scale}px, ${svgH / 2 - g.scaledCy * scale}px) scale(${scale})`;
-}
-
-// ─── Detail Panel ────────────────────────────────────────────────────────────
-
-function showDetail(topic) {
-  const group = groups.find(g => g.id === topic.group);
-
-  document.getElementById('detail-title').textContent = topic.label;
-  document.getElementById('detail-desc').textContent  = topic.description;
-
-  const linksDiv = document.getElementById('detail-links');
-  linksDiv.innerHTML = '';
-
-  // Group badge
-  if (group) {
-    const pal    = GROUP_PALETTE[group.id] || GROUP_PALETTE.mcp;
-    const isLight = document.body.classList.contains('light');
-    const accent  = isLight ? pal.lnode : pal.node;
-    const badge   = document.createElement('span');
-    badge.classList.add('group-badge');
-    badge.textContent        = group.label;
-    badge.style.borderColor  = accent;
-    badge.style.color        = accent;
-    linksDiv.appendChild(badge);
+    document.querySelectorAll('.group-card')[gi]
+      ?.scrollIntoView({ behavior: 'instant', inline: 'center', block: 'nearest' });
+    activeGroupIndex = gi;
+    updateDots(gi);
+    buildTopics(gi);
   }
 
-  // Connected nodes
-  const connIds = new Set(topic.connections || []);
-  crossConnections.forEach(cc => {
-    if (cc.from === topic.id) connIds.add(cc.to);
-    if (cc.to   === topic.id) connIds.add(cc.from);
-  });
-  const conns = [...connIds].map(cid => topics.find(x => x.id === cid)).filter(Boolean);
-
-  if (conns.length) {
-    const lbl = document.createElement('span');
-    lbl.classList.add('connections-label');
-    lbl.textContent = 'Verbunden mit:';
-    linksDiv.appendChild(lbl);
-
-    conns.forEach(t => {
-      const tag = document.createElement('span');
-      tag.classList.add('conn-tag');
-      tag.textContent = t.label;
-      tag.addEventListener('click', () => selectNode(t.id));
-      linksDiv.appendChild(tag);
-    });
+  const item = document.querySelector(`.topic-item[data-id="${id}"]`);
+  if (item) {
+    item.classList.add('open');
+    requestAnimationFrame(() =>
+      item.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
+    );
   }
-
-  document.getElementById('detail').classList.remove('hidden');
-}
-
-// ─── Helper ──────────────────────────────────────────────────────────────────
-
-function svgEl(tag) {
-  return document.createElementNS('http://www.w3.org/2000/svg', tag);
 }
 
 init();

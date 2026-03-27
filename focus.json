@@ -1,10 +1,10 @@
 {
   "groups": [
-    { "id": "jvm",           "label": "JVM Builds",       "cx": -430, "cy": -124 },
-    { "id": "argocd",        "label": "ArgoCD / GitOps",   "cx":  380, "cy": -124 },
-    { "id": "mcp",           "label": "A2A + MCP",          "cx": -235, "cy":  324 },
-    { "id": "observability", "label": "Observability",       "cx":  235, "cy":  324 },
-    { "id": "servicemesh",   "label": "Service Mesh",        "cx":    0, "cy": -400, "color": "#C62828" }
+    { "id": "jvm",           "label": "JVM Builds",       "cx": -430, "cy": -124, "mobileCx": -190, "mobileCy":  -60 },
+    { "id": "argocd",        "label": "ArgoCD / GitOps",   "cx":  380, "cy": -124, "mobileCx":  190, "mobileCy":  -60 },
+    { "id": "mcp",           "label": "A2A + MCP",          "cx": -235, "cy":  324, "mobileCx": -190, "mobileCy":  195 },
+    { "id": "observability", "label": "Observability",       "cx":  235, "cy":  324, "mobileCx":  190, "mobileCy":  195 },
+    { "id": "servicemesh",   "label": "Service Mesh",        "cx":    0, "cy": -400, "mobileCx":    0, "mobileCy": -290, "color": "#C62828" }
   ],
   "topics": [
 

@@ -1,6 +1,6 @@
 {
   "groups": [
-    { "id": "jvm",           "label": "JVM Builds",       "cx": -380, "cy": -124 },
+    { "id": "jvm",           "label": "JVM Builds",       "cx": -430, "cy": -124 },
     { "id": "argocd",        "label": "ArgoCD / GitOps",   "cx":  380, "cy": -124 },
     { "id": "mcp",           "label": "A2A + MCP",          "cx": -235, "cy":  324 },
     { "id": "observability", "label": "Observability",       "cx":  235, "cy":  324 },

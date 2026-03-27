@@ -445,7 +445,7 @@
       "label": "Ablösung Load Balancer",
       "group": "servicemesh",
       "description": "Istio Ingress Gateway ersetzt klassische externe Load Balancer (AWS ALB, F5, nginx-Ingress). Konsolidierung: statt eines Load Balancers pro Microservice ein einzelner Istio Ingress Gateway mit N VirtualServices – drastische Kostenreduktion und vereinfachte Zertifikatsverwaltung. Vorteil gegenüber klassischen Load Balancern: L7-Routing-Logik (Header, URI, Gewichte), mTLS auch für externe Clients via Gateway-TLS-Mode MUTUAL, einheitliche Observability aller Ingress-Metriken in Prometheus ohne Log-Parsing. Wildcard-Hosts und SNI-basiertes Routing für Multi-Tenant-Setups. cert-manager erstellt TLS-Secrets automatisch, Gateway referenziert sie via credentialName.",
-      "connections": ["ingress-gateway", "istio"]
+      "connections": ["ingress-gateway", "istio", "cert-manager"]
     },
     {
       "id": "network-segmentation",
@@ -473,7 +473,7 @@
       "label": "Ingress Gateway",
       "group": "servicemesh",
       "description": "Istio Ingress Gateway kontrolliert eingehenden Traffic in das Cluster. Gateway-Ressource definiert welche Hosts und Ports akzeptiert werden sowie TLS-Konfiguration (SIMPLE, MUTUAL, PASSTHROUGH). VirtualService bindet an den Gateway und definiert internes Routing. Zertifikatsverwaltung: cert-manager erstellt TLS-Secrets, Gateway referenziert sie via credentialName. Multi-Cluster: Ingress Gateway als einheitlicher Einstiegspunkt für Services die über mehrere Cluster verteilt sind. Observability: alle Ingress-Metriken (Requests, Latenz, Fehlerquoten) fließen automatisch in Prometheus – kein separates Log-Parsing nötig.",
-      "connections": ["istio", "virtual-service", "traffic-management", "loadbalancer-replacement"]
+      "connections": ["istio", "virtual-service", "traffic-management", "loadbalancer-replacement", "cert-manager"]
     },
     {
       "id": "egress-gateway",
@@ -481,6 +481,13 @@
       "group": "servicemesh",
       "description": "Istio Egress Gateway kontrolliert ausgehenden Traffic aus dem Cluster zu externen Services. Ohne Egress Gateway: Pods kommunizieren direkt mit externen APIs – unkontrolliert, unprotokolliert, nicht auditierbar. Mit Egress Gateway: aller externer Traffic wird durch einen dedizierten Gateway-Pod geleitet (Whitelist-Prinzip). ServiceEntry definiert erlaubte externe Hosts, VirtualService routet matching Traffic zum Egress Gateway, dort werden Policies angewendet. TLS-Origination: Istio übernimmt den TLS-Aufbau zur externen API – interne Services kommunizieren plaintext zum Egress Gateway, Gateway baut TLS auf. Compliance: vollständige Protokollierung aller externen Verbindungen an einem zentralen Punkt.",
       "connections": ["istio", "virtual-service", "service-entry", "traffic-management"]
+    },
+    {
+      "id": "cert-manager",
+      "label": "cert-manager",
+      "group": "servicemesh",
+      "description": "cert-manager automatisiert die Ausstellung und Erneuerung von X.509-Zertifikaten in Kubernetes. Kernkonzepte: Issuer/ClusterIssuer definiert die Zertifizierungsstelle (Let's Encrypt via ACME, HashiCorp Vault, Venafi, selbst-signierte CA). Certificate-Ressource beschreibt das gewünschte Zertifikat (Domains, Gültigkeit, Secret-Name) – cert-manager übernimmt Ausstellung, Speicherung als Kubernetes-Secret und automatische Erneuerung vor Ablauf. Integration mit Istio Ingress Gateway: Gateway referenziert das TLS-Secret via credentialName – cert-manager erneuert das Zertifikat automatisch, der Gateway-Pod liest das aktualisierte Secret ohne Neustart. Integration mit Istio mTLS: cert-manager kann als externe CA für istiod fungieren (istio-ca-secret) statt der eingebauten Istio-CA – ermöglicht unternehmensweite PKI-Integration. ACME-Challenge-Modi: HTTP-01 (Kubernetes Ingress temporär für Challenge-Response), DNS-01 (DNS-Provider-API für Wildcard-Zertifikate). cert-manager Webhook validiert Certificate-Ressourcen beim Apply – verhindert Fehlkonfigurationen.",
+      "connections": ["ingress-gateway", "mtls", "loadbalancer-replacement"]
     }
   ],
 

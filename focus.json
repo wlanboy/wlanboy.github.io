@@ -90,7 +90,14 @@
       "label": "Maven Cache",
       "group": "jvm",
       "description": "BuildKit Mount-Cache (--mount=type=cache,target=/root/.m2) persistiert das lokale Maven-Repository zwischen Docker-Build-Runs. dependency:go-offline lädt alle Abhängigkeiten vorab in den Cache. Folge-Builds brauchen keine Netzwerkzugriffe für bekannte Artefakte – deutlich schnellere CI-Builds.",
-      "connections": ["multi-stage"]
+      "connections": ["multi-stage", "pom-xml"]
+    },
+    {
+      "id": "pom-xml",
+      "label": "pom.xml",
+      "group": "jvm",
+      "description": "Zentrale Maven-Projektkonfiguration für den optimierten Spring Boot Container-Build. Drei Schlüsselbereiche: (1) Properties: java.version=25 und start-class definieren Java-Version und Main-Klasse – start-class ist Voraussetzung für das AOT-Processing. (2) spring-boot-maven-plugin: <layers><enabled>true</enabled> aktiviert das Layered JAR und verweist auf layers.xml. spring-boot:process-aot generiert AOT-Klassen und Bean-Definitionen, spring-boot:repackage erstellt das finale ausführbare JAR inklusive aller AOT-Artefakte. (3) Dependency Management: spring-boot-starter-parent als Parent-POM bringt versionierte Dependency-Defaults, observability-Dependencies (Micrometer, OpenTelemetry) werden als eigene Gruppe verwaltet – korrespondiert mit der observability-dependencies-Schicht in layers.xml.",
+      "connections": ["spring-aot", "layered-jar", "layers-xml", "maven-cache", "multi-stage"]
     },
     {
       "id": "entrypoint-sh",

@@ -27,7 +27,7 @@
       "label": "Java Modules",
       "group": "jvm",
       "description": "jlink benötigt eine explizite Modulliste: jdeps liefert die App-Module via modules.txt, zusätzliche Module werden manuell ergänzt. java.base (immer nötig), jdk.crypto.ec (TLS/EC-Kryptografie), jdk.charsets (UTF-8-only String-Handling). java.desktop: PropertyEditorSupport von Spring. java.management + jdk.management: JMX, Metriken und GC-Notifications. jdk.zipfs: JAR-Dateizugriff zur Laufzeit (z.B. Swagger). java.instrument: Bytecode-Instrumentierung. java.sql: JPA-Typen (java.sql.Date). java.naming: JNDI-Konfiguration von Jetty. jdk.unsupported: sun.misc.Unsafe, genutzt von Objenesis/CGLIB. java.security.jgss + java.security.sasl: GSSAPI/Kerberos (org.ietf.jgss.GSSException).",
-      "connections": ["jlink", "jdeps", "zgc", "prometheus-scrape"]
+      "connections": ["jlink", "jdeps", "zgc"]
     },
     {
       "id": "cds-base",
@@ -83,7 +83,7 @@
       "label": "Multi-Stage Build",
       "group": "jvm",
       "description": "Dreistufiger Docker-Build: Stage 1 (Build) kompiliert mit Spring AOT. Stage 2 (JRE) analysiert mit jdeps, erstellt mit jlink das Custom-JRE, trainiert CDS und AppCDS. Stage 3 (Runtime) nutzt distroless/cc, kopiert nur Custom-JRE und Layer-Verzeichnisse – keine Build-Tools im finalen Image.",
-      "connections": ["distroless", "spring-aot", "layered-jar", "maven-cache"]
+      "connections": ["distroless", "spring-aot", "layered-jar", "maven-cache", "entrypoint-sh"]
     },
     {
       "id": "maven-cache",
@@ -105,7 +105,7 @@
       "label": "Workflow",
       "group": "argocd",
       "description": "WorkflowTemplate definiert wiederverwendbare, parameterisierte Build-Pipelines in Kubernetes. Das main-Template orchestriert zwei Steps sequenziell: kaniko-build baut das Container-Image, git-update committed den neuen Tag ins Helm-Chart. Parameter image-tag, git-ref und dockerfile werden vom aufrufenden Sensor oder CronWorkflow übergeben.",
-      "connections": ["kaniko", "git-update", "cron-workflow", "workflow-sa"]
+      "connections": ["kaniko", "git-update", "cron-workflow", "workflow-sa", "cluster-registry"]
     },
     {
       "id": "kaniko",
@@ -161,7 +161,7 @@
       "label": "ArgoCD Apps",
       "group": "argocd",
       "description": "ArgoCD Applications verwalten den Deployment-Zustand der Services im Cluster. Sync-Policy mit automated.prune und selfHeal sorgt dafür, dass der Cluster-Zustand immer dem Git-Repository entspricht. git-update triggert ArgoCD indirekt: der Helm-Chart-Commit löst einen automatischen Sync aus.",
-      "connections": ["git-update", "argo-projects"]
+      "connections": ["git-update", "argo-projects", "helm"]
     },
     {
       "id": "argo-projects",
@@ -189,7 +189,7 @@
       "label": "Kaniko Layer Cache",
       "group": "argocd",
       "description": "Kaniko Layer-Cache in der Cluster-Registry beschleunigt Folge-Builds durch Wiederverwendung unveränderter Image-Layer. --cache=true aktiviert den Layer-Cache, --cache-repo=registry.local:5000/kaniko-cache speichert gecachte Layer in der lokalen Registry. Kaniko vergleicht beim Build Layer-Hash-Werte: unveränderte Basis-Layer (distroless/cc, Custom-JRE) werden aus dem Cache gelesen statt neu gebaut. Zusammenspiel mit Layered-JAR: stabile dependency-Layer werden gecacht, nur der sich ändernde application-Layer muss bei jedem Build neu erstellt werden. Folge-Builds überspringen alle unveränderten Layer – deutlich kürzere Workflow-Laufzeiten.",
-      "connections": ["kaniko", "multi-stage", "layered-jar", "cluster-registry"]
+      "connections": ["kaniko", "cluster-registry"]
     },
 
     {
@@ -197,7 +197,7 @@
       "label": "A2A Protokoll",
       "group": "mcp",
       "description": "Agent-to-Agent Protokoll für standardisierte, technologieneutrale Kommunikation zwischen LLM-Agenten. Vier Schichten: Transport (HTTP/SSE/WebSocket), Message (JSON-RPC 2.0), Protocol (Discovery/Task-Routing), Application (Skills/Business Logic). Implementiert in Spring Boot ohne offizielle SDK-Abhängigkeit – SDK unterstützt nur Quarkus.",
-      "connections": ["agent-card", "task-lifecycle", "mcp-server"]
+      "connections": ["agent-card", "task-lifecycle", "mcp-server", "spring-ai"]
     },
     {
       "id": "agent-card",
@@ -232,7 +232,7 @@
       "label": "MCP Server",
       "group": "mcp",
       "description": "Spring AI MCP Server exponiert Tools über Server-Sent Events (SSE). McpServerConfig registriert ToolCallbackProvider. spring-ai-mcp-server-spring-boot-starter als Basis. Workaround für fehlenden notifications/cancelled-Handler: Reflection-basiertes Session-Factory-Wrapping via SmartInitializingSingleton.",
-      "connections": ["a2a-protocol", "mcp-tools", "mcp-registry"]
+      "connections": ["a2a-protocol", "mcp-tools", "mcp-registry", "spring-ai"]
     },
     {
       "id": "mcp-registry",
@@ -303,14 +303,14 @@
       "label": "Spring Actuator",
       "group": "observability",
       "description": "Spring Boot Actuator exponiert HTTP-Endpunkte für Health, Metrics, Info und mehr. /actuator/health liefert detaillierten Zustand aller Health-Indikatoren (DB, Cache, Upstream-Services). /actuator/prometheus stellt alle Micrometer-Metriken im Prometheus-Textformat bereit – der primäre Scrape-Endpunkt. /actuator/info zeigt Build-Metadaten (Git-Commit, Version, Build-Zeitstempel) aus dem Maven-Build-Prozess. management.endpoints.web.exposure.include steuert welche Endpunkte erreichbar sind. Im distroless-Container läuft Actuator typisch auf separatem Management-Port (8081), damit der Haupt-Port (8080) unabhängig gesichert werden kann.",
-      "connections": ["micrometer", "prometheus-scrape", "java-modules"]
+      "connections": ["micrometer", "prometheus-scrape"]
     },
     {
       "id": "micrometer",
       "label": "Micrometer",
       "group": "observability",
       "description": "Micrometer ist die Metriken-Fassade für JVM-Anwendungen – analog zu SLF4J für Logging. Kernkonzepte: Counter (monoton steigend, z.B. HTTP-Requests), Gauge (aktueller Wert, z.B. aktive Verbindungen), Timer (Latenz + Throughput kombiniert), DistributionSummary (Histogramme). Tags (Dimensions) erlauben mehrdimensionale Filterung in Prometheus/Grafana ohne separate Metriken pro Dimension. MeterRegistry ist der zentrale Sammelknoten – PrometheusMeterRegistry serialisiert in Prometheus-Textformat. Automatische JVM-Metriken: GC-Pausen (ZGC-spezifisch: zgc.*, pause.*), Heap/Non-Heap-Nutzung, Thread-Status, ClassLoader, CPU-Auslastung. Spring Boot Actuator registriert automatisch HTTP-Server-Metriken (http.server.requests) mit Methode, URI, Status-Tags. layered-jar enthält Micrometer in der observability-dependencies-Schicht – eigener Release-Zyklus ohne App-Code-Änderung aktualisierbar.",
-      "connections": ["actuator", "prometheus-scrape", "opentelemetry", "java-modules"]
+      "connections": ["actuator", "prometheus-scrape", "opentelemetry"]
     },
     {
       "id": "prometheus-scrape",
@@ -352,14 +352,14 @@
       "label": "Tempo",
       "group": "observability",
       "description": "Grafana Tempo speichert Distributed Traces im OTLP-Format – skalierbar auf Objektspeicher (S3/GCS/MinIO). Traces bestehen aus Spans: jeder Span hat TraceID, SpanID, ParentSpanID, Service-Name, Operation-Name, Start/End-Zeit und Attributes (HTTP-Status, DB-Query, Error). TraceQL ermöglicht Trace-Suche: {.http.status_code=500 && duration > 1s} findet alle fehlerhaften, langsamen Requests. Integration mit Grafana: Exemplars in Prometheus-Metriken enthalten TraceIDs – ein Klick auf einen Ausreißer-Datenpunkt öffnet direkt den zugehörigen Trace. OTel Collector routet Spans an Tempo weiter und kann Sampling-Strategien anwenden (Head/Tail-Based Sampling).",
-      "connections": ["opentelemetry", "grafana"]
+      "connections": ["opentelemetry", "grafana", "otel-collector"]
     },
     {
       "id": "olk-stack",
       "label": "OLK Stack",
       "group": "observability",
       "description": "OLK Stack: OpenSearch + Logstash + Kibana – die OpenSearch-basierte Alternative zum klassischen ELK Stack. OpenSearch (Fork von Elasticsearch) speichert und indiziert Logs, Metriken und Traces als invertierter Index über JSON-Dokumente – Volltextsuche und Aggregationen über beliebige Felder. Logstash empfängt Telemetrie-Daten, transformiert sie per Filter-Pipeline (grok, mutate, date) und leitet sie an OpenSearch weiter. OpenTelemetry Collector kann direkt als Logstash-Ersatz fungieren: OTLP-Receiver nimmt Traces/Metrics/Logs entgegen, opensearch-Exporter schreibt ins OpenSearch-Backend. Kibana (OpenSearch Dashboards) visualisiert: Discover für Log-Explorer, Visualize für Aggregations-Charts, Dashboard für kombinierte Ansichten. Index Lifecycle Management (ILM) rotiert und archiviert Indices automatisch nach Alter oder Größe. Im Vergleich zu Loki: OLK indiziert alle Felder vollständig – schnellere Ad-hoc-Queries über beliebige Log-Felder, aber höherer Speicherbedarf.",
-      "connections": ["opentelemetry"]
+      "connections": ["opentelemetry", "otel-collector"]
     },
     {
       "id": "node-exporter",
@@ -381,7 +381,7 @@
       "group": "observability",
       "optional": true,
       "description": "OpenSearch Trace Analytics als Alternative zu Grafana Tempo. Data Prepper empfängt Spans via OTLP-Exporter des OpenTelemetry Collectors und schreibt sie in OpenSearch-Indices (ss4o – Simple Schema for Observability). Vorteil: Traces und Logs im selben OpenSearch-Backend – keine separate Tempo-Instanz nötig. OpenSearch Dashboards (Kibana) visualisiert Traces im Trace Analytics Plugin: Service Map zeigt Abhängigkeiten und Latenz zwischen Services, Trace-Detail-Ansicht entspricht dem Waterfall-View von Jaeger/Tempo. TraceQL-äquivalente Filterung über OpenSearch Query DSL. Grafana kann Opensearch auch als Datenquelle für Traces nutzen. Konsequente Wahl wenn der OLK Stack bereits im Einsatz ist.",
-      "connections": ["opentelemetry", "olk-stack", "grafana"]
+      "connections": ["opentelemetry", "olk-stack", "grafana", "otel-collector"]
     },
 
     {
@@ -502,6 +502,31 @@
       "from": "remote-agent",
       "to": "sensor",
       "label": "sendet Events"
+    },
+    {
+      "from": "kaniko-layer-cache",
+      "to": "multi-stage",
+      "label": "beschleunigt Layer-Builds"
+    },
+    {
+      "from": "java-modules",
+      "to": "prometheus-scrape",
+      "label": "java.management für Metriken"
+    },
+    {
+      "from": "actuator",
+      "to": "java-modules",
+      "label": "benötigt JMX/Management Module"
+    },
+    {
+      "from": "micrometer",
+      "to": "java-modules",
+      "label": "java.management für GC-Metriken"
+    },
+    {
+      "from": "kaniko-layer-cache",
+      "to": "layered-jar",
+      "label": "cached stabile dependency-Layer"
     }
   ]
 }

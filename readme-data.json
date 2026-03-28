@@ -184,7 +184,7 @@
     "name": "eurekaclient",
     "description": "Python based fake eureka client to register services in legacy eureka server instance",
     "url": "https://github.com/wlanboy/eurekaclient",
-    "pushed_at": "2026-01-18T18:43:32Z",
+    "pushed_at": "2026-03-28T13:07:45Z",
     "readmes": [
       {
         "path": "README.md",
@@ -193,9 +193,15 @@
         "type": "readme"
       },
       {
+        "path": "accesslogs/readme.md",
+        "title": "Eureka Access Log Server",
+        "description": "Dieses Tool dient als **Dummy-Ersatz für einen abgeschalteten Eureka-Server**, um herauszufinden, welche Clients ihn noch aktiv ansprechen.",
+        "type": "readme"
+      },
+      {
         "path": "example/readme.md",
-        "title": "documentation of rest api",
-        "description": "https://github.com/Netflix/eureka/wiki/Eureka-REST-operations",
+        "title": "Eureka REST API – Beispiele",
+        "description": "Dieses Verzeichnis enthält HTTP-Beispielanfragen für die Eureka REST API sowie eine Beispielantwort im XML-Format.",
         "type": "readme"
       }
     ]
@@ -483,7 +489,7 @@
     "name": "mcp-md-fileserver",
     "description": "A FastMCP python based mcp server to search in markdown files",
     "url": "https://github.com/wlanboy/mcp-md-fileserver",
-    "pushed_at": "2026-02-21T07:00:46Z",
+    "pushed_at": "2026-03-28T13:13:07Z",
     "readmes": [
       {
         "path": "README.md",
@@ -493,20 +499,14 @@
       },
       {
         "path": "qwen-thinking-prompt.md",
-        "title": "example prompt",
-        "description": "",
+        "title": "Qwen Thinking Prompt Example",
+        "description": "Dieses Dokument zeigt ein Beispiel, wie ein Qwen-Modell mit aktiviertem Thinking-Modus eine Benutzeranfrage an den MCP-MD-Fileserver verarbeitet. Es illustriert den mehrstufigen Reasoning-Prozess: initiales Denken, Tool-Aufruf mit Zwischenreflexion und finales Ergebnis.",
         "type": "text"
       },
       {
         "path": "spec.md",
         "title": "MCP Markdown Fileserver - Technische Spezifikation",
         "description": "Ein Model Context Protocol (MCP) Server zur Verwaltung einer Markdown-Wissensdatenbank mit automatischer NLP-basierter Stichwort-Extraktion. Der Dienst ermöglicht LLM-Clients das Durchsuchen und Abrufen von Markdown-Dokumenten.",
-        "type": "text"
-      },
-      {
-        "path": "tests.md",
-        "title": "tests",
-        "description": "",
         "type": "text"
       }
     ]
@@ -591,7 +591,7 @@
     "name": "raspberrypi",
     "description": "Raspberry Pi scripts for all my homelab services",
     "url": "https://github.com/wlanboy/raspberrypi",
-    "pushed_at": "2026-03-28T07:11:44Z",
+    "pushed_at": "2026-03-28T13:30:14Z",
     "readmes": [
       {
         "path": "README.md",
@@ -607,8 +607,8 @@
       },
       {
         "path": "arduino/useful-libs.md",
-        "title": "Useful available Arduino libraries",
-        "description": "A list of useful and working Arduino libraries.",
+        "title": "Useful Arduino libraries",
+        "description": "A curated list of tested and working Arduino libraries for displays, GPS, sensors, and UI components.",
         "type": "text"
       },
       {
@@ -666,6 +666,12 @@
         "type": "readme"
       },
       {
+        "path": "chrony/chrony.md",
+        "title": "GPS-gestützter NTP-Zeitserver mit Chrony",
+        "description": "Diese Anleitung beschreibt den Aufbau eines präzisen NTP-Zeitservers unter Linux, der ein USB-GPS-Modul als primäre Zeitquelle nutzt. Chrony synchronisiert die Systemzeit mit dem GPS-Signal und stellt sie im lokalen Netzwerk bereit.",
+        "type": "text"
+      },
+      {
         "path": "create-floppy-image.md",
         "title": "Erstellen und Befüllen eines DOS‑Disketten‑Images",
         "description": "Diese Anleitung beschreibt, wie du mit mtools ein 1,44‑MB‑Disketten‑Image erstellst und anschließend Dateien hinein kopierst. Sie eignet sich z. B. für DOS‑Treiber, Bootdisketten oder virtuelle Maschinen.",
@@ -684,15 +690,21 @@
         "type": "text"
       },
       {
-        "path": "gitea.md",
-        "title": "Git server with web frontend",
-        "description": "Install and run your own github like instance with gitea.",
+        "path": "gitea/gitea.md",
+        "title": "Gitea – Self-hosted Git-Server mit Docker Compose",
+        "description": "Diese Anleitung beschreibt die Einrichtung einer eigenen Gitea-Instanz mit MariaDB als Datenbank, HTTPS über eigene Zertifikate und persistentem Datenspeicher auf einem SATA-Laufwerk.",
         "type": "text"
       },
       {
         "path": "headless-wlan-client.md",
         "title": "headless configuration of wlan client",
         "description": "Mount sd card on your pc and change following settings to enable ssh daemon and wlan login for your Raspberry Pi.",
+        "type": "text"
+      },
+      {
+        "path": "intel_arc_pro_b60/intel-arc.md",
+        "title": "Intel Arc Pro B60 – Einrichtung unter Ubuntu 24.04 (Noble)",
+        "description": "Diese Anleitung beschreibt die vollständige Einrichtung einer Intel Arc Pro B60 GPU (Battlemage / Xe2-Architektur) unter Ubuntu 24.04 LTS, inklusive OpenCL/Level-Zero-Treiber, GPU-Monitoring und Steam-Gaming-Setup.",
         "type": "text"
       },
       {
@@ -704,7 +716,7 @@
       {
         "path": "k3s-argocd.md",
         "title": "Install Argo CD on the k3s cluster and expose the Web UI via MetalLB",
-        "description": "Prerequisites - k3s cluster up and kubeconfig copied (see k3s-cluster.md). - MetalLB installed and a pool configured (example pool in k3s-cluster.md: 192.168.170.10-192.168.170.250).",
+        "description": "How to deploy Argo CD on k3s, configure an nginx ingress controller, and expose the Web UI using a MetalLB LoadBalancer IP.",
         "type": "text"
       },
       {
@@ -781,14 +793,20 @@
       },
       {
         "path": "tl-wn823n.md",
-        "title": "TP Link TL-WN823N",
-        "description": "Information collection on hardware module.",
+        "title": "TP-Link TL-WN823N USB WLAN Stick",
+        "description": "How to identify and set up the TP-Link TL-WN823N (RTL8192CU) USB WLAN adapter on Raspberry Pi.",
         "type": "text"
       },
       {
         "path": "tmux.md",
         "title": "tmux cheatsheet",
-        "description": "start new:",
+        "description": "Quick reference for the most common tmux commands to manage sessions, windows, and panes.",
+        "type": "text"
+      },
+      {
+        "path": "tools/tools.md",
+        "title": "Git & Maven Toolsammlung",
+        "description": "Diese Sammlung enthält Python- und Shell-Scripte für den täglichen Umgang mit mehreren Git-Repositories sowie für die automatische Pflege von Maven-Abhängigkeiten.",
         "type": "text"
       },
       {
@@ -1037,7 +1055,7 @@
     "name": "wlanboy.github.io",
     "description": "website",
     "url": "https://github.com/wlanboy/wlanboy.github.io",
-    "pushed_at": "2026-03-28T12:36:30Z",
+    "pushed_at": "2026-03-28T12:59:20Z",
     "readmes": [
       {
         "path": "README.md",

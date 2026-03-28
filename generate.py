@@ -100,8 +100,20 @@ def extract_title_and_paragraph(content):
     paragraph_lines = []
     in_paragraph = False
 
+    in_code_block = False
+
     for line in lines[title_idx + 1:]:
         stripped = line.strip()
+
+        # Codeblöcke überspringen
+        if stripped.startswith("```"):
+            in_code_block = not in_code_block
+            if in_paragraph:
+                break
+            continue
+
+        if in_code_block:
+            continue
 
         # Absatztrenner: komplett leere Zeile
         if stripped == "":
@@ -109,6 +121,12 @@ def extract_title_and_paragraph(content):
                 break
             else:
                 continue
+
+        # Headings überspringen
+        if stripped.startswith("#"):
+            if in_paragraph:
+                break
+            continue
 
         # Start eines Paragraphen
         if not in_paragraph:

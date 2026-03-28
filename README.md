@@ -18,7 +18,7 @@ Private homepage hosted by GitHub Pages — a portfolio explorer that automatica
 
 This is a static site with automated data generation — no Jekyll or Hugo involved.
 
-```
+```txt
 GitHub API
     │
     ▼
@@ -45,6 +45,11 @@ python3 -m http.server 8000
 ## Generate data for webpage
 
 ```bash
+uv lock --upgrade
+uv sync
+uv run pytest
+uv run pyright
+uv run ruff check
 uv run generate.py
 ```
 
@@ -55,6 +60,7 @@ For higher GitHub API rate limits, set a `GITHUB_TOKEN` environment variable bef
 A Helm chart is provided in [website-chart/](website-chart/) for self-hosted deployment.
 
 Features:
+
 - Init container pulls this repository at startup
 - TLS support via cert-manager (`values.yaml`)
 - Istio Gateway + VirtualService integration

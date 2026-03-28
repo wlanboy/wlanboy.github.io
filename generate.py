@@ -72,7 +72,7 @@ def get_file_content(user, repo_name, path):
     return ""
 
 
-def extract_title_and_paragraph(content):
+def extract_title_and_paragraph(content: str):
     """
     Liefert (title, description):
     - title: erster Markdown-Heading (#, ##, ### …)
@@ -93,7 +93,7 @@ def extract_title_and_paragraph(content):
                 title_idx = idx
                 break
 
-    if title is None:
+    if title is None or title_idx is None:
         return None, None
 
     # 2. ab der Zeile nach dem Heading den ersten nicht-leeren Paragraphen suchen

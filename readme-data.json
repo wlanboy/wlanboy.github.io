@@ -106,7 +106,7 @@
     "name": "deployer",
     "description": "Spring Boot Rest API to controll git repros and ansible playbook based deployments",
     "url": "https://github.com/wlanboy/deployer",
-    "pushed_at": "2026-03-28T12:34:23Z",
+    "pushed_at": "2026-04-08T06:07:31Z",
     "readmes": [
       {
         "path": "README.md",
@@ -210,7 +210,7 @@
     "name": "eurekaclientjava",
     "description": "Java based service to create several eureka clients entries without having to use the eureka lib",
     "url": "https://github.com/wlanboy/eurekaclientjava",
-    "pushed_at": "2026-03-28T12:55:39Z",
+    "pushed_at": "2026-04-08T11:38:56Z",
     "readmes": [
       {
         "path": "README.md",
@@ -231,7 +231,7 @@
     "name": "gitops",
     "description": "Simple way to create project, repros and apps in argocd",
     "url": "https://github.com/wlanboy/gitops",
-    "pushed_at": "2026-03-28T12:43:28Z",
+    "pushed_at": "2026-04-08T06:01:58Z",
     "readmes": [
       {
         "path": "apps/readme.md",
@@ -335,7 +335,7 @@
     "name": "JavaHttpClient",
     "description": "Spring based rest service to test http call within k8s and istio",
     "url": "https://github.com/wlanboy/JavaHttpClient",
-    "pushed_at": "2026-04-07T13:00:01Z",
+    "pushed_at": "2026-04-08T10:49:10Z",
     "readmes": [
       {
         "path": "README.md",
@@ -543,7 +543,7 @@
     "name": "MirrorService",
     "description": "Spring Framework based service mirroring requests with parameterized wait time and http response codes",
     "url": "https://github.com/wlanboy/MirrorService",
-    "pushed_at": "2026-04-07T13:04:21Z",
+    "pushed_at": "2026-04-08T10:59:20Z",
     "readmes": [
       {
         "path": "README.md",
@@ -911,7 +911,7 @@
     "name": "SimpleService",
     "description": "Simple Spring Rest Service playing Blockchain",
     "url": "https://github.com/wlanboy/SimpleService",
-    "pushed_at": "2026-03-28T07:14:48Z",
+    "pushed_at": "2026-04-08T11:46:03Z",
     "readmes": [
       {
         "path": "README.md",
@@ -1061,7 +1061,7 @@
     "name": "wlanboy.github.io",
     "description": "website",
     "url": "https://github.com/wlanboy/wlanboy.github.io",
-    "pushed_at": "2026-04-06T13:15:33Z",
+    "pushed_at": "2026-04-07T13:23:24Z",
     "readmes": [
       {
         "path": "README.md",

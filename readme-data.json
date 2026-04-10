@@ -307,7 +307,7 @@
     "name": "hadoop",
     "description": null,
     "url": "https://github.com/wlanboy/hadoop",
-    "pushed_at": "2026-03-21T06:59:51Z",
+    "pushed_at": "2026-04-09T16:57:38Z",
     "readmes": [
       {
         "path": "readme.md",
@@ -571,7 +571,7 @@
     "name": "randomfail",
     "description": "Python based microservice that will return 500 responses every second request and failes the healtiness hcheck and readyness check randomly",
     "url": "https://github.com/wlanboy/randomfail",
-    "pushed_at": "2026-02-21T07:37:37Z",
+    "pushed_at": "2026-04-09T17:04:31Z",
     "readmes": [
       {
         "path": "README.md",
@@ -591,7 +591,7 @@
     "name": "raspberrypi",
     "description": "Raspberry Pi scripts for all my homelab services",
     "url": "https://github.com/wlanboy/raspberrypi",
-    "pushed_at": "2026-04-09T09:24:15Z",
+    "pushed_at": "2026-04-10T10:51:25Z",
     "readmes": [
       {
         "path": "README.md",
@@ -728,7 +728,7 @@
       {
         "path": "k3s-cluster.md",
         "title": "Create arm64 based k3s cluster on ubuntu",
-        "description": "Commands to create an arm64 based k3s cluster on Ubuntu",
+        "description": "Commands to create an arm64 based k3s cluster on Ubuntu using Raspberry Pi or similar single-board computers. The setup includes a k3s server node and one or more agent nodes, with MetalLB as load balancer and kubectl for cluster management. Traefik and ServiceLB are disabled in favour of a custom MetalLB configuration.",
         "type": "text"
       },
       {
@@ -959,7 +959,7 @@
     "name": "vagrantkind",
     "description": "scripts to installing containerd, tools, k3s or kind with certmanager, istio and argocd to run a local dev kubernetes cluster",
     "url": "https://github.com/wlanboy/vagrantkind",
-    "pushed_at": "2026-03-23T06:22:01Z",
+    "pushed_at": "2026-04-10T10:20:20Z",
     "readmes": [
       {
         "path": "README.md",
@@ -1001,6 +1001,12 @@
         "path": "ca_dns/truststore.md",
         "title": "Java Truststore für eigene CA",
         "description": "Dieses Setup importiert eigene Root-CA-Zertifikate in einen Java-Truststore (PKCS12-Format), damit Java-Anwendungen im Kubernetes-Cluster TLS-Verbindungen zu intern signierten Diensten vertrauen.",
+        "type": "text"
+      },
+      {
+        "path": "external-mysqldb/external-db-bench.md",
+        "title": "dbclient - MySQL Benchmark Client mit Istio",
+        "description": "Sysbench-Deployment im Namespace `dbclient` mit Istio-Integration für persistente Verbindungen zum externen MySQL-Host `gmkchost.lan` (`192.168.178.28:3306`).",
         "type": "text"
       },
       {
@@ -1067,7 +1073,7 @@
     "name": "wlanboy.github.io",
     "description": "website",
     "url": "https://github.com/wlanboy/wlanboy.github.io",
-    "pushed_at": "2026-04-08T13:23:45Z",
+    "pushed_at": "2026-04-09T13:45:19Z",
     "readmes": [
       {
         "path": "README.md",

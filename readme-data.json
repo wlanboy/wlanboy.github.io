@@ -889,7 +889,7 @@
     "name": "ServiceConfig",
     "description": "Spring Framework based configuration service",
     "url": "https://github.com/wlanboy/ServiceConfig",
-    "pushed_at": "2026-01-01T15:03:43Z",
+    "pushed_at": "2026-04-11T10:09:37Z",
     "readmes": [
       {
         "path": "README.md",
@@ -903,7 +903,7 @@
     "name": "ServiceRegistry",
     "description": "Spring Framework based Service Registry",
     "url": "https://github.com/wlanboy/ServiceRegistry",
-    "pushed_at": "2026-01-01T13:41:28Z",
+    "pushed_at": "2026-04-11T10:03:34Z",
     "readmes": [
       {
         "path": "README.md",
@@ -959,12 +959,18 @@
     "name": "vagrantkind",
     "description": "scripts to installing containerd, tools, k3s or kind with certmanager, istio and argocd to run a local dev kubernetes cluster",
     "url": "https://github.com/wlanboy/vagrantkind",
-    "pushed_at": "2026-04-10T10:20:20Z",
+    "pushed_at": "2026-04-11T08:02:15Z",
     "readmes": [
       {
         "path": "README.md",
         "title": "Kubernetes Cluster Setup",
         "description": "Dieses Repository enthält Skripte zum Aufbau eines lokalen Kubernetes-Clusters mit MetalLB, Istio, Cert-Manager und ArgoCD, sowie zur Einrichtung von KVM-Virtualisierung.",
+        "type": "readme"
+      },
+      {
+        "path": "apicurio/readme.md",
+        "title": "Apicurio Registry",
+        "description": "Apicurio Registry ist eine Schema-Registry für Event-Streaming und API-Management. Sie speichert und verwaltet Schemas (Avro, JSON Schema, Protobuf, OpenAPI, AsyncAPI u.a.) und stellt eine REST-API sowie eine Web-UI bereit.",
         "type": "readme"
       },
       {
@@ -1002,6 +1008,12 @@
         "title": "Java Truststore für eigene CA",
         "description": "Dieses Setup importiert eigene Root-CA-Zertifikate in einen Java-Truststore (PKCS12-Format), damit Java-Anwendungen im Kubernetes-Cluster TLS-Verbindungen zu intern signierten Diensten vertrauen.",
         "type": "text"
+      },
+      {
+        "path": "caddy/readme.md",
+        "title": "Caddy Reverse Proxy Setup",
+        "description": "Startet [Caddy](https://caddyserver.com/) als Docker-Container mit automatischen Let's Encrypt SSL-Zertifikaten. Bestehende Docker-Container werden interaktiv als Subdomains konfiguriert.",
+        "type": "readme"
       },
       {
         "path": "external-mysqldb/external-db-bench.md",
@@ -1053,7 +1065,7 @@
     "name": "WebShell",
     "description": "Spring Boot Web Shell",
     "url": "https://github.com/wlanboy/WebShell",
-    "pushed_at": "2026-01-01T15:15:10Z",
+    "pushed_at": "2026-04-11T09:54:24Z",
     "readmes": [
       {
         "path": "README.md",
@@ -1073,7 +1085,7 @@
     "name": "wlanboy.github.io",
     "description": "website",
     "url": "https://github.com/wlanboy/wlanboy.github.io",
-    "pushed_at": "2026-04-09T13:45:19Z",
+    "pushed_at": "2026-04-10T13:15:32Z",
     "readmes": [
       {
         "path": "README.md",

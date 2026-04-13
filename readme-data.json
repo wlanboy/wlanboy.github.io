@@ -231,7 +231,7 @@
     "name": "gitops",
     "description": "Simple way to create project, repros and apps in argocd",
     "url": "https://github.com/wlanboy/gitops",
-    "pushed_at": "2026-04-08T06:01:58Z",
+    "pushed_at": "2026-04-12T16:34:51Z",
     "readmes": [
       {
         "path": "apps/readme.md",
@@ -299,20 +299,6 @@
         "path": "README.md",
         "title": "gosmtp",
         "description": "golang mock smtp and imap server for local testing - writes sent mail to local directory",
-        "type": "readme"
-      }
-    ]
-  },
-  {
-    "name": "hadoop",
-    "description": null,
-    "url": "https://github.com/wlanboy/hadoop",
-    "pushed_at": "2026-04-09T16:57:38Z",
-    "readmes": [
-      {
-        "path": "readme.md",
-        "title": "Projektbeschreibung",
-        "description": "Dieses Repro baut ein eigenes Docker Image für die aktuelles Hadoop Version mit Java 11 auf. Es nutzt dieses Image um einen Hadoop Cluster mit zwei Namenodes, 3 Journalnodes, 3 Zookeepernodes, 3 Datanodes, einem Ressourcemanager und einem Nodemanager.",
         "type": "readme"
       }
     ]
@@ -433,6 +419,20 @@
         "path": "kubeeventjava-chart/readme.md",
         "title": "Helm install for kubeeventjava",
         "description": "This helm script installs the Kubeevent Java App within a kubernetes cluster.",
+        "type": "readme"
+      }
+    ]
+  },
+  {
+    "name": "kubestats",
+    "description": "Python based kubectl crd statistic tool",
+    "url": "https://github.com/wlanboy/kubestats",
+    "pushed_at": "2026-04-13T06:49:21Z",
+    "readmes": [
+      {
+        "path": "README.md",
+        "title": "kubestats",
+        "description": "A command-line tool for gathering and visualizing statistics about Kubernetes and OpenShift cluster resources — focused on adoption rates, operator usage, and service mesh coverage, always broken down **per namespace**.",
         "type": "readme"
       }
     ]
@@ -971,12 +971,18 @@
     "name": "vagrantkind",
     "description": "scripts to installing containerd, tools, k3s or kind with certmanager, istio and argocd to run a local dev kubernetes cluster",
     "url": "https://github.com/wlanboy/vagrantkind",
-    "pushed_at": "2026-04-12T05:22:51Z",
+    "pushed_at": "2026-04-12T16:43:32Z",
     "readmes": [
       {
         "path": "README.md",
         "title": "Kubernetes Cluster Setup",
         "description": "Dieses Repository enthält Skripte zum Aufbau eines lokalen Kubernetes-Clusters mit MetalLB, Istio, Cert-Manager und ArgoCD, sowie zur Einrichtung von KVM-Virtualisierung.",
+        "type": "readme"
+      },
+      {
+        "path": "analytics/README.md",
+        "title": "kubectl analytics",
+        "description": "A command-line tool for gathering and visualizing statistics about Kubernetes cluster resources — focused on adoption rates, operator usage, and service mesh coverage, always broken down **per namespace**.",
         "type": "readme"
       },
       {
@@ -1097,7 +1103,7 @@
     "name": "wlanboy.github.io",
     "description": "website",
     "url": "https://github.com/wlanboy/wlanboy.github.io",
-    "pushed_at": "2026-04-11T13:02:46Z",
+    "pushed_at": "2026-04-12T13:05:43Z",
     "readmes": [
       {
         "path": "README.md",

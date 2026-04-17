@@ -178,6 +178,26 @@ function buildTopics(gi) {
     desc.textContent = topic.description;
     inner.appendChild(desc);
 
+    if (topic.details && topic.details.length) {
+      topic.details.forEach(item => {
+        if (Array.isArray(item)) {
+          const ul = document.createElement('ul');
+          ul.className = 'topic-list';
+          item.forEach(text => {
+            const li = document.createElement('li');
+            li.textContent = text;
+            ul.appendChild(li);
+          });
+          inner.appendChild(ul);
+        } else {
+          const p = document.createElement('p');
+          p.className = 'topic-desc';
+          p.textContent = item;
+          inner.appendChild(p);
+        }
+      });
+    }
+
     if (conns.length) {
       const lbl = document.createElement('p');
       lbl.className   = 'conn-label';

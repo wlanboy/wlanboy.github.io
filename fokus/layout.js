@@ -124,7 +124,7 @@
     const newCenters = {};
     for (const c of constellations) {
       const center = centers[c.id];
-      const result = simulate(c.stars, c.lines, center);
+      const result = simulate(c.stars, c.lines, center, c.opts || {});
       for (const s of result) positions[s.id] = { x: s.x, y: s.y };
       // recompute centroid for label placement
       const avgX = result.reduce((a, s) => a + s.x, 0) / result.length;

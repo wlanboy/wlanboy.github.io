@@ -115,6 +115,10 @@ button {
   font-size: 0.95rem;
   line-height: 1.4;
   opacity: 0.9;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 /* Modal */
@@ -157,6 +161,30 @@ button {
 pre {
   white-space: pre-wrap;
   font-family: monospace;
+}
+
+#modalLink {
+  display: inline-block;
+  margin-top: 1.2rem;
+  padding: 8px 16px;
+  border-radius: 8px;
+  background: #007bff;
+  color: white;
+  text-decoration: none;
+  font-size: 0.95rem;
+  transition: background 0.2s;
+}
+
+#modalLink:hover {
+  background: #0056b3;
+}
+
+.error-msg {
+  grid-column: 1 / -1;
+  padding: 2rem;
+  text-align: center;
+  color: #e55;
+  font-size: 1.1rem;
 }
 
 input[type="text"],

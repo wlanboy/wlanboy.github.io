@@ -137,6 +137,7 @@ body {
   line-height: 1.55;
   color: oklch(0.88 0.02 250);
   text-wrap: pretty;
+  white-space: pre-wrap;
 }
 
 .pill-list {

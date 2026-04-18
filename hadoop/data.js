@@ -6,6 +6,16 @@
     "grafana":    280,
   };
 
+  // Per-group force-simulation tuning.
+  // hdfs: dense core of 5 highly connected nodes → shorter springs + more repulsion so labels breathe.
+  // prometheus: dual-hub (jmx-config / prometheus-scrape) + 6 leaf prom-* nodes all double-connected →
+  //   long springs and strong repulsion so hubs can separate and leaves fan outward.
+  const GROUP_OPTS = {
+    "hdfs":       { repel: 8500,  springL:  75, spring: 0.020, gravity: 0.005, iters: 380 },
+    "hadoop":     { gravity: 0.005 },
+    "prometheus": { repel: 9000, springL: 75, spring: 0.008, gravity: 0.005, iters: 420 },
+  };
+
   function formatDetails(details) {
     const lines = [];
     for (const d of details) {
@@ -640,6 +650,7 @@
       cx: 400, cy: 400,
       stars,
       lines,
+      opts: GROUP_OPTS[g.id] ?? {},
     };
   });
 

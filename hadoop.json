@@ -216,6 +216,69 @@
       ],
       "connections": ["hdfs-block", "hdfs-namenode-role"]
     },
+    {
+      "id": "hdfs-balancer",
+      "label": "HDFS Balancer",
+      "group": "hdfs",
+      "description": "Der HDFS Balancer ist ein eigenständiges Tool das Block-Daten zwischen DataNodes umverteilt, um eine gleichmäßige Disk-Auslastung wiederherzustellen – z.B. nach dem Hinzufügen neuer DataNodes oder nach ungleichmäßigen Schreiblasten.",
+      "details": [
+        "Der Balancer läuft als separater JVM-Prozess (kein YARN-Job). Er koordiniert Block-Moves direkt über die DataNode-Transfer-Threads. Der aktive NameNode weist den Balancer auf Quell- und Ziel-DataNodes hin; die eigentliche Datenübertragung läuft wie eine normale Block-Replikation über TCP.",
+        "Aufruf und wichtige Flags:",
+        [
+          "hdfs balancer -threshold 10 (max. erlaubte Differenz der Disk-Auslastung in %)",
+          "hdfs balancer -idleiterations 5 (Abbruch nach N Iterationen ohne Fortschritt)",
+          "hdfs balancer -blockpools ns1 (auf einen Nameservice begrenzen)"
+        ],
+        "Bandbreiten- und Performance-Parameter:",
+        [
+          "dfs.datanode.balance.bandwidthPerSec = 104857600 (100 MB/s – Standard)",
+          "dfs.balancer.moverThreads = 1000 (parallele Move-Threads)",
+          "dfs.balancer.max-no-move-interval = 60000 ms (Timeout ohne erfolgreichen Move)",
+          "dfs.balancer.getBlocks.size = 2147483648 (Max. Bytes pro getBlocks-RPC-Aufruf)"
+        ],
+        "Wann den Balancer starten:",
+        [
+          "Nach dem Hinzufügen neuer DataNodes (neue DNs sind initial leer)",
+          "Nach sehr ungleichmäßigen Bulk-Schreibvorgängen",
+          "Wenn DataNode-Disk-Auslastung im Grafana-Dashboard stark voneinander abweicht",
+          "Im Wartungsfenster starten – der Balancer erzeugt erheblichen Netzwerkdurchsatz"
+        ],
+        "Der Balancer beendet sich selbst wenn der Threshold erreicht ist oder kein Fortschritt mehr möglich ist. Er kann jederzeit mit Ctrl+C abgebrochen werden ohne den Cluster zu beschädigen – laufende Block-Moves werden abgeschlossen, keine Daten gehen verloren."
+      ],
+      "connections": ["hdfs-block", "hdfs-datanode-role", "datanode"]
+    },
+    {
+      "id": "hdfs-snapshots",
+      "label": "HDFS Snapshots",
+      "group": "hdfs",
+      "description": "HDFS Snapshots sind schreibgeschützte Point-in-Time-Kopien von Verzeichnisbäumen. Sie werden als reine Metadaten-Operationen implementiert – es werden keine Datenblöcke kopiert. Der NameNode speichert nur die Differenz (geänderte Blöcke) zur Snapshot-Zeit.",
+      "details": [
+        "Snapshots sind auf Verzeichnisebene aktivierbar. Ein Snapshot-fähiges Verzeichnis wird als 'snapshottable directory' markiert. Der NameNode hält Snapshot-Metadaten im RAM (ca. 150 Bytes pro Snapshot-Eintrag, ähnlich wie normale Inodes).",
+        "Snapshot-Verwaltung via HDFS-Shell:",
+        [
+          "hdfs dfsadmin -allowSnapshot /user/data → Verzeichnis snapshot-fähig machen",
+          "hdfs dfs -createSnapshot /user/data backup-2026-04-18 → Snapshot erstellen",
+          "hdfs dfs -listSnapshots /user/data → alle Snapshots auflisten",
+          "hdfs dfs -deleteSnapshot /user/data backup-2026-04-18 → Snapshot löschen",
+          "hdfs snapshotDiff /user/data backup-2026-04-18 . → Diff zwischen Snapshot und aktuellem Stand"
+        ],
+        "Zugriff auf Snapshot-Daten:",
+        [
+          "Snapshots sind unter /user/data/.snapshot/backup-2026-04-18/ zugänglich",
+          ".snapshot ist ein virtuelles Verzeichnis – es erscheint nicht in ls, ist aber direkt adressierbar",
+          "Dateien im Snapshot können wie normale HDFS-Dateien gelesen werden (hdfs dfs -cat, distcp, etc.)"
+        ],
+        "Typische Anwendungsfälle:",
+        [
+          "Backup vor einem Bulk-Delete oder einer Datenmigration",
+          "Datenbasis für inkrementellen distcp: hdfs distcp -update -diff snap1 snap2 /src /dst",
+          "Rollback bei fehlerhafter ETL-Verarbeitung",
+          "Konsistenter Lese-Snapshot für parallele Analysen ohne Write-Locks"
+        ],
+        "Einschränkungen: max. 65536 Snapshots pro Verzeichnis. Gelöschte Dateien deren Blöcke noch in einem Snapshot referenziert sind, belegen weiterhin Disk-Kapazität. Snapshots werden nicht automatisch angelegt – keine Scheduler-Integration in Vanilla HDFS."
+      ],
+      "connections": ["hdfs-namenode-role", "hdfs-block", "hdfs-replication-pipeline"]
+    },
 
     {
       "id": "zookeeper",
@@ -447,6 +510,45 @@
         "Der NodeManager meldet sich beim ResourceManager an und sendet regelmäßige Heartbeats mit Ressourcenverbrauch und Container-Status. Bei Ausfall des NodeManager markiert der RM alle laufenden Container als verloren. Applikationen die Fault-Tolerance implementieren (MapReduce) starten fehlgeschlagene Tasks auf anderen NodeManagern neu."
       ],
       "connections": ["resourcemanager", "datanode"]
+    },
+    {
+      "id": "distcp",
+      "label": "DistCp",
+      "group": "hadoop",
+      "description": "DistCp (Distributed Copy) ist ein MapReduce-basiertes Tool für großvolumige Datenkopiervorgänge innerhalb eines HDFS-Clusters oder zwischen zwei Clustern. Jeder Map-Task kopiert eine Teilmenge der Dateien parallel.",
+      "details": [
+        "DistCp läuft als MapReduce-Job auf YARN. Der Job-Client berechnet eine Liste aller zu kopierenden Dateien, teilt sie in gleich große Batches auf und erzeugt einen Mapper pro Batch. Jeder Mapper liest aus dem Quell-HDFS und schreibt in das Ziel-HDFS direkt über die DataNode-Transfer-Pfade.",
+        "Grundlegende Syntax:",
+        [
+          "hadoop distcp hdfs://ns1/src hdfs://ns1/dst",
+          "hadoop distcp -m 10 hdfs://ns1/src hdfs://ns1/dst (-m: Anzahl Mapper)",
+          "hadoop distcp -bandwidth 50 hdfs://ns1/src hdfs://ns1/dst (-bandwidth: MB/s pro Mapper)",
+          "hadoop distcp -update hdfs://ns1/src hdfs://ns1/dst (nur geänderte Dateien kopieren)",
+          "hadoop distcp -delete hdfs://ns1/src hdfs://ns1/dst (Zieldateien löschen die in Quelle fehlen)"
+        ],
+        "Wichtige Flags:",
+        [
+          "-p (rbugct) → Attribute bewahren: permissions, replication, block-size, user, group, checksum, timestamps",
+          "-atomic → Kopie zuerst in tmp-Verzeichnis, dann atomares Rename",
+          "-overwrite → Zieldateien immer überschreiben, unabhängig von Änderungsstatus",
+          "-diff snap1 snap2 → inkrementelles distcp über HDFS-Snapshot-Diff (nur geänderte Blöcke)"
+        ],
+        "YARN-Ressourcenverbrauch im Cluster:",
+        [
+          "mapreduce.am.resource.mb = 512 MB (ApplicationMaster)",
+          "mapreduce.map.memory.mb = 512 MB (pro Mapper-Container)",
+          "Mapper-Anzahl -m begrenzen damit distcp nicht den gesamten YARN-Cluster belegt",
+          "distcp erscheint in der YARN Web-UI (Port 8088) unter dem job-Namen 'distcp'"
+        ],
+        "Inkrementelles distcp mit Snapshot-Diff:",
+        [
+          "hdfs dfsadmin -allowSnapshot /src",
+          "hdfs dfs -createSnapshot /src snap1",
+          "hadoop distcp -update -diff snap1 snap2 hdfs://ns1/src hdfs://ns1/dst",
+          "Nur Blöcke die sich zwischen snap1 und snap2 geändert haben werden übertragen – erhebliche Bandbreiteneinsparung"
+        ]
+      ],
+      "connections": ["resourcemanager", "nodemanager", "hdfs-replication-pipeline", "hdfs-snapshots"]
     },
 
     {
@@ -1019,6 +1121,37 @@
         "Bei HeapCritical: zuerst GC-Log prüfen (/var/log/hadoop/gc-*.log). Full-GC-Zyklen deuten auf zu kleinen Heap oder Memory-Leak. GCTimeHigh ohne HeapWarning deutet auf häufige Young-Generation-GCs durch hohe Allokationsrate hin."
       ],
       "connections": ["dash-jvm"]
+    },
+    {
+      "id": "alert-journalnode",
+      "label": "Alerts: JournalNode",
+      "group": "grafana",
+      "description": "5 Alert-Rules in journalnode.yml für JournalNode-Verfügbarkeit, Quorum-Sicherheit und Sync-Performance – kritisch weil JN-Ausfälle den aktiven NameNode zum Stillstand bringen können.",
+      "details": [
+        "Alert-Definitionen:",
+        [
+          "JournalNodeDown (Critical): up{role=\"journalnode\"} == 0 for 1m → JN nicht mehr scrappbar, Quorum gefährdet",
+          "JournalNodeQuorumAtRisk (Warning): count(up{role=\"journalnode\"} == 1) < 3 for 2m → nur noch 2 von 3 JNs aktiv, kein Ausfall-Puffer",
+          "JournalNodeSyncLatencyHigh (Warning): hadoop_journalnode_journal_syncsavgtime > 500 ms for 5m → langsame JN-Commits blockieren NN-Edit-Log",
+          "JournalNodeBatchesWrittenRateZero (Warning): rate(hadoop_journalnode_journal_batcheswritten[5m]) == 0 for 10m → JN empfängt keine Transaktionen mehr",
+          "JournalNodeHeapHigh (Warning): memheapusedm / memheapmaxm > 0.80 for 5m → JN-Heap-Druck, Heap ist auf 512 MB begrenzt"
+        ],
+        "Warum JournalNode-Alerts kritisch sind:",
+        [
+          "Bei 2 von 3 ausgefallenen JNs kann der aktive NameNode kein Edit-Log mehr schreiben",
+          "Der NameNode stoppt alle Namespace-Operationen (Writes) bis der Quorum wiederhergestellt ist",
+          "Reads (getBlockLocations) funktionieren noch, aber alle Write-Operationen (create, delete, addBlock) scheitern",
+          "JournalNodeQuorumAtRisk ist der Frühwarnindikator – bei diesem Alert sofort reagieren bevor der zweite JN ausfällt"
+        ],
+        "Korrelationen für Troubleshooting:",
+        [
+          "JournalNodeSyncLatencyHigh + RPCQueueLatencyHigh → Edit-Log-Engpass blockiert NameNode-RPC-Handler",
+          "JournalNodeSyncLatencyHigh + GCTimeHigh (JN) → GC-Pausen verzögern JN-fsync-Operationen",
+          "JournalNodeDown + EditLog-Fehler im NN-Log → JN-Container neu starten und hdfs namenode -bootstrapStandby prüfen"
+        ],
+        "Alert-Routing: JournalNodeDown als Critical mit group_wait=10s, repeat_interval=30m. QuorumAtRisk als Warning mit group_wait=30s. Beide in dieselbe Alertgruppe wie NameNode-Alerts gruppieren da JN-Ausfälle direkt den NameNode betreffen."
+      ],
+      "connections": ["dash-other", "journalnode"]
     }
 
   ],
@@ -1049,6 +1182,10 @@
     { "from": "hdfs-editlog",        "to": "journalnode"              },
     { "from": "hdfs-fsimage",        "to": "prom-namenode-metrics"    },
     { "from": "hdfs-block",          "to": "prom-datanode-metrics"    },
-    { "from": "hdfs-small-files",    "to": "prom-namenode-metrics"    }
+    { "from": "hdfs-small-files",    "to": "prom-namenode-metrics"    },
+    { "from": "hdfs-balancer",       "to": "prom-datanode-metrics"    },
+    { "from": "hdfs-snapshots",      "to": "prom-namenode-metrics"    },
+    { "from": "distcp",              "to": "prom-yarn-metrics"        },
+    { "from": "alert-journalnode",   "to": "prom-namenode-metrics"    }
   ]
 }

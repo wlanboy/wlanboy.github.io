@@ -1,6 +1,3 @@
-// Transforms hadoop.json data into the fokus constellation format.
-// Sets window.CONSTELLATIONS and window.CROSS_EDGES.
-
 (function () {
   const GROUP_HUES = {
     "hdfs":       195,
@@ -308,7 +305,7 @@
           ["Hadoop:service=DataNode,name=DataNodeActivity – Block-Ops, Bytes read/written", "Hadoop:service=DataNode,name=FSDatasetState – Disk-Kapazität, Volume-Status", "Hadoop:service=DataNode,name=DataNodeVolume – per-Volume-Metriken", "Hadoop:service=NameNode,name=NameNodeActivity – Namespace-Ops (create, delete, rename)", "Hadoop:service=NameNode,name=FSNamesystem – Block-Counts, Replication-Status", "Hadoop:service=NameNode,name=FSNamesystemState – Kapazität, Files/Blocks total", "Hadoop:service=NameNode,name=NameNodeStatus – HAState (active/standby als 0/1)", "Hadoop:service=NameNode,name=RetryCache – Cache-Hits/Misses für idempotente RPCs", "Hadoop:service=*,name=JvmMetrics – Heap, GC, Threads (alle Dienste)", "Hadoop:service=*,name=RpcActivityForPort* – RPC-Latenz und -Durchsatz", "Hadoop:service=ResourceManager,name=ClusterMetrics – NM-Status, Container", "Hadoop:service=ResourceManager,name=QueueMetrics – Queue-Statistiken", "Hadoop:service=NodeManager,name=NodeManagerMetrics – Container, Dirs, Fehler", "Hadoop:service=JournalNode,name=Journal-* – Edit-Log-Segment-Metriken"],
           "Metrik-Labels werden aus MBean-Attributen extrahiert. Der Hostname wird als instance-Label gesetzt, der Service-Name als service-Label. Damit sind Metriken in Grafana-Queries über {instance=\"dn1\"} filterbar."
         ],
-        "connections": ["jmx-agent", "prom-namenode-metrics", "prom-datanode-metrics", "prom-yarn-metrics", "prom-jvm-metrics", "prom-rpc-metrics"]
+        "connections": ["jmx-agent", "prom-namenode-metrics", "prom-datanode-metrics", "prom-yarn-metrics", "prom-jvm-metrics", "prom-rpc-metrics", "prom-journalnode-metrics"]
       },
       {
         "id": "prometheus-scrape", "label": "Scrape-Konfiguration", "group": "prometheus",
@@ -320,7 +317,7 @@
           ["hadoop-namenodes: nn1:28080, nn2:28080 (label: role=namenode)", "hadoop-zkfc: nn1:28081, nn2:28081 (label: role=zkfc)", "hadoop-datanodes: dn1:28080, dn2:28080, dn3:28080 (label: role=datanode)", "hadoop-journalnodes: jn1:28080, jn2:28080, jn3:28080 (label: role=journalnode)", "hadoop-resourcemanager: rm:28080 (label: role=resourcemanager)", "hadoop-nodemanager: nm:28080 (label: role=nodemanager)"],
           "Relabeling: Für jeden Job extrahiert eine relabel_configs-Regel den Hostnamen aus __address__ (z.B. \"nn1:28080\" → \"nn1\") und setzt ihn als instance-Label. Damit sind Metriken in Grafana-Queries über {instance=\"dn1\"} filterbar ohne den Port mitzuführen."
         ],
-        "connections": ["jmx-agent", "prom-namenode-metrics", "prom-datanode-metrics", "prom-yarn-metrics", "prom-jvm-metrics", "prom-rpc-metrics"]
+        "connections": ["jmx-agent", "prom-namenode-metrics", "prom-datanode-metrics", "prom-yarn-metrics", "prom-jvm-metrics", "prom-rpc-metrics", "prom-journalnode-metrics"]
       },
       {
         "id": "prom-namenode-metrics", "label": "NameNode-Metriken", "group": "prometheus",
@@ -387,6 +384,19 @@
           "RpcDetailedActivity-Metriken (pro Methode, NameNode):",
           ["hadoop_namenode_rpcdetailedactivity_getblocklocationsnumops – Read-Path-Aufrufe", "hadoop_namenode_rpcdetailedactivity_addblocknumops – Schreib-Path-Aufrufe", "hadoop_namenode_rpcdetailedactivity_completenumops – File-Close-Aufrufe", "hadoop_namenode_rpcdetailedactivity_mkdirnumops – mkdir-Aufrufe", "hadoop_namenode_rpcdetailedactivity_deletenumops – Delete-Aufrufe"],
           "Port-Label differenziert Client-RPC (8020) von Service-RPC (interne DataNode/ZKFC-Kommunikation). Hohe Queue-Latenz auf dem Client-RPC-Port deutet auf Client-Überlastung hin. Hohe Latenz auf dem Service-RPC-Port korreliert mit DataNode-Heartbeat-Problemen."
+        ],
+        "connections": ["prometheus-scrape", "jmx-config"]
+      },
+      {
+        "id": "prom-journalnode-metrics", "label": "JournalNode-Metriken", "group": "prometheus",
+        "description": "JMX-exportierte Metriken der JournalNode-MBeans – Edit-Log-Sync-Latenz, Batch-Durchsatz und Quorum-Verfügbarkeit.",
+        "details": [
+          "Journal-Metriken (Edit-Log-Operationen):",
+          ["hadoop_journalnode_journal_syncsavgtime – Durchschnittliche fsync-Dauer in ms (→ Warning Alert > 500 ms)", "hadoop_journalnode_journal_syncsnumops – Anzahl fsync-Operationen (Counter)", "hadoop_journalnode_journal_batcheswritten – Geschriebene Edit-Log-Batches (Counter, → Alert wenn Rate == 0)", "hadoop_journalnode_journal_byteswritten – Geschriebene Bytes (Counter)", "hadoop_journalnode_journal_txnswritten – Geschriebene Transaktionen (Counter)"],
+          "Quorum- und Verfügbarkeitsmetriken:",
+          ["up{role=\"journalnode\"} – Scrape-Erreichbarkeit: 1=up, 0=down (→ Critical Alert)", "count(up{role=\"journalnode\"} == 1) – Anzahl erreichbarer JNs (→ Warning Alert < 3)"],
+          "JVM-Metriken: JournalNodes exportieren dieselben JVM-MBeans wie alle anderen Hadoop-Dienste (Heap, GC, Threads). Diese werden über prom-jvm-metrics abgedeckt. Der JournalNode-Heap ist auf 512 MB begrenzt – HeapHigh-Alert bei > 80 % ist besonders relevant.",
+          "Alle JournalNode-Metriken sind per instance-Label {instance=\"jn1\"} / {instance=\"jn2\"} / {instance=\"jn3\"} differenzierbar, da der Prometheus-Scrape-Job hadoop-journalnodes die drei Targets jn1:28080, jn2:28080, jn3:28080 kennt."
         ],
         "connections": ["prometheus-scrape", "jmx-config"]
       },
@@ -471,7 +481,7 @@
           "RetryCache Metrics Dashboard:",
           ["Cache-Hit-Rate: hits / (hits + misses) als Zeitreihe", "Cache-Evictions über Zeit", "Bedeutung: hohe Miss-Rate deutet auf viele Client-Retries hin (Netzwerkprobleme oder NN-Überlastung)"]
         ],
-        "connections": ["dash-namenode-cluster", "dash-datanode-metrics"]
+        "connections": ["dash-namenode-cluster", "dash-datanode-metrics", "prom-journalnode-metrics"]
       },
       {
         "id": "alert-namenode", "label": "Alerts: NameNode", "group": "grafana",
@@ -549,7 +559,7 @@
           ["JournalNodeSyncLatencyHigh + RPCQueueLatencyHigh → Edit-Log-Engpass blockiert NameNode-RPC-Handler", "JournalNodeSyncLatencyHigh + GCTimeHigh (JN) → GC-Pausen verzögern JN-fsync-Operationen", "JournalNodeDown + EditLog-Fehler im NN-Log → JN-Container neu starten und hdfs namenode -bootstrapStandby prüfen"],
           "Alert-Routing: JournalNodeDown als Critical mit group_wait=10s, repeat_interval=30m. QuorumAtRisk als Warning mit group_wait=30s. Beide in dieselbe Alertgruppe wie NameNode-Alerts gruppieren da JN-Ausfälle direkt den NameNode betreffen."
         ],
-        "connections": ["dash-other", "journalnode"]
+        "connections": ["dash-other", "journalnode", "prom-journalnode-metrics"]
       }
     ],
     "crossConnections": [
@@ -583,7 +593,11 @@
       { "from": "hdfs-balancer",       "to": "prom-datanode-metrics"    },
       { "from": "hdfs-snapshots",      "to": "prom-namenode-metrics"    },
       { "from": "distcp",              "to": "prom-yarn-metrics"        },
-      { "from": "alert-journalnode",   "to": "prom-namenode-metrics"    }
+      { "from": "alert-journalnode",   "to": "prom-journalnode-metrics"  },
+      { "from": "journalnode",          "to": "prom-journalnode-metrics"  },
+      { "from": "prom-journalnode-metrics", "to": "dash-other"            },
+      { "from": "zkfc",                 "to": "prom-jvm-metrics"          },
+      { "from": "zkfc",                 "to": "prom-rpc-metrics"          }
     ]
   };
 

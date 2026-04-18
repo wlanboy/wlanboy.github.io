@@ -50,8 +50,8 @@ def repo_recently_updated(repo):
     return pushed_date >= CUTOFF_DATE
 
 
-def get_repo_tree(user, repo_name):
-    url = f"https://api.github.com/repos/{user}/{repo_name}/git/trees/main?recursive=1"
+def get_repo_tree(user, repo_name, branch):
+    url = f"https://api.github.com/repos/{user}/{repo_name}/git/trees/{branch}?recursive=1"
     response = requests.get(url, headers=HEADERS)
 
     if response.status_code != 200:
@@ -166,7 +166,8 @@ def main():
 
         log(f"🔍 Analysiere Repo: {repo_name}")
 
-        tree = get_repo_tree(GITHUB_USER, repo_name)
+        branch = repo.get("default_branch", "main")
+        tree = get_repo_tree(GITHUB_USER, repo_name, branch)
 
         readme_entries = []
         for item in tree:
@@ -206,6 +207,7 @@ def main():
             "description": repo.get("description"),
             "url": repo.get("html_url"),
             "pushed_at": repo.get("pushed_at"),
+            "default_branch": branch,
             "readmes": readme_entries
         })
 

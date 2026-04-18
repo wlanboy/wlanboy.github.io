@@ -4,6 +4,7 @@
     "description": "UML generator for ansible playbooks and inventories",
     "url": "https://github.com/wlanboy/ansible_uml",
     "pushed_at": "2026-02-21T07:50:43Z",
+    "default_branch": "main",
     "readmes": [
       {
         "path": "README.md",
@@ -18,6 +19,7 @@
     "description": "bcrypt command line tool",
     "url": "https://github.com/wlanboy/bcrypt",
     "pushed_at": "2026-01-01T08:05:12Z",
+    "default_branch": "main",
     "readmes": [
       {
         "path": "README.md",
@@ -32,13 +34,22 @@
     "description": "configs for blackbox exporter, prometheus and grafana",
     "url": "https://github.com/wlanboy/blackbox",
     "pushed_at": "2025-08-19T06:47:01Z",
-    "readmes": []
+    "default_branch": "master",
+    "readmes": [
+      {
+        "path": "readme.md",
+        "title": "Lokaler Monitoring Stack",
+        "description": "Das Dashboard-JSON (`Blackbox Exporter Dashboard.json`) kann in Grafana importiert werden.",
+        "type": "readme"
+      }
+    ]
   },
   {
     "name": "caweb",
     "description": "Python based web frontend to create ssl certs for hostname on a given ca",
     "url": "https://github.com/wlanboy/caweb",
     "pushed_at": "2026-03-13T18:09:37Z",
+    "default_branch": "main",
     "readmes": [
       {
         "path": "README.md",
@@ -59,6 +70,7 @@
     "description": null,
     "url": "https://github.com/wlanboy/cloudconfig",
     "pushed_at": "2026-01-02T06:50:08Z",
+    "default_branch": "main",
     "readmes": [
       {
         "path": "README.md",
@@ -73,6 +85,7 @@
     "description": "Spring based property generator - generated k8s ConfigMap from Spring Cloud Config Server",
     "url": "https://github.com/wlanboy/CloudConfigPropertyGenerator",
     "pushed_at": "2026-03-28T07:18:51Z",
+    "default_branch": "main",
     "readmes": [
       {
         "path": "README.md",
@@ -87,6 +100,7 @@
     "description": "Create libvirt  vm of debian 12 and 13 with cloud init - with amd64 and arm64 support",
     "url": "https://github.com/wlanboy/debian-cloud-init",
     "pushed_at": "2026-03-28T12:45:11Z",
+    "default_branch": "main",
     "readmes": [
       {
         "path": "README.md",
@@ -107,6 +121,7 @@
     "description": "Spring Boot Rest API to controll git repros and ansible playbook based deployments",
     "url": "https://github.com/wlanboy/deployer",
     "pushed_at": "2026-04-08T06:07:31Z",
+    "default_branch": "main",
     "readmes": [
       {
         "path": "README.md",
@@ -121,6 +136,7 @@
     "description": "python based ansible deployment monitor, using sqlite as storage and pushing results to prometheus",
     "url": "https://github.com/wlanboy/deployment_monitor",
     "pushed_at": "2026-02-21T08:00:11Z",
+    "default_branch": "main",
     "readmes": [
       {
         "path": "README.md",
@@ -147,6 +163,7 @@
     "description": "Collection of docker scripts",
     "url": "https://github.com/wlanboy/Dockerfiles",
     "pushed_at": "2026-01-01T14:28:29Z",
+    "default_branch": "main",
     "readmes": [
       {
         "path": "PiHole/password.md",
@@ -185,6 +202,7 @@
     "description": "Python based fake eureka client to register services in legacy eureka server instance",
     "url": "https://github.com/wlanboy/eurekaclient",
     "pushed_at": "2026-03-28T13:07:45Z",
+    "default_branch": "main",
     "readmes": [
       {
         "path": "README.md",
@@ -211,6 +229,7 @@
     "description": "Java based service to create several eureka clients entries without having to use the eureka lib",
     "url": "https://github.com/wlanboy/eurekaclientjava",
     "pushed_at": "2026-04-08T11:38:56Z",
+    "default_branch": "main",
     "readmes": [
       {
         "path": "README.md",
@@ -225,13 +244,22 @@
     "description": "Failover DNS for nodeping and cloudflare",
     "url": "https://github.com/wlanboy/failoverdns",
     "pushed_at": "2025-12-27T19:11:54Z",
-    "readmes": []
+    "default_branch": "master",
+    "readmes": [
+      {
+        "path": "README.md",
+        "title": "failoverdns",
+        "description": "Failover DNS for nodeping and cloudflare",
+        "type": "readme"
+      }
+    ]
   },
   {
     "name": "gitops",
     "description": "Simple way to create project, repros and apps in argocd",
     "url": "https://github.com/wlanboy/gitops",
     "pushed_at": "2026-04-12T16:34:51Z",
+    "default_branch": "main",
     "readmes": [
       {
         "path": "apps/readme.md",
@@ -294,6 +322,7 @@
     "description": "golang mock smtp server for local testing - writes sent mail to local directory",
     "url": "https://github.com/wlanboy/gosmtp",
     "pushed_at": "2026-01-01T12:15:52Z",
+    "default_branch": "main",
     "readmes": [
       {
         "path": "README.md",
@@ -308,6 +337,7 @@
     "description": "Spring boot service scanning a directory of a hadoop cluster for subdirectories and their sizes to provide this information as metrics",
     "url": "https://github.com/wlanboy/hadoopmetrics",
     "pushed_at": "2026-01-01T13:21:00Z",
+    "default_branch": "main",
     "readmes": [
       {
         "path": "README.md",
@@ -322,6 +352,7 @@
     "description": "Spring based rest service to test http call within k8s and istio",
     "url": "https://github.com/wlanboy/JavaHttpClient",
     "pushed_at": "2026-04-08T10:49:10Z",
+    "default_branch": "main",
     "readmes": [
       {
         "path": "README.md",
@@ -354,6 +385,7 @@
     "description": "golang based console kanban board",
     "url": "https://github.com/wlanboy/kanbantabs",
     "pushed_at": "2025-12-27T17:30:35Z",
+    "default_branch": "main",
     "readmes": [
       {
         "path": "README.md",
@@ -368,6 +400,7 @@
     "description": "FastApi based web frontend to manage kind clusters with metallb and istio integration",
     "url": "https://github.com/wlanboy/kind-web-controller",
     "pushed_at": "2026-01-18T17:56:14Z",
+    "default_branch": "main",
     "readmes": [
       {
         "path": "README.md",
@@ -378,10 +411,26 @@
     ]
   },
   {
+    "name": "kubecontext",
+    "description": "Python tool to get and manage kube config files.",
+    "url": "https://github.com/wlanboy/kubecontext",
+    "pushed_at": "2026-04-18T09:30:44Z",
+    "default_branch": "main",
+    "readmes": [
+      {
+        "path": "README.md",
+        "title": "kubecontext",
+        "description": "Interaktives TUI-Tool zur Verwaltung von Kubernetes-Kontexten in `~/.kube/config`. Es ermöglicht das Importieren von Kubeconfigs von Remote-Servern per SSH, das Verwalten von SSH-Tunneln, das Wechseln des aktiven Kontexts, das Löschen von Kontexten sowie die Validierung der Cluster-Erreichbarkeit – alles über ein einfaches Auswahlmenü im Terminal.",
+        "type": "readme"
+      }
+    ]
+  },
+  {
     "name": "kubeevent",
     "description": "Python based k8s event listener. Stores events in sqlite db.",
     "url": "https://github.com/wlanboy/kubeevent",
     "pushed_at": "2026-02-21T06:40:57Z",
+    "default_branch": "main",
     "readmes": [
       {
         "path": "README.md",
@@ -402,6 +451,7 @@
     "description": "Spring Boot Kubernetes Eventlistener for namespaces to export metrics on kubernetes events",
     "url": "https://github.com/wlanboy/kubeeventjava",
     "pushed_at": "2026-03-28T12:49:30Z",
+    "default_branch": "main",
     "readmes": [
       {
         "path": "Grafana_Dashboards/readme.md",
@@ -427,7 +477,8 @@
     "name": "kubestats",
     "description": "Python based kubectl crd statistic tool",
     "url": "https://github.com/wlanboy/kubestats",
-    "pushed_at": "2026-04-13T06:49:21Z",
+    "pushed_at": "2026-04-18T09:38:28Z",
+    "default_branch": "main",
     "readmes": [
       {
         "path": "README.md",
@@ -442,6 +493,7 @@
     "description": "Simple CLI tool to test logback on command line",
     "url": "https://github.com/wlanboy/logbacktest",
     "pushed_at": "2025-11-16T17:22:28Z",
+    "default_branch": "main",
     "readmes": [
       {
         "path": "README.md",
@@ -456,6 +508,7 @@
     "description": "MCP Server in dotnet core für websuche",
     "url": "https://github.com/wlanboy/mcp-dotnet-websearch",
     "pushed_at": "2026-03-07T20:25:49Z",
+    "default_branch": "main",
     "readmes": [
       {
         "path": "README.md",
@@ -476,6 +529,7 @@
     "description": "Python based mcp server für duckduckgo search",
     "url": "https://github.com/wlanboy/mcp-duck-search",
     "pushed_at": "2026-04-07T13:14:04Z",
+    "default_branch": "main",
     "readmes": [
       {
         "path": "README.md",
@@ -490,6 +544,7 @@
     "description": "A FastMCP python based mcp server to search in markdown files",
     "url": "https://github.com/wlanboy/mcp-md-fileserver",
     "pushed_at": "2026-03-28T13:13:07Z",
+    "default_branch": "main",
     "readmes": [
       {
         "path": "README.md",
@@ -516,6 +571,7 @@
     "description": null,
     "url": "https://github.com/wlanboy/me",
     "pushed_at": "2025-07-06T14:44:18Z",
+    "default_branch": "main",
     "readmes": [
       {
         "path": "README.md",
@@ -530,6 +586,7 @@
     "description": "Minimal minio admin webpage to replace removed features of open source web frontend",
     "url": "https://github.com/wlanboy/minioaccess",
     "pushed_at": "2026-03-21T16:57:00Z",
+    "default_branch": "main",
     "readmes": [
       {
         "path": "README.md",
@@ -544,6 +601,7 @@
     "description": "Spring Framework based service mirroring requests with parameterized wait time and http response codes",
     "url": "https://github.com/wlanboy/MirrorService",
     "pushed_at": "2026-04-08T10:59:20Z",
+    "default_branch": "main",
     "readmes": [
       {
         "path": "README.md",
@@ -558,6 +616,7 @@
     "description": "Python based pl/sql sqlplus checker for devs",
     "url": "https://github.com/wlanboy/python-sqlplus-checker",
     "pushed_at": "2026-03-12T09:05:26Z",
+    "default_branch": "main",
     "readmes": [
       {
         "path": "README.md",
@@ -572,6 +631,7 @@
     "description": "Python based microservice that will return 500 responses every second request and failes the healtiness hcheck and readyness check randomly",
     "url": "https://github.com/wlanboy/randomfail",
     "pushed_at": "2026-04-09T17:04:31Z",
+    "default_branch": "main",
     "readmes": [
       {
         "path": "README.md",
@@ -592,6 +652,7 @@
     "description": "Raspberry Pi scripts for all my homelab services",
     "url": "https://github.com/wlanboy/raspberrypi",
     "pushed_at": "2026-04-15T08:53:05Z",
+    "default_branch": "main",
     "readmes": [
       {
         "path": "README.md",
@@ -888,6 +949,7 @@
     "description": "Build debian based docker container for redis to run on gcr.io/distroless/cc",
     "url": "https://github.com/wlanboy/redis-from-source",
     "pushed_at": "2025-12-27T18:08:55Z",
+    "default_branch": "main",
     "readmes": [
       {
         "path": "README.md",
@@ -902,6 +964,7 @@
     "description": "Spring Framework based configuration service",
     "url": "https://github.com/wlanboy/ServiceConfig",
     "pushed_at": "2026-04-11T10:09:37Z",
+    "default_branch": "main",
     "readmes": [
       {
         "path": "README.md",
@@ -916,6 +979,7 @@
     "description": "Spring Framework based Service Registry",
     "url": "https://github.com/wlanboy/ServiceRegistry",
     "pushed_at": "2026-04-11T10:03:34Z",
+    "default_branch": "main",
     "readmes": [
       {
         "path": "README.md",
@@ -930,6 +994,7 @@
     "description": "Simple Spring Rest Service playing Blockchain",
     "url": "https://github.com/wlanboy/SimpleService",
     "pushed_at": "2026-04-08T11:46:03Z",
+    "default_branch": "main",
     "readmes": [
       {
         "path": "README.md",
@@ -940,10 +1005,26 @@
     ]
   },
   {
+    "name": "socketfinder",
+    "description": null,
+    "url": "https://github.com/wlanboy/socketfinder",
+    "pushed_at": "2026-04-18T09:56:44Z",
+    "default_branch": "main",
+    "readmes": [
+      {
+        "path": "readme.md",
+        "title": "socketfinder",
+        "description": "Ansible-basiertes Tool zur automatischen Erkennung offener TCP-Sockets auf Linux-Servern und anschließendem TLS/SSL-Scan aller gefundenen Dienste. Die Ergebnisse werden als CSV exportiert und können direkt weiterverarbeitet werden.",
+        "type": "readme"
+      }
+    ]
+  },
+  {
     "name": "triggerhappy",
     "description": "Python based trigger queue",
     "url": "https://github.com/wlanboy/triggerhappy",
     "pushed_at": "2026-03-13T16:55:30Z",
+    "default_branch": "main",
     "readmes": [
       {
         "path": "README.md",
@@ -958,6 +1039,7 @@
     "description": "my watch collection",
     "url": "https://github.com/wlanboy/uhren",
     "pushed_at": "2026-03-28T07:26:26Z",
+    "default_branch": "main",
     "readmes": [
       {
         "path": "readme.md",
@@ -972,6 +1054,7 @@
     "description": "scripts to installing containerd, tools, k3s or kind with certmanager, istio and argocd to run a local dev kubernetes cluster",
     "url": "https://github.com/wlanboy/vagrantkind",
     "pushed_at": "2026-04-12T16:43:32Z",
+    "default_branch": "main",
     "readmes": [
       {
         "path": "README.md",
@@ -1064,6 +1147,7 @@
     "description": "Python Flask web based terminal for container runtime testing",
     "url": "https://github.com/wlanboy/webpyshell",
     "pushed_at": "2026-01-01T15:46:18Z",
+    "default_branch": "main",
     "readmes": [
       {
         "path": "README.md",
@@ -1084,6 +1168,7 @@
     "description": "Spring Boot Web Shell",
     "url": "https://github.com/wlanboy/WebShell",
     "pushed_at": "2026-04-11T09:54:24Z",
+    "default_branch": "main",
     "readmes": [
       {
         "path": "README.md",
@@ -1103,7 +1188,8 @@
     "name": "wlanboy.github.io",
     "description": "website",
     "url": "https://github.com/wlanboy/wlanboy.github.io",
-    "pushed_at": "2026-04-17T13:09:41Z",
+    "pushed_at": "2026-04-18T09:23:59Z",
+    "default_branch": "main",
     "readmes": [
       {
         "path": "README.md",

@@ -3,7 +3,7 @@ html, body { margin: 0; padding: 0; height: 100%; }
 body {
   background: oklch(0.08 0.02 255);
   color: oklch(0.9 0.02 250);
-  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-family: ui-monospace, monospace;
   overflow: hidden;
 }
 
@@ -71,7 +71,7 @@ body {
   gap: 6px;
 }
 .pill {
-  font-family: 'JetBrains Mono', monospace;
+  font-family: ui-monospace, monospace;
   font-size: 11px;
   padding: 5px 11px;
   border: 1px solid oklch(0.28 0.04 260);

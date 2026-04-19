@@ -1,13 +1,13 @@
 (function () {
   const GROUP_HUES = {
-    "hdfs":   195,
-    "hadoop":  38,
+    "hdfs": 195,
+    "hadoop": 38,
   };
 
   // Per-group force-simulation tuning.
   // hdfs: dense core of 5 highly connected nodes → shorter springs + more repulsion so labels breathe.
   const GROUP_OPTS = {
-    "hdfs":   { repel: 18000, springL: 160, spring: 0.008, gravity: 0.002, iters: 480 },
+    "hdfs": { repel: 18000, springL: 160, spring: 0.008, gravity: 0.002, iters: 480 },
     "hadoop": { gravity: 0.005 },
   };
 
@@ -31,269 +31,460 @@
 
   const raw = {
     "groups": [
-      { "id": "hdfs",   "label": "HDFS Konzepte",  "color": "#0891b2" },
+      { "id": "hdfs", "label": "HDFS Konzepte", "color": "#0891b2" },
       { "id": "hadoop", "label": "Hadoop Cluster", "color": "#d97706" }
     ],
+
     "topics": [
+
+      /* -----------------------------------------------------------
+       * HDFS BLOCKS & REPLICATION
+       * ----------------------------------------------------------- */
       {
-        "id": "hdfs-block", "label": "Blöcke & Replikation", "group": "hdfs",
-        "description": "HDFS speichert Dateien als Sequenz gleichgroßer Blöcke. Jeder Block existiert physisch als separate Datei auf dem DataNode-Disk und wird unabhängig repliziert.",
+        "id": "hdfs-block",
+        "label": "Blöcke & Replikation",
+        "group": "hdfs",
+        "description": "HDFS speichert Dateien als Sequenz gleichgroßer Blöcke. Kleine Dateien profitieren von reduzierter Blockanzahl.",
         "details": [
-          "Im Cluster ist dfs.blocksize=16 MB konfiguriert (Standard: 128 MB). Die kleinere Blockgröße reduziert ungenutzte Restkapazität am Dateiende und senkt die Anzahl an Blöcken die der NameNode im RAM verwalten muss.",
-          "Konfigurationsparameter:",
-          ["dfs.blocksize = 16777216 (16 MB)", "dfs.replication = 2 (2 Replicas auf 3 DataNodes)", "dfs.permissions.enabled = false (Lab-Setup)"],
-          "Replikations-Pipeline beim Schreiben: Client baut eine TCP-Pipeline zu DN1→DN2 auf. Daten fließen als 64 KB Packets. DN1 leitet jedes Packet an DN2 weiter. Erst wenn beide ACK zurückgesendet haben, bestätigt DN1 dem Client. Bei DataNode-Ausfall bricht der Client ab und der NameNode weist Ersatz-DataNodes zu.",
-          "Block-Gesundheitszustände die der NameNode überwacht:",
-          ["Under-replicated: weniger als dfs.replication Kopien vorhanden → NameNode löst Re-Replikation aus", "Over-replicated: mehr Kopien als gewünscht → NameNode löscht überschüssige Kopien", "Corrupt: alle Kopien haben CRC-Fehler → Datenverlust, Critical Alert", "Missing: Block in NameNode-Metadata bekannt, aber kein DataNode meldet ihn → kritischster Zustand"]
+          "Produktive Blockgröße für gemischte Workloads: dfs.blocksize = 33554432 (32 MB).",
+          "Begründung: 32 MB reduziert Blockanzahl bei Small-Files, ohne die Fragmentierung großer Dateien zu stark zu erhöhen.",
+          "Replikationsfaktor: dfs.replication = 3 (Standard für Produktionscluster).",
+          "Replikations-Pipeline: Client → DN1 → DN2 → DN3, 64 KB Packets, ACK-Kaskade.",
+          "Block-Gesundheitszustände:",
+          [
+            "Under-replicated: weniger als 3 Kopien → Re-Replikation",
+            "Over-replicated: mehr Kopien → überschüssige Kopien löschen",
+            "Corrupt: alle Kopien fehlerhaft → Datenverlust",
+            "Missing: Block bekannt, aber kein DataNode meldet ihn → kritisch"
+          ]
         ],
         "connections": ["hdfs-namenode-role", "hdfs-datanode-role", "hdfs-ha"]
       },
+
+      /* -----------------------------------------------------------
+       * NAMENODE
+       * ----------------------------------------------------------- */
       {
-        "id": "hdfs-namenode-role", "label": "NameNode: Namespace & Metadata", "group": "hdfs",
-        "description": "Der NameNode ist der zentrale Metadaten-Server von HDFS. Er hält den gesamten Namespace – Verzeichnisbaum, Datei-zu-Block-Mapping und Block-zu-DataNode-Mapping – vollständig im RAM.",
+        "id": "hdfs-namenode-role",
+        "label": "NameNode: Namespace & Metadata",
+        "group": "hdfs",
+        "description": "Der NameNode verwaltet den gesamten Namespace im RAM. Small-Files erhöhen die Metadatenlast massiv.",
         "details": [
-          "Der Heap-Bedarf wächst linear mit der Anzahl von Dateien und Blöcken. Faustregel: ~150 Bytes pro Inode (Datei oder Verzeichnis) + ~200 Bytes pro Block. Bei 2 GB Heap sind ca. 100–150 Millionen Objekte verwaltbar.",
-          "JVM-Konfiguration:",
-          ["-Xms2g -Xmx2g (fester Heap, kein Resize-Overhead)", "-XX:+UseG1GC", "-XX:G1HeapRegionSize=32m (2 GB / 64 Regionen = 32 MB – G1-Optimum)", "-XX:MaxGCPauseMillis=200 (unter ZK-Session-Timeout von 120 s)", "GC-Log: /var/log/hadoop/gc-namenode.log (5 × 10 MB rotierend)"],
-          "Wichtige Konfigurationsparameter:",
-          ["dfs.namenode.handler.count = 80 (parallele Client-RPC-Handler)", "dfs.namenode.service.handler.count = 20 (Handler für DataNodes und ZKFC)", "dfs.namenode.edits.asynclogging = true (Edit-Log-Schreiben entkoppelt vom RPC-Thread)", "dfs.namenode.checkpoint.txns = 1000000 (Checkpoint nach 1 Mio. Transaktionen)", "dfs.namenode.checkpoint.period = 3600 s (oder nach 1 Stunde)"],
-          "Im HA-Setup läuft kein separater SecondaryNameNode. Stattdessen führt der Standby-NameNode die Checkpoints durch und überträgt das neue FSImage an den aktiven NameNode."
+          "Produktiver Heap für Small-Files: -Xms32g -Xmx32g (bis 200 Mio. Objekte).",
+          "G1GC empfohlen: -XX:+UseG1GC, -XX:G1HeapRegionSize=32m.",
+          "Handler für hohe Create-Last:",
+          [
+            "dfs.namenode.handler.count = 200",
+            "dfs.namenode.service.handler.count = 50"
+          ],
+          "EditLog-Optimierung:",
+          [
+            "dfs.namenode.edits.asynclogging = true",
+            "dfs.namenode.checkpoint.txns = 250000",
+            "dfs.namenode.checkpoint.period = 900"
+          ],
+          "Small-Files erzeugen viele Inodes → häufigere Checkpoints reduzieren Restart-Zeit."
         ],
         "connections": ["hdfs-block", "hdfs-fsimage", "hdfs-editlog", "hdfs-ha"]
       },
+
+      /* -----------------------------------------------------------
+       * DATANODE
+       * ----------------------------------------------------------- */
       {
-        "id": "hdfs-datanode-role", "label": "DataNode: Block-Storage", "group": "hdfs",
-        "description": "DataNodes sind die Worker-Knoten von HDFS. Sie speichern Block-Daten als Dateien im lokalen Dateisystem und führen auf Anweisung des NameNode Block-Operationen aus.",
+        "id": "hdfs-datanode-role",
+        "label": "DataNode: Block-Storage",
+        "group": "hdfs",
+        "description": "DataNodes speichern Blöcke und müssen bei Small-Files viele kleine Transfers verarbeiten.",
         "details": [
-          "Die Kommunikation zwischen DataNode und NameNode läuft über zwei Kanäle: Heartbeats (Lebenszeichen + Kapazitätsstatus) und Block-Reports (vollständiges Inventory aller gespeicherten Blöcke).",
-          "Heartbeat- und Block-Report-Parameter:",
-          ["dfs.heartbeat.interval = 3 s", "dfs.namenode.stale.datanode.interval = 30000 ms (kein Heartbeat → stale)", "dfs.blockreport.intervalMsec = 21600000 ms (Full Block-Report alle 6 h)", "dfs.datanode.directoryscan.interval = 21600 s (lokaler Disk-Scan alle 6 h)"],
-          "Performance-Parameter:",
-          ["dfs.datanode.max.transfer.threads = 4096 (max. parallele Block-Transfers)", "dfs.datanode.handler.count = 20 (RPC-Handler für NameNode- und Client-Anfragen)"],
-          "JVM-Konfiguration:",
-          ["-Xms1g -Xmx1g", "-XX:+UseG1GC", "-XX:MaxGCPauseMillis=100 ms (aggressiver als NameNode)", "GC-Log: /var/log/hadoop/gc-datanode.log"],
-          "DataNodes prüfen gespeicherte Blöcke regelmäßig via CRC-Verifizierung. Fehler werden an den NameNode gemeldet, der den Block als corrupt markiert und Re-Replikation von gesunden Kopien auslöst."
+          "dfs.datanode.max.transfer.threads = 8192 (viele parallele kleine Blocktransfers).",
+          "dfs.datanode.directoryscan.interval = 3600 (häufigere Volume-Scans für kleine Dateien).",
+          "Heartbeat: 3 s, Stale-Timeout: 30 s.",
+          "CRC-Prüfung für gespeicherte Blöcke."
         ],
         "connections": ["hdfs-block", "hdfs-namenode-role"]
       },
+
+      /* -----------------------------------------------------------
+       * EDIT LOG
+       * ----------------------------------------------------------- */
       {
-        "id": "hdfs-editlog", "label": "Edit Log", "group": "hdfs",
-        "description": "Das Edit Log ist das Write-Ahead-Log des NameNode. Jede Namespace-Änderung wird als Transaktion mit monoton steigender Transaktions-ID geschrieben, bevor sie im RAM-Namespace sichtbar wird.",
+        "id": "hdfs-editlog",
+        "label": "Edit Log",
+        "group": "hdfs",
+        "description": "Write-Ahead-Log für alle Namespace-Änderungen.",
         "details": [
-          "Namespace-Operationen die als Transaktion geloggt werden:",
-          ["create, delete, rename (Datei- und Verzeichnisoperationen)", "setReplication, setPermission, setOwner", "addBlock, updateBlocks, completeFile", "mkdir, symlink"],
-          "Im HA-Setup wird das Edit Log nicht auf lokaler Disk geschrieben, sondern über das Quorum Journal Manager (QJM) Protokoll an alle JournalNodes verteilt. Der aktive NameNode sendet jede Transaktion gleichzeitig an alle 3 JNs. Ein Commit gilt als erfolgreich wenn mindestens 2 von 3 JNs bestätigen.",
-          "JournalNode-Konfiguration:",
-          ["dfs.namenode.shared.edits.dir = qjournal://jn1:8485;jn2:8485;jn3:8485/ns1", "JournalNode RPC-Port: 8485", "JournalNode JMX-Port: 28080", "Heap: -Xms512m -Xmx512m"],
-          "dfs.namenode.edits.asynclogging=true entkoppelt das Schreiben des Edit Logs vom RPC-Handler-Thread. Ein dedizierter Logging-Thread übernimmt die Kommunikation mit den JournalNodes, der Client-RPC wartet nicht auf den JN-Quorum-Commit."
+          "Transaktionen: create, delete, rename, addBlock, completeFile usw.",
+          "HA: Edit Log wird über QJM an 3 JournalNodes geschrieben.",
+          "Commit erfolgreich bei 2 von 3 JournalNodes.",
+          "Asynclogging entkoppelt RPC-Thread vom Logging-Thread."
         ],
         "connections": ["hdfs-namenode-role", "hdfs-fsimage", "hdfs-ha"]
       },
+
+      /* -----------------------------------------------------------
+       * FSIMAGE
+       * ----------------------------------------------------------- */
       {
-        "id": "hdfs-fsimage", "label": "FSImage & Checkpoint", "group": "hdfs",
-        "description": "Das FSImage ist ein vollständiger, binär serialisierter Snapshot des NameNode-Namespace zu einem bestimmten Zeitpunkt. Es enthält den kompletten Verzeichnisbaum, alle Datei-Attribute und Block-Mappings.",
+        "id": "hdfs-fsimage",
+        "label": "FSImage & Checkpoint",
+        "group": "hdfs",
+        "description": "FSImage speichert den Namespace. Small-Files erzeugen viele EditLog-Einträge.",
         "details": [
-          "Beim Start lädt der NameNode das letzte FSImage und replayed dann alle Edit-Log-Transaktionen die danach angefallen sind. Je länger kein Checkpoint stattgefunden hat, desto mehr Transaktionen müssen replayed werden und desto länger dauert der Neustart.",
-          "Checkpoint-Trigger (OR-Verknüpfung – was zuerst eintritt):",
-          ["dfs.namenode.checkpoint.txns = 1000000 (1 Mio. Transaktionen seit letztem Checkpoint)", "dfs.namenode.checkpoint.period = 3600 s (1 Stunde seit letztem Checkpoint)"],
-          "Im HA-Setup führt der Standby-NameNode die Checkpoints durch. Ablauf: Standby merged lokales FSImage mit aufgelaufenen Edit-Log-Segmenten → schreibt neues FSImage → überträgt es via HTTP an den aktiven NameNode → aktiver NN nimmt es als neues Basis-FSImage an.",
-          "FSImage-Dateien im NameNode-Datenverzeichnis:",
-          ["fsimage_XXXXXXXXXXXXXXXX – letztes gespeichertes Image, TX-ID als Suffix", "fsimage_XXXXXXXXXXXXXXXX.md5 – Integritätsprüfung", "edits_inprogress_XXXX – aktuell beschriebenes Edit-Log-Segment", "edits_XXXX-XXXX – abgeschlossene Edit-Log-Segmente"],
-          "Der Alert CheckpointLag schlägt an wenn hadoop_namenode_namenodeactivity_transactionssincecheckpoint > 1.000.000 – also wenn kein Checkpoint in angemessener Zeit stattgefunden hat."
+          "Checkpoint-Trigger für Small-Files:",
+          [
+            "dfs.namenode.checkpoint.txns = 250000",
+            "dfs.namenode.checkpoint.period = 900"
+          ],
+          "Häufigere Checkpoints reduzieren Restart-Zeit bei Millionen kleiner Dateien."
         ],
         "connections": ["hdfs-editlog", "hdfs-namenode-role", "hdfs-ha"]
       },
+
+      /* -----------------------------------------------------------
+       * HIGH AVAILABILITY
+       * ----------------------------------------------------------- */
       {
-        "id": "hdfs-ha", "label": "High Availability", "group": "hdfs",
-        "description": "HDFS HA eliminiert den NameNode als Single Point of Failure durch zwei parallele NameNode-Instanzen mit geteiltem Edit Log über JournalNodes und automatischem Failover via ZooKeeper.",
+        "id": "hdfs-ha",
+        "label": "High Availability",
+        "group": "hdfs",
+        "description": "HDFS HA eliminiert den NameNode als Single Point of Failure.",
         "details": [
-          "Die HA-Architektur besteht aus fünf Komponenten: 2 NameNodes (aktiv/standby), 3 JournalNodes (Edit-Log-Sharing via QJM), 3 ZooKeeper-Knoten (Leader Election), 2 ZKFCs (Health-Monitor und Failover-Trigger) sowie DataNodes, die beide NNs kennen und dem aktiven folgen.",
-          "Automatischer Failover-Ablauf:",
-          ["1. ZKFC erkennt dass lokaler NameNode nicht mehr reagiert (Health-Check schlägt fehl)", "2. ZKFC gibt seinen ZooKeeper Ephemeral Lock Node auf", "3. ZooKeeper benachrichtigt den Wächter des anderen ZKFC", "4. Anderer ZKFC führt Fencing aus: shell(/bin/true) – kein echtes Fencing im Lab", "5. Anderer ZKFC promoviert seinen NameNode auf aktiv", "6. DataNodes empfangen neue aktive NN-Adresse und senden Heartbeats dorthin"],
-          "HA-Konfigurationsparameter in hdfs-site.xml:",
-          ["dfs.nameservices = ns1", "dfs.ha.namenodes.ns1 = nn1,nn2", "dfs.namenode.rpc-address.ns1.nn1 = nn1:8020", "dfs.namenode.rpc-address.ns1.nn2 = nn2:8020", "dfs.ha.automatic-failover.enabled = true", "ha.zookeeper.quorum = zk1:2181,zk2:2181,zk3:2181", "zookeeper.request.timeout = 120000 ms", "dfs.ha.fencing.methods = shell(/bin/true)", "dfs.client.failover.proxy.provider.ns1 = ConfiguredFailoverProxyProvider"],
-          "Im Produktivbetrieb muss das Fencing echten Split-Brain verhindern. shell(/bin/true) bedeutet: es wird nie wirklich gefenced. Bei gleichzeitigem Start zweier aktiver NameNodes entstehen divergente Edit Logs – fataler Datenverlust. Produktionsalternativen: SSH-Fencing oder STONITH (Power Cycling via IPMI/iDRAC)."
+          "Komponenten: 2 NameNodes, 3 JournalNodes, 3 ZooKeeper-Knoten, 2 ZKFCs.",
+          "Produktives Fencing:",
+          [
+            "dfs.ha.fencing.methods = sshfence",
+            "dfs.ha.fencing.ssh.private-key-files=/etc/hadoop/conf/ha_key",
+            "dfs.ha.fencing.ssh.connect-timeout=30000"
+          ],
+          "Lab-Setup (nicht produktiv!): shell(/bin/true).",
+          "Failover-Ablauf: ZKFC erkennt Fehler → ZK Lock → Fencing → Promotion."
         ],
         "connections": ["hdfs-namenode-role", "hdfs-editlog", "hdfs-fsimage"]
       },
+
+      /* -----------------------------------------------------------
+       * REPLICATION PIPELINE
+       * ----------------------------------------------------------- */
       {
-        "id": "hdfs-replication-pipeline", "label": "Schreib-Pipeline & Read-Path", "group": "hdfs",
-        "description": "HDFS-Clients kommunizieren direkt mit DataNodes für Datentransfers, aber immer über den NameNode für Metadaten-Lookups. Dies trennt Control-Path (NameNode) vom Data-Path (DataNodes).",
+        "id": "hdfs-replication-pipeline",
+        "label": "Schreib-Pipeline & Read-Path",
+        "group": "hdfs",
+        "description": "Trennung von Control-Path (NameNode) und Data-Path (DataNodes).",
         "details": [
-          "Schreib-Ablauf (Write Path):",
-          ["1. Client ruft create() auf dem NameNode – NN prüft Permissions, erstellt Inode, gibt Lease", "2. Client fordert Block an (addBlock RPC) – NN wählt DataNodes mit Rack-Aware Placement", "3. Client baut TCP-Pipeline auf: Client → DN1 → DN2", "4. Client streamt 64 KB Packets, DN1 leitet weiter an DN2", "5. DN2 sendet ACK zurück durch die Pipeline zum Client", "6. Bei vollständigem Block: Client ruft complete() – NN schließt Block"],
-          "Lese-Ablauf (Read Path):",
-          ["1. Client ruft open() – getBlockLocations RPC an NameNode", "2. NN gibt sortierte DataNode-Liste pro Block zurück (nächster zuerst via Rack-Awareness)", "3. Client liest direkt vom nächsten DataNode, kein Proxy durch den NameNode", "4. Bei DataNode-Fehler: Client versucht nächste DataNode in der Liste", "5. CRC-Prüfung auf Client-Seite nach jedem Block"],
-          "dfs.client.failover.proxy.provider.ns1=ConfiguredFailoverProxyProvider sorgt dafür, dass HDFS-Clients bei einem NameNode-Failover automatisch den neuen aktiven NameNode finden ohne Neustart oder Konfigurationsänderung. Der Client probiert nn1 und nn2 durch bis einer antwortet."
+          "Write Path: create() → addBlock → Pipeline → ACK-Kaskade.",
+          "Read Path: Client liest direkt vom nächsten DataNode.",
+          "Failover: Client nutzt ConfiguredFailoverProxyProvider."
         ],
         "connections": ["hdfs-block", "hdfs-namenode-role", "hdfs-datanode-role"]
       },
+
+      /* -----------------------------------------------------------
+       * SMALL FILES
+       * ----------------------------------------------------------- */
       {
-        "id": "hdfs-small-files", "label": "Small-Files-Optimierung", "group": "hdfs",
-        "description": "Viele kleine Dateien sind die klassische HDFS-Herausforderung: Jede Datei beansprucht NameNode-RAM unabhängig von ihrer Größe, und das Default-Blockformat ist für kleine Dateien ineffizient.",
+        "id": "hdfs-small-files",
+        "label": "Small-Files-Optimierung",
+        "group": "hdfs",
+        "description": "Viele kleine Dateien belasten den NameNode durch hohe Metadatenlast. Optimierungen reduzieren RAM-Verbrauch, RPC-Last und EditLog-Druck.",
         "details": [
-          "NameNode-RAM-Verbrauch: jeder Inode (Datei oder Verzeichnis) benötigt ca. 150 Bytes, jeder Block-Mapping-Eintrag ca. 200 Bytes. Bei dfs.replication=2 belegen 1 Mio. Dateien mit je 1 Block bereits ca. 700 MB Heap.",
-          "RAM-Kapazitätsabschätzung für 2 GB Heap:",
-          ["~8 Mio. Dateien mit durchschnittlich 2 Blöcken je Datei ≈ Grenze des 2-GB-Heaps", "dfs.blocksize=16 MB statt 128 MB: weniger Blöcke pro größerer Datei", "dfs.replication=2 statt 3: reduziert Block-Mapping-Einträge um 33 %"],
-          "Konfigurationsanpassungen im Cluster für Small-File-Workloads:",
-          ["dfs.blocksize = 16 MB (statt 128 MB Default)", "dfs.namenode.handler.count = 80 (mehr parallele Client-Verbindungen)", "dfs.namenode.edits.asynclogging = true (geringere Create-Latenz)", "dfs.namenode.checkpoint.txns = 1000000 (regelmäßige Checkpoints)"],
-          "Für extreme Small-File-Workloads (Millionen KB-großer Dateien) reichen diese Anpassungen nicht aus. Langfristige Lösungen: HAR-Archives (mehrere Dateien in einem Container), SequenceFiles (Key-Value-Store für kleine Dateien) oder Apache Ozone als Object-Storage-Alternative zu HDFS."
+          "NameNode-RAM-Verbrauch: ~150 Bytes pro Inode + ~200 Bytes pro Block. Millionen kleiner Dateien erzeugen extrem viele Metadatenobjekte.",
+          "Produktive Blockgröße für Small-Files: dfs.blocksize = 33554432 (32 MB). Reduziert Blockanzahl, aber vermeidet 128-MB-Verschwendung.",
+          "Replikation bleibt auf 3, da kleine Dateien anfälliger für Blockverlust sind.",
+          "I/O-Puffer erhöhen: io.file.buffer.size = 262144 (256 KB) → weniger RPC-Overhead bei vielen kleinen Writes.",
+          "Short-Circuit Reads aktivieren: dfs.client.read.shortcircuit = true → reduziert Latenz für kleine Dateien.",
+          "RPC-Server skalieren:",
+          [
+            "dfs.namenode.handler.count = 200 (mehr parallele Create-Operationen)",
+            "dfs.namenode.service.handler.count = 50"
+          ],
+          "EditLog- und Checkpoint-Optimierung:",
+          [
+            "dfs.namenode.edits.asynclogging = true (entkoppelt Create-Last vom Logging)",
+            "dfs.namenode.checkpoint.txns = 250000 (häufigere Checkpoints)",
+            "dfs.namenode.checkpoint.period = 900 (15 Minuten)"
+          ],
+          "DataNode-Optimierungen:",
+          [
+            "dfs.datanode.max.transfer.threads = 8192 (viele kleine Blocktransfers)",
+            "dfs.datanode.directoryscan.interval = 3600 (häufigere Volume-Scans)"
+          ],
+          "Trash deaktiviert, um Metadatenlast zu reduzieren: fs.trash.interval = 0.",
+          "Quota Management zwingend notwendig, um unkontrolliertes Wachstum zu verhindern.",
+          "Langfristige Alternativen: HAR, SequenceFiles, Apache Ozone."
         ],
-        "connections": ["hdfs-block", "hdfs-namenode-role"]
+        "connections": ["hdfs-block", "hdfs-namenode-role", "namenode"]
       },
+
+      /* -----------------------------------------------------------
+       * HDFS BALANCER
+       * ----------------------------------------------------------- */
       {
-        "id": "hdfs-balancer", "label": "HDFS Balancer", "group": "hdfs",
-        "description": "Der HDFS Balancer ist ein eigenständiges Tool das Block-Daten zwischen DataNodes umverteilt, um eine gleichmäßige Disk-Auslastung wiederherzustellen – z.B. nach dem Hinzufügen neuer DataNodes oder nach ungleichmäßigen Schreiblasten.",
+        "id": "hdfs-balancer",
+        "label": "HDFS Balancer",
+        "group": "hdfs",
+        "description": "Verteilt Blöcke zwischen DataNodes. Small-Files erzeugen ungleichmäßige Verteilung.",
         "details": [
-          "Der Balancer läuft als separater JVM-Prozess (kein YARN-Job). Er koordiniert Block-Moves direkt über die DataNode-Transfer-Threads. Der aktive NameNode weist den Balancer auf Quell- und Ziel-DataNodes hin; die eigentliche Datenübertragung läuft wie eine normale Block-Replikation über TCP.",
-          "Aufruf und wichtige Flags:",
-          ["hdfs balancer -threshold 10 (max. erlaubte Differenz der Disk-Auslastung in %)", "hdfs balancer -idleiterations 5 (Abbruch nach N Iterationen ohne Fortschritt)", "hdfs balancer -blockpools ns1 (auf einen Nameservice begrenzen)"],
-          "Bandbreiten- und Performance-Parameter:",
-          ["dfs.datanode.balance.bandwidthPerSec = 104857600 (100 MB/s – Standard)", "dfs.balancer.moverThreads = 1000 (parallele Move-Threads)", "dfs.balancer.max-no-move-interval = 60000 ms (Timeout ohne erfolgreichen Move)", "dfs.balancer.getBlocks.size = 2147483648 (Max. Bytes pro getBlocks-RPC-Aufruf)"],
-          "Wann den Balancer starten:",
-          ["Nach dem Hinzufügen neuer DataNodes (neue DNs sind initial leer)", "Nach sehr ungleichmäßigen Bulk-Schreibvorgängen", "Wenn DataNode-Disk-Auslastung stark voneinander abweicht", "Im Wartungsfenster starten – der Balancer erzeugt erheblichen Netzwerkdurchsatz"],
-          "Der Balancer beendet sich selbst wenn der Threshold erreicht ist oder kein Fortschritt mehr möglich ist. Er kann jederzeit mit Ctrl+C abgebrochen werden ohne den Cluster zu beschädigen – laufende Block-Moves werden abgeschlossen, keine Daten gehen verloren."
+          "Produktive Bandbreite für 40 Gbit/s Cluster: dfs.datanode.balance.bandwidthPerSec = 1073741824 (1 GB/s).",
+          "Small-Files erzeugen viele kleine Blöcke → Balancer häufiger ausführen."
         ],
-        "connections": ["hdfs-block", "hdfs-datanode-role", "datanode"]
+        "connections": ["hdfs-block", "hdfs-datanode-role", "datanode", "namenode"]
       },
+
+      /* -----------------------------------------------------------
+       * DISK BALANCER (NEU)
+       * ----------------------------------------------------------- */
       {
-        "id": "hdfs-snapshots", "label": "HDFS Snapshots", "group": "hdfs",
-        "description": "HDFS Snapshots sind schreibgeschützte Point-in-Time-Kopien von Verzeichnisbäumen. Sie werden als reine Metadaten-Operationen implementiert – es werden keine Datenblöcke kopiert. Der NameNode speichert nur die Differenz (geänderte Blöcke) zur Snapshot-Zeit.",
+        "id": "hdfs-diskbalancer",
+        "label": "HDFS Disk Balancer",
+        "group": "hdfs",
+        "description": "Optimiert Blockverteilung innerhalb eines DataNodes.",
         "details": [
-          "Snapshots sind auf Verzeichnisebene aktivierbar. Ein Snapshot-fähiges Verzeichnis wird als 'snapshottable directory' markiert. Der NameNode hält Snapshot-Metadaten im RAM (ca. 150 Bytes pro Snapshot-Eintrag, ähnlich wie normale Inodes).",
-          "Snapshot-Verwaltung via HDFS-Shell:",
-          ["hdfs dfsadmin -allowSnapshot /user/data → Verzeichnis snapshot-fähig machen", "hdfs dfs -createSnapshot /user/data backup-2026-04-18 → Snapshot erstellen", "hdfs dfs -listSnapshots /user/data → alle Snapshots auflisten", "hdfs dfs -deleteSnapshot /user/data backup-2026-04-18 → Snapshot löschen", "hdfs snapshotDiff /user/data backup-2026-04-18 . → Diff zwischen Snapshot und aktuellem Stand"],
-          "Zugriff auf Snapshot-Daten:",
-          ["Snapshots sind unter /user/data/.snapshot/backup-2026-04-18/ zugänglich", ".snapshot ist ein virtuelles Verzeichnis – es erscheint nicht in ls, ist aber direkt adressierbar", "Dateien im Snapshot können wie normale HDFS-Dateien gelesen werden (hdfs dfs -cat, distcp, etc.)"],
-          "Typische Anwendungsfälle:",
-          ["Backup vor einem Bulk-Delete oder einer Datenmigration", "Datenbasis für inkrementellen distcp: hdfs distcp -update -diff snap1 snap2 /src /dst", "Rollback bei fehlerhafter ETL-Verarbeitung", "Konsistenter Lese-Snapshot für parallele Analysen ohne Write-Locks"],
-          "Einschränkungen: max. 65536 Snapshots pro Verzeichnis. Gelöschte Dateien deren Blöcke noch in einem Snapshot referenziert sind, belegen weiterhin Disk-Kapazität. Snapshots werden nicht automatisch angelegt – keine Scheduler-Integration in Vanilla HDFS."
+          "Analysiert Volume-Auslastung und erstellt Migrationspläne.",
+          "CLI: hdfs diskbalancer -plan / -execute / -query.",
+          "Sinnvoll bei NVMe-Setups oder Volume-Erweiterungen.",
+          "Arbeitet unabhängig vom normalen HDFS Balancer."
+        ],
+        "connections": ["datanode", "hdfs-balancer"]
+      },
+
+      /* -----------------------------------------------------------
+       * SNAPSHOTS
+       * ----------------------------------------------------------- */
+      {
+        "id": "hdfs-snapshots",
+        "label": "HDFS Snapshots",
+        "group": "hdfs",
+        "description": "Schreibgeschützte Point-in-Time-Kopien.",
+        "details": [
+          "Snapshots speichern nur Deltas.",
+          "Zugriff über .snapshot/ Verzeichnis.",
+          "Typische Nutzung: Backup, Rollback, distcp -diff.",
+          "Snapshot-Quota: hdfs dfsadmin -setSnapshotQuota."
         ],
         "connections": ["hdfs-namenode-role", "hdfs-block", "hdfs-replication-pipeline"]
       },
+
+      /* -----------------------------------------------------------
+       * ERASURE CODING (NEU)
+       * ----------------------------------------------------------- */
       {
-        "id": "zookeeper", "label": "ZooKeeper", "group": "hadoop",
-        "description": "3-Knoten-Quorum (zk1, zk2, zk3) für Cluster-Koordination und Leader Election. ZooKeeper verwaltet den aktiven NameNode und koordiniert den automatischen Failover via ZKFC.",
+        "id": "hdfs-erasurecoding",
+        "label": "Erasure Coding",
+        "group": "hdfs",
+        "description": "Speicheroptimierte Alternative zur Replikation.",
         "details": [
-          "ZooKeeper bildet das Fundament der HDFS-HA-Infrastruktur. Es speichert ephemere Nodes für die aktive NameNode-Identität. Der ZooKeeper-Session-Timeout ist der kritische Parameter: alle JVM-GC-Pausen der Hadoop-Dienste müssen kürzer sein, sonst verliert ein Dienst fälschlicherweise seine Session.",
-          "ZooKeeper-Cluster-Konfiguration:",
-          ["Knoten: zk1, zk2, zk3", "Image: zookeeper:3.9.4", "Client-Port: 2181", "Quorum-String: zk1:2181,zk2:2181,zk3:2181", "Minimale Verfügbarkeit: 2 von 3 Knoten"],
-          "Konfigurationsparameter in den Hadoop-Diensten:",
-          ["ha.zookeeper.quorum = zk1:2181,zk2:2181,zk3:2181", "zookeeper.request.timeout = 120000 ms (120 s Session-Timeout)", "MaxGCPauseMillis = 200 ms (alle Dienste – weit unter ZK-Timeout)"],
-          "Bei echtem Produktionseinsatz sollten ZooKeeper-Knoten auf dedizierten Hosts mit schnellen lokalen SSDs laufen. ZooKeeper ist latenz-sensitiv: die fsync-Zeit bei Transaktions-Commits bestimmt die Commit-Latenz, die direkt in die ZKFC-Reaktionszeit einfließt."
+          "Typische Policy: RS-6-3-1024k.",
+          "Reduziert Speicherbedarf um 50–70%.",
+          "Nicht geeignet für kleine Dateien.",
+          "Erfordert CPU für Encoding/Decoding."
+        ],
+        "connections": ["hdfs-block", "hdfs-namenode-role"]
+      },
+
+      /* -----------------------------------------------------------
+       * FEDERATION (NEU)
+       * ----------------------------------------------------------- */
+      {
+        "id": "hdfs-federation",
+        "label": "HDFS Federation",
+        "group": "hdfs",
+        "description": "Mehrere unabhängige NameNodes teilen sich den Cluster.",
+        "details": [
+          "Jeder NameNode verwaltet eigenen Namespace.",
+          "DataNodes melden sich bei allen NameNodes an.",
+          "Skalierung für sehr große Cluster."
+        ],
+        "connections": ["hdfs-namenode-role"]
+      },
+
+      /* -----------------------------------------------------------
+       * ROUTER-BASED FEDERATION (NEU)
+       * ----------------------------------------------------------- */
+      {
+        "id": "hdfs-rbf",
+        "label": "Router-Based Federation",
+        "group": "hdfs",
+        "description": "Globaler Namespace über mehrere NameNodes.",
+        "details": [
+          "Router leitet Anfragen an passende NameNodes.",
+          "Unterstützt Mount Tables und Caching.",
+          "HA-fähig."
+        ],
+        "connections": ["hdfs-federation", "hdfs-namenode-role"]
+      },
+
+      /* -----------------------------------------------------------
+       * ZOOKEEPER
+       * ----------------------------------------------------------- */
+      {
+        "id": "zookeeper",
+        "label": "ZooKeeper",
+        "group": "hadoop",
+        "description": "3-Knoten-Quorum für HA-Failover.",
+        "details": [
+          "Speichert Ephemeral Nodes für aktiven NameNode.",
+          "Session-Timeout kritisch für GC-Pausen.",
+          "Produktiv: dedizierte Hosts, SSDs."
         ],
         "connections": ["zkfc", "journalnode", "namenode", "resourcemanager"]
       },
+
+      /* -----------------------------------------------------------
+       * JOURNALNODE
+       * ----------------------------------------------------------- */
       {
-        "id": "journalnode", "label": "JournalNode", "group": "hadoop",
-        "description": "3 JournalNodes (jn1, jn2, jn3) bilden das Quorum Journal Manager (QJM) für den HA-Edit-Log-Sharing zwischen den NameNodes.",
+        "id": "journalnode",
+        "label": "JournalNode",
+        "group": "hadoop",
+        "description": "Speichert Edit-Log-Segmente für HA.",
         "details": [
-          "Der JournalNode ist ein leichtgewichtiger Daemon der ausschließlich Edit-Log-Segmente speichert. Er schreibt keine FSImages und verwaltet keinen eigenen Namespace. Seine Hauptaufgabe: Edit-Log-Segmente des aktiven NameNode empfangen, persistent speichern und dem Standby-NameNode zum Lesen bereitstellen.",
-          "Konfiguration im docker-compose.yml:",
-          ["JMX-Export-Port: 28080", "Heap: -Xms512m -Xmx512m", "GC: G1GC mit MaxGCPauseMillis=200 ms", "JournalNode-RPC-Port: 8485"],
-          "Konfigurationsparameter in hdfs-site.xml:",
-          ["dfs.namenode.shared.edits.dir = qjournal://jn1:8485;jn2:8485;jn3:8485/ns1", "dfs.journalnode.edits.dir = /data/hadoop/journal"],
-          "Für den Quorum-Mechanismus gilt: 2 von 3 JournalNodes müssen eine Transaktion bestätigen. Fällt ein JN aus, arbeitet der Cluster weiter. Fällt ein zweiter JN aus, stoppt der aktive NameNode das Schreiben. JournalNodes niemals auf denselben Hosts wie NameNodes betreiben."
+          "Quorum: 2 von 3 müssen committen.",
+          "RPC-Port: 8485.",
+          "Heap: 512 MB."
         ],
         "connections": ["namenode", "zookeeper"]
       },
+
+      /* -----------------------------------------------------------
+       * NAMENODE (CLUSTER)
+       * ----------------------------------------------------------- */
       {
-        "id": "namenode", "label": "NameNode", "group": "hadoop",
-        "description": "2 NameNodes (nn1 aktiv, nn2 standby) verwalten den HDFS-Namespace im HA-Betrieb. Nameservice: ns1. Heap: 2 GB, JMX-Export auf Port 28080.",
+        "id": "namenode",
+        "label": "NameNode",
+        "group": "hadoop",
+        "description": "Zentraler Metadatenserver. Small-Files erzeugen hohe Metadatenlast.",
         "details": [
-          "Ports und Dienste:",
-          ["nn1 Web-UI: 9870, nn2 Web-UI: 9871", "NameNode RPC (Clients): 8020", "JMX-Export NameNode: 28080", "JMX-Export ZKFC: 28081"],
-          "JVM-Konfiguration:",
-          ["-Xms2g -Xmx2g", "-XX:+UseG1GC", "-XX:G1HeapRegionSize=32m (64 Regionen bei 2 GB Heap)", "-XX:MaxGCPauseMillis=200", "GC-Log: /var/log/hadoop/gc-namenode.log (5 × 10 MB rotierend)"],
-          "Kritische hdfs-site.xml Parameter:",
-          ["dfs.namenode.handler.count = 80", "dfs.namenode.service.handler.count = 20", "dfs.namenode.edits.asynclogging = true", "dfs.namenode.checkpoint.txns = 1000000", "dfs.namenode.checkpoint.period = 3600", "dfs.blocksize = 16777216 (16 MB)", "dfs.replication = 2"],
-          "core-site.xml Parameter:",
-          ["fs.defaultFS = hdfs://ns1", "io.file.buffer.size = 131072 (128 KB I/O-Puffer)", "hadoop.security.authentication = simple", "hadoop.tmp.dir = /data/hadoop/tmp", "fs.trash.interval = 10080 min (7 Tage Papierkorb)", "fs.trash.checkpoint.interval = 1440 min (24 h)"]
+          "Produktiver Heap: 32 GB.",
+          "Trash deaktiviert:",
+          [
+            "fs.trash.interval = 0",
+            "fs.trash.checkpoint.interval = 0"
+          ],
+          "I/O-Puffer für kleine Dateien:",
+          "io.file.buffer.size = 262144 (256 KB).",
+          "Quota Management:",
+          [
+            "Directory Quota: hdfs dfsadmin -setQuota",
+            "Space Quota: hdfs dfsadmin -setSpaceQuota",
+            "Snapshot Quota: hdfs dfsadmin -setSnapshotQuota"
+          ]
         ],
         "connections": ["zkfc", "journalnode", "datanode", "zookeeper"]
       },
+
+      /* -----------------------------------------------------------
+       * ZKFC
+       * ----------------------------------------------------------- */
       {
-        "id": "zkfc", "label": "ZKFC", "group": "hadoop",
-        "description": "ZooKeeper Failover Controller läuft als separater Prozess auf jedem NameNode-Host und überwacht den lokalen NameNode für automatisches HA-Failover.",
+        "id": "zkfc",
+        "label": "ZKFC",
+        "group": "hadoop",
+        "description": "Überwacht NameNode und steuert Failover.",
         "details": [
-          "ZKFC hat zwei Hauptaufgaben: Health-Monitoring des lokalen NameNode (via periodische RPC-Health-Checks) und ZooKeeper-basierte Leader Election. Nur der ZKFC des aktiven NameNode hält einen ZooKeeper-Ephemeral-Lock-Node. Verliert er den Lock, kann der andere ZKFC übernehmen.",
-          "Betrieb und Konfiguration:",
-          ["Läuft als separater Prozess hdfs zkfc auf nn1 und nn2", "JMX-Export-Port: 28081 (separater Port, nicht 28080 wie NameNode)", "dfs.ha.automatic-failover.enabled = true", "dfs.ha.fencing.methods = shell(/bin/true) (Lab: kein echtes Fencing)"],
-          "ZKFC Failover-Ablauf bei NameNode-Ausfall:",
-          ["1. ZKFC sendet RPC-Health-Check an lokalen NameNode", "2. Nach Timeout oder Fehler: ZKFC markiert NN als unhealthy", "3. ZKFC gibt ZooKeeper Ephemeral Node auf", "4. ZooKeeper benachrichtigt den Wächter des anderen ZKFC", "5. Anderer ZKFC führt Fencing aus (shell /bin/true → kein echtes Fencing)", "6. Neuer aktiver NameNode wird proklamiert"],
-          "Das Fencing mit shell(/bin/true) bedeutet: Es wird nie wirklich gefenced. Im Lab ist das akzeptabel weil nur je ein Container läuft. In Produktion kann das dazu führen dass zwei NameNodes gleichzeitig aktiv werden – divergente Edit Logs und Datenverlust."
+          "Health-Checks via RPC.",
+          "Hält ZooKeeper-Lock.",
+          "Produktives Fencing: sshfence."
         ],
         "connections": ["namenode", "zookeeper"]
       },
+
+      /* -----------------------------------------------------------
+       * DATANODE (CLUSTER)
+       * ----------------------------------------------------------- */
       {
-        "id": "datanode", "label": "DataNode", "group": "hadoop",
-        "description": "3 DataNodes (dn1, dn2, dn3) speichern HDFS-Blöcke und führen Datenoperationen auf Anweisung von NameNode und Clients aus.",
+        "id": "datanode",
+        "label": "DataNode",
+        "group": "hadoop",
+        "description": "3 DataNodes speichern HDFS-Blöcke.",
         "details": [
-          "Ports und Dienste:",
-          ["Daten-Transfer-Port: 9866", "Web-UI: 9864", "IPC-Port: 9867", "JMX-Export: 28080"],
-          "JVM-Konfiguration:",
-          ["-Xms1g -Xmx1g", "-XX:+UseG1GC", "-XX:MaxGCPauseMillis=100 ms", "GC-Log: /var/log/hadoop/gc-datanode.log"],
-          "Kritische hdfs-site.xml Parameter:",
-          ["dfs.datanode.max.transfer.threads = 4096", "dfs.datanode.handler.count = 20", "dfs.heartbeat.interval = 3 s", "dfs.namenode.stale.datanode.interval = 30000 ms", "dfs.blockreport.intervalMsec = 21600000 ms (6 h Full Block-Report)", "dfs.datanode.directoryscan.interval = 21600 s (6 h lokaler Disk-Scan)"],
-          "Bei mehreren konfigurierten Volumes verteilt HDFS Blöcke round-robin. dfs.datanode.failed.volumes.tolerated bestimmt ab wann ein DataNode sich selbst aus dem Cluster nimmt. Volume-Ausfälle sind Critical-Alert-Kandidaten weil sie die effektive Replikationsrate senken."
+          "Transfer-Port: 9866.",
+          "Volume-Ausfälle kritisch.",
+          "Disk Balancer empfohlen."
         ],
         "connections": ["namenode"]
       },
+
+      /* -----------------------------------------------------------
+       * RESOURCEMANAGER
+       * ----------------------------------------------------------- */
       {
-        "id": "resourcemanager", "label": "ResourceManager", "group": "hadoop",
-        "description": "Der YARN ResourceManager verwaltet Cluster-Ressourcen und Job-Scheduling. In diesem Setup minimal für distcp-Jobs konfiguriert.",
+        "id": "resourcemanager",
+        "label": "ResourceManager",
+        "group": "hadoop",
+        "description": "Verwaltet YARN-Ressourcen.",
         "details": [
-          "Ports und Dienste:",
-          ["Web-UI: 8088", "JobHistory Server Web-UI: 19888", "ResourceManager RPC: 8032", "Admin RPC: 8033", "JMX-Export: 28080"],
-          "JVM-Konfiguration:",
-          ["-Xms2g -Xmx2g", "-XX:+UseG1GC", "-XX:MaxGCPauseMillis=200 ms"],
-          "yarn-site.xml Parameter:",
-          ["yarn.resourcemanager.hostname = rm", "yarn.nodemanager.aux-services = mapreduce_shuffle", "yarn.scheduler.maximum-allocation-mb = 2048", "yarn.log-aggregation-enable = true", "yarn.log-aggregation.retain-seconds = 604800 (7 Tage)", "yarn.nodemanager.vmem-check-enabled = false"],
-          "mapred-site.xml Parameter:",
-          ["mapreduce.framework.name = yarn", "mapreduce.jobhistory.address = rm:10020", "mapreduce.jobhistory.webapp.address = rm:19888", "mapreduce.am.resource.mb = 512", "mapreduce.map.memory.mb = 512", "mapreduce.reduce.memory.mb = 512", "mapreduce.job.ubertask.enable = true (kleine Jobs laufen im AM-Container)"],
-          "capacity-scheduler.xml:",
-          ["yarn.scheduler.capacity.root.queues = default", "yarn.scheduler.capacity.root.default.capacity = 100", "yarn.scheduler.capacity.root.default.maximum-capacity = 100", "yarn.scheduler.capacity.root.default.state = RUNNING"]
+          "Web-UI: 8088.",
+          "AM-Ressourcen: 512 MB.",
+          "Log-Aggregation aktiv."
         ],
         "connections": ["nodemanager", "zookeeper"]
       },
+
+      /* -----------------------------------------------------------
+       * NODEMANAGER
+       * ----------------------------------------------------------- */
       {
-        "id": "nodemanager", "label": "NodeManager", "group": "hadoop",
-        "description": "Der YARN NodeManager führt Container auf dem Worker-Knoten aus und verwaltet lokale Ressourcen (CPU, Memory, Disk).",
+        "id": "nodemanager",
+        "label": "NodeManager",
+        "group": "hadoop",
+        "description": "Führt YARN-Container aus.",
         "details": [
-          "Ports und Dienste:",
-          ["Web-UI: 8042", "RPC-Port: 8041", "JMX-Export: 28080"],
-          "JVM-Konfiguration:",
-          ["-Xms1g -Xmx1g", "-XX:+UseG1GC", "-XX:MaxGCPauseMillis=200 ms"],
-          "yarn-site.xml Parameter (NodeManager-spezifisch):",
-          ["yarn.nodemanager.resource.memory-mb = 2048", "yarn.nodemanager.resource.cpu-vcores = 2", "yarn.nodemanager.vmem-check-enabled = false", "yarn.nodemanager.local-dirs = /data/yarn/local", "yarn.nodemanager.log-dirs = /data/yarn/logs", "yarn.nodemanager.aux-services = mapreduce_shuffle"],
-          "Der NodeManager meldet sich beim ResourceManager an und sendet regelmäßige Heartbeats mit Ressourcenverbrauch und Container-Status. Bei Ausfall des NodeManager markiert der RM alle laufenden Container als verloren. Applikationen die Fault-Tolerance implementieren (MapReduce) starten fehlgeschlagene Tasks auf anderen NodeManagern neu."
+          "Ressourcen: 2 vCores, 2 GB RAM.",
+          "Heartbeat an RM.",
+          "Verlust eines NodeManagers → Container verloren."
         ],
         "connections": ["resourcemanager", "datanode"]
       },
+
+      /* -----------------------------------------------------------
+       * DISTCP
+       * ----------------------------------------------------------- */
       {
-        "id": "distcp", "label": "DistCp", "group": "hadoop",
-        "description": "DistCp (Distributed Copy) ist ein MapReduce-basiertes Tool für großvolumige Datenkopiervorgänge innerhalb eines HDFS-Clusters oder zwischen zwei Clustern. Jeder Map-Task kopiert eine Teilmenge der Dateien parallel.",
+        "id": "distcp",
+        "label": "DistCp",
+        "group": "hadoop",
+        "description": "MapReduce-basiertes Kopiertool.",
         "details": [
-          "DistCp läuft als MapReduce-Job auf YARN. Der Job-Client berechnet eine Liste aller zu kopierenden Dateien, teilt sie in gleich große Batches auf und erzeugt einen Mapper pro Batch. Jeder Mapper liest aus dem Quell-HDFS und schreibt in das Ziel-HDFS direkt über die DataNode-Transfer-Pfade.",
-          "Grundlegende Syntax:",
-          ["hadoop distcp hdfs://ns1/src hdfs://ns1/dst", "hadoop distcp -m 10 hdfs://ns1/src hdfs://ns1/dst (-m: Anzahl Mapper)", "hadoop distcp -bandwidth 50 hdfs://ns1/src hdfs://ns1/dst (-bandwidth: MB/s pro Mapper)", "hadoop distcp -update hdfs://ns1/src hdfs://ns1/dst (nur geänderte Dateien kopieren)", "hadoop distcp -delete hdfs://ns1/src hdfs://ns1/dst (Zieldateien löschen die in Quelle fehlen)"],
-          "Wichtige Flags:",
-          ["-p (rbugct) → Attribute bewahren: permissions, replication, block-size, user, group, checksum, timestamps", "-atomic → Kopie zuerst in tmp-Verzeichnis, dann atomares Rename", "-overwrite → Zieldateien immer überschreiben, unabhängig von Änderungsstatus", "-diff snap1 snap2 → inkrementelles distcp über HDFS-Snapshot-Diff (nur geänderte Blöcke)"],
-          "YARN-Ressourcenverbrauch im Cluster:",
-          ["mapreduce.am.resource.mb = 512 MB (ApplicationMaster)", "mapreduce.map.memory.mb = 512 MB (pro Mapper-Container)", "Mapper-Anzahl -m begrenzen damit distcp nicht den gesamten YARN-Cluster belegt", "distcp erscheint in der YARN Web-UI (Port 8088) unter dem job-Namen 'distcp'"],
-          "Inkrementelles distcp mit Snapshot-Diff:",
-          ["hdfs dfsadmin -allowSnapshot /src", "hdfs dfs -createSnapshot /src snap1", "hadoop distcp -update -diff snap1 snap2 hdfs://ns1/src hdfs://ns1/dst", "Nur Blöcke die sich zwischen snap1 und snap2 geändert haben werden übertragen – erhebliche Bandbreiteneinsparung"]
+          "Parallelisiert Kopiervorgänge über Mapper.",
+          "Unterstützt -update, -delete, -diff.",
+          "Inkrementelles distcp über Snapshots."
         ],
         "connections": ["resourcemanager", "nodemanager", "hdfs-replication-pipeline", "hdfs-snapshots"]
       }
     ],
+
     "crossConnections": [
-      { "from": "hdfs-namenode-role", "to": "namenode"    },
-      { "from": "hdfs-datanode-role", "to": "datanode"    },
-      { "from": "hdfs-ha",            "to": "zookeeper"   },
-      { "from": "hdfs-ha",            "to": "journalnode" },
-      { "from": "hdfs-ha",            "to": "zkfc"        },
-      { "from": "hdfs-editlog",       "to": "journalnode" }
+      { "from": "hdfs-namenode-role", "to": "namenode" },
+      { "from": "hdfs-datanode-role", "to": "datanode" },
+
+      { "from": "hdfs-ha", "to": "zookeeper" },
+      { "from": "hdfs-ha", "to": "journalnode" },
+      { "from": "hdfs-ha", "to": "zkfc" },
+
+      { "from": "hdfs-editlog", "to": "journalnode" },
+
+      /* Neue / korrigierte Verbindungen */
+      { "from": "hdfs-erasurecoding", "to": "hdfs-block" },
+      { "from": "hdfs-erasurecoding", "to": "hdfs-namenode-role" },
+      { "from": "hdfs-erasurecoding", "to": "hdfs-datanode-role" },
+
+      { "from": "hdfs-federation", "to": "namenode" },
+      { "from": "hdfs-federation", "to": "datanode" },
+
+      { "from": "hdfs-rbf", "to": "namenode" },
+      { "from": "hdfs-rbf", "to": "hdfs-namenode-role" },
+
+      { "from": "hdfs-diskbalancer", "to": "datanode" },
+      { "from": "hdfs-diskbalancer", "to": "hdfs-balancer" },
+
+      { "from": "hdfs-balancer", "to": "namenode" },
+
+      { "from": "hdfs-small-files", "to": "namenode" },
+
+      { "from": "hdfs-snapshots", "to": "namenode" },
+
+      { "from": "distcp", "to": "namenode" }
     ]
   };
 

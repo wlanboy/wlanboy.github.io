@@ -1,19 +1,14 @@
 (function () {
   const GROUP_HUES = {
-    "hdfs":       195,
-    "hadoop":      38,
-    "prometheus":  25,
-    "grafana":    280,
+    "hdfs":   195,
+    "hadoop":  38,
   };
 
   // Per-group force-simulation tuning.
   // hdfs: dense core of 5 highly connected nodes → shorter springs + more repulsion so labels breathe.
-  // prometheus: dual-hub (jmx-config / prometheus-scrape) + 6 leaf prom-* nodes all double-connected →
-  //   long springs and strong repulsion so hubs can separate and leaves fan outward.
   const GROUP_OPTS = {
-    "hdfs":       { repel: 8500,  springL:  75, spring: 0.020, gravity: 0.005, iters: 380 },
-    "hadoop":     { gravity: 0.005 },
-    "prometheus": { repel: 9000, springL: 75, spring: 0.008, gravity: 0.005, iters: 420 },
+    "hdfs":   { repel: 18000, springL: 160, spring: 0.008, gravity: 0.002, iters: 480 },
+    "hadoop": { gravity: 0.005 },
   };
 
   function formatDetails(details) {
@@ -36,10 +31,8 @@
 
   const raw = {
     "groups": [
-      { "id": "hdfs",       "label": "HDFS Konzepte",     "color": "#0891b2" },
-      { "id": "hadoop",     "label": "Hadoop Cluster",    "color": "#d97706" },
-      { "id": "prometheus", "label": "Prometheus / JMX",  "color": "#dc2626" },
-      { "id": "grafana",    "label": "Grafana",            "color": "#7c3aed" }
+      { "id": "hdfs",   "label": "HDFS Konzepte",  "color": "#0891b2" },
+      { "id": "hadoop", "label": "Hadoop Cluster", "color": "#d97706" }
     ],
     "topics": [
       {
@@ -158,7 +151,7 @@
           "Bandbreiten- und Performance-Parameter:",
           ["dfs.datanode.balance.bandwidthPerSec = 104857600 (100 MB/s – Standard)", "dfs.balancer.moverThreads = 1000 (parallele Move-Threads)", "dfs.balancer.max-no-move-interval = 60000 ms (Timeout ohne erfolgreichen Move)", "dfs.balancer.getBlocks.size = 2147483648 (Max. Bytes pro getBlocks-RPC-Aufruf)"],
           "Wann den Balancer starten:",
-          ["Nach dem Hinzufügen neuer DataNodes (neue DNs sind initial leer)", "Nach sehr ungleichmäßigen Bulk-Schreibvorgängen", "Wenn DataNode-Disk-Auslastung im Grafana-Dashboard stark voneinander abweicht", "Im Wartungsfenster starten – der Balancer erzeugt erheblichen Netzwerkdurchsatz"],
+          ["Nach dem Hinzufügen neuer DataNodes (neue DNs sind initial leer)", "Nach sehr ungleichmäßigen Bulk-Schreibvorgängen", "Wenn DataNode-Disk-Auslastung stark voneinander abweicht", "Im Wartungsfenster starten – der Balancer erzeugt erheblichen Netzwerkdurchsatz"],
           "Der Balancer beendet sich selbst wenn der Threshold erreicht ist oder kein Fortschritt mehr möglich ist. Er kann jederzeit mit Ctrl+C abgebrochen werden ohne den Cluster zu beschädigen – laufende Block-Moves werden abgeschlossen, keine Daten gehen verloren."
         ],
         "connections": ["hdfs-block", "hdfs-datanode-role", "datanode"]
@@ -292,322 +285,15 @@
           ["hdfs dfsadmin -allowSnapshot /src", "hdfs dfs -createSnapshot /src snap1", "hadoop distcp -update -diff snap1 snap2 hdfs://ns1/src hdfs://ns1/dst", "Nur Blöcke die sich zwischen snap1 und snap2 geändert haben werden übertragen – erhebliche Bandbreiteneinsparung"]
         ],
         "connections": ["resourcemanager", "nodemanager", "hdfs-replication-pipeline", "hdfs-snapshots"]
-      },
-      {
-        "id": "jmx-agent", "label": "JMX Exporter Agent", "group": "prometheus",
-        "description": "Der Prometheus JMX Exporter Java Agent instrumentiert Hadoop-Prozesse von innen und exponiert JMX-Metriken als Prometheus-Endpunkt auf Port 28080.",
-        "details": [
-          "Der Agent läuft im selben Prozess wie der Hadoop-Dienst. Dadurch gibt es keine Netzwerklatenz zwischen Prozess und Exporter, und der Agent hat direkten Zugriff auf alle JMX-MBeans ohne separaten TCP-basierten JMX-Port.",
-          "JVM-Argument-Syntax:",
-          ["-javaagent:/opt/hadoop/jmx_prometheus_javaagent.jar=28080:/opt/hadoop/config/jmx_config.yml", "Port 28080: HTTP-Endpunkt /metrics im Prometheus-Textformat", "ZKFC nutzt separaten Port 28081 (zwei Prozesse auf demselben NameNode-Host)"],
-          "Technische Eigenschaften:",
-          ["Instrumentierung via Java Instrumentation API – kein JMX-TCP-Port nötig", "MBean-Traversal bei jedem Scrape (kein Caching zwischen Scrapes)", "Lazy Loading: Metriken erst verfügbar wenn MBeans registriert sind", "Thread-safe: parallele Prometheus-Scrapes möglich"],
-          "Da der Agent im selben Prozess läuft, blockieren JVM-Pausen (GC, Safepoint) auch den Scrape-HTTP-Handler. Prometheus wertet das als Timeout und zählt es als Scrape-Failure. Die scrape_timeout-Einstellung sollte daher über den erwarteten MaxGCPauseMillis liegen."
-        ],
-        "connections": ["jmx-config", "prometheus-scrape"]
-      },
-      {
-        "id": "jmx-config", "label": "jmx_config.yml", "group": "prometheus",
-        "description": "jmx_config.yml definiert welche JMX-MBeans exportiert werden und wie sie auf Prometheus-Metriknamen gemappt werden – eine einzige Konfigurationsdatei für alle Hadoop-Rollen.",
-        "details": [
-          "Die Konfiguration besteht aus einer Liste von Rules (Regex-Muster). Jede Rule matched gegen den vollständigen MBean-Namen (Domain:type=X,name=Y) und extrahiert Labels und Metrikwerte. Rules werden sequenziell ausgewertet – die erste passende Rule gewinnt.",
-          "Abgedeckte MBean-Domains:",
-          ["Hadoop:service=DataNode,name=DataNodeActivity – Block-Ops, Bytes read/written", "Hadoop:service=DataNode,name=FSDatasetState – Disk-Kapazität, Volume-Status", "Hadoop:service=DataNode,name=DataNodeVolume – per-Volume-Metriken", "Hadoop:service=NameNode,name=NameNodeActivity – Namespace-Ops (create, delete, rename)", "Hadoop:service=NameNode,name=FSNamesystem – Block-Counts, Replication-Status", "Hadoop:service=NameNode,name=FSNamesystemState – Kapazität, Files/Blocks total", "Hadoop:service=NameNode,name=NameNodeStatus – HAState (active/standby als 0/1)", "Hadoop:service=NameNode,name=RetryCache – Cache-Hits/Misses für idempotente RPCs", "Hadoop:service=*,name=JvmMetrics – Heap, GC, Threads (alle Dienste)", "Hadoop:service=*,name=RpcActivityForPort* – RPC-Latenz und -Durchsatz", "Hadoop:service=ResourceManager,name=ClusterMetrics – NM-Status, Container", "Hadoop:service=ResourceManager,name=QueueMetrics – Queue-Statistiken", "Hadoop:service=NodeManager,name=NodeManagerMetrics – Container, Dirs, Fehler", "Hadoop:service=JournalNode,name=Journal-* – Edit-Log-Segment-Metriken"],
-          "Metrik-Labels werden aus MBean-Attributen extrahiert. Der Hostname wird als instance-Label gesetzt, der Service-Name als service-Label. Damit sind Metriken in Grafana-Queries über {instance=\"dn1\"} filterbar."
-        ],
-        "connections": ["jmx-agent", "prom-namenode-metrics", "prom-datanode-metrics", "prom-yarn-metrics", "prom-jvm-metrics", "prom-rpc-metrics", "prom-journalnode-metrics"]
-      },
-      {
-        "id": "prometheus-scrape", "label": "Scrape-Konfiguration", "group": "prometheus",
-        "description": "prometheus.yml konfiguriert wie Prometheus die Hadoop-Dienste scrapt – welche Endpunkte, wie oft, und welche Labels gesetzt werden.",
-        "details": [
-          "Globale Einstellungen:",
-          ["scrape_interval: 30s", "evaluation_interval: 30s (Alert-Rules alle 30 s auswerten)", "Retention: 1 Tag (--storage.tsdb.retention.time=1d)", "Prometheus-Port: 9090", "Image: prom/prometheus:v3.8.1"],
-          "Scrape-Jobs mit Targets:",
-          ["hadoop-namenodes: nn1:28080, nn2:28080 (label: role=namenode)", "hadoop-zkfc: nn1:28081, nn2:28081 (label: role=zkfc)", "hadoop-datanodes: dn1:28080, dn2:28080, dn3:28080 (label: role=datanode)", "hadoop-journalnodes: jn1:28080, jn2:28080, jn3:28080 (label: role=journalnode)", "hadoop-resourcemanager: rm:28080 (label: role=resourcemanager)", "hadoop-nodemanager: nm:28080 (label: role=nodemanager)"],
-          "Relabeling: Für jeden Job extrahiert eine relabel_configs-Regel den Hostnamen aus __address__ (z.B. \"nn1:28080\" → \"nn1\") und setzt ihn als instance-Label. Damit sind Metriken in Grafana-Queries über {instance=\"dn1\"} filterbar ohne den Port mitzuführen."
-        ],
-        "connections": ["jmx-agent", "prom-namenode-metrics", "prom-datanode-metrics", "prom-yarn-metrics", "prom-jvm-metrics", "prom-rpc-metrics", "prom-journalnode-metrics"]
-      },
-      {
-        "id": "prom-namenode-metrics", "label": "NameNode-Metriken", "group": "prometheus",
-        "description": "JMX-exportierte Metriken der NameNode-MBeans – die wichtigsten für Cluster-Health, Kapazitätsüberwachung und HA-Status.",
-        "details": [
-          "FSNamesystemState-Metriken (Kapazität & Namespace):",
-          ["hadoop_namenode_fsnamesystemstate_capacitytotal – Gesamt-HDFS-Kapazität in Bytes", "hadoop_namenode_fsnamesystemstate_capacityused – Genutzter Speicher in Bytes", "hadoop_namenode_fsnamesystemstate_capacityremaining – Freier Speicher in Bytes", "hadoop_namenode_fsnamesystemstate_filesandDirectoriesTotal – Namespace-Objekte gesamt", "hadoop_namenode_fsnamesystemstate_blocktotal – Blöcke gesamt"],
-          "FSNamesystem-Metriken (Block-Gesundheit):",
-          ["hadoop_namenode_fsnamesystem_underreplicatedblocks – Unter-replizierte Blöcke", "hadoop_namenode_fsnamesystem_corruptblocks – Beschädigte Blöcke (→ Critical Alert)", "hadoop_namenode_fsnamesystem_missingreplicablocks – Fehlende Blöcke (→ Critical Alert)", "hadoop_namenode_fsnamesystem_pendingreplicationblocks – In Replikation befindliche Blöcke", "hadoop_namenode_fsnamesystem_scheduledreplicationblocks – Geplante Replikationen"],
-          "NameNodeActivity-Metriken (Operationen):",
-          ["hadoop_namenode_namenodeactivity_transactionssincecheckpoint – Checkpoint-Lag", "hadoop_namenode_namenodeactivity_createfilenumops – create()-Aufrufe", "hadoop_namenode_namenodeactivity_deletefilenumops – delete()-Aufrufe", "hadoop_namenode_namenodeactivity_getblocklocationsnumops – getBlockLocations()-Aufrufe", "hadoop_namenode_namenodeactivity_addblockops – addBlock()-Aufrufe"],
-          "NameNodeStatus-Metriken (HA):",
-          ["hadoop_namenode_namenodesatatus_hastate – 0=standby, 1=active (per instance-Label differenziert)", "hadoop_namenode_namenodesatatus_state – String-Feld: active / standby / initializing"]
-        ],
-        "connections": ["prometheus-scrape", "jmx-config"]
-      },
-      {
-        "id": "prom-datanode-metrics", "label": "DataNode-Metriken", "group": "prometheus",
-        "description": "JMX-exportierte Metriken der DataNode-MBeans – Durchsatz, Block-Operationen und Disk-Gesundheit.",
-        "details": [
-          "DataNodeActivity-Metriken (Durchsatz & Operationen):",
-          ["hadoop_datanode_datanodeactivity_bytesread – Gelesene Bytes (Counter)", "hadoop_datanode_datanodeactivity_byteswritten – Geschriebene Bytes (Counter)", "hadoop_datanode_datanodeactivity_readsfromlocaclient – Lokale Client-Reads", "hadoop_datanode_datanodeactivity_readsfromremoteclient – Remote Client-Reads", "hadoop_datanode_datanodeactivity_heartbeats – Heartbeat-Zähler", "hadoop_datanode_datanodeactivity_heartbeatsavgtime – Heartbeat-Latenz in ms"],
-          "FSDatasetState-Metriken (Disk-Kapazität):",
-          ["hadoop_datanode_fsdatasetstate_dfsused – Von HDFS genutzter Disk-Speicher in Bytes", "hadoop_datanode_fsdatasetstate_capacity – Gesamt-Disk-Kapazität in Bytes", "hadoop_datanode_fsdatasetstate_remaining – Freier Disk-Speicher in Bytes", "hadoop_datanode_fsdatasetstate_numfailedvolumes – Ausgefallene Volumes (→ Critical Alert)"],
-          "IBR- und Block-Metriken:",
-          ["hadoop_datanode_datanodeactivity_incrementalblockreportinprogress – Ausstehende IBRs", "hadoop_datanode_datanodeactivity_blocksreplicated – Replizierte Blöcke", "hadoop_datanode_datanodeactivity_blocksremoved – Gelöschte Blöcke", "hadoop_datanode_datanodeactivity_blockverificationfailures – CRC-Fehler (→ Warning Alert)"]
-        ],
-        "connections": ["prometheus-scrape", "jmx-config"]
-      },
-      {
-        "id": "prom-yarn-metrics", "label": "YARN-Metriken", "group": "prometheus",
-        "description": "JMX-exportierte YARN-Metriken für ResourceManager und NodeManager – Cluster-Kapazität, Container-Status und Queue-Auslastung.",
-        "details": [
-          "ClusterMetrics (ResourceManager):",
-          ["hadoop_resourcemanager_clustermetrics_numactivenms – Aktive NodeManager", "hadoop_resourcemanager_clustermetrics_numlostnms – Verlorene NodeManager (→ Warning Alert)", "hadoop_resourcemanager_clustermetrics_numunhealthynms – Ungesunde NodeManager", "hadoop_resourcemanager_clustermetrics_allocatedmb – Allozierter Memory in MB", "hadoop_resourcemanager_clustermetrics_availablemb – Verfügbarer Memory in MB", "hadoop_resourcemanager_clustermetrics_allocatedvcores – Allozierte vCores", "hadoop_resourcemanager_clustermetrics_availablevcores – Verfügbare vCores"],
-          "QueueMetrics (ResourceManager, pro Queue):",
-          ["hadoop_resourcemanager_queuemetrics_appspending – Wartende Applikationen", "hadoop_resourcemanager_queuemetrics_appsrunning – Laufende Applikationen", "hadoop_resourcemanager_queuemetrics_appscompleted – Abgeschlossene Applikationen", "hadoop_resourcemanager_queuemetrics_appsfailed – Fehlgeschlagene Applikationen", "hadoop_resourcemanager_queuemetrics_appskilled – Abgebrochene Applikationen"],
-          "NodeManagerMetrics (NodeManager):",
-          ["hadoop_nodemanager_nodemanagermetrics_containersrunning – Laufende Container", "hadoop_nodemanager_nodemanagermetrics_containerslaunched – Gestartete Container", "hadoop_nodemanager_nodemanagermetrics_containersfailed – Fehlgeschlagene Container", "hadoop_nodemanager_nodemanagermetrics_badlocaldirs – Defekte lokale Verzeichnisse (→ Alert)", "hadoop_nodemanager_nodemanagermetrics_badlogdirs – Defekte Log-Verzeichnisse"]
-        ],
-        "connections": ["prometheus-scrape", "jmx-config"]
-      },
-      {
-        "id": "prom-jvm-metrics", "label": "JVM-Metriken", "group": "prometheus",
-        "description": "JVM-Metriken gelten für alle Hadoop-Dienste (NameNode, DataNode, JournalNode, ResourceManager, NodeManager, ZKFC). Das * im Metriknamen steht für den jeweiligen Service-Namen.",
-        "details": [
-          "Heap-Metriken:",
-          ["hadoop_*_jvmmetrics_memheapusedm – Aktuell genutzter Heap in MB", "hadoop_*_jvmmetrics_memheapcommittedm – Vom OS reservierter Heap in MB", "hadoop_*_jvmmetrics_memheapmaxm – Maximaler Heap (Xmx) in MB", "hadoop_*_jvmmetrics_memnonheapusedm – Non-Heap (Metaspace, Code Cache) in MB", "hadoop_*_jvmmetrics_memnonheapcommittedm – Committeter Non-Heap in MB"],
-          "GC-Metriken (pro GC-Phase):",
-          ["hadoop_*_jvmmetrics_gccount – GC-Zyklen gesamt (Counter, G1 Young und Old getrennt)", "hadoop_*_jvmmetrics_gctimemillis – Kumulierte GC-Zeit in ms (Counter)", "Berechnung GC-Last: rate(gctimemillis[1m]) / 1000 = GC-Sekunden pro Sekunde"],
-          "Thread-Metriken:",
-          ["hadoop_*_jvmmetrics_threadsrunnable – Threads im RUNNABLE-Zustand", "hadoop_*_jvmmetrics_threadsblocked – Threads im BLOCKED-Zustand (→ Warning Alert)", "hadoop_*_jvmmetrics_threadswaiting – Threads im WAITING-Zustand", "hadoop_*_jvmmetrics_threadstimedwaiting – Threads im TIMED_WAITING-Zustand"],
-          "Log-Level-Zähler (Counter – immer steigend):",
-          ["hadoop_*_jvmmetrics_logfatal – Anzahl FATAL-Log-Meldungen", "hadoop_*_jvmmetrics_logerror – Anzahl ERROR-Log-Meldungen", "hadoop_*_jvmmetrics_logwarn – Anzahl WARN-Log-Meldungen", "hadoop_*_jvmmetrics_loginfo – Anzahl INFO-Log-Meldungen"]
-        ],
-        "connections": ["prometheus-scrape", "jmx-config"]
-      },
-      {
-        "id": "prom-rpc-metrics", "label": "RPC-Metriken", "group": "prometheus",
-        "description": "RPC-Metriken für alle Hadoop-Dienste, differenziert nach Port (Client-RPC vs. Service-RPC) und Methode.",
-        "details": [
-          "RpcActivity-Metriken (aggregiert pro Port):",
-          ["hadoop_*_rpcactivity_rpcqueuetimeavgtime – Durchschnittliche Queue-Wartezeit in ms", "hadoop_*_rpcactivity_rpcprocessingtimeavgtime – Durchschnittliche Verarbeitungszeit in ms", "hadoop_*_rpcactivity_rpcqueuetimenumops – Anzahl RPC-Aufrufe (Queue-Zeit gemessen)", "hadoop_*_rpcactivity_callqueuelength – Aktuelle Länge der RPC-Warteschlange", "hadoop_*_rpcactivity_openconnections – Offene RPC-Verbindungen", "hadoop_*_rpcactivity_droppedconnections – Abgebrochene Verbindungen", "hadoop_*_rpcactivity_authorizationsuccesses – Erfolgreiche Auth-Prüfungen", "hadoop_*_rpcactivity_authorizationfailures – Fehlgeschlagene Auth-Prüfungen (→ Alert)"],
-          "RpcDetailedActivity-Metriken (pro Methode, NameNode):",
-          ["hadoop_namenode_rpcdetailedactivity_getblocklocationsnumops – Read-Path-Aufrufe", "hadoop_namenode_rpcdetailedactivity_addblocknumops – Schreib-Path-Aufrufe", "hadoop_namenode_rpcdetailedactivity_completenumops – File-Close-Aufrufe", "hadoop_namenode_rpcdetailedactivity_mkdirnumops – mkdir-Aufrufe", "hadoop_namenode_rpcdetailedactivity_deletenumops – Delete-Aufrufe"],
-          "Port-Label differenziert Client-RPC (8020) von Service-RPC (interne DataNode/ZKFC-Kommunikation). Hohe Queue-Latenz auf dem Client-RPC-Port deutet auf Client-Überlastung hin. Hohe Latenz auf dem Service-RPC-Port korreliert mit DataNode-Heartbeat-Problemen."
-        ],
-        "connections": ["prometheus-scrape", "jmx-config"]
-      },
-      {
-        "id": "prom-journalnode-metrics", "label": "JournalNode-Metriken", "group": "prometheus",
-        "description": "JMX-exportierte Metriken der JournalNode-MBeans – Edit-Log-Sync-Latenz, Batch-Durchsatz und Quorum-Verfügbarkeit.",
-        "details": [
-          "Journal-Metriken (Edit-Log-Operationen):",
-          ["hadoop_journalnode_journal_syncsavgtime – Durchschnittliche fsync-Dauer in ms (→ Warning Alert > 500 ms)", "hadoop_journalnode_journal_syncsnumops – Anzahl fsync-Operationen (Counter)", "hadoop_journalnode_journal_batcheswritten – Geschriebene Edit-Log-Batches (Counter, → Alert wenn Rate == 0)", "hadoop_journalnode_journal_byteswritten – Geschriebene Bytes (Counter)", "hadoop_journalnode_journal_txnswritten – Geschriebene Transaktionen (Counter)"],
-          "Quorum- und Verfügbarkeitsmetriken:",
-          ["up{role=\"journalnode\"} – Scrape-Erreichbarkeit: 1=up, 0=down (→ Critical Alert)", "count(up{role=\"journalnode\"} == 1) – Anzahl erreichbarer JNs (→ Warning Alert < 3)"],
-          "JVM-Metriken: JournalNodes exportieren dieselben JVM-MBeans wie alle anderen Hadoop-Dienste (Heap, GC, Threads). Diese werden über prom-jvm-metrics abgedeckt. Der JournalNode-Heap ist auf 512 MB begrenzt – HeapHigh-Alert bei > 80 % ist besonders relevant.",
-          "Alle JournalNode-Metriken sind per instance-Label {instance=\"jn1\"} / {instance=\"jn2\"} / {instance=\"jn3\"} differenzierbar, da der Prometheus-Scrape-Job hadoop-journalnodes die drei Targets jn1:28080, jn2:28080, jn3:28080 kennt."
-        ],
-        "connections": ["prometheus-scrape", "jmx-config"]
-      },
-      {
-        "id": "dash-namenode-cluster", "label": "Dashboard: NameNode Cluster", "group": "grafana",
-        "description": "Primäres Cluster-Übersichts-Dashboard – zeigt den Gesamtzustand des HDFS-Clusters auf einen Blick.",
-        "details": [
-          "Panels im Dashboard:",
-          ["Cluster-Kapazität: Gesamt/Used/Remaining als Gauge (%) und Zeitreihe", "Block-Gesundheit: Missing/Corrupt/Under-Replicated als Stat-Panels (0=grün, >0=rot)", "DataNode-Status: Tabelle mit allen DNs, Kapazität, Used%, Heartbeat-Status", "HA-Status: State-Timeline für nn1 und nn2 (active/standby über Zeit)", "Filesystem-Objekte: Files + Directories als Zeitreihe", "Aktive DataNodes: Anzahl live/stale/dead als Stat-Panels"],
-          "Wichtigste PromQL-Queries:",
-          ["Kapazitäts-% = (capacityused / capacitytotal) * 100", "HA-Status = hadoop_namenode_namenodesatatus_hastate{instance=\"nn1\"}", "Dead DataNodes = sum(hadoop_namenode_fsnamesystemstate_numdeadDataNodes)", "Missing Blocks = hadoop_namenode_fsnamesystem_missingreplicablocks"]
-        ],
-        "connections": ["alert-namenode", "dash-namenode-metrics"]
-      },
-      {
-        "id": "dash-namenode-metrics", "label": "Dashboard: NameNode Metrics", "group": "grafana",
-        "description": "Operationales NameNode-Dashboard für tiefere Analyse von Namespace-Operationen, Edit-Log-Wachstum und Checkpoint-Verhalten.",
-        "details": [
-          "Panels im Dashboard:",
-          ["Namespace-Operationen/s: create, delete, rename, getlisting als Zeitreihe (rate 1m)", "Transaktionen seit Checkpoint: Zeitreihe mit Schwelle bei 1 Mio.", "Letzter Checkpoint-Zeitpunkt: Stat-Panel mit Zeitstempel", "RPC-Queue-Latenz: Durchschnitt als Zeitreihe (client-port vs. service-port)", "RPC-Durchsatz: Ops/s aufgegliedert nach Methode (getBlockLocations, addBlock, complete)", "Open RPC-Verbindungen: Zeitreihe"],
-          "Wichtigste PromQL-Queries:",
-          ["Create-Rate = rate(hadoop_namenode_namenodeactivity_createfilenumops[1m])", "Checkpoint-Lag = hadoop_namenode_namenodeactivity_transactionssincecheckpoint", "RPC-Queue-Latenz = hadoop_namenode_rpcactivity_rpcqueuetimeavgtime"]
-        ],
-        "connections": ["alert-namenode", "dash-namenode-cluster", "dash-rpc"]
-      },
-      {
-        "id": "dash-datanode-metrics", "label": "Dashboard: DataNode Metrics", "group": "grafana",
-        "description": "DataNode-Dashboard für Durchsatz-Monitoring, Block-Operationen und Disk-Auslastung pro Node.",
-        "details": [
-          "Panels im Dashboard:",
-          ["Read/Write-Durchsatz: Bytes/s aggregiert und per Instance als Zeitreihe", "Lokale vs. Remote-Reads: Verhältnis als gestapeltes Balkendiagramm", "Block-Operationen/s: replicated, removed, verified als Zeitreihen", "Disk-Auslastung: Used% pro DataNode als Heatmap", "IBR ausstehend: Incremental Block Reports in Progress als Zeitreihe", "Block-Verifikationsfehler: Counter als Zeitreihe mit Alert-Schwelle", "Heartbeat-Latenz: Durchschnitt per Instance"],
-          "Wichtigste PromQL-Queries:",
-          ["Durchsatz = rate(hadoop_datanode_datanodeactivity_bytesread[1m])", "Disk-% = (dfsused / capacity) * 100", "CRC-Fehler/min = rate(blockverificationfailures[1m])"]
-        ],
-        "connections": ["alert-datanode"]
-      },
-      {
-        "id": "dash-jvm", "label": "Dashboard: JVM Metrics", "group": "grafana",
-        "description": "JVM-Dashboard für alle Hadoop-Dienste – Heap-Überwachung, GC-Analyse und Thread-Monitoring mit Service-Selector-Variable.",
-        "details": [
-          "Panels im Dashboard:",
-          ["Heap-Auslastung: Used/Max in % als Gauge pro Service und Zeitreihe", "GC-Zeit-Anteil: rate(gctimemillis[1m]) / 10000 in % als Zeitreihe", "GC-Frequenz: rate(gccount[1m]) – G1 Young und Old getrennt", "Thread-Übersicht: runnable/blocked/waiting als gestapeltes Area-Chart", "Log-Level-Zähler: rate(logerror[5m]) und rate(logfatal[5m]) als Zeitreihe", "Metaspace: nonheapused/nonheapcommitted als Zeitreihe"],
-          "Dashboard-Variablen:",
-          ["service: Dropdown für namenode, datanode, resourcemanager, nodemanager, journalnode", "instance: Dropdown für spezifische Instanz (z.B. dn1, dn2, dn3)"]
-        ],
-        "connections": ["alert-jvm"]
-      },
-      {
-        "id": "dash-rpc", "label": "Dashboard: RPC Metrics", "group": "grafana",
-        "description": "RPC-Performance-Dashboard für Latenz-Monitoring und Troubleshooting von RPC-Engpässen in allen Hadoop-Diensten.",
-        "details": [
-          "Panels im Dashboard:",
-          ["Queue-Latenz: Durchschnitt in ms als Zeitreihe mit Schwelle bei 1000 ms", "Processing-Latenz: Durchschnitt in ms mit Schwelle bei 500 ms", "Call-Queue-Länge: aktuelle Warteschlangenlänge mit Schwelle bei 100", "RPC-Durchsatz: Ops/s total und per Methode", "Auth-Fehler: rate(authorizationfailures[5m]) als Zeitreihe", "Open Connections: Zeitverlauf der offenen RPC-Verbindungen", "Dropped Connections: rate(droppedconnections[1m])"],
-          "Wichtige PromQL-Queries:",
-          ["Queue-Latenz = hadoop_namenode_rpcactivity_rpcqueuetimeavgtime{port=\"8020\"}", "Queue-Länge = hadoop_namenode_rpcactivity_callqueuelength", "Auth-Fehler-Rate = rate(hadoop_namenode_rpcactivity_authorizationfailures[5m])"]
-        ],
-        "connections": ["alert-rpc", "dash-namenode-metrics"]
-      },
-      {
-        "id": "dash-yarn", "label": "Dashboard: YARN", "group": "grafana",
-        "description": "Drei YARN-Dashboards für Cluster-, Queue- und NodeManager-Überwachung.",
-        "details": [
-          "YARN Cluster Metrics Dashboard:",
-          ["Aktive / Verlorene / Ungesunde NodeManager als Stat-Panels", "Allozierter vs. verfügbarer Memory als Gauge (Cluster-Auslastung %)", "Allozierte vs. verfügbare vCores als Gauge", "Memory-Nutzung über Zeit als Zeitreihe"],
-          "YARN Queue Metrics Dashboard:",
-          ["Apps: pending/running/completed/failed/killed als Zeitreihe", "Queue-Kapazität und -Auslastung in %", "Pending Resources (Memory + vCores wartend auf Allokation)", "App-Fehler-Rate als Zeitreihe"],
-          "NodeManager Metrics Dashboard:",
-          ["Container-Status: running/launched/failed als Zeitreihe", "Container-Fehler-Rate: rate(containersfailed[1m])", "Bad Local Dirs + Bad Log Dirs als Stat-Panels", "Container-Start-Latenz als Zeitreihe"]
-        ],
-        "connections": ["alert-yarn"]
-      },
-      {
-        "id": "dash-other", "label": "Weitere Dashboards", "group": "grafana",
-        "description": "4 spezialisierte Dashboards für detaillierte Analyse einzelner HDFS-Komponenten: FSVolume, FSNamesystem, JournalNode und RetryCache.",
-        "details": [
-          "FSVolume Metrics Dashboard:",
-          ["Disk-Auslastung per Volume per DataNode als Heatmap", "Freier Speicher per Volume als Zeitreihe", "IBR-Status pro Volume"],
-          "FSNamesystem Metrics Dashboard:",
-          ["Namespace-Größe: Files + Blocks + Directories als Zeitreihe", "Replication-Status: under-replicated vs. over-replicated", "Pending Replications als Zeitreihe"],
-          "JournalNode Metrics Dashboard:",
-          ["Edit-Log-Segmente: Anzahl und Größe", "Sync-Zeiten: Dauer für JN-Commits", "Quorum-Status: alle 3 JNs erreichbar?", "Transaktionen verarbeitet pro Zeiteinheit"],
-          "RetryCache Metrics Dashboard:",
-          ["Cache-Hit-Rate: hits / (hits + misses) als Zeitreihe", "Cache-Evictions über Zeit", "Bedeutung: hohe Miss-Rate deutet auf viele Client-Retries hin (Netzwerkprobleme oder NN-Überlastung)"]
-        ],
-        "connections": ["dash-namenode-cluster", "dash-datanode-metrics", "prom-journalnode-metrics"]
-      },
-      {
-        "id": "alert-namenode", "label": "Alerts: NameNode", "group": "grafana",
-        "description": "7 Alert-Rules in namenode.yml für die kritischsten HDFS-Cluster-Zustände – von fehlenden Blöcken bis zur Kapazitätsgrenze.",
-        "details": [
-          "Critical Alerts (sofortige Aktion erforderlich):",
-          ["MissingBlocks: missingreplicablocks > 0 → Datenverlust möglich, sofort handeln", "CorruptBlocks: corruptblocks > 0 → CRC-Fehler ohne gesunde Kopie", "CapacityCritical: capacityused / capacitytotal > 0.95 → Schreiboperationen scheitern bald"],
-          "Warning Alerts (Überwachung und Reaktion erforderlich):",
-          ["UnderReplicatedBlocks: underreplicatedblocks > 100 → Replikationsprozess läuft hinterher", "CapacityWarning: capacityused / capacitytotal > 0.85 → Kapazitätsplanung nötig", "DeadDataNodes: staleDataNodes > 0 → DataNode-Ausfall oder Netzwerkproblem", "CheckpointLag: transactionssincecheckpoint > 1000000 → langer NN-Neustart droht"],
-          "Alert-Routing (policies.yml):",
-          ["Critical: group_wait=10s, repeat_interval=1h", "Warning: group_wait=30s, repeat_interval=4h", "Gruppierung nach: alertname, severity", "Kontaktpunkt: E-Mail"]
-        ],
-        "connections": ["dash-namenode-cluster", "dash-namenode-metrics"]
-      },
-      {
-        "id": "alert-datanode", "label": "Alerts: DataNode", "group": "grafana",
-        "description": "4 Alert-Rules in datanode.yml für DataNode-Gesundheit, Block-Integrität und Heartbeat-Verhalten.",
-        "details": [
-          "Alert-Definitionen:",
-          ["VolumeFailures (Critical): numfailedvolumes > 0 for 0m → Disk-Ausfall, sofortiges Handeln", "BlockVerificationFailures (Warning): rate(blockverificationfailures[5m]) > 0 for 5m → anhaltende CRC-Fehler", "HeartbeatLatencyHigh (Warning): heartbeatsavgtime > 5000 ms for 5m → Netzwerk- oder GC-Probleme", "IBRPendingHigh (Warning): incrementalblockreportinprogress > 1000 for 5m → Block-Report-Rückstau"],
-          "Ursachenanalyse bei VolumeFailures:",
-          ["Fehlerhafte Disk (S.M.A.R.T.-Status prüfen)", "Volles Filesystem (df -h auf dem DataNode-Host)", "Fehlende Schreibrechte im Datenverzeichnis", "DataNode entfernt sich selbst wenn dfs.datanode.failed.volumes.tolerated überschritten"]
-        ],
-        "connections": ["dash-datanode-metrics"]
-      },
-      {
-        "id": "alert-yarn", "label": "Alerts: YARN", "group": "grafana",
-        "description": "4 Alert-Rules in yarn.yml für YARN-Cluster-Gesundheit, NodeManager-Status und Container-Betrieb.",
-        "details": [
-          "Alert-Definitionen:",
-          ["LostNodeManagers (Warning): numlostnms > 0 for 1m → NM ausgefallen, Kapazitätsverlust", "UnhealthyNodeManagers (Warning): numunhealthynms > 0 for 5m → NM meldet sich als unhealthy", "ContainerFailuresHigh (Warning): rate(containersfailed[1m]) > 10 for 5m → App-Fehler oder Ressourcenmangel", "BadLocalDirs (Warning): badlocaldirs > 0 for 0m → NM-Arbeitsverzeichnis beschädigt"],
-          "UnhealthyNodeManager – mögliche Ursachen:",
-          ["Volle Festplatte (yarn.nodemanager.disk-health-checker.min-free-space-per-disk-mb unterschritten)", "Fehlende oder nicht schreibbare lokale Verzeichnisse", "Prozessgrenzwerte (ulimit) erreicht"],
-          "Alert-Eskalationspfad:",
-          ["BadLocalDirs → UnhealthyNodeManagers → LostNodeManagers (stufenweise Eskalation)", "RM legt bei UnhealthyNM keine neuen Container ab, Container laufen aber noch", "Bei LostNM werden alle Container als verloren markiert"]
-        ],
-        "connections": ["dash-yarn"]
-      },
-      {
-        "id": "alert-rpc", "label": "Alerts: RPC", "group": "grafana",
-        "description": "5 Alert-Rules in rpc.yml für RPC-Performance-Überwachung und Sicherheit.",
-        "details": [
-          "Alert-Definitionen:",
-          ["RPCQueueLatencyHigh (Warning): rpcqueuetimeavgtime > 1000 ms for 5m → Handler ausgelastet oder GC-Pause", "RPCProcessingLatencyHigh (Warning): rpcprocessingtimeavgtime > 500 ms for 5m → NN-Verarbeitung langsam", "RPCCallQueueTooLong (Warning): callqueuelength > 100 for 2m → Handler-Threads nicht ausreichend", "RPCAuthFailures (Warning): rate(authorizationfailures[5m]) > 0 for 10m → Berechtigungsprobleme", "RPCDroppedConnections (Warning): rate(droppedconnections[1m]) > 0 for 5m → Netzwerkprobleme"],
-          "Korrelationen für Troubleshooting:",
-          ["RPCQueueLatencyHigh + GCTimeHigh → GC-Pause blockiert RPC-Handler-Threads", "RPCCallQueueTooLong + hohe Create-Rate → dfs.namenode.handler.count erhöhen", "RPCAuthFailures dauerhaft → Zugriffskontrolle und Netzwerksegmentierung prüfen"]
-        ],
-        "connections": ["dash-rpc"]
-      },
-      {
-        "id": "alert-jvm", "label": "Alerts: JVM", "group": "grafana",
-        "description": "9 Alert-Rules in jvm.yml für JVM-Gesundheit aller Hadoop-Dienste – Heap, GC, Threads und Metaspace.",
-        "details": [
-          "Heap-Alerts:",
-          ["HeapCritical (Critical): memheapusedm / memheapmaxm > 0.90 for 2m → OOM-Risiko", "HeapWarning (Warning): memheapusedm / memheapmaxm > 0.75 for 5m → GC-Frequenz steigt", "HeapCommittedNearMax (Warning): memheapcommittedm / memheapmaxm > 0.95 for 5m → Heap vollständig alloziert"],
-          "GC-Alerts:",
-          ["GCTimeHigh (Warning): rate(gctimemillis[1m]) / 10000 > 0.30 for 5m → mehr als 30 % CPU-Zeit in GC", "GCFrequencyHigh (Warning): rate(gccount[1m]) > 2 for 5m → mehr als 2 GC-Zyklen pro Minute"],
-          "Thread-Alerts:",
-          ["BlockedThreads (Warning): threadsblocked > 10 for 5m → Deadlock-Risiko oder Lock-Contention", "ThreadCountHigh (Warning): threadsrunnable + threadsblocked + threadswaiting > 500 for 5m → Thread-Leak", "WaitingThreads (Warning): threadswaiting > 50 for 5m → viele Threads warten auf Locks"],
-          "Metaspace-Alert:",
-          ["MetaspaceHigh (Warning): memnonheapusedm / memnonheapcommittedm > 0.80 for 5m → Class-Loading-Probleme"],
-          "Bei HeapCritical: zuerst GC-Log prüfen (/var/log/hadoop/gc-*.log). Full-GC-Zyklen deuten auf zu kleinen Heap oder Memory-Leak. GCTimeHigh ohne HeapWarning deutet auf häufige Young-Generation-GCs durch hohe Allokationsrate hin."
-        ],
-        "connections": ["dash-jvm"]
-      },
-      {
-        "id": "alert-journalnode", "label": "Alerts: JournalNode", "group": "grafana",
-        "description": "5 Alert-Rules in journalnode.yml für JournalNode-Verfügbarkeit, Quorum-Sicherheit und Sync-Performance – kritisch weil JN-Ausfälle den aktiven NameNode zum Stillstand bringen können.",
-        "details": [
-          "Alert-Definitionen:",
-          ["JournalNodeDown (Critical): up{role=\"journalnode\"} == 0 for 1m → JN nicht mehr scrappbar, Quorum gefährdet", "JournalNodeQuorumAtRisk (Warning): count(up{role=\"journalnode\"} == 1) < 3 for 2m → nur noch 2 von 3 JNs aktiv, kein Ausfall-Puffer", "JournalNodeSyncLatencyHigh (Warning): hadoop_journalnode_journal_syncsavgtime > 500 ms for 5m → langsame JN-Commits blockieren NN-Edit-Log", "JournalNodeBatchesWrittenRateZero (Warning): rate(hadoop_journalnode_journal_batcheswritten[5m]) == 0 for 10m → JN empfängt keine Transaktionen mehr", "JournalNodeHeapHigh (Warning): memheapusedm / memheapmaxm > 0.80 for 5m → JN-Heap-Druck, Heap ist auf 512 MB begrenzt"],
-          "Warum JournalNode-Alerts kritisch sind:",
-          ["Bei 2 von 3 ausgefallenen JNs kann der aktive NameNode kein Edit-Log mehr schreiben", "Der NameNode stoppt alle Namespace-Operationen (Writes) bis der Quorum wiederhergestellt ist", "Reads (getBlockLocations) funktionieren noch, aber alle Write-Operationen (create, delete, addBlock) scheitern", "JournalNodeQuorumAtRisk ist der Frühwarnindikator – bei diesem Alert sofort reagieren bevor der zweite JN ausfällt"],
-          "Korrelationen für Troubleshooting:",
-          ["JournalNodeSyncLatencyHigh + RPCQueueLatencyHigh → Edit-Log-Engpass blockiert NameNode-RPC-Handler", "JournalNodeSyncLatencyHigh + GCTimeHigh (JN) → GC-Pausen verzögern JN-fsync-Operationen", "JournalNodeDown + EditLog-Fehler im NN-Log → JN-Container neu starten und hdfs namenode -bootstrapStandby prüfen"],
-          "Alert-Routing: JournalNodeDown als Critical mit group_wait=10s, repeat_interval=30m. QuorumAtRisk als Warning mit group_wait=30s. Beide in dieselbe Alertgruppe wie NameNode-Alerts gruppieren da JN-Ausfälle direkt den NameNode betreffen."
-        ],
-        "connections": ["dash-other", "journalnode", "prom-journalnode-metrics"]
       }
     ],
     "crossConnections": [
-      { "from": "namenode",            "to": "prom-namenode-metrics"    },
-      { "from": "namenode",            "to": "prom-rpc-metrics"         },
-      { "from": "datanode",            "to": "prom-datanode-metrics"    },
-      { "from": "resourcemanager",     "to": "prom-yarn-metrics"        },
-      { "from": "nodemanager",         "to": "prom-yarn-metrics"        },
-      { "from": "prom-namenode-metrics", "to": "dash-namenode-cluster"  },
-      { "from": "prom-namenode-metrics", "to": "dash-namenode-metrics"  },
-      { "from": "prom-datanode-metrics", "to": "dash-datanode-metrics"  },
-      { "from": "prom-datanode-metrics", "to": "dash-other"             },
-      { "from": "prom-jvm-metrics",    "to": "dash-jvm"                 },
-      { "from": "prom-rpc-metrics",    "to": "dash-rpc"                 },
-      { "from": "prom-yarn-metrics",   "to": "dash-yarn"                },
-      { "from": "prom-namenode-metrics", "to": "dash-other"             },
-      { "from": "alert-namenode",      "to": "prom-namenode-metrics"    },
-      { "from": "alert-datanode",      "to": "prom-datanode-metrics"    },
-      { "from": "alert-jvm",           "to": "prom-jvm-metrics"         },
-      { "from": "alert-rpc",           "to": "prom-rpc-metrics"         },
-      { "from": "alert-yarn",          "to": "prom-yarn-metrics"        },
-      { "from": "hdfs-namenode-role",  "to": "namenode"                 },
-      { "from": "hdfs-datanode-role",  "to": "datanode"                 },
-      { "from": "hdfs-ha",             "to": "zookeeper"                },
-      { "from": "hdfs-ha",             "to": "journalnode"              },
-      { "from": "hdfs-ha",             "to": "zkfc"                     },
-      { "from": "hdfs-editlog",        "to": "journalnode"              },
-      { "from": "hdfs-fsimage",        "to": "prom-namenode-metrics"    },
-      { "from": "hdfs-block",          "to": "prom-datanode-metrics"    },
-      { "from": "hdfs-small-files",    "to": "prom-namenode-metrics"    },
-      { "from": "hdfs-balancer",       "to": "prom-datanode-metrics"    },
-      { "from": "hdfs-snapshots",      "to": "prom-namenode-metrics"    },
-      { "from": "distcp",              "to": "prom-yarn-metrics"        },
-      { "from": "alert-journalnode",   "to": "prom-journalnode-metrics"  },
-      { "from": "journalnode",          "to": "prom-journalnode-metrics"  },
-      { "from": "prom-journalnode-metrics", "to": "dash-other"            },
-      { "from": "zkfc",                 "to": "prom-jvm-metrics"          },
-      { "from": "zkfc",                 "to": "prom-rpc-metrics"          }
+      { "from": "hdfs-namenode-role", "to": "namenode"    },
+      { "from": "hdfs-datanode-role", "to": "datanode"    },
+      { "from": "hdfs-ha",            "to": "zookeeper"   },
+      { "from": "hdfs-ha",            "to": "journalnode" },
+      { "from": "hdfs-ha",            "to": "zkfc"        },
+      { "from": "hdfs-editlog",       "to": "journalnode" }
     ]
   };
 

@@ -9,7 +9,7 @@
       {
         "path": "README.md",
         "title": "Ansible UML Visualizer",
-        "description": "A small FastAPI web app that scans an Ansible repository (local path or git URL), finds inventories and playbooks, and generates a Mermaid diagram showing groups, hosts and tasks.",
+        "description": "A small FastAPI web app that scans an Ansible repository (local path or git URL), finds inventories and playbooks, and generates a Mermaid diagram showing groups, hosts and tasks.\n\nLinks\n- App instance and route handlers: [`main.app`](main.py), [`main.index`](main.py), [`main.scan_repo`](main.py), [`main.generate_diagram`](main.py)\n- Web template: [templates/index.html](templates/index.html)\n- Dependencies: [requirements.txt](requirements.txt) and [pyproject.toml](pyproject.toml)",
         "type": "readme"
       }
     ]
@@ -24,7 +24,7 @@
       {
         "path": "README.md",
         "title": "bcrypt",
-        "description": "bcrypt command line tool",
+        "description": "bcrypt command line tool\n\n# build\n* go get -v\n* go clean\n* go build\n* go test\n\n# run\n* go run main.go\n\n# debug\n* go get -u github.com/go-delve/delve/cmd/dlv\n* dlv debug ./goservice\n\n# hash text\n* ./bcrypt -text \"hello world\"\n* ./bcrypt -file .gitignore\n\n# docker hub\n* https://hub.docker.com/repository/docker/wlanboy/bcrypt\n\n# usage with docker\n* alias bcrypt=\"docker run -it --rm wlanboy/bcrypt\"\n* bcrypt -text \"hello world\"",
         "type": "readme"
       }
     ]
@@ -39,7 +39,7 @@
       {
         "path": "readme.md",
         "title": "Lokaler Monitoring Stack",
-        "description": "Das Dashboard-JSON (`Blackbox Exporter Dashboard.json`) kann in Grafana importiert werden.",
+        "description": "",
         "type": "readme"
       }
     ]
@@ -61,7 +61,7 @@
         "path": "caweb-chart/readme.md",
         "title": "helm chart to deploy caweb",
         "description": "Needs a secret for the ca. Create secret befor deploying the helm chart.",
-        "type": "readme"
+        "type": "module"
       }
     ]
   },
@@ -90,7 +90,7 @@
       {
         "path": "README.md",
         "title": "Spring Cloud Config property file generator",
-        "description": "Spring Boot and Spring Cloud Config based property file generator to migrate from Spring Cloud Config Server. Loads profiles from Spring Cloud Config server and generates a Kubernetes Config Map.",
+        "description": "Spring Boot and Spring Cloud Config based property file generator to migrate from Spring Cloud Config Server.\nLoads profiles from Spring Cloud Config server and generates a Kubernetes Config Map.",
         "type": "readme"
       }
     ]
@@ -105,7 +105,7 @@
       {
         "path": "README.md",
         "title": "debian/ubuntu kvm virsh install with cloud init",
-        "description": "This repo describes how to auto install Debian 12, Debian 13, Ubuntu 22.04 and Ubuntu 24.04 with virsh-install and cloud-init. Which images you can use, and which images you should not use. How to add user passwords with hashes and how to create harddisk images from templates.",
+        "description": "This repo describes how to auto install Debian 12, Debian 13, Ubuntu 22.04 and Ubuntu 24.04 with virsh-install and cloud-init.\nWhich images you can use, and which images you should not use.\nHow to add user passwords with hashes and how to create harddisk images from templates.",
         "type": "readme"
       },
       {
@@ -147,14 +147,14 @@
       {
         "path": "docker.md",
         "title": "🐳 Deployment API – Docker Setup",
-        "description": "Diese Anleitung beschreibt, wie du die FastAPI-basierte Deployment-API in einem Docker-Container ausführst, inklusive Ansible-Integration und Zugriff auf SSH-Keys und Playbooks.",
+        "description": "Diese Anleitung beschreibt, wie du die FastAPI-basierte Deployment-API in einem Docker-Container ausführst, inklusive Ansible-Integration und Zugriff auf SSH-Keys und Playbooks.\n\n---",
         "type": "text"
       },
       {
         "path": "prometheus/readme.md",
         "title": "Prometheus + Pushgateway Monitoring Setup",
-        "description": "Dieses Setup stellt eine einfache Monitoring-Infrastruktur bereit, bestehend aus:",
-        "type": "readme"
+        "description": "Dieses Setup stellt eine einfache Monitoring-Infrastruktur bereit, bestehend aus:\n\n- **Prometheus** zur Metrik-Speicherung und Visualisierung\n- **Pushgateway** zur Annahme von Push-Metriken aus Batch-Jobs (z. B. Ansible-Deployments)",
+        "type": "module"
       }
     ]
   },
@@ -207,20 +207,20 @@
       {
         "path": "README.md",
         "title": "Eureka service registering all services in services.json",
-        "description": "Goal of this project is a simple and small client to provide a migration path for everyone stuck with Spring Eureka. The microservices that are your own responsibility should be freed from the burden of running a Eureka client that is no longer in use but is still needed for your customers. In a Cloud Native world, the microservices are hidden behind one or more load balancers. Therefore, we need a client that handles the registration of the microservices and uses the load balancer addresses as the destination url.",
+        "description": "Goal of this project is a simple and small client to provide a migration path for everyone stuck with Spring Eureka.\nThe microservices that are your own responsibility should be freed from the burden of running a Eureka client that is no longer in use but is still needed for your customers.\nIn a Cloud Native world, the microservices are hidden behind one or more load balancers. Therefore, we need a client that handles the registration of the microservices and uses the load balancer addresses as the destination url.",
         "type": "readme"
       },
       {
         "path": "accesslogs/readme.md",
         "title": "Eureka Access Log Server",
         "description": "Dieses Tool dient als **Dummy-Ersatz für einen abgeschalteten Eureka-Server**, um herauszufinden, welche Clients ihn noch aktiv ansprechen.",
-        "type": "readme"
+        "type": "module"
       },
       {
         "path": "example/readme.md",
         "title": "Eureka REST API – Beispiele",
-        "description": "Dieses Verzeichnis enthält HTTP-Beispielanfragen für die Eureka REST API sowie eine Beispielantwort im XML-Format.",
-        "type": "readme"
+        "description": "Dieses Verzeichnis enthält HTTP-Beispielanfragen für die Eureka REST API sowie eine Beispielantwort im XML-Format.\n\nOffizielle API-Dokumentation: <https://github.com/Netflix/eureka/wiki/Eureka-REST-operations>",
+        "type": "module"
       }
     ]
   },
@@ -234,7 +234,7 @@
       {
         "path": "README.md",
         "title": "Projektbeschreibung",
-        "description": "Dieses Repository enthält eine kleine Java-Anwendung (Eureka Client) zur Demonstration von Service-Discovery- und Konfigurationsmustern. Die Anwendung ist als Spring Boot–basiertes Microservice-Beispiel aufgebaut, lässt sich lokal mit Maven bauen, in einem Docker-Container betreiben.",
+        "description": "Dieses Repository enthält eine kleine Java-Anwendung (Eureka Client) zur Demonstration von Service-Discovery- und Konfigurationsmustern. Die Anwendung ist als Spring Boot–basiertes Microservice-Beispiel aufgebaut, lässt sich lokal mit Maven bauen, in einem Docker-Container betreiben.\n\nWichtige Anwendungsfälle:\n\n- Registrieren/Abfragen von Diensten (Eureka-Client-Verhalten).\n- Lokale Konfiguration über `services.json` und `application.properties`.\n- Container-Deployment mit Volumen-Mounts für Konfiguration.\n\n---",
         "type": "readme"
       }
     ]
@@ -249,7 +249,7 @@
       {
         "path": "README.md",
         "title": "failoverdns",
-        "description": "Failover DNS for nodeping and cloudflare",
+        "description": "Failover DNS for nodeping and cloudflare\n\nIt is easy to run your website on different servers. \nIt is easy to run databases accross different servers. \nBecause virtual servers got quite cheap. \nBut it is not that easy to ensure that your visitors are visiting a server that is still running.\n\nYou can setup more than one A record but a lot of browsers do not support DNS load balancing.\nYou can setup a load balancer but then you just moved the problem to another place. You load balancer is now the single point of failure.\n\nFor me DNS looks like a good solution to point visitors to the right server.\nBut I want to start with a low effort and simple solution.\n\nSo lets start with the first step into DNS failover.",
         "type": "readme"
       }
     ]
@@ -265,19 +265,19 @@
         "path": "apps/readme.md",
         "title": "Apps",
         "description": "Enthält ArgoCD `Application`-Manifeste für alle verwalteten Dienste. Jede Datei definiert eine eigene ArgoCD-Application, die ArgoCD anweist, die jeweilige Anwendung aus dem GitOps-Repository zu synchronisieren und im Cluster zu deployen.",
-        "type": "readme"
+        "type": "module"
       },
       {
         "path": "kaniko/argo-workflows/readme.md",
         "title": "Argo Workflows + Kaniko",
         "description": "Kubernetes-native Build Pipelines mit Argo Workflows und Kaniko.",
-        "type": "readme"
+        "type": "module"
       },
       {
         "path": "kaniko/readme.md",
         "title": "Kaniko Build Jobs",
         "description": "Minimales Setup für Docker Image Builds mit Kaniko in Kubernetes.",
-        "type": "readme"
+        "type": "module"
       },
       {
         "path": "kubectl-cheatsheet.md",
@@ -288,7 +288,7 @@
       {
         "path": "readme.md",
         "title": "📘 ArgoCD Deployment – Erweiterte Dokumentation",
-        "description": "Dieses Dokument beschreibt die Initialisierung und Verwaltung verschiedener ArgoCD‑Applikationen innerhalb eines Kubernetes‑Clusters. Es führt Schritt für Schritt durch die Einrichtung der benötigten Projekte, Namespaces und Applikationen sowie die Nutzung der ArgoCD‑CLI.",
+        "description": "Dieses Dokument beschreibt die Initialisierung und Verwaltung verschiedener ArgoCD‑Applikationen innerhalb eines Kubernetes‑Clusters. \nEs führt Schritt für Schritt durch die Einrichtung der benötigten Projekte, Namespaces und Applikationen sowie die Nutzung der ArgoCD‑CLI.",
         "type": "readme"
       },
       {
@@ -306,14 +306,14 @@
       {
         "path": "tekton/argocd/readme.md",
         "title": "Nutzung",
-        "description": "Tekton Scripts für ArgoCD App Definitionen",
-        "type": "readme"
+        "description": "Tekton Scripts für ArgoCD App Definitionen\n\n# 1. Setup ausführen (einmalig)\ncd tekton/argocd\nexport DOCKER_USER=dein_username\nexport DOCKER_TOKEN=dein_token\nexport DOCKER_EMAIL=deine_email\n./setup.sh\n\n# 2. Apps bauen\n./build.sh --list          # Zeigt alle verfügbaren Apps\n./build.sh caweb           # Baut einzelne App\n./build.sh --all           # Baut alle Apps\nIMAGE_TAG=v1.0.0 ./build.sh tester   # Mit spezifischem Tag",
+        "type": "module"
       },
       {
         "path": "tekton/readme.md",
         "title": "Tekton Builds",
-        "description": "Tekton Pipelines für deine GitHub-Projekte und ArgoCD Apps einrichten.",
-        "type": "readme"
+        "description": "Tekton Pipelines für deine GitHub-Projekte und ArgoCD Apps einrichten.\n\n**Voraussetzungen:** K3s Cluster, Istio, Cert-Manager und ArgoCD müssen laufen.\n\n---",
+        "type": "module"
       }
     ]
   },
@@ -342,7 +342,7 @@
       {
         "path": "README.md",
         "title": "hadoopmetrics",
-        "description": "simple service polling all base directories of a path, getting the size of the folder and save this pair of information in a hashmap. This hashmap is used to create prometheus metrics for each folder.",
+        "description": "simple service polling all base directories of a path, getting the size of the folder and save this pair of information in a hashmap.\nThis hashmap is used to create prometheus metrics for each folder.\n\n# urls\n* Get metrics: http://localhost:8080/actuator/prometheus\n* Manual start of metrics generation (will only update every hour) http://localhost:8080/metricsstart",
         "type": "readme"
       }
     ]
@@ -357,25 +357,25 @@
       {
         "path": "README.md",
         "title": "JavaHttpClient",
-        "description": "Spring based rest service to test http routes in kubernetes. Showing http status, response, timing and istio envy settings.",
+        "description": "Spring based rest service to test http routes in kubernetes.\nShowing http status, response, timing and istio envy settings.",
         "type": "readme"
       },
       {
         "path": "dokumentation.md",
         "title": "JavaHttpClient – Projektdokumentation",
-        "description": "Diagnose-Tool für HTTP-Konnektivitätsprobleme in Kubernetes-Clustern mit Istio Service Mesh. Läuft als Pod im Cluster und ermöglicht:",
+        "description": "Diagnose-Tool für HTTP-Konnektivitätsprobleme in Kubernetes-Clustern mit Istio Service Mesh.\nLäuft als Pod im Cluster und ermöglicht:\n\n- HTTP-Requests über einen Java-HTTP-Client an beliebige Ziel-URLs zu senden\n- Istio-Sidecar (Envoy) Konfiguration und Fehler-Metriken auszuwerten\n- VirtualService/DestinationRule/ServiceEntry-Konfiguration mit einer Ziel-URL zu korrelieren\n- TLS-Zertifikatsketten und mTLS/SPIFFE-Identitäten zu inspizieren\n- Redirect-Chains, Protokollversionen und DNS-Auflösungen sichtbar zu machen\n\n---",
         "type": "text"
       },
       {
         "path": "javahttpclient-chart/readme.md",
         "title": "Helm chart usage",
         "description": "How to install the java based http client via helm.",
-        "type": "readme"
+        "type": "module"
       },
       {
         "path": "layers.md",
         "title": "Spring Boot Layered JAR – Strategie & Anwendungsanleitung",
-        "description": "Docker-Images bestehen aus aufeinander gestapelten Layern. Ändert sich ein Layer, werden alle darüber liegenden Layer neu erstellt – unabhängig davon, ob sie sich selbst verändert haben. Ein gut strukturiertes Layered JAR sorgt dafür, dass bei einem typischen Deployment (nur App-Code ändert sich) die großen Dependency-Layer aus dem Cache kommen und nur die kleinen oberen Layer neu übertragen werden.",
+        "description": "",
         "type": "text"
       }
     ]
@@ -390,7 +390,7 @@
       {
         "path": "README.md",
         "title": "kanbantabs",
-        "description": "golang based console kanban board with local storage",
+        "description": "golang based console kanban board with local storage\n\nExmaple:",
         "type": "readme"
       }
     ]
@@ -405,7 +405,7 @@
       {
         "path": "README.md",
         "title": "Kurzbeschreibung",
-        "description": "Dieses Projekt startet einen FastAPI-Server (`main:app`) und nutzt Uvicorn als ASGI-Server. Siehe [`main:app`](main.py) für die App-Instanz und [pyproject.toml](pyproject.toml) für die deklarierte Abhängigkeiten. Mit dieser Weboberfläche kann:",
+        "description": "Dieses Projekt startet einen FastAPI-Server (`main:app`) und nutzt Uvicorn als ASGI-Server. Siehe [`main:app`](main.py) für die App-Instanz und [pyproject.toml](pyproject.toml) für die deklarierte Abhängigkeiten.\nMit dieser Weboberfläche kann:\n\n- Eine Kind Version ausgewählt und heruntergeladen werden.\n- Mit dieser ausgewählten Kind Version können dann beliebig viele kind Cluster erstellt werden.\n- Für jeden Cluster kann eine IP Range für Metallb angegeben werden.\n- Für jeden Cluster kann Istio installiert werden.\n- Für jeden Cluster kann die kubeconfig heruntergeladen werden.",
         "type": "readme"
       }
     ]
@@ -435,14 +435,14 @@
       {
         "path": "README.md",
         "title": "📡Kubernetes Event Dashboard",
-        "description": "A lightweight, real‑time dashboard for collecting, storing, searching, and visualizing Kubernetes Events. This project provides: - A FastAPI backend that watches Kubernetes events, stores them in a database, and exposes REST + SSE endpoints - A minimal frontend for live event streaming, searching, filtering, and pagination - Prometheus metrics for monitoring event activity - A clean, self‑contained solution for debugging clusters and understanding workload behavior",
+        "description": "A lightweight, real‑time dashboard for collecting, storing, searching, and visualizing Kubernetes Events.\nThis project provides:\n- A FastAPI backend that watches Kubernetes events, stores them in a database, and exposes REST + SSE endpoints\n- A minimal frontend for live event streaming, searching, filtering, and pagination\n- Prometheus metrics for monitoring event activity\n- A clean, self‑contained solution for debugging clusters and understanding workload behavior\n\n![K8s Events](screenshots/kubeevents.png)",
         "type": "readme"
       },
       {
         "path": "kubeevent-chart/readme.md",
         "title": "Helm install",
         "description": "This helm script installs the WebShell within a kubernetes cluster.",
-        "type": "readme"
+        "type": "module"
       }
     ]
   },
@@ -456,20 +456,20 @@
       {
         "path": "Grafana_Dashboards/readme.md",
         "title": "Grafana Dashboards – Kubernetes Event Monitoring",
-        "description": "Alle Dashboards nutzen Prometheus als Datenquelle und basieren auf der `kubeevents_*`-Metrikfamilie, die vom kubeeventjava-Exporter bereitgestellt wird.",
-        "type": "readme"
+        "description": "Alle Dashboards nutzen Prometheus als Datenquelle und basieren auf der `kubeevents_*`-Metrikfamilie, die vom kubeeventjava-Exporter bereitgestellt wird.\n\n---",
+        "type": "module"
       },
       {
         "path": "README.md",
         "title": "Kubernetes Event Dashboard",
-        "description": "A lightweight, real‑time dashboard for collecting, storing, searching, and visualizing Kubernetes Events. This project provides:",
+        "description": "A lightweight, real‑time dashboard for collecting, storing, searching, and visualizing Kubernetes Events. This project provides:\n\n- A **Spring Boot** backend that watches Kubernetes events, stores them in a database, and exposes REST + SSE endpoints\n- A minimal frontend for live event streaming, searching, filtering, and pagination\n- Prometheus metrics for monitoring event activity\n- A clean, self‑contained solution for debugging clusters and understanding workload behavior\n\n![K8s Events](screenshots/kubeevents.png)\n\nJava version of https://github.com/wlanboy/kubeevent",
         "type": "readme"
       },
       {
         "path": "kubeeventjava-chart/readme.md",
         "title": "Helm install for kubeeventjava",
         "description": "This helm script installs the Kubeevent Java App within a kubernetes cluster.",
-        "type": "readme"
+        "type": "module"
       }
     ]
   },
@@ -483,7 +483,22 @@
       {
         "path": "README.md",
         "title": "kubestats",
-        "description": "A command-line tool for gathering and visualizing statistics about Kubernetes and OpenShift cluster resources — focused on adoption rates, operator usage, and service mesh coverage, always broken down **per namespace**.",
+        "description": "A command-line tool for gathering and visualizing statistics about Kubernetes and OpenShift cluster resources — focused on adoption rates, operator usage, and service mesh coverage, always broken down **per namespace**.\n\nSupports both **`kubectl`** (standard Kubernetes) and **`oc`** (OpenShift) backends via the global `--tool` flag.\n\n---",
+        "type": "readme"
+      }
+    ]
+  },
+  {
+    "name": "lgtm",
+    "description": "Docker compose for LGTM Stack (Loki, Grafana, Tempo, Mimir)",
+    "url": "https://github.com/wlanboy/lgtm",
+    "pushed_at": "2026-04-18T13:29:45Z",
+    "default_branch": "main",
+    "readmes": [
+      {
+        "path": "readme.md",
+        "title": "LGTM Observability Stack",
+        "description": "Lokales Observability-Setup auf Basis des Grafana-Stacks. Kombiniert Metriken, Logs und Traces in einer einzigen Grafana-Oberfläche — vollständig mit Docker Compose betreibbar, ohne Cloud-Abhängigkeiten.\n\n---",
         "type": "readme"
       }
     ]
@@ -534,7 +549,7 @@
       {
         "path": "README.md",
         "title": "MCP Duck Search",
-        "description": "Ein MCP-Server (Model Context Protocol) auf Basis von [FastMCP](https://gofastmcp.com), der LLM-Modellen die Internetsuche ermöglicht — optimiert fuer Code-, Fehler- und Dokumentationssuche.",
+        "description": "Ein MCP-Server (Model Context Protocol) auf Basis von [FastMCP](https://gofastmcp.com), der LLM-Modellen die Internetsuche ermöglicht — optimiert fuer Code-, Fehler- und Dokumentationssuche.\n\nAls Such-Backend wird automatisch **SearXNG** verwendet, wenn die Umgebungsvariable `SEARXNG_URL` gesetzt ist, andernfalls **DuckDuckGo**.",
         "type": "readme"
       }
     ]
@@ -555,13 +570,13 @@
       {
         "path": "qwen-thinking-prompt.md",
         "title": "Qwen Thinking Prompt Example",
-        "description": "Dieses Dokument zeigt ein Beispiel, wie ein Qwen-Modell mit aktiviertem Thinking-Modus eine Benutzeranfrage an den MCP-MD-Fileserver verarbeitet. Es illustriert den mehrstufigen Reasoning-Prozess: initiales Denken, Tool-Aufruf mit Zwischenreflexion und finales Ergebnis.",
+        "description": "Dieses Dokument zeigt ein Beispiel, wie ein Qwen-Modell mit aktiviertem Thinking-Modus\neine Benutzeranfrage an den MCP-MD-Fileserver verarbeitet. Es illustriert den mehrstufigen\nReasoning-Prozess: initiales Denken, Tool-Aufruf mit Zwischenreflexion und finales Ergebnis.\n\n---",
         "type": "text"
       },
       {
         "path": "spec.md",
         "title": "MCP Markdown Fileserver - Technische Spezifikation",
-        "description": "Ein Model Context Protocol (MCP) Server zur Verwaltung einer Markdown-Wissensdatenbank mit automatischer NLP-basierter Stichwort-Extraktion. Der Dienst ermöglicht LLM-Clients das Durchsuchen und Abrufen von Markdown-Dokumenten.",
+        "description": "",
         "type": "text"
       }
     ]
@@ -591,7 +606,7 @@
       {
         "path": "README.md",
         "title": "simple minio web manager for minio community edition",
-        "description": "* uses mc client for access to the admin api * provides management of * users * buckets * ACLs",
+        "description": "* uses mc client for access to the admin api\n* provides management of\n  * users\n  * buckets\n  * ACLs",
         "type": "readme"
       }
     ]
@@ -621,29 +636,29 @@
       {
         "path": "README.md",
         "title": "sqlplus-checker",
-        "description": "Statische Analyse von Oracle SQL-Skripten auf SQLPlus-Kompatibilität.",
+        "description": "Statische Analyse von Oracle SQL-Skripten auf SQLPlus-Kompatibilität.\n\nViele Skripte funktionieren problemlos in SQL Developer oder Toad, scheitern aber beim Deployment über SQLPlus auf dem Linux-Server. Dieses Tool prüft Skripte **rein statisch** (ohne Datenbankverbindung) auf die häufigsten Fehlerquellen.\n\n---",
         "type": "readme"
       }
     ]
   },
   {
     "name": "randomfail",
-    "description": "Python based microservice that will return 500 responses every second request and failes the healtiness hcheck and readyness check randomly",
+    "description": "Ein absichtlich instabiler FastAPI-Service zur Simulation realer Ausfallszenarien in Kubernetes-Clustern.",
     "url": "https://github.com/wlanboy/randomfail",
-    "pushed_at": "2026-04-09T17:04:31Z",
+    "pushed_at": "2026-04-18T13:52:15Z",
     "default_branch": "main",
     "readmes": [
       {
         "path": "README.md",
-        "title": "Unstable FastAPI Service",
-        "description": "This project provides an intentionally unstable FastAPI service designed for testing Kubernetes liveness/readiness probes, self‑healing behavior, and failure‑handling mechanisms.",
+        "title": "Kubernetes Chaos Simulator – randomfail",
+        "description": "Ein absichtlich instabiler FastAPI-Service zur Simulation realer Ausfallszenarien in Kubernetes-Clustern. Der Service löst automatisch und manuell verschiedene Fehlerzustände aus und ermöglicht so das gezielte Testen von Liveness/Readiness-Probes, Self-Healing-Mechanismen, HPA-Reaktionen, PVC-Limits und Graceful-Shutdown-Verhalten.\n\nDer Chaos-Zyklus wechselt in konfigurierbaren Intervallen automatisch zwischen den Szenarien. Zusätzlich können alle Szenarien jederzeit manuell per HTTP-Endpoint ausgelöst werden.\n\n---",
         "type": "readme"
       },
       {
         "path": "randomfail-chart/readme.md",
         "title": "Helm install",
         "description": "This helm script installs the WebShell within a kubernetes cluster.",
-        "type": "readme"
+        "type": "module"
       }
     ]
   },
@@ -687,32 +702,32 @@
       {
         "path": "ca/cert-manager/readme.md",
         "title": "Install cert-manager in k3s with local CA",
-        "description": "Installs and configures [cert-manager](https://cert-manager.io/) on a Kubernetes cluster using a self-hosted CA. cert-manager automates the issuance and renewal of TLS certificates via a `ClusterIssuer` backed by your own CA key and certificate.",
-        "type": "readme"
+        "description": "Installs and configures [cert-manager](https://cert-manager.io/) on a Kubernetes cluster using a self-hosted CA.\ncert-manager automates the issuance and renewal of TLS certificates via a `ClusterIssuer` backed by your own CA key and certificate.",
+        "type": "module"
       },
       {
         "path": "ca/external-ca/readme.md",
         "title": "Trust for external CA in Istio",
-        "description": "Injects a custom CA certificate into Istio sidecars so that services can trust TLS certificates signed by an external CA. This is useful when internal services use certificates issued by a self-hosted CA that is not trusted by default.",
-        "type": "readme"
+        "description": "Injects a custom CA certificate into Istio sidecars so that services can trust TLS certificates signed by an external CA.\nThis is useful when internal services use certificates issued by a self-hosted CA that is not trusted by default.\n\nSee: <https://preliminary.istio.io/latest/docs/reference/config/annotations/#SidecarUserVolume>",
+        "type": "module"
       },
       {
         "path": "ca/istio/readme.md",
         "title": "cert-manager with Istio Ingress Gateway",
-        "description": "Step-by-step guide to install Istio, the Ingress Gateway, and a test service with TLS termination via a cert-manager issued certificate. Assumes a running Kubernetes cluster with Helm, cert-manager, and a configured `ClusterIssuer`.",
-        "type": "readme"
+        "description": "Step-by-step guide to install Istio, the Ingress Gateway, and a test service\nwith TLS termination via a cert-manager issued certificate. Assumes a running\nKubernetes cluster with Helm, cert-manager, and a configured `ClusterIssuer`.",
+        "type": "module"
       },
       {
         "path": "ca/local-dns/readme.md",
         "title": "Use Local Pi-hole DNS Server in k3s",
-        "description": "Configures Ubuntu nodes and a k3s cluster to use a self-hosted Pi-hole instance as the DNS resolver. This ensures that custom local domain names (e.g. `*.nuc.lan`) are resolved correctly within the cluster.",
-        "type": "readme"
+        "description": "Configures Ubuntu nodes and a k3s cluster to use a self-hosted Pi-hole instance as the DNS resolver.\nThis ensures that custom local domain names (e.g. `*.nuc.lan`) are resolved correctly within the cluster.",
+        "type": "module"
       },
       {
         "path": "ca/readme.md",
         "title": "Create a Local Certificate Authority",
-        "description": "Creating a local Certificate Authority (CA) and using `acme.sh` with it is a great way to manage certificates for your homelab. This section walks you through creating your own self-signed root CA certificate. This certificate will be used to sign other certificates for your local devices.",
-        "type": "readme"
+        "description": "Creating a local Certificate Authority (CA) and using `acme.sh` with it is a great way to manage certificates for your homelab.\nThis section walks you through creating your own self-signed root CA certificate. This certificate will be used to sign other certificates for your local devices.",
+        "type": "module"
       },
       {
         "path": "ceph.md",
@@ -724,24 +739,24 @@
         "path": "chat/README.md",
         "title": "Simple Local Chat",
         "description": "A lightweight, self-hosted chat application using Python WebSockets. Designed for local network use — no external services or accounts required.",
-        "type": "readme"
+        "type": "module"
       },
       {
         "path": "chromebook/Crostini-LLM.md",
         "title": "Lokales LLM auf dem Chromebook (Intel N150, 16 GB RAM)",
-        "description": "Diese Anleitung richtet einen lokalen LLM-Chat im Terminal auf einem Chromebook mit Intel N150 ein. Die Inferenz läuft rein per CPU — keine GPU nötig. Mit 16 GB RAM sind Modelle bis ca. 7B Parameter (Q4-Quantisierung) sinnvoll nutzbar.",
+        "description": "Diese Anleitung richtet einen lokalen LLM-Chat im Terminal auf einem Chromebook mit\nIntel N150 ein. Die Inferenz läuft rein per CPU — keine GPU nötig.\nMit 16 GB RAM sind Modelle bis ca. 7B Parameter (Q4-Quantisierung) sinnvoll nutzbar.\n\n---",
         "type": "text"
       },
       {
         "path": "chrony/chrony.md",
         "title": "GPS-gestützter NTP-Zeitserver mit Chrony",
-        "description": "Diese Anleitung beschreibt den Aufbau eines präzisen NTP-Zeitservers unter Linux, der ein USB-GPS-Modul als primäre Zeitquelle nutzt. Chrony synchronisiert die Systemzeit mit dem GPS-Signal und stellt sie im lokalen Netzwerk bereit.",
+        "description": "Diese Anleitung beschreibt den Aufbau eines präzisen NTP-Zeitservers unter Linux,\nder ein USB-GPS-Modul als primäre Zeitquelle nutzt. Chrony synchronisiert die\nSystemzeit mit dem GPS-Signal und stellt sie im lokalen Netzwerk bereit.\n\n---",
         "type": "text"
       },
       {
         "path": "create-floppy-image.md",
         "title": "Erstellen und Befüllen eines DOS‑Disketten‑Images",
-        "description": "Diese Anleitung beschreibt, wie du mit mtools ein 1,44‑MB‑Disketten‑Image erstellst und anschließend Dateien hinein kopierst. Sie eignet sich z. B. für DOS‑Treiber, Bootdisketten oder virtuelle Maschinen.",
+        "description": "Diese Anleitung beschreibt, wie du mit mtools ein 1,44‑MB‑Disketten‑Image erstellst und anschließend Dateien hinein kopierst.\nSie eignet sich z. B. für DOS‑Treiber, Bootdisketten oder virtuelle Maschinen.",
         "type": "text"
       },
       {
@@ -753,13 +768,13 @@
       {
         "path": "docker.md",
         "title": "Docker Installation on Raspberry Pi",
-        "description": "All commands to install and configure Docker on a Raspberry Pi.",
+        "description": "All commands to install and configure Docker on a Raspberry Pi.\n\nDetails: [official Docker documentation](https://docs.docker.com/engine/install/debian/).\n\n---",
         "type": "text"
       },
       {
         "path": "gitea/gitea.md",
         "title": "Gitea – Self-hosted Git-Server mit Docker Compose",
-        "description": "Diese Anleitung beschreibt die Einrichtung einer eigenen Gitea-Instanz mit MariaDB als Datenbank, HTTPS über eigene Zertifikate und persistentem Datenspeicher auf einem SATA-Laufwerk.",
+        "description": "Diese Anleitung beschreibt die Einrichtung einer eigenen Gitea-Instanz mit MariaDB als\nDatenbank, HTTPS über eigene Zertifikate und persistentem Datenspeicher auf einem\nSATA-Laufwerk.\n\n---",
         "type": "text"
       },
       {
@@ -771,44 +786,44 @@
       {
         "path": "intel_arc_pro_b60/intel-arc.md",
         "title": "Intel Arc Pro B60 – Einrichtung unter Ubuntu 24.04 (Noble)",
-        "description": "Diese Anleitung beschreibt die vollständige Einrichtung einer Intel Arc Pro B60 GPU (Battlemage / Xe2-Architektur) unter Ubuntu 24.04 LTS, inklusive OpenCL/Level-Zero-Treiber, GPU-Monitoring und Steam-Gaming-Setup.",
+        "description": "Diese Anleitung beschreibt die vollständige Einrichtung einer Intel Arc Pro B60 GPU\n(Battlemage / Xe2-Architektur) unter Ubuntu 24.04 LTS, inklusive OpenCL/Level-Zero-Treiber,\nGPU-Monitoring und Steam-Gaming-Setup.\n\n---",
         "type": "text"
       },
       {
         "path": "java-process-info.md",
         "title": "Monitoring von Java‑Prozessen unter Linux",
-        "description": "(PID‑Liste, JAR‑Name, Heap‑Usage, CPU‑Usage, RAM‑Usage)",
+        "description": "(PID‑Liste, JAR‑Name, Heap‑Usage, CPU‑Usage, RAM‑Usage)\n\nDiese Anleitung zeigt, wie du:\n- Java‑Prozesse findest\n- Heap‑Usage per jstat ausliest\n- CPU‑ und RAM‑Usage per ps ermittelst\n- Thread count",
         "type": "text"
       },
       {
         "path": "k3s-argocd.md",
         "title": "Install Argo CD on the k3s cluster and expose the Web UI via MetalLB",
-        "description": "How to deploy Argo CD on k3s, configure an nginx ingress controller, and expose the Web UI using a MetalLB LoadBalancer IP.",
+        "description": "How to deploy Argo CD on k3s, configure an nginx ingress controller, and expose the Web UI using a MetalLB LoadBalancer IP.\n\nPrerequisites\n\n- k3s cluster up and kubeconfig copied (see k3s-cluster.md).\n- MetalLB installed and a pool configured (example pool in k3s-cluster.md: 192.168.170.10-192.168.170.250).",
         "type": "text"
       },
       {
         "path": "k3s-cluster.md",
         "title": "Create arm64 based k3s cluster on ubuntu",
-        "description": "Commands to create an arm64 based k3s cluster on Ubuntu using Raspberry Pi or similar single-board computers. The setup includes a k3s server node and one or more agent nodes, with MetalLB as load balancer and kubectl for cluster management. Traefik and ServiceLB are disabled in favour of a custom MetalLB configuration.",
+        "description": "Commands to create an arm64 based k3s cluster on Ubuntu using Raspberry Pi or similar single-board computers.\nThe setup includes a k3s server node and one or more agent nodes, with MetalLB as load balancer and kubectl for cluster management.\nTraefik and ServiceLB are disabled in favour of a custom MetalLB configuration.",
         "type": "text"
       },
       {
         "path": "k3s-tools/README.md",
         "title": "k3s-tools",
         "description": "A collection of helper scripts for managing a k3s Kubernetes cluster.",
-        "type": "readme"
+        "type": "module"
       },
       {
         "path": "keep-export/README.md",
         "title": "Keep Export",
         "description": "Tools zum Konvertieren von Google Keep Notizen (via Google Takeout) in Markdown-Dateien — entweder lokal oder für den Upload auf einen selbst gehosteten HedgeDoc-Server.",
-        "type": "readme"
+        "type": "module"
       },
       {
         "path": "kubecontext/README.md",
         "title": "kubecontext",
         "description": "TUI zum Zusammenführen von kubectl-Contexts aus SSH-Hosts in die lokale `~/.kube/config`.",
-        "type": "readme"
+        "type": "module"
       },
       {
         "path": "mariadb-in-docker.md",
@@ -825,13 +840,13 @@
       {
         "path": "mcp-a2a/a2a.md",
         "title": "A2A-Architektur: Komponenten, Protokoll und Scopes",
-        "description": "1. [Überblick](#überblick) 2. [Schichtenarchitektur](#schichtenarchitektur) 3. [Komponenten und Separation of Concerns](#komponenten-und-separation-of-concerns) 4. [Scopes](#scopes) 5. [Protokoll](#protokoll) 6. [Datenmodell](#datenmodell) 7. [JSON-RPC Methoden](#json-rpc-methoden) 8. [Multi-Agent-Architektur](#multi-agent-architektur)",
+        "description": "",
         "type": "text"
       },
       {
         "path": "minio.md",
         "title": "Start MinIO on Raspberry Pi with Docker",
-        "description": "MinIO is a high-performance, S3-compatible object storage solution, perfect for storing large amounts of unstructured data.",
+        "description": "MinIO is a high-performance, S3-compatible object storage solution, perfect for storing large amounts of unstructured data.\n\n---",
         "type": "text"
       },
       {
@@ -856,7 +871,7 @@
         "path": "tekton/readme.md",
         "title": "use tekton pipelines on k3s",
         "description": "How to install tekton pipelines on your local kubernetes cluster. Including bugfixed for yet privilaged mode.",
-        "type": "readme"
+        "type": "module"
       },
       {
         "path": "timing-server.md",
@@ -867,7 +882,7 @@
       {
         "path": "tl-wn725n.md",
         "title": "TP-LINK TL-WN725N USB 2 WLAN Stick",
-        "description": "How to get this USB Wlan Stick work on Raspberry Pi.",
+        "description": "How to get this USB Wlan Stick work on Raspberry Pi.\n\n\n# usb info\n\n\n# network device info\n\n\n# network device status\n\n\n# module information",
         "type": "text"
       },
       {
@@ -879,19 +894,19 @@
       {
         "path": "tmux.md",
         "title": "tmux cheatsheet",
-        "description": "Quick reference for the most common tmux commands to manage sessions, windows, and panes.",
+        "description": "Quick reference for the most common tmux commands to manage sessions, windows, and panes.\n\nstart new:\n\n    tmux\n\nstart new with session name:\n\n    tmux new -s myname\n\nattach:\n\n    tmux a  #  (or at, or attach)\n\nattach to named:\n\n    tmux a -t myname\n\nlist sessions:\n\n    tmux ls\n\nkill session:\n\n    tmux kill-session -t myname\n\nIn tmux, hit the prefix `ctrl+b` and then:",
         "type": "text"
       },
       {
         "path": "tools/docker-volumes-backup-readme.md",
         "title": "Docker/Podman Volume Backup/Restore Tool",
         "description": "A Python CLI tool to backup, list, delete, and restore Docker or Podman volumes using a temporary Alpine container.",
-        "type": "readme"
+        "type": "text"
       },
       {
         "path": "tools/tools.md",
         "title": "Git & Maven Toolsammlung",
-        "description": "Diese Sammlung enthält Python- und Shell-Scripte für den täglichen Umgang mit mehreren Git-Repositories sowie für die automatische Pflege von Maven-Abhängigkeiten.",
+        "description": "Diese Sammlung enthält Python- und Shell-Scripte für den täglichen Umgang mit mehreren\nGit-Repositories sowie für die automatische Pflege von Maven-Abhängigkeiten.\n\n---",
         "type": "text"
       },
       {
@@ -909,7 +924,7 @@
       {
         "path": "usb_bridge_trim_support.md",
         "title": "Enable TRIM support on your USB SATA SSD",
-        "description": "The JMicron JMS567 is notorious for having \"broken\" TRIM reporting in Linux, even though the hardware usually supports it. You can almost always fix this by forcing the unmap provisioning mode.",
+        "description": "The JMicron JMS567 is notorious for having \"broken\" TRIM reporting in Linux, even though the hardware usually supports it. \nYou can almost always fix this by forcing the unmap provisioning mode.",
         "type": "text"
       },
       {
@@ -921,7 +936,7 @@
       {
         "path": "windows-pdf-printer.md",
         "title": "Create a virtual pdf printer for windows clients",
-        "description": "Commands to create a virtual pdf printer for windows clients on any linux pc. Samba should be installed. If not see this tutorial:",
+        "description": "Commands to create a virtual pdf printer for windows clients on any linux pc.\nSamba should be installed. If not see this tutorial:\n\n* [Create windows share for raid volume](https://github.com/wlanboy/raspberrypi/blob/main/windows-share.md)",
         "type": "text"
       },
       {
@@ -969,7 +984,7 @@
       {
         "path": "README.md",
         "title": "ServiceConfig",
-        "description": "Spring Framework based Service Configuration Server",
+        "description": "Spring Framework based Service Configuration Server\n\nBased on https://projects.spring.io/spring-cloud/ and https://github.com/spring-cloud-samples/configserver.",
         "type": "readme"
       }
     ]
@@ -984,7 +999,7 @@
       {
         "path": "README.md",
         "title": "ServiceRegistry [DEPRECATED]",
-        "description": "Spring Framework based Service Registry - DO NOT USE THIS ANY LONGER",
+        "description": "Spring Framework based Service Registry - DO NOT USE THIS ANY LONGER\n\nBased on https://projects.spring.io/spring-cloud/ and https://github.com/spring-cloud-samples/eureka.",
         "type": "readme"
       }
     ]
@@ -1066,43 +1081,43 @@
         "path": "analytics/README.md",
         "title": "kubectl analytics",
         "description": "A command-line tool for gathering and visualizing statistics about Kubernetes cluster resources — focused on adoption rates, operator usage, and service mesh coverage, always broken down **per namespace**.",
-        "type": "readme"
+        "type": "module"
       },
       {
         "path": "apicurio/readme.md",
         "title": "Apicurio Registry",
-        "description": "Apicurio Registry ist eine Schema-Registry für Event-Streaming und API-Management. Sie speichert und verwaltet Schemas (Avro, JSON Schema, Protobuf, OpenAPI, AsyncAPI u.a.) und stellt eine REST-API sowie eine Web-UI bereit.",
-        "type": "readme"
+        "description": "Apicurio Registry ist eine Schema-Registry für Event-Streaming und API-Management. Sie speichert und verwaltet Schemas (Avro, JSON Schema, Protobuf, OpenAPI, AsyncAPI u.a.) und stellt eine REST-API sowie eine Web-UI bereit.\n\nAls Backend wird PostgreSQL 15 verwendet.",
+        "type": "module"
       },
       {
         "path": "argocd/argocd-workflows-BuildKit/readme.md",
         "title": "Argo Workflows - CI/CD Pipeline mit BuildKit",
         "description": "Die Workflows implementieren eine vollständige GitOps-CI/CD-Pipeline mit zwei Schritten:",
-        "type": "readme"
+        "type": "module"
       },
       {
         "path": "argocd/argocd-workflows/readme.md",
         "title": "Argo Workflows - CI/CD Pipeline",
         "description": "Die Workflows implementieren eine vollständige GitOps-CI/CD-Pipeline mit zwei Schritten:",
-        "type": "readme"
+        "type": "module"
       },
       {
         "path": "argocd/readme.md",
         "title": "ArgoCD GitOps CI/CD Pipeline",
-        "description": "Dieses Verzeichnis enthält alle Konfigurationen für eine vollautomatische GitOps-Pipeline auf Basis von ArgoCD und Argo Workflows. Die Pipeline verwaltet vier Microservices, baut deren Docker-Images automatisch bei neuen GitHub-Tags und synchronisiert die Deployments über Helm-Charts in einen lokalen Kubernetes-Cluster mit Istio Service Mesh.",
-        "type": "readme"
+        "description": "Dieses Verzeichnis enthält alle Konfigurationen für eine vollautomatische GitOps-Pipeline auf Basis von ArgoCD und Argo Workflows. Die Pipeline verwaltet vier Microservices, baut deren Docker-Images automatisch bei neuen GitHub-Tags und synchronisiert die Deployments über Helm-Charts in einen lokalen Kubernetes-Cluster mit Istio Service Mesh.\n\n**Verwaltete Microservices:**\n\n- **JavaHttpClient** – HTTP-Client-Service\n- **MirrorService** – Mirror-/Proxy-Service\n- **RandomFail** – Service mit zufälligen Fehlern (z.B. für Chaos-Testing)\n- **SimpleService** – Basis-Service\n\n**Ablauf der Pipeline:**\n\n1. CronWorkflow pollt alle 2 Minuten die GitHub-API auf neue Tags\n2. Bei neuem Tag wird ein Webhook ausgelöst\n3. Der Sensor empfängt den Webhook und startet ein Argo Workflow\n4. Kaniko baut das Docker-Image und pusht es nach Docker Hub\n5. Das Workflow aktualisiert den Image-Tag in der `values.yaml` des Helm-Charts\n6. ArgoCD erkennt die Änderung im Git und deployt die neue Version automatisch\n\n---",
+        "type": "module"
       },
       {
         "path": "argocd/tekton-BuildKit/readme.md",
         "title": "Tekton Pipeline - CI/CD mit BuildKit",
-        "description": "Die Pipeline implementiert eine vollständige GitOps-CI/CD-Pipeline mit zwei Schritten:",
-        "type": "readme"
+        "description": "Die Pipeline implementiert eine vollständige GitOps-CI/CD-Pipeline mit zwei Schritten:\n\n**1. Build** - Docker-Image bauen mit [BuildKit](https://github.com/moby/buildkit) (rootless)\n\n`buildkitd` läuft als persistentes Deployment im `tekton`-Namespace. Der Build-Pod verbindet sich als reiner `buildctl`-Client per TCP, zieht den Quellcode direkt aus GitHub und pusht das fertige Image nach Docker Hub. Ein lokales Registry-Cache (`local-registry`) beschleunigt wiederholte Builds via `--export-cache` und `--import-cache`.\n\n**2. Update Chart** - Helm-Chart aktualisieren per Git-Commit\n\nNach dem Build wird der Image-Tag im `values.yaml` des zugehörigen Helm-Charts per `sed` gesetzt und als Commit zurück ins GitHub-Repository gepusht.",
+        "type": "module"
       },
       {
         "path": "ca_dns/readme.md",
         "title": "CA und DNS Trust Setup",
-        "description": "Dieses Verzeichnis enthält Skripte und Zertifikate zur Einrichtung einer lokalen Zertifizierungsstelle (CA) sowie zur Konfiguration eines benutzerdefinierten DNS-Servers im Homelab-Netzwerk.",
-        "type": "readme"
+        "description": "Dieses Verzeichnis enthält Skripte und Zertifikate zur Einrichtung einer lokalen Zertifizierungsstelle (CA) sowie zur Konfiguration eines benutzerdefinierten DNS-Servers im Homelab-Netzwerk.\n\nZwei selbstsignierte Root-CA-Zertifikate werden im System-Truststore registriert, damit alle TLS-Zertifikate, die von diesen CAs ausgestellt wurden, als vertrauenswürdig erkannt werden.\n\n---",
+        "type": "module"
       },
       {
         "path": "ca_dns/truststore.md",
@@ -1113,8 +1128,8 @@
       {
         "path": "caddy/readme.md",
         "title": "Caddy Reverse Proxy Setup",
-        "description": "Startet [Caddy](https://caddyserver.com/) als Docker-Container mit automatischen Let's Encrypt SSL-Zertifikaten. Bestehende Docker-Container werden interaktiv als Subdomains konfiguriert.",
-        "type": "readme"
+        "description": "Startet [Caddy](https://caddyserver.com/) als Docker-Container mit automatischen Let's Encrypt SSL-Zertifikaten.\nBestehende Docker-Container werden interaktiv als Subdomains konfiguriert.",
+        "type": "module"
       },
       {
         "path": "external-mysqldb/external-db-bench.md",
@@ -1126,18 +1141,18 @@
         "path": "mariadb-replica/README.md",
         "title": "MariaDB Replica Cluster Deployment",
         "description": "Kubernetes StatefulSet-Deployment für einen MariaDB Primary-Replica Cluster mit automatischer Replikation.",
-        "type": "readme"
+        "type": "module"
       },
       {
         "path": "mariadb-single/README.md",
         "title": "MariaDB Single Instance Deployment",
         "description": "Kubernetes-Deployment für eine einzelne MariaDB-Instanz mit persistentem Storage und benutzerdefinierter Konfiguration.",
-        "type": "readme"
+        "type": "module"
       },
       {
         "path": "oldstuff/arm64-steps.md",
         "title": "kind + calico + ngxin ingress",
-        "description": "Commands to install kind, calico and nginx on arm64.",
+        "description": "Commands to install kind, calico and nginx on arm64.\n\nsee:\n* https://www.armbian.com/odroid-c2/#kernels-archive-all\n* https://docs.armbian.com/\n\n# generate kind config\n\n# create cluster\n\n# Calico\n\n# CoreDNS\n\n# ingress\n\n# deploy echo service\n\n# Delete cluster",
         "type": "text"
       }
     ]
@@ -1152,14 +1167,14 @@
       {
         "path": "README.md",
         "title": "http web shell to test kubernetes runtimes",
-        "description": "A simple web ui to run console commands within the container",
+        "description": "A simple web ui to run console commands within the container\n\nAnd the build steps for the http tester itself:",
         "type": "readme"
       },
       {
         "path": "webpyshell-chart/readme.md",
         "title": "Helm install",
         "description": "This helm script installs the WebShell within a kubernetes cluster.",
-        "type": "readme"
+        "type": "module"
       }
     ]
   },
@@ -1180,7 +1195,7 @@
         "path": "webshell-chart/readme.md",
         "title": "Helm install",
         "description": "This helm script installs the WebShell within a kubernetes cluster.",
-        "type": "readme"
+        "type": "module"
       }
     ]
   },
@@ -1188,7 +1203,7 @@
     "name": "wlanboy.github.io",
     "description": "website",
     "url": "https://github.com/wlanboy/wlanboy.github.io",
-    "pushed_at": "2026-04-18T09:23:59Z",
+    "pushed_at": "2026-04-19T11:52:46Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1200,8 +1215,8 @@
       {
         "path": "website-chart/readme.md",
         "title": "Helm Chart",
-        "description": "Helm Chart to install the webpage within a kubernetes cluster. Using an init container to pull from this repro. Using Istio, Ingress Gateway and Certmanager.",
-        "type": "readme"
+        "description": "Helm Chart to install the webpage within a kubernetes cluster. \nUsing an init container to pull from this repro. Using Istio, Ingress Gateway and Certmanager.",
+        "type": "module"
       }
     ]
   }

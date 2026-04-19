@@ -219,17 +219,12 @@ select option {
   font-weight: 600;
 }
 
-/* README Badge */
-.badge-readme {
-  background: #007bff;
-  color: white;
-}
-
-/* Text-Datei Badge */
-.badge-text {
-  background: #666; 
-  color: white;
-}
+.badge-readme  { background: #007bff; color: white; }
+.badge-module  { background: #6f42c1; color: white; }
+.badge-docs    { background: #0d9488; color: white; }
+.badge-api     { background: #d97706; color: white; }
+.badge-guide   { background: #16a34a; color: white; }
+.badge-text    { background: #666;    color: white; }
 
 #terminalLink {
   padding: 8px 12px;

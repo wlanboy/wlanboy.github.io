@@ -100,8 +100,15 @@ function loadMore() {
         const card = document.createElement("div");
         card.className = "card";
 
-        const badgeClass = item.type === "readme" ? "badge-readme" : "badge-text";
-        const badgeLabel = item.type === "readme" ? "README" : "MD";
+        const badgeMap = {
+            readme: ["badge-readme", "README"],
+            module: ["badge-module", "MODULE"],
+            docs:   ["badge-docs",   "DOCS"],
+            api:    ["badge-api",    "API"],
+            guide:  ["badge-guide",  "GUIDE"],
+            text:   ["badge-text",   "MD"],
+        };
+        const [badgeClass, badgeLabel] = badgeMap[item.type] ?? ["badge-text", "MD"];
 
         card.innerHTML = `
       <div class="badge ${badgeClass}">${badgeLabel}</div>

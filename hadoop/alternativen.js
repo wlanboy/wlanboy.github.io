@@ -100,6 +100,7 @@ function weightedScore(alt, selected) {
     const w = c?.weight ?? 1;
     max += w;
     if (alt.scores[id]) score += w;
+    else score -= w;
   }
   return { score, max };
 }
@@ -107,7 +108,8 @@ function weightedScore(alt, selected) {
 function getRadius(alt) {
   if (selectedCriteria.size === 0) return NEUTRAL_R;
   const { score, max } = weightedScore(alt, selectedCriteria);
-  return MIN_R + (score / max) * (MAX_R - MIN_R);
+  const ratio = (score + max) / (2 * max);
+  return MIN_R + ratio * (MAX_R - MIN_R);
 }
 
 function bubbleColor(hue, alpha) {
@@ -198,7 +200,7 @@ function updateBubbles() {
     const isBest = selectedCriteria.size > 0 && alt === bestAlt;
 
     const { score, max } = weightedScore(alt, selectedCriteria);
-    const ratio = selectedCriteria.size === 0 ? 1 : score / max;
+    const ratio = selectedCriteria.size === 0 ? 1 : (score + max) / (2 * max);
 
     const inner  = outer.querySelector(".bubble-inner");
     const circle = outer.querySelector(".bubble-bg");

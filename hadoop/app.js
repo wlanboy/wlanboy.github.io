@@ -152,7 +152,7 @@
         const sa = starById(e.from, ld), sb = starById(e.to, ld);
         if (!sa||!sb) return '';
         const mx = (sa.x+sb.x)/2-(sb.y-sa.y)*0.18, my = (sa.y+sb.y)/2+(sb.x-sa.x)*0.18;
-        return `<g transform="translate(${mx},${my})"><rect x="${-e.label.length*4.2}" y="-10" width="${e.label.length*8.4}" height="20" rx="3" fill="oklch(0.14 0.03 260 / 0.92)" stroke="oklch(0.9 0.1 80 / 0.5)" stroke-width="0.5"/><text text-anchor="middle" y="4" font-size="12" font-family="'JetBrains Mono',monospace" fill="oklch(0.95 0.05 80)" letter-spacing="0.5">${esc(e.label)}</text></g>`;
+        return `<g transform="translate(${mx},${my})"><rect x="${-e.label.length*4.2}" y="-10" width="${e.label.length*8.4}" height="20" rx="3" fill="oklch(0.14 0.03 260 / 0.92)" stroke="oklch(0.9 0.1 80 / 0.5)" stroke-width="0.5"/><text text-anchor="middle" y="4" font-size="12" font-family="ui-monospace,monospace" fill="oklch(0.95 0.05 80)" letter-spacing="0.5">${esc(e.label)}</text></g>`;
       }).join('');
     }
 
@@ -163,7 +163,7 @@
       const minX = Math.min(...xs), minY = Math.min(...ys);
       const dim = focusId && focusStar?.constellation.id !== c.id;
       const catS = isMobile?16:11, nameS = isMobile?30:20, offY = isMobile?60:40;
-      return `<g opacity="${dim?0.25:1}" transform="translate(${minX-30},${minY-offY})"><text font-family="'JetBrains Mono',monospace" font-size="${catS}" fill="oklch(0.8 0.1 ${c.hue})" letter-spacing="2">${esc(c.catalog)}</text><text y="${isMobile?32:22}" font-family="'JetBrains Mono',monospace" font-size="${nameS}" font-weight="600" fill="oklch(0.92 0.12 ${c.hue})" letter-spacing="3">${esc(c.name)}</text><line x1="0" y1="${isMobile?44:30}" x2="${isMobile?180:120}" y2="${isMobile?44:30}" stroke="oklch(0.8 0.1 ${c.hue} / 0.5)" stroke-width="1"/></g>`;
+      return `<g opacity="${dim?0.25:1}" transform="translate(${minX-30},${minY-offY})"><text font-family="ui-monospace,monospace" font-size="${catS}" fill="oklch(0.8 0.1 ${c.hue})" letter-spacing="2">${esc(c.catalog)}</text><text y="${isMobile?32:22}" font-family="ui-monospace,monospace" font-size="${nameS}" font-weight="600" fill="oklch(0.92 0.12 ${c.hue})" letter-spacing="3">${esc(c.name)}</text><line x1="0" y1="${isMobile?44:30}" x2="${isMobile?180:120}" y2="${isMobile?44:30}" stroke="oklch(0.8 0.1 ${c.hue} / 0.5)" stroke-width="1"/></g>`;
     }).join('');
 
     // stars
@@ -175,7 +175,7 @@
         const showLbl = labelMode==='all'||(labelMode==='hover'&&(isFoc||isRel))||isFoc;
         const col = starColor(c.hue, s.mag);
         const tick = isFoc ? `<g stroke="${col}" stroke-width="0.8" opacity="0.7"><line x1="${s.x-14}" y1="${s.y}" x2="${s.x-7}" y2="${s.y}"/><line x1="${s.x+7}" y1="${s.y}" x2="${s.x+14}" y2="${s.y}"/><line x1="${s.x}" y1="${s.y-14}" x2="${s.x}" y2="${s.y-7}"/><line x1="${s.x}" y1="${s.y+7}" x2="${s.x}" y2="${s.y+14}"/></g>` : '';
-        const lbl = showLbl ? `<text x="${s.x+r+6}" y="${s.y+4}" font-size="${isFoc?(isMobile?22:14):(isMobile?18:11)}" font-family="'JetBrains Mono',monospace" fill="${isFoc?'oklch(0.98 0.02 80)':`oklch(0.82 0.05 ${c.hue})`}" letter-spacing="0.4">${esc(s.label)}</text>` : '';
+        const lbl = showLbl ? `<text x="${s.x+r+6}" y="${s.y+4}" font-size="${isFoc?(isMobile?26:18):(isMobile?22:14)}" font-family="ui-monospace,monospace" fill="${isFoc?'oklch(0.98 0.02 80)':`oklch(0.82 0.05 ${c.hue})`}" letter-spacing="0.4">${esc(s.label)}</text>` : '';
         return `<g class="star" data-star-id="${s.id}" opacity="${dim?0.25:1}"><circle cx="${s.x}" cy="${s.y}" r="${hitR}" fill="transparent"/><circle cx="${s.x}" cy="${s.y}" r="${r*(isFoc?4:2.4)}" fill="${col}" opacity="${isFoc?0.35:0.14}" filter="url(#glow)"/><circle cx="${s.x}" cy="${s.y}" r="${isFoc?r+1.2:r}" fill="${col}"/>${tick}${lbl}</g>`;
       }).join('');
     }).join('');

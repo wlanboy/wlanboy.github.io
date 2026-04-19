@@ -160,7 +160,7 @@ function buildBubbles() {
     label.setAttribute("text-anchor", "middle");
     label.setAttribute("dominant-baseline", "central");
     label.setAttribute("fill", `oklch(0.95 0.08 ${alt.hue})`);
-    label.setAttribute("font-family", "'JetBrains Mono', monospace");
+    label.setAttribute("font-family", "ui-monospace, monospace");
     label.setAttribute("font-size", "12");
     label.setAttribute("font-weight", "600");
     label.setAttribute("pointer-events", "none");

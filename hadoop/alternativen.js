@@ -48,12 +48,12 @@ const ALTERNATIVES = [
   {
     id: "moosefs", name: "MooseFS", hue: 80,
     desc: "Einfaches verteiltes POSIX-Dateisystem mit Master-Chunk-Client-Architektur. Community Edition ist voll funktionsfähig. Gut für mittlere Installationen. Master-Server bleibt Metadaten-Flaschenhals in der CE.",
-    scores: { esxi:1, noops:1, oss:1, docs:1, scale:1, net:1, smallfiles:1, metadata:0, posix:1, standalone:1, erasure:1, backup:1, quotas:1 },
+    scores: { esxi:1, noops:1, oss:0, docs:1, scale:1, net:1, smallfiles:0, metadata:0, posix:1, standalone:1, erasure:1, backup:1, quotas:1 },
   },
   {
     id: "lizardfs", name: "LizardFS", hue: 260,
     desc: "MooseFS-fork mit Multi-Master-Unterstützung und Erasure Coding. Binärkompatibel zu MooseFS. Kleinere Community als MooseFS, Entwicklungstempo hat nachgelassen. Gute Wahl wenn Multi-Master kritisch ist.",
-    scores: { esxi:1, noops:1, oss:1, docs:0, scale:1, net:1, smallfiles:1, metadata:0, posix:1, standalone:1, erasure:1, backup:1, quotas:1 },
+    scores: { esxi:1, noops:1, oss:1, docs:0, scale:1, net:1, smallfiles:0, metadata:0, posix:1, standalone:1, erasure:1, backup:1, quotas:1 },
   },
   {
     id: "beegfs", name: "BeeGFS", hue: 340,

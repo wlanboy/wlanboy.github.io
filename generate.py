@@ -82,17 +82,11 @@ def get_file_content(user, repo_name, path):
 
 
 def extract_title_and_paragraph(content: str):
-    """
-    Liefert (title, description):
-    - title: erster Markdown-Heading (#, ##, ### …)
-    - description: erster nicht-leerer Paragraph nach diesem Heading
-    """
     lines = content.splitlines()
 
     title = None
     title_idx = None
 
-    # 1. ersten Heading finden
     for idx, line in enumerate(lines):
         stripped = line.strip()
         if stripped.startswith("#"):
@@ -105,48 +99,29 @@ def extract_title_and_paragraph(content: str):
     if title is None or title_idx is None:
         return None, None
 
-    # 2. ab der Zeile nach dem Heading den ersten nicht-leeren Paragraphen suchen
+    # Alles zwischen dem ersten # und dem nächsten ## / ### sammeln
     paragraph_lines = []
-    in_paragraph = False
-
     in_code_block = False
 
     for line in lines[title_idx + 1:]:
         stripped = line.strip()
 
-        # Codeblöcke überspringen
         if stripped.startswith("```"):
             in_code_block = not in_code_block
-            if in_paragraph:
-                break
             continue
 
         if in_code_block:
             continue
 
-        # Absatztrenner: komplett leere Zeile
-        if stripped == "":
-            if in_paragraph:
-                break
-            else:
-                continue
-
-        # Headings überspringen
-        if stripped.startswith("#"):
-            if in_paragraph:
-                break
-            continue
-
-        # Start eines Paragraphen
-        if not in_paragraph:
-            in_paragraph = True
+        # Abbruch beim nächsten ## oder tiefer
+        if stripped.startswith("##"):
+            break
 
         paragraph_lines.append(line)
 
     description = None
     if paragraph_lines:
-        # Mehrere Zeilen zu einem Paragraphen zusammenführen und trimmen
-        description = " ".join(line.strip() for line in paragraph_lines).strip()
+        description = "\n".join(paragraph_lines).strip() or None
 
     return title, description
 

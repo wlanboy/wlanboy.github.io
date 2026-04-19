@@ -99,6 +99,7 @@ function loadMore() {
     slice.forEach(item => {
         const card = document.createElement("div");
         card.className = "card";
+        card.dataset.type = item.type;
 
         const badgeMap = {
             readme: ["badge-readme", "README"],

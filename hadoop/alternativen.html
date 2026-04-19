@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <title>Hadoop Alternativen · Bewertung</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="alternativen.css">
+</head>
+<body>
+  <div class="stage">
+    <div class="topbar">
+      <div class="tb-left">
+        <span class="dot"></span>
+        <span>hadoop://alternativen.eval</span>
+      </div>
+      <div class="tb-title">— HDFS ALTERNATIVEN · BEWERTUNG —</div>
+      <div class="tb-right">
+        <span id="tb-count">0 / 11 kriterien aktiv</span>
+      </div>
+    </div>
+
+    <svg class="chart" id="chart" viewBox="0 0 1100 550" preserveAspectRatio="xMidYMid meet">
+      <defs>
+        <radialGradient id="sky" cx="50%" cy="45%" r="75%">
+          <stop offset="0%"  stop-color="oklch(0.19 0.04 265)" />
+          <stop offset="60%" stop-color="oklch(0.13 0.035 260)" />
+          <stop offset="100%" stop-color="oklch(0.08 0.02 255)" />
+        </radialGradient>
+        <filter id="glow" x="-60%" y="-60%" width="220%" height="220%">
+          <feGaussianBlur stdDeviation="5" result="b" />
+          <feMerge><feMergeNode in="b" /><feMergeNode in="SourceGraphic" /></feMerge>
+        </filter>
+      </defs>
+      <rect x="0" y="0" width="1100" height="550" fill="url(#sky)" />
+      <g id="grid-lines" opacity="0.06"></g>
+      <g id="bubbles"></g>
+    </svg>
+
+    <div class="criteria">
+      <div class="criteria-h">Abnahmekriterien — klick zum aktivieren, mehrere kombinierbar</div>
+      <div class="criteria-pills" id="pills"></div>
+    </div>
+
+    <div class="statusbar">
+      <span id="sb-left">kriterien: keine ausgewählt</span>
+      <span class="spacer"></span>
+      <span id="sb-right" class="hint">klick auf alternative für details</span>
+    </div>
+  </div>
+
+  <div class="detail" id="detail">
+    <button class="close" id="detail-close">✕</button>
+    <div class="detail-name" id="detail-name"></div>
+    <div class="detail-desc" id="detail-desc"></div>
+    <div class="section-h">— kriterien-bewertung</div>
+    <div class="detail-scores" id="detail-scores"></div>
+  </div>
+
+  <script src="alternativen.js"></script>
+</body>
+</html>

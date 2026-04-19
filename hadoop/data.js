@@ -44,10 +44,10 @@
         "id": "hdfs-block",
         "label": "Blöcke & Replikation",
         "group": "hdfs",
-        "description": "HDFS speichert Dateien als Sequenz gleichgroßer Blöcke. Kleine Dateien profitieren von reduzierter Blockanzahl.",
+        "description": "HDFS speichert Dateien als Sequenz gleichgroßer Blöcke. Kleine Dateien erzeugen viele Metadatenobjekte im NameNode.",
         "details": [
           "Produktive Blockgröße für gemischte Workloads: dfs.blocksize = 33554432 (32 MB).",
-          "Begründung: 32 MB reduziert Blockanzahl bei Small-Files, ohne die Fragmentierung großer Dateien zu stark zu erhöhen.",
+          "Begründung: 32 MB reduziert den Metadaten-Overhead pro Block gegenüber 128 MB, ohne die Fragmentierung großer Dateien zu stark zu erhöhen.",
           "Replikationsfaktor: dfs.replication = 3 (Standard für Produktionscluster).",
           "Replikations-Pipeline: Client → DN1 → DN2 → DN3, 64 KB Packets, ACK-Kaskade.",
           "Block-Gesundheitszustände:",
@@ -189,7 +189,7 @@
         "description": "Viele kleine Dateien belasten den NameNode durch hohe Metadatenlast. Optimierungen reduzieren RAM-Verbrauch, RPC-Last und EditLog-Druck.",
         "details": [
           "NameNode-RAM-Verbrauch: ~150 Bytes pro Inode + ~200 Bytes pro Block. Millionen kleiner Dateien erzeugen extrem viele Metadatenobjekte.",
-          "Produktive Blockgröße für Small-Files: dfs.blocksize = 33554432 (32 MB). Reduziert Blockanzahl, aber vermeidet 128-MB-Verschwendung.",
+          "Produktive Blockgröße für Small-Files: dfs.blocksize = 33554432 (32 MB). Reduziert Metadaten-Overhead pro Block und vermeidet unnötig große Block-Einträge im NameNode.",
           "Replikation bleibt auf 3, da kleine Dateien anfälliger für Blockverlust sind.",
           "I/O-Puffer erhöhen: io.file.buffer.size = 262144 (256 KB) → weniger RPC-Overhead bei vielen kleinen Writes.",
           "Short-Circuit Reads aktivieren: dfs.client.read.shortcircuit = true → reduziert Latenz für kleine Dateien.",
@@ -280,6 +280,33 @@
           "Erfordert CPU für Encoding/Decoding."
         ],
         "connections": ["hdfs-block", "hdfs-namenode-role"]
+      },
+
+      /* -----------------------------------------------------------
+       * STORAGE POLICIES
+       * ----------------------------------------------------------- */
+      {
+        "id": "hdfs-storagepolicies",
+        "label": "Storage Policies",
+        "group": "hdfs",
+        "description": "Steuert, welche Speichermedien (DISK, SSD, ARCHIVE, RAM_DISK) für Blöcke genutzt werden. Ermöglicht Tiered Storage für heiße und kalte Daten.",
+        "details": [
+          "Vordefinierte Policies:",
+          [
+            "HOT: alle Replikate auf DISK (Standard)",
+            "WARM: 1 Replikat auf DISK, Rest auf ARCHIVE",
+            "COLD: alle Replikate auf ARCHIVE",
+            "ONE_SSD: 1 Replikat auf SSD, Rest auf DISK",
+            "ALL_SSD: alle Replikate auf SSD",
+            "LAZY_PERSIST: 1 Replikat auf RAM_DISK, Rest auf DISK"
+          ],
+          "Policy setzen: hdfs storagepolicies -setStoragePolicy -path <Pfad> -policy HOT.",
+          "Policy abfragen: hdfs storagepolicies -getStoragePolicy -path <Pfad>.",
+          "Alle Policies anzeigen: hdfs storagepolicies -listPolicies.",
+          "Mover-Tool: hdfs mover -p <Pfad> verschiebt Blöcke gemäß aktueller Policy.",
+          "Kombination mit Erasure Coding: COLD-Daten mit RS-6-3 spart 50–70 % Speicher."
+        ],
+        "connections": ["hdfs-erasurecoding", "hdfs-block", "hdfs-datanode-role"]
       },
 
       /* -----------------------------------------------------------
@@ -481,6 +508,8 @@
       { "from": "hdfs-balancer", "to": "namenode" },
 
       { "from": "hdfs-small-files", "to": "namenode" },
+
+      { "from": "hdfs-storagepolicies", "to": "datanode" },
 
       { "from": "hdfs-snapshots", "to": "namenode" },
 

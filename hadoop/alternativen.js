@@ -9,63 +9,66 @@ const CRITERIA = [
   { id: "metadata",   label: "Viele Metadaten",      weight: 4, desc: "Verteilte Metadatenverwaltung — kein einzelner Metadaten-Server als Flaschenhals" },
   { id: "posix",      label: "POSIX-Zugriff",        weight: 2, desc: "Als normales Dateisystem mountbar — bestehende Tools funktionieren ohne Anpassung" },
   { id: "standalone", label: "Standalone",           weight: 2, desc: "Läuft ohne externe Abhängigkeiten — benötigt keine weiteren Storage- oder Metadaten-Systeme" },
+  { id: "erasure",   label: "Erasure Coding",       weight: 2, desc: "Eingebautes Erasure Coding — speichereffizientere Redundanz als 3×-Replikation (z.B. EC 8+3 = 1,375× statt 3×)" },
+  { id: "backup",    label: "Snapshot / Backup",    weight: 2, desc: "Eingebaute Snapshot- oder Versionierungsfunktion — kein externes Backup-Tool für Basisfunktionen nötig" },
+  { id: "quotas",    label: "Quotas",               weight: 1, desc: "Eingebaute Speicherquotas auf Verzeichnis-, Bucket- oder User-Ebene — keine externe Verwaltungsschicht nötig" },
 ];
 
 const ALTERNATIVES = [
   {
     id: "minio", name: "MinIO", hue: 140,
     desc: "S3-kompatibler Objektspeicher als Single Binary. Einfache Installation, Erasure Coding auf 4+ Nodes. ACHTUNG: MinIO hat die Lizenz auf AGPL-3.0 umgestellt — kommerzielle Nutzung ohne Enterprise-Vertrag ist rechtlich problematisch. Für viele Organisationen kein echter OpenSource-Einsatz mehr möglich.",
-    scores: { esxi:1, noops:1, oss:0, docs:1, scale:1, net:1, smallfiles:0, metadata:0, posix:0, standalone:1 },
+    scores: { esxi:1, noops:1, oss:0, docs:1, scale:1, net:1, smallfiles:0, metadata:0, posix:0, standalone:1, erasure:1, backup:1, quotas:1 },
   },
   {
     id: "ceph", name: "Ceph", hue: 300,
     desc: "Umfassendstes Open-Source-Storage-System: Block (RBD), Object (RGW/S3), Filesystem (CephFS) in einem. Sehr hohe Betriebskomplexität — benötigt erfahrene Admins, stabile Netzwerke und dedizierte OSD-Nodes.",
-    scores: { esxi:0, noops:0, oss:1, docs:1, scale:1, net:1, smallfiles:0, metadata:0, posix:1, standalone:1 },
+    scores: { esxi:0, noops:0, oss:1, docs:1, scale:1, net:1, smallfiles:0, metadata:0, posix:1, standalone:1, erasure:1, backup:1, quotas:1 },
   },
   {
     id: "ozone", name: "Apache Ozone", hue: 30,
     desc: "Der direkte HDFS-Nachfolger aus dem Hadoop-Projekt. Kein Single-NameNode-Flaschenhals mehr — der Ozone Manager (OM) verwaltet Metadaten verteilt via Raft. Bei vielen kleinen Dateien weiterhin limitiert. Erfordert Hadoop-Kenntnisse im Betrieb.",
-    scores: { esxi:0, noops:0, oss:1, docs:1, scale:1, net:1, smallfiles:0, metadata:1, posix:0, standalone:1 },
+    scores: { esxi:0, noops:0, oss:1, docs:1, scale:1, net:1, smallfiles:0, metadata:1, posix:0, standalone:1, erasure:1, backup:1, quotas:1 },
   },
   {
     id: "seaweedfs", name: "SeaweedFS", hue: 50,
     desc: "Verteilter Objektspeicher in Go — designed für viele kleine Dateien. Trennt Metadaten (Master) von Daten (Volume Server). Einfacher Betrieb, S3-API und FUSE-Mount verfügbar. Aktive Community.",
-    scores: { esxi:1, noops:1, oss:1, docs:1, scale:1, net:1, smallfiles:1, metadata:1, posix:1, standalone:1 },
+    scores: { esxi:1, noops:1, oss:1, docs:1, scale:1, net:1, smallfiles:1, metadata:1, posix:1, standalone:1, erasure:1, backup:0, quotas:0 },
   },
   {
     id: "glusterfs", name: "GlusterFS", hue: 200,
     desc: "Reifes verteiltes POSIX-Dateisystem, nativ in viele Linux-Distributionen integriert. Einfaches Brick-Konzept. Schwach bei sehr vielen kleinen Dateien und netzwerkinstabilen Umgebungen (Split-Brain-Risiko).",
-    scores: { esxi:1, noops:1, oss:1, docs:1, scale:1, net:0, smallfiles:0, metadata:0, posix:1, standalone:1 },
+    scores: { esxi:1, noops:1, oss:1, docs:1, scale:1, net:0, smallfiles:0, metadata:0, posix:1, standalone:1, erasure:1, backup:1, quotas:1 },
   },
   {
     id: "juicefs", name: "JuiceFS", hue: 160,
     desc: "POSIX-Dateisystem das Metadaten (Redis/TiKV/MySQL) und Daten (MinIO/S3/etc.) trennt. Aggregiert kleine Dateien zu Chunks. Benötigt zwei Backend-Systeme — erhöhte Komplexität, aber elegante Architektur.",
-    scores: { esxi:1, noops:0, oss:1, docs:1, scale:1, net:1, smallfiles:1, metadata:1, posix:1, standalone:0 },
+    scores: { esxi:1, noops:0, oss:1, docs:1, scale:1, net:1, smallfiles:1, metadata:1, posix:1, standalone:0, erasure:0, backup:1, quotas:1 },
   },
   {
     id: "moosefs", name: "MooseFS", hue: 80,
     desc: "Einfaches verteiltes POSIX-Dateisystem mit Master-Chunk-Client-Architektur. Community Edition ist voll funktionsfähig. Gut für mittlere Installationen. Master-Server bleibt Metadaten-Flaschenhals in der CE.",
-    scores: { esxi:1, noops:1, oss:1, docs:1, scale:1, net:1, smallfiles:1, metadata:0, posix:1, standalone:1 },
+    scores: { esxi:1, noops:1, oss:1, docs:1, scale:1, net:1, smallfiles:1, metadata:0, posix:1, standalone:1, erasure:1, backup:1, quotas:1 },
   },
   {
     id: "lizardfs", name: "LizardFS", hue: 260,
     desc: "MooseFS-fork mit Multi-Master-Unterstützung und Erasure Coding. Binärkompatibel zu MooseFS. Kleinere Community als MooseFS, Entwicklungstempo hat nachgelassen. Gute Wahl wenn Multi-Master kritisch ist.",
-    scores: { esxi:1, noops:1, oss:1, docs:0, scale:1, net:1, smallfiles:1, metadata:0, posix:1, standalone:1 },
+    scores: { esxi:1, noops:1, oss:1, docs:0, scale:1, net:1, smallfiles:1, metadata:0, posix:1, standalone:1, erasure:1, backup:1, quotas:1 },
   },
   {
     id: "beegfs", name: "BeeGFS", hue: 340,
     desc: "Paralleles HPC-Dateisystem mit verteilten Metadaten-Servern — kein Metadaten-Flaschenhals. Sehr hoher Durchsatz. Ausgelegt für schnelle, stabile Netzwerke. Community Edition kostenlos, Dokumentation gut.",
-    scores: { esxi:1, noops:1, oss:1, docs:1, scale:1, net:0, smallfiles:0, metadata:1, posix:1, standalone:1 },
+    scores: { esxi:1, noops:1, oss:1, docs:1, scale:1, net:0, smallfiles:0, metadata:1, posix:1, standalone:1, erasure:0, backup:0, quotas:1 },
   },
   {
     id: "garage", name: "Garage", hue: 15,
     desc: "Leichtgewichtiger S3-kompatibler Objektspeicher in Rust — designed für geo-verteilte und netzwerkinstabile Umgebungen. Echter Community-OpenSource (AGPL), keine kommerzielle Einschränkung. Kein POSIX, aber S3-API stabil und gut dokumentiert.",
-    scores: { esxi:1, noops:1, oss:1, docs:1, scale:1, net:1, smallfiles:0, metadata:0, posix:0, standalone:1 },
+    scores: { esxi:1, noops:1, oss:1, docs:1, scale:1, net:1, smallfiles:0, metadata:0, posix:0, standalone:1, erasure:0, backup:0, quotas:0 },
   },
   {
     id: "alluxio", name: "Alluxio", hue: 180,
     desc: "Virtuelles verteiltes Dateisystem als Caching-Schicht über beliebigen Storage-Backends (MinIO, Ceph, NFS, HDFS). Bietet HDFS-kompatible API für Migration. Kein primärer Speicher — setzt anderen Storage voraus.",
-    scores: { esxi:0, noops:0, oss:1, docs:1, scale:1, net:1, smallfiles:0, metadata:0, posix:1, standalone:0 },
+    scores: { esxi:0, noops:0, oss:1, docs:1, scale:1, net:1, smallfiles:0, metadata:0, posix:1, standalone:0, erasure:0, backup:0, quotas:0 },
   },
 ];
 

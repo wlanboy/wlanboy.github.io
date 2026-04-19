@@ -11,13 +11,22 @@ HEADERS = {"Authorization": f"token {TOKEN}"} if TOKEN else {}
 DAYS = 300
 CUTOFF_DATE = datetime.now(timezone.utc) - timedelta(days=DAYS)
 
+EXCLUDED_FILENAMES = {
+    "changelog", "contributing", "license", "code_of_conduct",
+    "security", "authors", "maintainers", "codeowners",
+    "pull_request_template", "issue_template", "funding",
+}
+
+API_KEYWORDS = {"api", "api-reference", "openapi", "swagger"}
+GUIDE_KEYWORDS = {"guide", "tutorial", "howto", "how-to", "getting-started"}
+
 
 def log(msg):
     print(f"[INFO] {msg}")
 
 
 def get_repos(user):
-    url = f"https://api.github.com/users/{user}/repos?per_page=100&type=public"
+    url = f"https://api.github.com/users/{user}/repos?per_page=120&type=public"
     response = requests.get(url, headers=HEADERS)
 
     log(f"GitHub API Status: {response.status_code}")
@@ -137,7 +146,7 @@ def extract_title_and_paragraph(content: str):
     description = None
     if paragraph_lines:
         # Mehrere Zeilen zu einem Paragraphen zusammenführen und trimmen
-        description = " ".join(l.strip() for l in paragraph_lines).strip()
+        description = " ".join(line.strip() for line in paragraph_lines).strip()
 
     return title, description
 
@@ -173,7 +182,14 @@ def main():
         for item in tree:
             if item.get("type") == "blob" and item.get("path", "").lower().endswith(".md"):
                 path = item["path"]
-                log(f"📄 README gefunden: {path}")
+                parts = path.split("/")
+                basename = parts[-1].lower().removesuffix(".md")
+
+                if basename in EXCLUDED_FILENAMES:
+                    log(f"⏭️  Übersprungen (Meta-Datei): {path}")
+                    continue
+
+                log(f"📄 Datei gefunden: {path}")
 
                 content = get_file_content(GITHUB_USER, repo_name, path)
                 title, description = extract_title_and_paragraph(content)
@@ -189,15 +205,25 @@ def main():
                     log("   ➜ Keine Beschreibung (Paragraph) gefunden")
 
                 # Typ bestimmen
-                filename = path.lower()
-                if filename.endswith("readme.md"):
+                in_subdir = len(parts) > 1
+                in_docs = parts[0].lower() in {"docs", "doc", "documentation"}
+
+                if basename == "readme" and not in_subdir:
                     filetype = "readme"
+                elif basename == "readme" and in_subdir:
+                    filetype = "module"
+                elif in_docs:
+                    filetype = "docs"
+                elif any(kw in basename for kw in API_KEYWORDS):
+                    filetype = "api"
+                elif any(kw in basename for kw in GUIDE_KEYWORDS):
+                    filetype = "guide"
                 else:
                     filetype = "text"
 
                 readme_entries.append({
                     "path": path,
-                    "title": title or item["path"].split("/")[-1].replace(".md", ""),
+                    "title": title or parts[-1].removesuffix(".md"),
                     "description": description or "",
                     "type": filetype
                 })

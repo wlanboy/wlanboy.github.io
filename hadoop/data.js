@@ -170,11 +170,15 @@
         "id": "hdfs-replication-pipeline",
         "label": "Schreib-Pipeline & Read-Path",
         "group": "hdfs",
-        "description": "Trennung von Control-Path (NameNode) und Data-Path (DataNodes).",
+        "description": "Trennung von Control-Path (NameNode) und Data-Path (DataNodes). Rack-Awareness steuert die Platzierung der Replikate.",
         "details": [
           "Write Path: create() → addBlock → Pipeline → ACK-Kaskade.",
-          "Read Path: Client liest direkt vom nächsten DataNode.",
-          "Failover: Client nutzt ConfiguredFailoverProxyProvider."
+          "Rack-Awareness: DN1 (lokales Rack) → DN2 (anderes Rack) → DN3 (anderes Rack). Schützt vor Rack-Ausfall.",
+          "Pipeline-Fehlerbehandlung: Fehlerhafte DN wird aus Pipeline entfernt, Block-ID neu vergeben, fehlende Replikate nachgezogen.",
+          "Read Path: Client liest direkt vom nächsten DataNode (nach Rack-Distanz gewählt).",
+          "Short-Circuit Read: dfs.client.read.shortcircuit = true → Client liest direkt von lokalem Disk, umgeht DataNode-RPC.",
+          "Voraussetzung Short-Circuit: dfs.domain.socket.path muss gesetzt sein.",
+          "Failover: Client nutzt ConfiguredFailoverProxyProvider für transparentes HA-Failover."
         ],
         "connections": ["hdfs-block", "hdfs-namenode-role", "hdfs-datanode-role"]
       },
@@ -223,10 +227,15 @@
         "id": "hdfs-balancer",
         "label": "HDFS Balancer",
         "group": "hdfs",
-        "description": "Verteilt Blöcke zwischen DataNodes. Small-Files erzeugen ungleichmäßige Verteilung.",
+        "description": "Verteilt Blöcke zwischen DataNodes, um Speicherauslastung anzugleichen. Small-Files und neue DataNodes erzeugen typische Ungleichgewichte.",
         "details": [
-          "Produktive Bandbreite für 40 Gbit/s Cluster: dfs.datanode.balance.bandwidthPerSec = 1073741824 (1 GB/s).",
-          "Small-Files erzeugen viele kleine Blöcke → Balancer häufiger ausführen."
+          "Aufruf: hdfs balancer -threshold 10 -blockpools <pool>.",
+          "Threshold: maximale prozentuale Abweichung vom Cluster-Durchschnitt (Standard: 10 %).",
+          "Produktive Bandbreite für 40 GbE-Cluster: dfs.datanode.balance.bandwidthPerSec = 1073741824 (1 GiB/s).",
+          "Parallele Moves pro DataNode: dfs.datanode.balance.max.concurrent.moves = 50.",
+          "Small-Files erzeugen viele kleine Blöcke → Balancer häufiger ausführen oder per Cron planen.",
+          "Zusammenspiel mit Storage Policies: hdfs mover -p <Pfad> verschiebt Blöcke auf das richtige Speichermedium.",
+          "Balancer stoppt automatisch, wenn Threshold erreicht ist."
         ],
         "connections": ["hdfs-block", "hdfs-datanode-role", "datanode", "namenode"]
       },
@@ -255,12 +264,16 @@
         "id": "hdfs-snapshots",
         "label": "HDFS Snapshots",
         "group": "hdfs",
-        "description": "Schreibgeschützte Point-in-Time-Kopien.",
+        "description": "Schreibgeschützte Point-in-Time-Kopien eines Verzeichnisses. Kostengünstig durch Delta-Speicherung im NameNode.",
         "details": [
-          "Snapshots speichern nur Deltas.",
-          "Zugriff über .snapshot/ Verzeichnis.",
-          "Typische Nutzung: Backup, Rollback, distcp -diff.",
-          "Snapshot-Quota: hdfs dfsadmin -setSnapshotQuota."
+          "Snapshot aktivieren: hdfs dfsadmin -allowSnapshot <Pfad>.",
+          "Snapshot erstellen: hdfs dfs -createSnapshot <Pfad> <Name>.",
+          "Snapshots speichern nur Deltas — keine vollständige Datenkopie.",
+          "Zugriff über .snapshot/<Name>/ Unterverzeichnis.",
+          "Maximum: 65536 Snapshots pro snapshotfähigem Verzeichnis.",
+          "Typische Nutzung: Backup, Rollback, distcp -diff für inkrementelle Replikation.",
+          "Snapshot-Quota (max. Anzahl): hdfs dfsadmin -setSnapshotQuota <Pfad> <Anzahl>.",
+          "Snapshot deaktivieren (alle Snapshots müssen vorher gelöscht sein): hdfs dfsadmin -disallowSnapshot <Pfad>."
         ],
         "connections": ["hdfs-namenode-role", "hdfs-block", "hdfs-replication-pipeline"]
       },
@@ -423,11 +436,14 @@
         "id": "datanode",
         "label": "DataNode",
         "group": "hadoop",
-        "description": "3 DataNodes speichern HDFS-Blöcke.",
+        "description": "3 DataNodes speichern HDFS-Blöcke. Volume-Fehlertoleranz und regelmäßiges Balancing sind produktionskritisch.",
         "details": [
           "Transfer-Port: 9866.",
-          "Volume-Ausfälle kritisch.",
-          "Disk Balancer empfohlen."
+          "Fehlertoleranz: dfs.datanode.failed.volumes.tolerated = 1 → DataNode bleibt aktiv bei 1 ausgefallener Disk.",
+          "Mehrere Volumes pro DataNode empfohlen: dfs.datanode.data.dir = /data1,/data2,/data3.",
+          "Heartbeat: alle 3 s an NameNode; bei Ausfall → Stale nach 30 s → Dead nach 10 min.",
+          "Block-Report: vollständiger Report beim Start, inkrementell danach.",
+          "Disk Balancer empfohlen bei ungleichmäßiger Volume-Auslastung."
         ],
         "connections": ["namenode"]
       },
@@ -439,11 +455,20 @@
         "id": "resourcemanager",
         "label": "ResourceManager",
         "group": "hadoop",
-        "description": "Verwaltet YARN-Ressourcen.",
+        "description": "Verwaltet YARN-Ressourcen und plant Container-Zuteilung. In Produktion im Active/Standby-HA-Betrieb mit ZooKeeper.",
         "details": [
           "Web-UI: 8088.",
-          "AM-Ressourcen: 512 MB.",
-          "Log-Aggregation aktiv."
+          "AM-Ressourcen: yarn.app.mapreduce.am.resource.mb = 1536 MB (Standard).",
+          "Log-Aggregation: yarn.log-aggregation-enable = true, Logs auf HDFS nach Container-Ende.",
+          "HA-Konfiguration:",
+          [
+            "yarn.resourcemanager.ha.enabled = true",
+            "yarn.resourcemanager.ha.rm-ids = rm1,rm2",
+            "yarn.resourcemanager.recovery.enabled = true",
+            "yarn.resourcemanager.store.class = ZKRMStateStore"
+          ],
+          "Scheduler: CapacityScheduler (Standard) oder FairScheduler.",
+          "Failover: automatisch via ZooKeeper, kein manueller Eingriff nötig."
         ],
         "connections": ["nodemanager", "zookeeper"]
       },

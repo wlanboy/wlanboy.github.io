@@ -33,7 +33,7 @@ const ALTERNATIVES = [
   {
     id: "seaweedfs", name: "SeaweedFS", hue: 50,
     desc: "Verteilter Objektspeicher in Go — designed für viele kleine Dateien. Trennt Metadaten (Master) von Daten (Volume Server). Einfacher Betrieb, S3-API und FUSE-Mount verfügbar. Aktive Community.",
-    scores: { esxi:1, noops:1, oss:1, docs:1, scale:1, net:1, smallfiles:1, metadata:1, posix:1, standalone:1, erasure:1, backup:0, quotas:0 },
+    scores: { esxi:1, noops:1, oss:1, docs:1, scale:1, net:1, smallfiles:1, metadata:1, posix:1, standalone:1, erasure:1, backup:1, quotas:0 },
   },
   {
     id: "glusterfs", name: "GlusterFS", hue: 200,
@@ -43,7 +43,7 @@ const ALTERNATIVES = [
   {
     id: "juicefs", name: "JuiceFS", hue: 160,
     desc: "POSIX-Dateisystem das Metadaten (Redis/TiKV/MySQL) und Daten (MinIO/S3/etc.) trennt. Aggregiert kleine Dateien zu Chunks. Benötigt zwei Backend-Systeme — erhöhte Komplexität, aber elegante Architektur.",
-    scores: { esxi:1, noops:0, oss:1, docs:1, scale:1, net:1, smallfiles:1, metadata:1, posix:1, standalone:0, erasure:0, backup:1, quotas:1 },
+    scores: { esxi:1, noops:0, oss:0, docs:1, scale:1, net:1, smallfiles:1, metadata:1, posix:1, standalone:0, erasure:0, backup:1, quotas:1 },
   },
   {
     id: "moosefs", name: "MooseFS", hue: 80,

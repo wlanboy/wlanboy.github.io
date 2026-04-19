@@ -6,6 +6,15 @@
   --card-shadow: rgba(0,0,0,0.4);
   --repo-bg: #333;
   --modal-bg: #222;
+  --glass: rgba(255,255,255,0.04);
+  --glass-border: rgba(255,255,255,0.08);
+
+  --accent-readme: #007bff;
+  --accent-module: #6f42c1;
+  --accent-docs:   #0d9488;
+  --accent-api:    #d97706;
+  --accent-guide:  #16a34a;
+  --accent-text:   #666;
 }
 
 .light {
@@ -15,6 +24,8 @@
   --card-shadow: rgba(0,0,0,0.1);
   --repo-bg: #ddd;
   --modal-bg: #fff;
+  --glass: rgba(0,0,0,0.02);
+  --glass-border: rgba(0,0,0,0.08);
 }
 
 body {
@@ -39,26 +50,38 @@ header {
 #controls {
   display: flex;
   justify-content: center;
-  gap: 1rem;
-  padding: 10px;
+  gap: 0.6rem;
+  padding: 10px 1rem;
   background: var(--bg);
   position: sticky;
-  top: 70px; /* unterhalb des Headers */
+  top: 70px;
   z-index: 9;
   border-bottom: 1px solid var(--repo-bg);
+  overflow-x: auto;
+  flex-wrap: nowrap;
+  -webkit-overflow-scrolling: touch;
 }
 
-input, select, button {
-  padding: 8px 12px;
-  font-size: 1rem;
-  border-radius: 8px;
+#controls::-webkit-scrollbar { display: none; }
+
+input, select, button, a#terminalLink {
+  padding: 8px 16px;
+  font-size: 0.95rem;
+  border-radius: 999px;
   border: none;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 button {
   cursor: pointer;
   background: var(--repo-bg);
   color: var(--text);
+  transition: background 0.2s;
+}
+
+button:hover {
+  background: #888;
 }
 
 #grid {
@@ -72,7 +95,11 @@ button {
 @media (min-width: 1300px) { #grid { column-count: 4; } }
 
 .card {
-  background: var(--card-bg);
+  background: var(--glass);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid var(--glass-border);
+  border-left: 4px solid var(--accent-text);
   margin: 0 0 1rem;
   padding: 1rem;
   border-radius: 12px;
@@ -82,13 +109,21 @@ button {
   break-inside: avoid;
   position: relative;
   box-shadow: 0 4px 12px var(--card-shadow);
-  transition: transform 0.15s ease;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
   cursor: pointer;
 }
 
 .card:hover {
-  transform: translateY(-4px);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px var(--card-shadow);
 }
+
+.card[data-type="readme"] { border-left-color: var(--accent-readme); }
+.card[data-type="module"] { border-left-color: var(--accent-module); }
+.card[data-type="docs"]   { border-left-color: var(--accent-docs); }
+.card[data-type="api"]    { border-left-color: var(--accent-api); }
+.card[data-type="guide"]  { border-left-color: var(--accent-guide); }
+.card[data-type="text"]   { border-left-color: var(--accent-text); }
 
 .repo-name {
   position: absolute;
@@ -187,6 +222,25 @@ pre {
   font-size: 1.1rem;
 }
 
+#search-wrapper {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+#search-wrapper::before {
+  content: "🔍";
+  position: absolute;
+  left: 12px;
+  font-size: 0.8rem;
+  pointer-events: none;
+}
+
+input[type="text"] {
+  padding-left: 2rem;
+}
+
 input[type="text"],
 select {
   background: var(--card-bg);
@@ -226,18 +280,11 @@ select option {
 .badge-guide   { background: #16a34a; color: white; }
 .badge-text    { background: #666;    color: white; }
 
-#terminalLink {
-  padding: 8px 12px;
-  border-radius: 8px;
+a#terminalLink {
   background: var(--repo-bg);
   color: var(--text);
   text-decoration: none;
-  font-size: 1rem;
   display: inline-flex;
   align-items: center;
   transition: background 0.2s;
-}
-
-#terminalLink:hover {
-  background: #888;
 }

@@ -11,7 +11,7 @@ Private homepage hosted by GitHub Pages — a portfolio explorer that automatica
 | Page | Description |
 |------|-------------|
 | `index.html` | Main project explorer with search, filtering, and inline README viewer |
-| `focus.html` | Interactive graph visualization of topics and project connections |
+| `fokus/index.html` | Topic Constellation Map — alternative topic visualization |
 | `terminal.html` | Homelab terminal simulator (easter egg: try `cowsay`) |
 
 ## Architecture
@@ -47,7 +47,6 @@ python3 -m http.server 8000
 ```bash
 uv lock --upgrade
 uv sync
-uv run pytest
 uv run pyright
 uv run ruff check
 uv run generate.py

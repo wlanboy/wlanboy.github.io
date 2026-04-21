@@ -20,12 +20,12 @@ const ALTERNATIVES = [
   {
     id: "minio", name: "MinIO", hue: 140,
     desc: "S3-kompatibler Objektspeicher als Single Binary. Einfache Installation, Erasure Coding auf 4+ Nodes. ACHTUNG: MinIO hat die Lizenz auf AGPL-3.0 umgestellt — kommerzielle Nutzung ohne Enterprise-Vertrag ist rechtlich problematisch. Für viele Organisationen kein echter OpenSource-Einsatz mehr möglich.",
-    scores: { esxi:1, noops:1, oss:0, docs:1, scale:1, net:1, smallfiles:0, metadata:0, posix:0, standalone:1, erasure:1, backup:1, quotas:1, rolling:1, observ:1 },
+    scores: { esxi:1, noops:1, oss:0, docs:1, scale:1, net:0, smallfiles:0, metadata:0, posix:0, standalone:1, erasure:1, backup:1, quotas:1, rolling:1, observ:1 },
   },
   {
     id: "ceph", name: "Ceph", hue: 300,
     desc: "Umfassendstes Open-Source-Storage-System: Block (RBD), Object (RGW/S3), Filesystem (CephFS) in einem. Sehr hohe Betriebskomplexität — benötigt erfahrene Admins, stabile Netzwerke und dedizierte OSD-Nodes.",
-    scores: { esxi:0, noops:0, oss:1, docs:1, scale:1, net:1, smallfiles:0, metadata:0, posix:1, standalone:1, erasure:1, backup:1, quotas:1, rolling:1, observ:1 },
+    scores: { esxi:0, noops:0, oss:1, docs:1, scale:1, net:0, smallfiles:0, metadata:0, posix:1, standalone:1, erasure:1, backup:1, quotas:1, rolling:1, observ:1 },
   },
   {
     id: "ozone", name: "Apache Ozone", hue: 30,

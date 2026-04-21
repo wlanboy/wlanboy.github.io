@@ -329,11 +329,26 @@
         "id": "zookeeper",
         "label": "ZooKeeper",
         "group": "hadoop",
-        "description": "3-Knoten-Quorum für HA-Failover.",
+        "description": "Verteilter Koordinationsdienst für Leader-Election, Distributed Locks und Konfigurationsverwaltung. Bildet das Rückgrat des HA-Failovers für NameNode und ResourceManager.",
         "details": [
-          "Speichert Ephemeral Nodes für aktiven NameNode.",
-          "Session-Timeout kritisch für GC-Pausen.",
-          "Produktiv: dedizierte Hosts, SSDs."
+          "Ensemble: Mindestens 3 Knoten erforderlich (Quorum = Mehrheit). 5 Knoten für höhere Fehlertoleranz.",
+          "Ports: Client-Port 2181, Peer-Port 2888, Leader-Election-Port 3888.",
+          "Ephemeral Nodes: ZKFC schreibt Ephemeral ZNode /hadoop-ha/<ns>/ActiveStandbyElectorLock → nur aktiver NameNode hält diesen Lock.",
+          "Session-Timeout: tickTime = 2000 ms, minSessionTimeout = 2×tickTime = 4 s, maxSessionTimeout = 20×tickTime = 40 s.",
+          "GC-Risiko: Lange GC-Pausen des NameNode können Session-Timeout auslösen → unbeabsichtigter Failover. G1GC mit -XX:MaxGCPauseMillis=200 empfohlen.",
+          "Watches: ZKFC registriert Watches auf den ActiveStandbyElectorLock-ZNode → sofortige Benachrichtigung bei Lock-Verlust.",
+          "Datenpersistenz: dataDir auf SSDs legen → reduziert Fsync-Latenz.",
+          "Produktivkonfiguration:",
+          [
+            "tickTime = 2000",
+            "initLimit = 10",
+            "syncLimit = 5",
+            "maxClientCnxns = 60",
+            "autopurge.snapRetainCount = 3",
+            "autopurge.purgeInterval = 1"
+          ],
+          "Monitoring: ZooKeeper-Metriken via JMX oder 4-Letter-Words (mntr, stat, ruok).",
+          "Produktiv: dedizierte Hosts, SSDs, kein Swap (vm.swappiness = 0)."
         ],
         "connections": ["zkfc", "journalnode", "namenode", "resourcemanager"]
       },
@@ -345,11 +360,24 @@
         "id": "journalnode",
         "label": "JournalNode",
         "group": "hadoop",
-        "description": "Speichert Edit-Log-Segmente für HA.",
+        "description": "Implementiert den Quorum Journal Manager (QJM). Der aktive NameNode schreibt jede Edit-Log-Transaktion an alle JournalNodes; der Standby liest daraus kontinuierlich, um seinen Namespace aktuell zu halten.",
         "details": [
-          "Quorum: 2 von 3 müssen committen.",
-          "RPC-Port: 8485.",
-          "Heap: 512 MB."
+          "Quorum-Regel: Schreib-Commit erfolgreich, wenn mindestens 2 von 3 JournalNodes bestätigen (Mehrheitsquorum).",
+          "Konsistenz: Jede Transaktion trägt eine eindeutige Epoch-Nummer. Ein neuer Active NameNode erhöht die Epoch → veraltete Schreibversuche des alten Active werden abgelehnt.",
+          "RPC-Port: 8485 (Schreiben/Lesen des Edit Logs).",
+          "HTTP-Port: 8480 (Web-UI, Statusüberwachung).",
+          "Datenpfad: dfs.journalnode.edits.dir → dediziertes Verzeichnis, idealerweise auf SSD.",
+          "Heap: 512 MB bis 1 GB je nach Transaktionsvolumen.",
+          "Startup-Sync: Standby NameNode lädt fehlende Segmente beim Start nach (In-Progress-Segmente).",
+          "Split-Brain-Schutz: Epoch-Mechanismus verhindert, dass zwei NameNodes gleichzeitig schreiben.",
+          "Produktivkonfiguration:",
+          [
+            "dfs.journalnode.edits.dir = /data/jn/edits (SSD-Pfad)",
+            "dfs.journalnode.rpc-address = 0.0.0.0:8485",
+            "dfs.journalnode.http-address = 0.0.0.0:8480"
+          ],
+          "Monitoring: Segmentlücken und In-Progress-Dateien im Datenpfad beobachten.",
+          "Mindestanzahl: 3 JournalNodes; 5 für höhere Fehlertoleranz bei größeren Clustern."
         ],
         "connections": ["namenode", "zookeeper"]
       },
@@ -361,22 +389,34 @@
         "id": "namenode",
         "label": "NameNode",
         "group": "hadoop",
-        "description": "Zentraler Metadatenserver. Small-Files erzeugen hohe Metadatenlast.",
+        "description": "Zentraler HDFS-Metadatenserver. Verwaltet Namespace, Block-Mapping und Zugriffsrechte vollständig im RAM. Im HA-Betrieb läuft ein Active/Standby-Paar, koordiniert durch ZKFC und JournalNodes.",
         "details": [
-          "Produktiver Heap: 32 GB.",
-          "Trash deaktiviert:",
+          "HA-Rollen: Active NameNode bedient alle Client-RPCs; Standby synchronisiert sich kontinuierlich über JournalNodes.",
+          "Ports: RPC 8020 (Clients, DataNodes), HTTP 9870 (Web-UI), HTTPS 9871.",
+          "Produktiver Heap: 32 GB (-Xms32g -Xmx32g) für bis zu 200 Mio. Inodes.",
+          "GC-Konfiguration: G1GC empfohlen:",
           [
-            "fs.trash.interval = 0",
-            "fs.trash.checkpoint.interval = 0"
+            "-XX:+UseG1GC",
+            "-XX:G1HeapRegionSize=32m",
+            "-XX:MaxGCPauseMillis=200"
           ],
-          "I/O-Puffer für kleine Dateien:",
-          "io.file.buffer.size = 262144 (256 KB).",
+          "Handler-Threads: dfs.namenode.handler.count = 200, dfs.namenode.service.handler.count = 50.",
+          "EditLog-Sync: asynclogging = true → RPC-Thread nicht durch Fsync blockiert.",
+          "Checkpoint-Trigger:",
+          [
+            "dfs.namenode.checkpoint.txns = 250000",
+            "dfs.namenode.checkpoint.period = 900 s (15 min)"
+          ],
+          "Trash: in Produktion deaktiviert (fs.trash.interval = 0) um Metadatenlast zu reduzieren.",
+          "I/O-Puffer: io.file.buffer.size = 262144 (256 KB) für kleine Dateien.",
           "Quota Management:",
           [
-            "Directory Quota: hdfs dfsadmin -setQuota",
-            "Space Quota: hdfs dfsadmin -setSpaceQuota",
-            "Snapshot Quota: hdfs dfsadmin -setSnapshotQuota"
-          ]
+            "Directory Quota: hdfs dfsadmin -setQuota <N> <Pfad>",
+            "Space Quota: hdfs dfsadmin -setSpaceQuota <Bytes> <Pfad>",
+            "Snapshot Quota: hdfs dfsadmin -setSnapshotQuota <N> <Pfad>"
+          ],
+          "Safe Mode: beim Start bis 99,9 % der Blöcke gemeldet → dann automatisch verlassen.",
+          "Monitoring: fsck, dfsadmin -report, JMX-Metriken (MissingBlocks, UnderReplicatedBlocks)."
         ],
         "connections": ["zkfc", "journalnode", "datanode", "zookeeper"]
       },
@@ -388,11 +428,31 @@
         "id": "zkfc",
         "label": "ZKFC",
         "group": "hadoop",
-        "description": "Überwacht NameNode und steuert Failover.",
+        "description": "ZooKeeper Failover Controller — läuft als Daemon neben jedem NameNode. Überwacht dessen Gesundheit via lokaler RPC-Verbindung und koordiniert automatischen Failover über ZooKeeper-Leader-Election.",
         "details": [
-          "Health-Checks via RPC.",
-          "Hält ZooKeeper-Lock.",
-          "Produktives Fencing: sshfence."
+          "Health-Check: Periodische RPC-Anfragen an den lokalen NameNode (haadmin -getServiceState).",
+          "Election: ZKFC des aktiven NameNode hält Ephemeral ZNode /hadoop-ha/<ns>/ActiveStandbyElectorLock.",
+          "Failover-Ablauf:",
+          [
+            "1. ZKFC erkennt NameNode-Ausfall (RPC-Timeout oder Exception)",
+            "2. Ephemeral ZNode verfällt → ZooKeeper benachrichtigt Standby-ZKFC",
+            "3. Standby-ZKFC fenced den alten Active (sshfence oder shell)",
+            "4. Standby-ZKFC promote Standby NameNode zum neuen Active"
+          ],
+          "Fencing-Methoden:",
+          [
+            "Produktiv: sshfence — SSH-Login auf alten Active, kill -9 auf NameNode-Prozess",
+            "Lab (nicht produktiv): shell(/bin/true) — kein echtes Fencing"
+          ],
+          "Fencing-Konfiguration:",
+          [
+            "dfs.ha.fencing.methods = sshfence",
+            "dfs.ha.fencing.ssh.private-key-files = /etc/hadoop/conf/ha_key",
+            "dfs.ha.fencing.ssh.connect-timeout = 30000"
+          ],
+          "Split-Brain-Schutz: Fencing verhindert, dass beide NameNodes gleichzeitig als Active schreiben.",
+          "Automatischer vs. manueller Failover: dfs.ha.automatic-failover.enabled = true für automatischen Betrieb.",
+          "Manueller Failover: hdfs haadmin -failover nn1 nn2."
         ],
         "connections": ["namenode", "zookeeper"]
       },
@@ -404,14 +464,27 @@
         "id": "datanode",
         "label": "DataNode",
         "group": "hadoop",
-        "description": "3 DataNodes speichern HDFS-Blöcke. Volume-Fehlertoleranz und regelmäßiges Balancing sind produktionskritisch.",
+        "description": "Speichert HDFS-Blöcke auf lokalen Disks und verwaltet Block-Replikations-Pipelines. Im Produktionsbetrieb mit mehreren Volumes pro Node und konfigurierbarer Fehlertoleranz für Disk-Ausfälle.",
         "details": [
-          "Transfer-Port: 9866.",
-          "Fehlertoleranz: dfs.datanode.failed.volumes.tolerated = 1 → DataNode bleibt aktiv bei 1 ausgefallener Disk.",
-          "Mehrere Volumes pro DataNode empfohlen: dfs.datanode.data.dir = /data1,/data2,/data3.",
-          "Heartbeat: alle 3 s an NameNode; bei Ausfall → Stale nach 30 s → Dead nach 10 min.",
-          "Block-Report: vollständiger Report beim Start, inkrementell danach.",
-          "Disk Balancer empfohlen bei ungleichmäßiger Volume-Auslastung."
+          "Ports: Transfer-Port 9866 (Block-Reads/-Writes), RPC 9867, HTTP 9864 (Web-UI).",
+          "Heartbeat: alle 3 s an NameNode; Stale nach 30 s; Dead nach 10 min → NameNode leitet Re-Replikation ein.",
+          "Block-Reports: Vollständiger Report beim Start; inkrementelle Reports alle 6 h (dfs.blockreport.intervalMsec = 21600000).",
+          "Volume-Fehlertoleranz: dfs.datanode.failed.volumes.tolerated = 1 → DataNode bleibt aktiv bei 1 ausgefallener Disk.",
+          "Mehrere Volumes empfohlen für Parallelität:",
+          [
+            "dfs.datanode.data.dir = /data1,/data2,/data3",
+            "Volumes können auf verschiedene Disks gemappt werden"
+          ],
+          "Parallele Transfers: dfs.datanode.max.transfer.threads = 8192 für viele gleichzeitige Block-Operationen.",
+          "CRC-Prüfung: Jeder Block wird beim Schreiben mit CRC32c gesichert; bei Lesen geprüft.",
+          "Block-Scanning: dfs.datanode.scan.period.hours = 504 (3 Wochen) → regelmäßige Bit-Rot-Erkennung.",
+          "Short-Circuit Reads: dfs.client.read.shortcircuit = true → Clients auf demselben Host lesen direkt von Disk.",
+          "Storage Policies: DataNode kann mehrere Storage-Typen bereitstellen (DISK, SSD, ARCHIVE).",
+          [
+            "dfs.datanode.data.dir = [SSD]/ssd/data,[DISK]/hdd/data,[ARCHIVE]/archive/data"
+          ],
+          "Disk Balancer: hdfs diskbalancer -plan / -execute bei ungleichmäßiger Volume-Auslastung.",
+          "Out-of-Service: hdfs dfsadmin -shutdownDatanode <host:port> für wartungsfreundliches Decommissioning."
         ],
         "connections": ["namenode"]
       },
@@ -423,20 +496,33 @@
         "id": "resourcemanager",
         "label": "ResourceManager",
         "group": "hadoop",
-        "description": "Verwaltet YARN-Ressourcen und plant Container-Zuteilung. In Produktion im Active/Standby-HA-Betrieb mit ZooKeeper.",
+        "description": "Zentraler YARN-Scheduler. Verwaltet Cluster-Ressourcen (vCores, RAM), plant Container-Zuteilung und koordiniert ApplicationMaster-Starts. Im Active/Standby-HA-Betrieb mit ZooKeeper als State Store.",
         "details": [
-          "Web-UI: 8088.",
-          "AM-Ressourcen: yarn.app.mapreduce.am.resource.mb = 1536 MB (Standard).",
-          "Log-Aggregation: yarn.log-aggregation-enable = true, Logs auf HDFS nach Container-Ende.",
+          "Ports: Web-UI 8088, RPC 8032, Admin 8033, Scheduler 8030.",
           "HA-Konfiguration:",
           [
             "yarn.resourcemanager.ha.enabled = true",
             "yarn.resourcemanager.ha.rm-ids = rm1,rm2",
             "yarn.resourcemanager.recovery.enabled = true",
-            "yarn.resourcemanager.store.class = ZKRMStateStore"
+            "yarn.resourcemanager.store.class = org.apache.hadoop.yarn.server.resourcemanager.recovery.ZKRMStateStore"
           ],
-          "Scheduler: CapacityScheduler (Standard) oder FairScheduler.",
-          "Failover: automatisch via ZooKeeper, kein manueller Eingriff nötig."
+          "Failover: automatisch via ZooKeeper-Leader-Election, kein manueller Eingriff nötig.",
+          "Scheduler-Typen:",
+          [
+            "CapacityScheduler (Standard): Queue-basiert, Hierarchie, Kapazitätsgarantien pro Queue",
+            "FairScheduler: Faire Ressourcenteilung über Pools; reaktiver bei wechselnder Last"
+          ],
+          "CapacityScheduler-Tuning:",
+          [
+            "yarn.scheduler.capacity.maximum-am-resource-percent = 0.1 (max. 10 % für AMs)",
+            "yarn.scheduler.capacity.node-locality-delay = 40 (Scheduler-Versuche vor Remote-Zuteilung)"
+          ],
+          "ApplicationMaster-Ressourcen: yarn.app.mapreduce.am.resource.mb = 1536 MB (Standard).",
+          "Container-Overhead: mapreduce.map.memory.mb = 2048, mapreduce.reduce.memory.mb = 4096.",
+          "Log-Aggregation: yarn.log-aggregation-enable = true → Logs nach Container-Ende auf HDFS (yarn.nodemanager.remote-app-log-dir).",
+          "Preemption: yarn.resourcemanager.scheduler.monitor.enable = true für präemptive Ressourcenrückforderung.",
+          "Node-Labels: Ermöglicht dedizierte Queues für spezielle Hardware (GPUs, High-Memory-Nodes).",
+          "Monitoring: yarn application -list, yarn queue -status, YARN-Timeline-Service."
         ],
         "connections": ["nodemanager", "zookeeper"]
       },
@@ -448,11 +534,28 @@
         "id": "nodemanager",
         "label": "NodeManager",
         "group": "hadoop",
-        "description": "Führt YARN-Container aus.",
+        "description": "YARN-Agent auf jedem Worker-Node. Startet und überwacht Container im Auftrag des ResourceManagers, isoliert Ressourcen per cgroups und aggregiert Container-Logs nach HDFS.",
         "details": [
-          "Ressourcen: 2 vCores, 2 GB RAM.",
-          "Heartbeat an RM.",
-          "Verlust eines NodeManagers → Container verloren."
+          "Ports: HTTP 8042 (Web-UI), RPC 8041, Localizer 8040.",
+          "Ressourcen pro Node (Beispiel Produktionscluster):",
+          [
+            "yarn.nodemanager.resource.memory-mb = 49152 (48 GB)",
+            "yarn.nodemanager.resource.cpu-vcores = 16"
+          ],
+          "Heartbeat: Alle 1 s an ResourceManager; meldet freie Ressourcen und Container-Status.",
+          "Container-Lebenszyklus: Allocated → Running → Completed/Failed → Cleanup.",
+          "Ressourcenisolation:",
+          [
+            "cgroups: yarn.nodemanager.container-executor.class = LinuxContainerExecutor",
+            "yarn.nodemanager.linux-container-executor.cgroups.hierarchy = /hadoop-yarn",
+            "Verhindert CPU/Speicher-Überbelegung durch einzelne Container"
+          ],
+          "Log-Aggregation: Container-Logs lokal in yarn.nodemanager.log-dirs, nach Container-Ende auf HDFS aggregiert.",
+          "Local Dirs: yarn.nodemanager.local-dirs = /tmp/nm-local-dir → Shuffle-Daten, Jar-Dateien.",
+          "Verlust eines NodeManagers → alle laufenden Container auf dem Node verloren → AM leitet Re-Scheduling ein.",
+          "Health Checks: yarn.nodemanager.health-checker.script.path → Node markiert UNHEALTHY bei Fehler.",
+          "Decommissioning: yarn rmadmin -refreshNodes → NodeManager gracefully decommission.",
+          "Node-Labels: Ein NodeManager kann Labels anmelden (z. B. GPU, HIGH_MEM) für spezialisierte Queues."
         ],
         "connections": ["resourcemanager", "datanode"]
       },
@@ -464,11 +567,30 @@
         "id": "distcp",
         "label": "DistCp",
         "group": "hadoop",
-        "description": "MapReduce-basiertes Kopiertool.",
+        "description": "Distributed Copy — MapReduce-basiertes Tool für parallele Massenkopien zwischen HDFS-Clustern oder -Pfaden. Standard-Werkzeug für Cluster-Migrationen, DR-Replikation und inkrementelle Datensynchronisation.",
         "details": [
-          "Parallelisiert Kopiervorgänge über Mapper.",
-          "Unterstützt -update, -delete, -diff.",
-          "Inkrementelles distcp über Snapshots."
+          "Funktionsweise: Generiert eine Liste der zu kopierenden Dateien, verteilt sie auf Mapper → parallele Kopien.",
+          "Grundlegende Nutzung: hadoop distcp hdfs://src/pfad hdfs://dst/pfad.",
+          "Wichtige Optionen:",
+          [
+            "-update: Kopiert nur neue oder geänderte Dateien (Größe/Prüfsumme-Vergleich)",
+            "-delete: Löscht Zieldateien, die in der Quelle nicht mehr vorhanden sind",
+            "-diff <snap1> <snap2>: Inkrementelles Kopieren auf Basis von HDFS-Snapshot-Differenzen",
+            "-overwrite: Überschreibt vorhandene Zieldateien ohne Prüfung",
+            "-skipcrccheck: Überspringt CRC-Vergleich (schneller, aber weniger sicher)",
+            "-bandwidth <MB/s>: Begrenzt Bandbreite pro Mapper"
+          ],
+          "Inkrementelle Replikation via Snapshots:",
+          [
+            "hdfs dfs -createSnapshot /src snap1",
+            "hadoop distcp -diff snap1 snap2 -update hdfs://src/path hdfs://dst/path",
+            "Überträgt nur Deltas → deutlich weniger Datenvolumen als Vollkopie"
+          ],
+          "Parallelisierung: -m <N> steuert Anzahl der Mapper (Standard: 20).",
+          "Cross-Cluster: Quell- und Ziel-NameNode müssen sich gegenseitig erreichen können (WebHDFS oder HDFS-RPC).",
+          "Atomic-Commit: -atomic kopiert in temporäres Verzeichnis, dann Rename → atomare Sicht für Konsumenten.",
+          "Strategie bei Migration: distcp -update für initiale Bulk-Kopie, dann inkrementelle distcp -diff Läufe bis zum Cut-over.",
+          "Monitoring: YARN-Job-UI (Port 8088) zeigt Mapper-Fortschritt und Fehler."
         ],
         "connections": ["resourcemanager", "nodemanager", "hdfs-replication-pipeline", "hdfs-snapshots"]
       }

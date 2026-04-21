@@ -7,7 +7,7 @@
   // Per-group force-simulation tuning.
   // hdfs: dense core of 5 highly connected nodes → shorter springs + more repulsion so labels breathe.
   const GROUP_OPTS = {
-    "hdfs": { repel: 18000, springL: 160, spring: 0.008, gravity: 0.002, iters: 480 },
+    "hdfs": { repel: 22000, springL: 180, spring: 0.006, gravity: 0.0008, iters: 520 },
     "hadoop": { gravity: 0.005 },
   };
 
@@ -323,38 +323,6 @@
       },
 
       /* -----------------------------------------------------------
-       * FEDERATION (NEU)
-       * ----------------------------------------------------------- */
-      {
-        "id": "hdfs-federation",
-        "label": "HDFS Federation",
-        "group": "hdfs",
-        "description": "Mehrere unabhängige NameNodes teilen sich den Cluster.",
-        "details": [
-          "Jeder NameNode verwaltet eigenen Namespace.",
-          "DataNodes melden sich bei allen NameNodes an.",
-          "Skalierung für sehr große Cluster."
-        ],
-        "connections": ["hdfs-namenode-role"]
-      },
-
-      /* -----------------------------------------------------------
-       * ROUTER-BASED FEDERATION (NEU)
-       * ----------------------------------------------------------- */
-      {
-        "id": "hdfs-rbf",
-        "label": "Router-Based Federation",
-        "group": "hdfs",
-        "description": "Globaler Namespace über mehrere NameNodes.",
-        "details": [
-          "Router leitet Anfragen an passende NameNodes.",
-          "Unterstützt Mount Tables und Caching.",
-          "HA-fähig."
-        ],
-        "connections": ["hdfs-federation", "hdfs-namenode-role"]
-      },
-
-      /* -----------------------------------------------------------
        * ZOOKEEPER
        * ----------------------------------------------------------- */
       {
@@ -520,9 +488,6 @@
       { "from": "hdfs-erasurecoding", "to": "hdfs-block" },
       { "from": "hdfs-erasurecoding", "to": "hdfs-namenode-role" },
       { "from": "hdfs-erasurecoding", "to": "hdfs-datanode-role" },
-
-      { "from": "hdfs-federation", "to": "namenode" },
-      { "from": "hdfs-federation", "to": "datanode" },
 
       { "from": "hdfs-rbf", "to": "namenode" },
       { "from": "hdfs-rbf", "to": "hdfs-namenode-role" },

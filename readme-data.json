@@ -492,9 +492,15 @@
     "name": "lgtm",
     "description": "Docker compose for LGTM Stack (Loki, Grafana, Tempo, Mimir)",
     "url": "https://github.com/wlanboy/lgtm",
-    "pushed_at": "2026-04-20T11:41:31Z",
+    "pushed_at": "2026-04-20T17:19:18Z",
     "default_branch": "main",
     "readmes": [
+      {
+        "path": "kubernetes.md",
+        "title": "Kubernetes Logs & Metriken in den LGTM-Stack",
+        "description": "Diese Anleitung beschreibt, wie Logs, Metriken und Traces aus einem Kubernetes-Cluster in den lokal laufenden LGTM-Stack (Loki, Grafana, Tempo, Prometheus) gebracht werden. Als Collector-Komponente wird **Grafana Alloy** als DaemonSet eingesetzt — damit läuft ein Alloy-Pod auf jedem Node und sammelt alle Daten lokal ein, bevor sie per Push an den externen Stack gesendet werden.\n\nKein separater Prometheus, kein Promtail, kein Jaeger-Agent — Alloy übernimmt alle drei Rollen in einer einzigen Komponente.",
+        "type": "text"
+      },
       {
         "path": "readme.md",
         "title": "LGTM Observability Stack",
@@ -666,7 +672,7 @@
     "name": "raspberrypi",
     "description": "Raspberry Pi scripts for all my homelab services",
     "url": "https://github.com/wlanboy/raspberrypi",
-    "pushed_at": "2026-04-15T08:53:05Z",
+    "pushed_at": "2026-04-20T16:39:04Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1203,7 +1209,7 @@
     "name": "wlanboy.github.io",
     "description": "website",
     "url": "https://github.com/wlanboy/wlanboy.github.io",
-    "pushed_at": "2026-04-20T12:18:22Z",
+    "pushed_at": "2026-04-21T07:32:05Z",
     "default_branch": "main",
     "readmes": [
       {

@@ -42,6 +42,10 @@
   // - Attraction along edges (pulls connected stars together)
   // - Gravity toward constellation center
   // - Elliptical soft boundary
+  //
+  // If opts.circleLayout is true: nodes are placed on a fixed-radius ring and
+  // only angular repulsion is applied — no spring forces. This gives a clean
+  // evenly-spaced circle regardless of connectivity density.
   function simulate(stars, lines, center, opts = {}) {
     const iters    = opts.iters    ?? 260;
     const repel    = opts.repel    ?? 6000;

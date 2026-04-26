@@ -3,13 +3,13 @@
     "name": "ansiblehook",
     "description": "Spring Boot based webhook for ansible playbooks",
     "url": "https://github.com/wlanboy/ansiblehook",
-    "pushed_at": "2026-04-25T05:29:32Z",
+    "pushed_at": "2026-04-26T06:44:28Z",
     "default_branch": "main",
     "readmes": [
       {
         "path": "README.md",
         "title": "ansiblehook",
-        "description": "HTTP-Webhook-Service zum Auslösen von Ansible-Playbooks über eine gesicherte REST-API.\n\nEin typischer Anwendungsfall ist der kontrollierte Deploy-Zugriff für Entwickler: Statt ihnen direkten SSH-Zugang zum Deployment-Server oder Zugriff auf Ansible-Credentials zu geben, stellt ein Operator vorab einen zeitlich begrenzten One-Time-Token aus. Der Entwickler kann damit genau ein Playbook einmalig auslösen — ohne Kenntnisse über Inventories, Vault-Passwörter oder Serverstruktur. Nach der Nutzung ist der Token verbraucht. Optional lässt sich mit `not_before` ein Startzeitpunkt festlegen, sodass ein Token bereits im Voraus ausgestellt, aber erst zum geplanten Deployment-Fenster einlösbar ist.\n\nFür automatisierte Pipelines (CI/CD, Monitoring) steht alternativ eine dauerhafte HMAC-SHA256-Signatur zur Verfügung. Läuft ein Playbook bereits, wird ein zweiter Request mit `409 Conflict` abgelehnt. Die vollständigen Ansible-Logs werden als Response-Body zurückgegeben.",
+        "description": "HTTP-Webhook-Service zum Auslösen von Ansible-Playbooks über eine gesicherte REST-API.\n\nEin typischer Anwendungsfall ist der kontrollierte Deploy-Zugriff für Entwickler: Statt ihnen direkten SSH-Zugang zum Deployment-Server oder Zugriff auf Ansible-Credentials zu geben, stellt ein Operator vorab einen zeitlich begrenzten One-Time-Token aus.\nDer Entwickler kann damit genau ein Playbook einmalig auslösen — ohne Kenntnisse über Inventories, Vault-Passwörter oder Serverstruktur. Nach der Nutzung ist der Token verbraucht.\nOptional lässt sich mit `not_before` ein Startzeitpunkt festlegen, sodass ein Token bereits im Voraus ausgestellt, aber erst zum geplanten Deployment-Fenster einlösbar ist.\n\nFür automatisierte Pipelines (CI/CD, Monitoring) steht alternativ eine dauerhafte HMAC-SHA256-Signatur zur Verfügung. Läuft ein Playbook bereits, wird ein zweiter Request mit `409 Conflict` abgelehnt. Die vollständigen Ansible-Logs werden als Response-Body zurückgegeben.",
         "type": "readme"
       },
       {
@@ -141,7 +141,7 @@
     "name": "deployer",
     "description": "Spring Boot Rest API to controll git repros and ansible playbook based deployments",
     "url": "https://github.com/wlanboy/deployer",
-    "pushed_at": "2026-04-20T13:00:14Z",
+    "pushed_at": "2026-04-26T13:09:42Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1236,7 +1236,7 @@
     "name": "wlanboy.github.io",
     "description": "website",
     "url": "https://github.com/wlanboy/wlanboy.github.io",
-    "pushed_at": "2026-04-24T13:28:20Z",
+    "pushed_at": "2026-04-25T13:09:34Z",
     "default_branch": "main",
     "readmes": [
       {

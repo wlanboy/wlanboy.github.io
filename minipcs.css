@@ -1,0 +1,100 @@
+.spec-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 0.6rem;
+  font-size: 0.82rem;
+}
+.spec-table td {
+  padding: 2px 0;
+  vertical-align: top;
+}
+.spec-table td:first-child {
+  opacity: 0.6;
+  width: 34%;
+  padding-right: 0.5rem;
+  white-space: nowrap;
+}
+.perf-section {
+  margin: 0.8rem 0 0.3rem;
+}
+.perf-label {
+  font-size: 0.75rem;
+  opacity: 0.65;
+  margin-bottom: 4px;
+  display: flex;
+  justify-content: space-between;
+}
+.perf-bar-bg {
+  background: var(--repo-bg);
+  border-radius: 4px;
+  height: 8px;
+  overflow: hidden;
+}
+.perf-bar-fill {
+  height: 8px;
+  border-radius: 4px;
+  min-width: 4px;
+}
+.perf-low  { background: #e55555; }
+.perf-mid  { background: #d97706; }
+.perf-high { background: #0d9488; }
+.perf-top  { background: #16a34a; }
+
+.eff-bar-bg {
+  background: var(--repo-bg);
+  border-radius: 4px;
+  height: 5px;
+  overflow: hidden;
+  margin-top: 3px;
+}
+.eff-bar-fill {
+  height: 5px;
+  border-radius: 4px;
+  background: #6f42c1;
+  min-width: 4px;
+}
+
+.card[data-vendor="arm"]   { border-left-color: #6f42c1; }
+.card[data-vendor="intel"] { border-left-color: #007bff; }
+.card[data-vendor="amd"]   { border-left-color: #e84040; }
+
+.badge-arm   { background: #6f42c1; color: white; }
+.badge-intel { background: #007bff; color: white; }
+.badge-amd   { background: #e84040; color: white; }
+
+#sort-controls {
+  display: flex;
+  gap: 0.5rem;
+  padding: 0.6rem 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.sort-btn {
+  font-size: 0.8rem;
+  padding: 5px 14px !important;
+}
+.sort-btn.active {
+  background: #007bff !important;
+  color: white !important;
+}
+
+.legend {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  padding: 0 1rem 0.8rem;
+  font-size: 0.78rem;
+  opacity: 0.75;
+}
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.legend-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}

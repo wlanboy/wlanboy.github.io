@@ -279,7 +279,7 @@
     "name": "gitops",
     "description": "Simple way to create project, repros and apps in argocd",
     "url": "https://github.com/wlanboy/gitops",
-    "pushed_at": "2026-04-12T16:34:51Z",
+    "pushed_at": "2026-04-27T04:57:30Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -316,6 +316,12 @@
         "path": "reflector/chart-update.md",
         "title": "Plan: Helm Chart um extraVolumes / extraEnv erweitern",
         "description": "Beschreibt die nötigen Änderungen, um ein bestehendes Helm Chart flexibel um zusätzliche Volumes, VolumeMounts und Umgebungsvariablen erweiterbar zu machen — ohne das Chart selbst zu forken. Die Werte werden über `values.yaml` übergeben und im Deployment-Template per `{{- with }}` eingebunden.",
+        "type": "text"
+      },
+      {
+        "path": "reflector/reflector.md",
+        "title": "Reflector — Kubernetes Secret & ConfigMap Spiegelung",
+        "description": "",
         "type": "text"
       },
       {
@@ -372,13 +378,13 @@
     "name": "JavaHttpClient",
     "description": "Spring based rest service to test http call within k8s and istio",
     "url": "https://github.com/wlanboy/JavaHttpClient",
-    "pushed_at": "2026-04-08T10:49:10Z",
+    "pushed_at": "2026-04-26T13:32:51Z",
     "default_branch": "main",
     "readmes": [
       {
         "path": "README.md",
         "title": "JavaHttpClient",
-        "description": "Spring based rest service to test http routes in kubernetes.\nShowing http status, response, timing and istio envy settings.",
+        "description": "A Spring Boot REST service for testing and diagnosing HTTP routes in Kubernetes clusters with Istio service mesh. It acts as a configurable HTTP proxy that forwards requests to any target URL and returns the response along with timing, status and header information. Additionally it exposes Kubernetes and Istio diagnostic endpoints to inspect the service mesh configuration from within the cluster.",
         "type": "readme"
       },
       {
@@ -693,7 +699,7 @@
     "name": "raspberrypi",
     "description": "Raspberry Pi scripts for all my homelab services",
     "url": "https://github.com/wlanboy/raspberrypi",
-    "pushed_at": "2026-04-25T11:13:21Z",
+    "pushed_at": "2026-04-27T13:05:51Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1011,7 +1017,7 @@
     "name": "ServiceConfig",
     "description": "Spring Framework based configuration service",
     "url": "https://github.com/wlanboy/ServiceConfig",
-    "pushed_at": "2026-04-11T10:09:37Z",
+    "pushed_at": "2026-04-26T13:40:51Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1026,7 +1032,7 @@
     "name": "ServiceRegistry",
     "description": "Spring Framework based Service Registry",
     "url": "https://github.com/wlanboy/ServiceRegistry",
-    "pushed_at": "2026-04-11T10:03:34Z",
+    "pushed_at": "2026-04-26T13:41:19Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1041,7 +1047,7 @@
     "name": "SimpleService",
     "description": "Simple Spring Rest Service playing Blockchain",
     "url": "https://github.com/wlanboy/SimpleService",
-    "pushed_at": "2026-04-20T13:01:55Z",
+    "pushed_at": "2026-04-26T13:38:40Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1101,7 +1107,7 @@
     "name": "vagrantkind",
     "description": "scripts to installing containerd, tools, k3s or kind with certmanager, istio and argocd to run a local dev kubernetes cluster",
     "url": "https://github.com/wlanboy/vagrantkind",
-    "pushed_at": "2026-04-20T11:54:01Z",
+    "pushed_at": "2026-04-26T19:27:53Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1236,7 +1242,7 @@
     "name": "wlanboy.github.io",
     "description": "website",
     "url": "https://github.com/wlanboy/wlanboy.github.io",
-    "pushed_at": "2026-04-25T13:09:34Z",
+    "pushed_at": "2026-04-26T14:58:32Z",
     "default_branch": "main",
     "readmes": [
       {

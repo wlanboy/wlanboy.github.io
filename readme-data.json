@@ -24,7 +24,7 @@
     "name": "ansible_uml",
     "description": "UML generator for ansible playbooks and inventories",
     "url": "https://github.com/wlanboy/ansible_uml",
-    "pushed_at": "2026-02-21T07:50:43Z",
+    "pushed_at": "2026-05-01T17:57:01Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -54,7 +54,7 @@
     "name": "blackbox",
     "description": "configs for blackbox exporter, prometheus and grafana",
     "url": "https://github.com/wlanboy/blackbox",
-    "pushed_at": "2025-08-19T06:47:01Z",
+    "pushed_at": "2026-05-01T17:57:16Z",
     "default_branch": "master",
     "readmes": [
       {
@@ -69,7 +69,7 @@
     "name": "caweb",
     "description": "Python based web frontend to create ssl certs for hostname on a given ca",
     "url": "https://github.com/wlanboy/caweb",
-    "pushed_at": "2026-05-01T11:49:16Z",
+    "pushed_at": "2026-05-01T17:28:06Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -90,7 +90,7 @@
     "name": "cloudconfig",
     "description": null,
     "url": "https://github.com/wlanboy/cloudconfig",
-    "pushed_at": "2026-01-02T06:50:08Z",
+    "pushed_at": "2026-05-01T17:57:09Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -141,7 +141,7 @@
     "name": "deployer",
     "description": "Spring Boot Rest API to controll git repros and ansible playbook based deployments",
     "url": "https://github.com/wlanboy/deployer",
-    "pushed_at": "2026-04-26T13:09:42Z",
+    "pushed_at": "2026-05-01T17:28:15Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -156,7 +156,7 @@
     "name": "deployment_monitor",
     "description": "python based ansible deployment monitor, using sqlite as storage and pushing results to prometheus",
     "url": "https://github.com/wlanboy/deployment_monitor",
-    "pushed_at": "2026-02-21T08:00:11Z",
+    "pushed_at": "2026-05-01T17:56:59Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -222,7 +222,7 @@
     "name": "eurekaclient",
     "description": "Python based fake eureka client to register services in legacy eureka server instance",
     "url": "https://github.com/wlanboy/eurekaclient",
-    "pushed_at": "2026-03-28T13:07:45Z",
+    "pushed_at": "2026-05-01T17:28:31Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -249,7 +249,7 @@
     "name": "eurekaclientjava",
     "description": "Java based service to create several eureka clients entries without having to use the eureka lib",
     "url": "https://github.com/wlanboy/eurekaclientjava",
-    "pushed_at": "2026-05-01T07:32:33Z",
+    "pushed_at": "2026-05-01T17:28:08Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -279,7 +279,7 @@
     "name": "gitops",
     "description": "Simple way to create project, repros and apps in argocd",
     "url": "https://github.com/wlanboy/gitops",
-    "pushed_at": "2026-04-27T04:57:30Z",
+    "pushed_at": "2026-05-01T17:28:13Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -411,7 +411,7 @@
     "name": "kanban",
     "description": "Python based tui for a kanban board",
     "url": "https://github.com/wlanboy/kanban",
-    "pushed_at": "2026-05-01T12:55:15Z",
+    "pushed_at": "2026-05-02T05:55:03Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -441,7 +441,7 @@
     "name": "kind-web-controller",
     "description": "FastApi based web frontend to manage kind clusters with metallb and istio integration",
     "url": "https://github.com/wlanboy/kind-web-controller",
-    "pushed_at": "2026-01-18T17:56:14Z",
+    "pushed_at": "2026-05-01T17:57:06Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -456,7 +456,7 @@
     "name": "kubecontext",
     "description": "Python tool to get and manage kube config files.",
     "url": "https://github.com/wlanboy/kubecontext",
-    "pushed_at": "2026-04-18T09:30:44Z",
+    "pushed_at": "2026-05-01T17:28:24Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -471,7 +471,7 @@
     "name": "kubeevent",
     "description": "Python based k8s event listener. Stores events in sqlite db.",
     "url": "https://github.com/wlanboy/kubeevent",
-    "pushed_at": "2026-02-21T06:40:57Z",
+    "pushed_at": "2026-05-01T17:57:03Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -492,7 +492,7 @@
     "name": "kubeeventjava",
     "description": "Spring Boot Kubernetes Eventlistener for namespaces to export metrics on kubernetes events",
     "url": "https://github.com/wlanboy/kubeeventjava",
-    "pushed_at": "2026-05-01T07:31:56Z",
+    "pushed_at": "2026-05-01T17:28:10Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -534,7 +534,7 @@
     "name": "lgtm",
     "description": "Docker compose for LGTM Stack (Loki, Grafana, Tempo, Mimir)",
     "url": "https://github.com/wlanboy/lgtm",
-    "pushed_at": "2026-04-20T17:19:18Z",
+    "pushed_at": "2026-05-01T17:28:18Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -570,7 +570,7 @@
     "name": "mcp-dotnet-websearch",
     "description": "MCP Server in dotnet core für websuche",
     "url": "https://github.com/wlanboy/mcp-dotnet-websearch",
-    "pushed_at": "2026-03-07T20:25:49Z",
+    "pushed_at": "2026-05-01T17:56:56Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -591,7 +591,7 @@
     "name": "mcp-duck-search",
     "description": "Python based mcp server für duckduckgo search",
     "url": "https://github.com/wlanboy/mcp-duck-search",
-    "pushed_at": "2026-04-07T13:14:04Z",
+    "pushed_at": "2026-05-01T17:28:27Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -606,7 +606,7 @@
     "name": "mcp-md-fileserver",
     "description": "A FastMCP python based mcp server to search in markdown files",
     "url": "https://github.com/wlanboy/mcp-md-fileserver",
-    "pushed_at": "2026-03-28T13:13:07Z",
+    "pushed_at": "2026-05-01T17:28:29Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -630,10 +630,25 @@
     ]
   },
   {
+    "name": "md",
+    "description": null,
+    "url": "https://github.com/wlanboy/md",
+    "pushed_at": "2026-05-01T17:57:23Z",
+    "default_branch": "main",
+    "readmes": [
+      {
+        "path": "README.md",
+        "title": "md",
+        "description": "github page for using A record and CAA record",
+        "type": "readme"
+      }
+    ]
+  },
+  {
     "name": "me",
     "description": null,
     "url": "https://github.com/wlanboy/me",
-    "pushed_at": "2025-07-06T14:44:18Z",
+    "pushed_at": "2026-05-01T17:57:18Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -678,7 +693,7 @@
     "name": "python-sqlplus-checker",
     "description": "Python based pl/sql sqlplus checker for devs",
     "url": "https://github.com/wlanboy/python-sqlplus-checker",
-    "pushed_at": "2026-03-12T09:05:26Z",
+    "pushed_at": "2026-05-01T17:56:54Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -693,7 +708,7 @@
     "name": "randomfail",
     "description": "Ein absichtlich instabiler FastAPI-Service zur Simulation realer Ausfallszenarien in Kubernetes-Clustern.",
     "url": "https://github.com/wlanboy/randomfail",
-    "pushed_at": "2026-04-18T13:52:15Z",
+    "pushed_at": "2026-05-01T17:28:20Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -714,7 +729,7 @@
     "name": "raspberrypi",
     "description": "Raspberry Pi scripts for all my homelab services",
     "url": "https://github.com/wlanboy/raspberrypi",
-    "pushed_at": "2026-05-01T11:51:22Z",
+    "pushed_at": "2026-05-01T18:12:02Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1023,7 +1038,7 @@
     "name": "redis-from-source",
     "description": "Build debian based docker container for redis to run on gcr.io/distroless/cc",
     "url": "https://github.com/wlanboy/redis-from-source",
-    "pushed_at": "2025-12-27T18:08:55Z",
+    "pushed_at": "2026-05-01T17:57:13Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1083,7 +1098,7 @@
     "name": "socketfinder",
     "description": null,
     "url": "https://github.com/wlanboy/socketfinder",
-    "pushed_at": "2026-04-18T09:56:44Z",
+    "pushed_at": "2026-05-01T17:28:22Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1098,7 +1113,7 @@
     "name": "triggerhappy",
     "description": "Python based trigger queue",
     "url": "https://github.com/wlanboy/triggerhappy",
-    "pushed_at": "2026-03-13T16:55:30Z",
+    "pushed_at": "2026-05-01T17:28:36Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1113,7 +1128,7 @@
     "name": "uhren",
     "description": "my watch collection",
     "url": "https://github.com/wlanboy/uhren",
-    "pushed_at": "2026-03-28T07:26:26Z",
+    "pushed_at": "2026-05-01T17:28:34Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1218,10 +1233,31 @@
     ]
   },
   {
+    "name": "vram-model-calculator",
+    "description": "Python based calculator for total vram usage of you gguf models",
+    "url": "https://github.com/wlanboy/vram-model-calculator",
+    "pushed_at": "2026-05-02T05:26:19Z",
+    "default_branch": "main",
+    "readmes": [
+      {
+        "path": "README.md",
+        "title": "VRAM Model Calculator",
+        "description": "Beantwortet eine einfache Frage: **Passt dieses GGUF-Modell in meine GPU?**\n\nDas Tool scannt lokale GGUF-Dateien, liest deren Metadaten aus und berechnet den VRAM-Bedarf für verschiedene Kontextlängen — vom kurzen Chat-Einsatz bis hin zu langen Coding-Agent-Läufen. Das Ergebnis lässt sich sowohl im Terminal als auch als interaktive Webseite anzeigen.\n\nhttps://wlanboy.github.io/vram-model-calculator/\n\n---",
+        "type": "readme"
+      },
+      {
+        "path": "gguf-format.md",
+        "title": "GGUF-Format – Technische Übersicht",
+        "description": "GGUF (GGML Universal Format) ist das binäre Dateiformat für KI-Modelle, das von llama.cpp verwendet wird. Es löste das ältere GGML- und GGJT-Format ab und wurde so konzipiert, dass Metadaten, Tokenizer und Tensor-Gewichte in einer einzigen Datei gespeichert werden können.\n\n---",
+        "type": "text"
+      }
+    ]
+  },
+  {
     "name": "webpyshell",
     "description": "Python Flask web based terminal for container runtime testing",
     "url": "https://github.com/wlanboy/webpyshell",
-    "pushed_at": "2026-01-01T15:46:18Z",
+    "pushed_at": "2026-05-01T17:57:11Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1263,7 +1299,7 @@
     "name": "wlanboy.github.io",
     "description": "website",
     "url": "https://github.com/wlanboy/wlanboy.github.io",
-    "pushed_at": "2026-04-30T14:00:36Z",
+    "pushed_at": "2026-05-01T17:28:03Z",
     "default_branch": "main",
     "readmes": [
       {

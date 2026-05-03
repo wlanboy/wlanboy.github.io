@@ -120,7 +120,7 @@
     "name": "debian-cloud-init",
     "description": "Create libvirt  vm of debian 12 and 13 with cloud init - with amd64 and arm64 support",
     "url": "https://github.com/wlanboy/debian-cloud-init",
-    "pushed_at": "2026-03-28T12:45:11Z",
+    "pushed_at": "2026-05-03T06:08:23Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -411,7 +411,7 @@
     "name": "kanban",
     "description": "Python based tui for a kanban board",
     "url": "https://github.com/wlanboy/kanban",
-    "pushed_at": "2026-05-02T05:55:03Z",
+    "pushed_at": "2026-05-03T05:59:45Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -729,7 +729,7 @@
     "name": "raspberrypi",
     "description": "Raspberry Pi scripts for all my homelab services",
     "url": "https://github.com/wlanboy/raspberrypi",
-    "pushed_at": "2026-05-01T18:12:02Z",
+    "pushed_at": "2026-05-03T10:45:02Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -836,8 +836,8 @@
       },
       {
         "path": "firecracker/firecracker.md",
-        "title": "Firecracker auf Ubuntu Server – Vollständige Anleitung",
-        "description": "Firecracker ist ein schlanker VMM (Virtual Machine Monitor) von AWS, der auf KVM aufbaut und\nMicroVMs in Millisekunden startet. Diese Anleitung richtet eine vollständige Firecracker-Umgebung\nauf Ubuntu 22.04 / 24.04 LTS ein, inklusive Netzwerk, Root-Dateisystem und Startkonfiguration.\n\n---",
+        "title": "Firecracker MicroVM-Fleet auf Ubuntu Server",
+        "description": "Firecracker ist ein schlanker VMM (Virtual Machine Monitor) von AWS, der auf KVM aufbaut und\nechte VMs in unter 125 ms startet. Im Vergleich zu Docker-Containern bietet Firecracker:\n\n- **Vollständige Kernel-Isolation** – jede VM läuft mit eigenem Kernel, eigenem Speicher-Namespace und eigenem Netzwerk-Stack; ein Angreifer, der aus einer VM ausbricht, landet nicht auf dem Host\n- **Kein Kernel-Sharing** – Container teilen sich den Host-Kernel; Firecracker-VMs nicht; CVEs im Host-Kernel sind für den Gast-Kernel irrelevant\n- **Vorhersehbares Ressourcen-Limit** – vCPU- und RAM-Obergrenzen sind hardware-erzwungen, nicht durch cgroups approximiert\n- **Schlanke Angriffsfläche** – Firecracker hat ~50.000 Zeilen Rust-Code und keinen BIOS/UEFI-Stack, keine PCI-Bus-Emulation, keine USB-Unterstützung\n- **Produktionsreif** – von AWS für Lambda und Fargate eingesetzt; jede Invocation läuft in einer eigenen MicroVM\n\nDieses Repository enthält drei Skripte für den kompletten Lebenszyklus einer MicroVM-Fleet:\n\n| Skript | Zweck |\n|---|---|\n| [firecracker.sh](firecracker.sh) | Einmalige Host-Einrichtung: Binary, Kernel, goldenes Base-Image |\n| [addserver.sh](addserver.sh) | Neue VM aus dem Base-Image klonen und starten |\n| [removeserver.sh](removeserver.sh) | VM stoppen und alle Ressourcen sauber entfernen |\n\n---",
         "type": "text"
       },
       {
@@ -916,6 +916,12 @@
         "path": "minio.md",
         "title": "Start MinIO on Raspberry Pi with Docker",
         "description": "MinIO is a high-performance, S3-compatible object storage solution, perfect for storing large amounts of unstructured data.\n\n---",
+        "type": "text"
+      },
+      {
+        "path": "openvino/openvino.md",
+        "title": "OpenVINO Model Server – Inbetriebnahme mit Docker",
+        "description": "",
         "type": "text"
       },
       {
@@ -1236,7 +1242,7 @@
     "name": "vram-model-calculator",
     "description": "Python based calculator for total vram usage of you gguf models",
     "url": "https://github.com/wlanboy/vram-model-calculator",
-    "pushed_at": "2026-05-02T05:26:19Z",
+    "pushed_at": "2026-05-02T16:51:14Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1299,7 +1305,7 @@
     "name": "wlanboy.github.io",
     "description": "website",
     "url": "https://github.com/wlanboy/wlanboy.github.io",
-    "pushed_at": "2026-05-01T17:28:03Z",
+    "pushed_at": "2026-05-02T13:16:24Z",
     "default_branch": "main",
     "readmes": [
       {

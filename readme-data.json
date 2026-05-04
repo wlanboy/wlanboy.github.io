@@ -3,7 +3,7 @@
     "name": "ansiblehook",
     "description": "Spring Boot based webhook for ansible playbooks",
     "url": "https://github.com/wlanboy/ansiblehook",
-    "pushed_at": "2026-04-26T06:44:28Z",
+    "pushed_at": "2026-05-03T19:21:34Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -141,7 +141,7 @@
     "name": "deployer",
     "description": "Spring Boot Rest API to controll git repros and ansible playbook based deployments",
     "url": "https://github.com/wlanboy/deployer",
-    "pushed_at": "2026-05-01T17:28:15Z",
+    "pushed_at": "2026-05-03T19:12:00Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -438,6 +438,21 @@
     ]
   },
   {
+    "name": "keep-export",
+    "description": "Tool zum Konvertieren von Google Keep Notizen (via Google Takeout) in Markdown-Dateien",
+    "url": "https://github.com/wlanboy/keep-export",
+    "pushed_at": "2026-05-03T18:45:36Z",
+    "default_branch": "main",
+    "readmes": [
+      {
+        "path": "README.md",
+        "title": "Keep Export",
+        "description": "Tools zum Konvertieren von Google Keep Notizen (via Google Takeout) in Markdown-Dateien — entweder lokal oder für den Upload auf einen selbst gehosteten HedgeDoc-Server.",
+        "type": "readme"
+      }
+    ]
+  },
+  {
     "name": "kind-web-controller",
     "description": "FastApi based web frontend to manage kind clusters with metallb and istio integration",
     "url": "https://github.com/wlanboy/kind-web-controller",
@@ -606,7 +621,7 @@
     "name": "mcp-md-fileserver",
     "description": "A FastMCP python based mcp server to search in markdown files",
     "url": "https://github.com/wlanboy/mcp-md-fileserver",
-    "pushed_at": "2026-05-01T17:28:29Z",
+    "pushed_at": "2026-05-03T18:57:38Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -729,7 +744,7 @@
     "name": "raspberrypi",
     "description": "Raspberry Pi scripts for all my homelab services",
     "url": "https://github.com/wlanboy/raspberrypi",
-    "pushed_at": "2026-05-03T10:45:02Z",
+    "pushed_at": "2026-05-03T18:27:39Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -797,12 +812,6 @@
         "title": "Local ceph install",
         "description": "Commands to install a local ceph instance with loopback devices instead of real hard disks.",
         "type": "text"
-      },
-      {
-        "path": "chat/README.md",
-        "title": "Simple Local Chat",
-        "description": "A lightweight, self-hosted chat application using Python WebSockets. Designed for local network use — no external services or accounts required.",
-        "type": "module"
       },
       {
         "path": "chromebook/Crostini-LLM.md",
@@ -883,12 +892,6 @@
         "type": "module"
       },
       {
-        "path": "keep-export/README.md",
-        "title": "Keep Export",
-        "description": "Tools zum Konvertieren von Google Keep Notizen (via Google Takeout) in Markdown-Dateien — entweder lokal oder für den Upload auf einen selbst gehosteten HedgeDoc-Server.",
-        "type": "module"
-      },
-      {
         "path": "kubecontext/README.md",
         "title": "kubecontext",
         "description": "TUI zum Zusammenführen von kubectl-Contexts aus SSH-Hosts in die lokale `~/.kube/config`.",
@@ -940,12 +943,6 @@
         "path": "portainer.md",
         "title": "🚀 Portainer Installation via Script",
         "description": "Portainer is an intuitive, open-source interface for managing Docker environments. With the following simple script, you can install Portainer as a Docker container.",
-        "type": "text"
-      },
-      {
-        "path": "scan/scanner.md",
-        "title": "Scanner-Übersicht",
-        "description": "Dieses Verzeichnis enthält drei spezialisierte Security-Scanner sowie eine Whitelist-Konfiguration. Alle Scanner sind als eigenständige Python-Skripte ausgeführt werden und liefern strukturierte Berichte (Text oder JSON).\n\n---",
         "type": "text"
       },
       {
@@ -1051,6 +1048,21 @@
         "path": "README.md",
         "title": "Redis base image with static linking",
         "description": "This is a build container to compile redis-server and redis-cli to run on a gcr.io/distroless/cc",
+        "type": "readme"
+      }
+    ]
+  },
+  {
+    "name": "scan-tools",
+    "description": "Python based scan tools for git repros",
+    "url": "https://github.com/wlanboy/scan-tools",
+    "pushed_at": "2026-05-03T18:41:12Z",
+    "default_branch": "main",
+    "readmes": [
+      {
+        "path": "README.MD",
+        "title": "scan-tools",
+        "description": "Eine Sammlung einfacher Security-Scanner für Git-Repositories, Node.js-Projekte und Linux-Systeme. Alle Tools sind eigenständige Python-Skripte ohne externe Abhängigkeiten (Standardbibliothek genügt) und liefern strukturierte Berichte als Text oder JSON.\n\n**Zielgruppe:** Entwickler, DevSecOps-Teams und Security-Analysten, die externe Endpunkte, Supply-Chain-Risiken und Proxy-Konfigurationen automatisiert prüfen möchten.\n\n**Sprache / Laufzeit:** Python 3.11+  \n**Paketmanager:** [uv](https://github.com/astral-sh/uv) (`pyproject.toml` vorhanden)\n\n---",
         "type": "readme"
       }
     ]
@@ -1305,7 +1317,7 @@
     "name": "wlanboy.github.io",
     "description": "website",
     "url": "https://github.com/wlanboy/wlanboy.github.io",
-    "pushed_at": "2026-05-02T13:16:24Z",
+    "pushed_at": "2026-05-03T13:14:57Z",
     "default_branch": "main",
     "readmes": [
       {

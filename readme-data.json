@@ -486,7 +486,7 @@
     "name": "kubeevent",
     "description": "Python based k8s event listener. Stores events in sqlite db.",
     "url": "https://github.com/wlanboy/kubeevent",
-    "pushed_at": "2026-05-01T17:57:03Z",
+    "pushed_at": "2026-05-07T11:19:31Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1056,7 +1056,7 @@
     "name": "scan-tools",
     "description": "Python based scan tools for git repros",
     "url": "https://github.com/wlanboy/scan-tools",
-    "pushed_at": "2026-05-06T07:06:48Z",
+    "pushed_at": "2026-05-07T11:21:18Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1064,6 +1064,12 @@
         "title": "scan-tools",
         "description": "Eine Sammlung einfacher Security-Scanner für Git-Repositories, Node.js-Projekte und Linux-Systeme. Alle Tools sind eigenständige Python-Skripte ohne externe Abhängigkeiten (Standardbibliothek genügt) und liefern strukturierte Berichte als Text oder JSON.\n\n**Zielgruppe:** Entwickler, DevSecOps-Teams und Security-Analysten, die externe Endpunkte, Supply-Chain-Risiken und Proxy-Konfigurationen automatisiert prüfen möchten.\n\n**Sprache / Laufzeit:** Python 3.11+  \n**Paketmanager:** [uv](https://github.com/astral-sh/uv) (`pyproject.toml` vorhanden)\n\n---",
         "type": "readme"
+      },
+      {
+        "path": "copyfail/copyfail.md",
+        "title": "scan-copyfail.py",
+        "description": "",
+        "type": "text"
       }
     ]
   },
@@ -1317,7 +1323,7 @@
     "name": "wlanboy.github.io",
     "description": "website",
     "url": "https://github.com/wlanboy/wlanboy.github.io",
-    "pushed_at": "2026-05-05T13:59:11Z",
+    "pushed_at": "2026-05-06T14:18:09Z",
     "default_branch": "main",
     "readmes": [
       {

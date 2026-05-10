@@ -1056,7 +1056,7 @@
     "name": "scan-tools",
     "description": "Python based scan tools for git repros",
     "url": "https://github.com/wlanboy/scan-tools",
-    "pushed_at": "2026-05-08T16:20:29Z",
+    "pushed_at": "2026-05-10T12:17:34Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1105,6 +1105,21 @@
         "path": "README.md",
         "title": "ServiceRegistry [DEPRECATED]",
         "description": "Spring Framework based Service Registry - DO NOT USE THIS ANY LONGER\n\nBased on https://projects.spring.io/spring-cloud/ and https://github.com/spring-cloud-samples/eureka.",
+        "type": "readme"
+      }
+    ]
+  },
+  {
+    "name": "shared_prompt",
+    "description": "Python based web frontend for shared prompts",
+    "url": "https://github.com/wlanboy/shared_prompt",
+    "pushed_at": "2026-05-10T12:38:22Z",
+    "default_branch": "main",
+    "readmes": [
+      {
+        "path": "README.md",
+        "title": "SharedPrompt",
+        "description": "Ein kollaboratives Web-Frontend für lokale LLM-Modelle via [LM Studio](https://lmstudio.ai/). Mehrere Benutzer können dieselbe Chat-Session gleichzeitig beobachten und nutzen – ideal für Schulungen, Demos und gemeinsames Experimentieren mit KI-Modellen.\n\n---",
         "type": "readme"
       }
     ]
@@ -1329,7 +1344,7 @@
     "name": "wlanboy.github.io",
     "description": "website",
     "url": "https://github.com/wlanboy/wlanboy.github.io",
-    "pushed_at": "2026-05-08T13:53:58Z",
+    "pushed_at": "2026-05-09T13:21:38Z",
     "default_branch": "main",
     "readmes": [
       {

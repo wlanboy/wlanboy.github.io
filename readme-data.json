@@ -138,21 +138,6 @@
     ]
   },
   {
-    "name": "deployer",
-    "description": "Spring Boot Rest API to controll git repros and ansible playbook based deployments",
-    "url": "https://github.com/wlanboy/deployer",
-    "pushed_at": "2026-05-03T19:12:00Z",
-    "default_branch": "main",
-    "readmes": [
-      {
-        "path": "README.md",
-        "title": "Deployer",
-        "description": "Spring Boot Projekt zur Verwaltung und Ausführung von Ansible-Playbooks in lokalen Repositories.",
-        "type": "readme"
-      }
-    ]
-  },
-  {
     "name": "deployment_monitor",
     "description": "python based ansible deployment monitor, using sqlite as storage and pushing results to prometheus",
     "url": "https://github.com/wlanboy/deployment_monitor",
@@ -360,21 +345,6 @@
     ]
   },
   {
-    "name": "hadoopmetrics",
-    "description": "Spring boot service scanning a directory of a hadoop cluster for subdirectories and their sizes to provide this information as metrics",
-    "url": "https://github.com/wlanboy/hadoopmetrics",
-    "pushed_at": "2026-01-01T13:21:00Z",
-    "default_branch": "main",
-    "readmes": [
-      {
-        "path": "README.md",
-        "title": "hadoopmetrics",
-        "description": "simple service polling all base directories of a path, getting the size of the folder and save this pair of information in a hashmap.\nThis hashmap is used to create prometheus metrics for each folder.\n\n# urls\n* Get metrics: http://localhost:8080/actuator/prometheus\n* Manual start of metrics generation (will only update every hour) http://localhost:8080/metricsstart",
-        "type": "readme"
-      }
-    ]
-  },
-  {
     "name": "JavaHttpClient",
     "description": "Spring based rest service to test http call within k8s and istio",
     "url": "https://github.com/wlanboy/JavaHttpClient",
@@ -433,36 +403,6 @@
         "path": "README.md",
         "title": "kanbantabs",
         "description": "golang based console kanban board with local storage\n\nExmaple:",
-        "type": "readme"
-      }
-    ]
-  },
-  {
-    "name": "keep-export",
-    "description": "Tool zum Konvertieren von Google Keep Notizen (via Google Takeout) in Markdown-Dateien",
-    "url": "https://github.com/wlanboy/keep-export",
-    "pushed_at": "2026-05-03T18:45:36Z",
-    "default_branch": "main",
-    "readmes": [
-      {
-        "path": "README.md",
-        "title": "Keep Export",
-        "description": "Tools zum Konvertieren von Google Keep Notizen (via Google Takeout) in Markdown-Dateien — entweder lokal oder für den Upload auf einen selbst gehosteten HedgeDoc-Server.",
-        "type": "readme"
-      }
-    ]
-  },
-  {
-    "name": "kind-web-controller",
-    "description": "FastApi based web frontend to manage kind clusters with metallb and istio integration",
-    "url": "https://github.com/wlanboy/kind-web-controller",
-    "pushed_at": "2026-05-01T17:57:06Z",
-    "default_branch": "main",
-    "readmes": [
-      {
-        "path": "README.md",
-        "title": "Kurzbeschreibung",
-        "description": "Dieses Projekt startet einen FastAPI-Server (`main:app`) und nutzt Uvicorn als ASGI-Server. Siehe [`main:app`](main.py) für die App-Instanz und [pyproject.toml](pyproject.toml) für die deklarierte Abhängigkeiten.\nMit dieser Weboberfläche kann:\n\n- Eine Kind Version ausgewählt und heruntergeladen werden.\n- Mit dieser ausgewählten Kind Version können dann beliebig viele kind Cluster erstellt werden.\n- Für jeden Cluster kann eine IP Range für Metallb angegeben werden.\n- Für jeden Cluster kann Istio installiert werden.\n- Für jeden Cluster kann die kubeconfig heruntergeladen werden.",
         "type": "readme"
       }
     ]
@@ -562,21 +502,6 @@
         "path": "readme.md",
         "title": "LGTM Observability Stack",
         "description": "Lokales Observability-Setup auf Basis des Grafana-Stacks. Kombiniert Metriken, Logs und Traces in einer einzigen Grafana-Oberfläche — vollständig mit Docker Compose betreibbar, ohne Cloud-Abhängigkeiten.\n\n---",
-        "type": "readme"
-      }
-    ]
-  },
-  {
-    "name": "logbacktest",
-    "description": "Simple CLI tool to test logback on command line",
-    "url": "https://github.com/wlanboy/logbacktest",
-    "pushed_at": "2025-11-16T17:22:28Z",
-    "default_branch": "main",
-    "readmes": [
-      {
-        "path": "README.md",
-        "title": "logbacktest",
-        "description": "Simple CLI tool to test logback on localhost",
         "type": "readme"
       }
     ]
@@ -1110,21 +1035,6 @@
     ]
   },
   {
-    "name": "shared_prompt",
-    "description": "Python based web frontend for shared prompts",
-    "url": "https://github.com/wlanboy/shared_prompt",
-    "pushed_at": "2026-05-10T12:38:22Z",
-    "default_branch": "main",
-    "readmes": [
-      {
-        "path": "README.md",
-        "title": "SharedPrompt",
-        "description": "Ein kollaboratives Web-Frontend für lokale LLM-Modelle via [LM Studio](https://lmstudio.ai/). Mehrere Benutzer können dieselbe Chat-Session gleichzeitig beobachten und nutzen – ideal für Schulungen, Demos und gemeinsames Experimentieren mit KI-Modellen.\n\n---",
-        "type": "readme"
-      }
-    ]
-  },
-  {
     "name": "SimpleService",
     "description": "Simple Spring Rest Service playing Blockchain",
     "url": "https://github.com/wlanboy/SimpleService",
@@ -1344,7 +1254,7 @@
     "name": "wlanboy.github.io",
     "description": "website",
     "url": "https://github.com/wlanboy/wlanboy.github.io",
-    "pushed_at": "2026-05-09T13:21:38Z",
+    "pushed_at": "2026-05-10T13:22:41Z",
     "default_branch": "main",
     "readmes": [
       {

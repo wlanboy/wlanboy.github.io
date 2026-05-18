@@ -345,6 +345,27 @@
     ]
   },
   {
+    "name": "hermes-local",
+    "description": "Local docker hermes stack",
+    "url": "https://github.com/wlanboy/hermes-local",
+    "pushed_at": "2026-05-17T18:43:36Z",
+    "default_branch": "main",
+    "readmes": [
+      {
+        "path": "README.md",
+        "title": "Hermes Local",
+        "description": "Lokale KI-Assistenten-Umgebung auf Basis von [Hermes](https://github.com/NousResearch/hermes-agent) und [Ollama](https://ollama.com). Läuft vollständig offline — keine Cloud-Abhängigkeit, keine Daten verlassen den Rechner.",
+        "type": "readme"
+      },
+      {
+        "path": "config/SOUL.md",
+        "title": "Persona",
+        "description": "- Name: Hermes\n- Tone: direct, concise, and practical — no unnecessary filler\n- Language: respond in the same language the user writes in",
+        "type": "text"
+      }
+    ]
+  },
+  {
     "name": "JavaHttpClient",
     "description": "Spring based rest service to test http call within k8s and istio",
     "url": "https://github.com/wlanboy/JavaHttpClient",
@@ -999,7 +1020,7 @@
     "name": "scan-tools",
     "description": "Python based scan tools for git repros",
     "url": "https://github.com/wlanboy/scan-tools",
-    "pushed_at": "2026-05-16T07:51:27Z",
+    "pushed_at": "2026-05-18T07:31:28Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1272,7 +1293,7 @@
     "name": "wlanboy.github.io",
     "description": "website",
     "url": "https://github.com/wlanboy/wlanboy.github.io",
-    "pushed_at": "2026-05-16T13:26:02Z",
+    "pushed_at": "2026-05-17T13:24:21Z",
     "default_branch": "main",
     "readmes": [
       {

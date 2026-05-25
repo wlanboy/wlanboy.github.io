@@ -2,12 +2,16 @@
 <html lang="de">
 <head>
   <meta charset="UTF-8">
-  <title>Explorer for my recent projects</title>
-  <link rel="stylesheet" href="style.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Projects Explorer</title>
+  <link rel="stylesheet" href="style-neu.css">
 </head>
 <body>
 
-<header>Explorer for my recent projects</header>
+<header>
+  <div class="header-title">Projects Explorer</div>
+  <div class="header-sub">Browse my GitHub repositories &amp; documentation</div>
+</header>
 
 <div id="controls">
   <div id="search-wrapper">
@@ -16,18 +20,17 @@
   <select id="repoFilter">
     <option value="">Alle Repos</option>
   </select>
-  <button id="toggleTheme">🌙/☀️</button>
-  <button id="sortRepo">Sortiere nach Repo</button>
+  <button class="ctrl-btn" id="toggleTheme">🌙/☀️</button>
+  <button class="ctrl-btn" id="sortRepo">Sortiere nach Repo</button>
   <a href="./fokus/index.html" id="terminalLink">Focus</a>
   <a href="https://wlanboy.github.io/uhren/index.html" id="terminalLink">Time</a>
 </div>
 
 <div id="grid"></div>
 
-<!-- Modal für README-Detailansicht -->
 <div id="modal" class="hidden">
   <div id="modalContent">
-    <button id="modalClose">✖</button>
+    <button id="modalClose">✕</button>
     <h2 id="modalTitle"></h2>
     <h4 id="modalRepo"></h4>
     <pre id="modalText"></pre>

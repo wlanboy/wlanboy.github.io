@@ -39,13 +39,13 @@
     "name": "bcrypt",
     "description": "bcrypt command line tool",
     "url": "https://github.com/wlanboy/bcrypt",
-    "pushed_at": "2026-05-14T16:42:13Z",
+    "pushed_at": "2026-05-24T17:12:02Z",
     "default_branch": "main",
     "readmes": [
       {
         "path": "README.md",
         "title": "bcrypt",
-        "description": "bcrypt command line tool\n\n# build\n* go get -v\n* go clean\n* go build\n* go test\n\n# run\n* go run main.go\n\n# debug\n* go get -u github.com/go-delve/delve/cmd/dlv\n* dlv debug ./goservice\n\n# hash text\n* ./bcrypt -text \"hello world\"\n* ./bcrypt -file .gitignore\n\n# docker hub\n* https://hub.docker.com/repository/docker/wlanboy/bcrypt\n\n# usage with docker\n* alias bcrypt=\"docker run -it --rm wlanboy/bcrypt\"\n* bcrypt -text \"hello world\"",
+        "description": "bcrypt command line tool\n\n# build\n* go mod download\n* go build\n* go test\n\n# hash text\n* ./bcrypt -text \"hello world\"\n\n# hash file\n* ./bcrypt -file .gitignore\n\n# stdin\n* echo \"hello world\" | ./bcrypt\n\n# verify\n* ./bcrypt -text \"hello world\" -verify \"$HASH\"\n* ./bcrypt -file .gitignore -verify \"$HASH\"\n* echo \"hello world\" | ./bcrypt -verify \"$HASH\"\n\n# custom cost (default: 10, range: 4-31)\n* ./bcrypt -text \"hello world\" -cost 12\n\n# flags\n| Flag | Description |\n|------|-------------|\n| `-text` | Text to bcrypt hash |\n| `-file` | File to bcrypt hash (SHA-256 prehash) |\n| `-verify` | Bcrypt hash to verify against |\n| `-cost` | Cost factor, default 10, range 4-31 |\n\n# docker hub\n* https://hub.docker.com/repository/docker/wlanboy/bcrypt\n\n# usage with docker\n* alias bcrypt=\"docker run -i --rm wlanboy/bcrypt\"\n* bcrypt -text \"hello world\"\n* echo \"hello world\" | bcrypt\n\n# multi-arch build (amd64 + arm64)\n* docker buildx create --use\n* docker buildx build --platform linux/amd64,linux/arm64 -t wlanboy/bcrypt:latest -f Dockerfile.multiarch .",
         "type": "readme"
       }
     ]
@@ -69,7 +69,7 @@
     "name": "caweb",
     "description": "Python based web frontend to create ssl certs for hostname on a given ca",
     "url": "https://github.com/wlanboy/caweb",
-    "pushed_at": "2026-05-16T07:51:11Z",
+    "pushed_at": "2026-05-25T09:09:42Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -333,13 +333,13 @@
     "name": "gosmtp",
     "description": "golang mock smtp server for local testing - writes sent mail to local directory",
     "url": "https://github.com/wlanboy/gosmtp",
-    "pushed_at": "2026-05-14T16:40:13Z",
+    "pushed_at": "2026-05-24T16:55:14Z",
     "default_branch": "main",
     "readmes": [
       {
         "path": "README.md",
         "title": "gosmtp",
-        "description": "golang mock smtp and imap server for local testing - writes sent mail to local directory",
+        "description": "Golang mock SMTP and IMAP server for local testing — writes sent mails to a local `mails/` directory.",
         "type": "readme"
       }
     ]
@@ -489,7 +489,7 @@
     "name": "kubeeventjava",
     "description": "Spring Boot Kubernetes Eventlistener for namespaces to export metrics on kubernetes events",
     "url": "https://github.com/wlanboy/kubeeventjava",
-    "pushed_at": "2026-05-22T14:29:34Z",
+    "pushed_at": "2026-05-24T16:38:00Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -509,6 +509,12 @@
         "title": "Helm install for kubeeventjava",
         "description": "This helm script installs the Kubeevent Java App within a kubernetes cluster.",
         "type": "module"
+      },
+      {
+        "path": "tekton/tekton-pipeline.md",
+        "title": "kubeeventjava – Tekton Pipeline",
+        "description": "",
+        "type": "text"
       }
     ]
   },
@@ -696,7 +702,7 @@
     "name": "raspberrypi",
     "description": "Raspberry Pi scripts for all my homelab services",
     "url": "https://github.com/wlanboy/raspberrypi",
-    "pushed_at": "2026-05-24T06:50:19Z",
+    "pushed_at": "2026-05-25T09:14:34Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1020,7 +1026,7 @@
     "name": "scan-tools",
     "description": "Python based scan tools for git repros",
     "url": "https://github.com/wlanboy/scan-tools",
-    "pushed_at": "2026-05-22T14:27:48Z",
+    "pushed_at": "2026-05-25T06:09:36Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1122,7 +1128,7 @@
     "name": "uhren",
     "description": "my watch collection",
     "url": "https://github.com/wlanboy/uhren",
-    "pushed_at": "2026-05-01T17:28:34Z",
+    "pushed_at": "2026-05-25T06:50:14Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1134,10 +1140,25 @@
     ]
   },
   {
+    "name": "usbview",
+    "description": "Python opencv based webserver for streaming usb capture card streams",
+    "url": "https://github.com/wlanboy/usbview",
+    "pushed_at": "2026-05-25T08:48:01Z",
+    "default_branch": "main",
+    "readmes": [
+      {
+        "path": "README.md",
+        "title": "usbview",
+        "description": "Browser-basierter Live-Viewer für USB-HDMI-Capture-Cards unter Linux.  \nGedacht für den Zugriff auf BIOS/UEFI-Einstellungen von Server-Boards ohne KVM-Switch — einfach Capture Card anstecken, Server starten, Browser öffnen.",
+        "type": "readme"
+      }
+    ]
+  },
+  {
     "name": "vagrantkind",
     "description": "scripts to installing containerd, tools, k3s or kind with certmanager, istio and argocd to run a local dev kubernetes cluster",
     "url": "https://github.com/wlanboy/vagrantkind",
-    "pushed_at": "2026-05-24T10:50:00Z",
+    "pushed_at": "2026-05-24T16:23:03Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1254,37 +1275,16 @@
     ]
   },
   {
-    "name": "webpyshell",
-    "description": "Python Flask web based terminal for container runtime testing",
-    "url": "https://github.com/wlanboy/webpyshell",
-    "pushed_at": "2026-05-24T06:54:37Z",
-    "default_branch": "main",
-    "readmes": [
-      {
-        "path": "README.md",
-        "title": "http web shell to test kubernetes runtimes",
-        "description": "A simple web ui to run console commands within the container\n\nAnd the build steps for the http tester itself:",
-        "type": "readme"
-      },
-      {
-        "path": "webpyshell-chart/readme.md",
-        "title": "Helm install",
-        "description": "This helm script installs the WebShell within a kubernetes cluster.",
-        "type": "module"
-      }
-    ]
-  },
-  {
     "name": "WebShell",
     "description": "Spring Boot Web Shell",
     "url": "https://github.com/wlanboy/WebShell",
-    "pushed_at": "2026-05-24T06:53:34Z",
+    "pushed_at": "2026-05-24T17:31:51Z",
     "default_branch": "main",
     "readmes": [
       {
         "path": "README.md",
         "title": "WebShell",
-        "description": "Spring Boot based webfrontend for local shell access",
+        "description": "WebShell is a browser-based terminal frontend for executing shell commands on a remote host.\nIt provides a TUI-like interface directly in the browser — no SSH client, no VPN, no additional tooling required.\nUseful for quick access to a containerized environment, a dev machine, or any host that is reachable via HTTP.\n\n**Features**\n- Full-screen terminal UI with macOS-style titlebar\n- Command history navigation via `↑` / `↓` arrow keys\n- Inline output — commands and results appear in sequence, like a real shell session\n- Built-in commands: `clear`, `help`\n- Commands with a non-zero exit code are highlighted as errors\n- 30-second execution timeout with forced process termination\n- Form-based login with BCrypt-hashed passwords (Spring Security)\n- Runs as a single self-contained JAR or Docker container\n\n![WebShell TUI](screenshots/tui.png)",
         "type": "readme"
       },
       {
@@ -1299,7 +1299,7 @@
     "name": "wlanboy.github.io",
     "description": "website",
     "url": "https://github.com/wlanboy/wlanboy.github.io",
-    "pushed_at": "2026-05-23T13:39:28Z",
+    "pushed_at": "2026-05-25T06:21:16Z",
     "default_branch": "main",
     "readmes": [
       {

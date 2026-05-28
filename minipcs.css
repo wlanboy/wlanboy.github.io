@@ -25,7 +25,7 @@
   justify-content: space-between;
 }
 .perf-bar-bg {
-  background: var(--repo-bg);
+  background: var(--surface-2);
   border-radius: 4px;
   height: 8px;
   overflow: hidden;
@@ -41,7 +41,7 @@
 .perf-top  { background: #16a34a; }
 
 .eff-bar-bg {
-  background: var(--repo-bg);
+  background: var(--surface-2);
   border-radius: 4px;
   height: 5px;
   overflow: hidden;

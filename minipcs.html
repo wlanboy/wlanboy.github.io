@@ -4,23 +4,27 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Mini PC Vergleich</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="stylesheet" href="style-neu.css">
   <link rel="stylesheet" href="minipcs.css">
 </head>
 <body>
 
-<header>Mini PC Vergleich</header>
+<header>
+  <div class="header-title">Mini PC Vergleich</div>
+  <div class="header-sub">Leistung, Verbrauch &amp; Effizienz im Überblick</div>
+</header>
 
 <div id="controls">
-  <button id="toggleTheme">🌙/☀️</button>
-  <a href="./index.html" id="terminalLink">← Projekte</a>
+  <button class="ctrl-btn" id="toggleTheme">🌙/☀️</button>
+  <a href="./index.html" class="ctrl-btn">← Projekte</a>
 </div>
 
 <div id="sort-controls">
-  <button class="sort-btn active" data-sort="perf">Nach Leistung ↑</button>
-  <button class="sort-btn" data-sort="year">Nach Jahr</button>
-  <button class="sort-btn" data-sort="tdpW">Nach Verbrauch ↑</button>
-  <button class="sort-btn" data-sort="eff">Nach Effizienz ↑</button>
+  <button class="ctrl-btn sort-btn active" data-sort="perf">Nach Leistung ↑</button>
+  <button class="ctrl-btn sort-btn" data-sort="year">Nach Jahr</button>
+  <button class="ctrl-btn sort-btn" data-sort="tdpW">Nach Verbrauch ↑</button>
+  <button class="ctrl-btn sort-btn" data-sort="eff">Nach Effizienz ↑</button>
 </div>
 
 <div class="legend">

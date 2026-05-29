@@ -447,7 +447,7 @@
     "name": "kubecontext",
     "description": "Python tool to get and manage kube config files.",
     "url": "https://github.com/wlanboy/kubecontext",
-    "pushed_at": "2026-05-22T14:07:33Z",
+    "pushed_at": "2026-05-29T04:24:24Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1158,7 +1158,7 @@
     "name": "vagrantkind",
     "description": "scripts to installing containerd, tools, k3s or kind with certmanager, istio and argocd to run a local dev kubernetes cluster",
     "url": "https://github.com/wlanboy/vagrantkind",
-    "pushed_at": "2026-05-26T10:42:08Z",
+    "pushed_at": "2026-05-29T06:05:51Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1240,16 +1240,22 @@
         "type": "text"
       },
       {
-        "path": "mariadb-replica/README.md",
+        "path": "mariadb-replica/mariadb-replica.md",
         "title": "MariaDB Replica Cluster Deployment",
         "description": "Kubernetes StatefulSet-Deployment für einen MariaDB Primary-Replica Cluster mit automatischer Replikation.",
-        "type": "module"
+        "type": "text"
       },
       {
-        "path": "mariadb-single/README.md",
+        "path": "mariadb-single/mariadb.md",
         "title": "MariaDB Single Instance Deployment",
         "description": "Kubernetes-Deployment für eine einzelne MariaDB-Instanz mit persistentem Storage und benutzerdefinierter Konfiguration.",
-        "type": "module"
+        "type": "text"
+      },
+      {
+        "path": "mysql-replica/mysql-replica.md",
+        "title": "MySQL Replica Cluster mit MetalLB und MySQL Router",
+        "description": "Kubernetes StatefulSet-Deployment für einen MySQL 8.0 Primary-Replica Cluster.\nJeder Node ist über eine feste externe IP via MetalLB erreichbar.\nDer externe MySQL Router läuft als Docker Container auf dem Host.",
+        "type": "text"
       },
       {
         "path": "oldstuff/arm64-steps.md",
@@ -1305,7 +1311,7 @@
     "name": "wlanboy.github.io",
     "description": "website",
     "url": "https://github.com/wlanboy/wlanboy.github.io",
-    "pushed_at": "2026-05-28T12:44:12Z",
+    "pushed_at": "2026-05-28T16:01:38Z",
     "default_branch": "main",
     "readmes": [
       {

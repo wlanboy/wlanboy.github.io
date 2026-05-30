@@ -12,7 +12,11 @@ Private homepage hosted by GitHub Pages — a portfolio explorer that automatica
 |------|-------------|
 | `index.html` | Main project explorer with search, filtering, and inline README viewer |
 | `fokus/index.html` | Topic Constellation Map — alternative topic visualization |
-| `terminal.html` | Homelab terminal simulator (easter egg: try `cowsay`) |
+| `focus.html` | Focus view — simplified topic graph variant |
+| `minipcs.html` | Mini PC comparison — performance, power consumption & efficiency overview |
+| `hadoop/index.html` | Hadoop Constellation Map — Hadoop ecosystem component graph |
+comparison of storage alternatives |
+| `history/mailserver.html` | Mailserver history page |
 
 ## Architecture
 

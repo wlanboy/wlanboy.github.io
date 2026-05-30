@@ -36,6 +36,39 @@
     ]
   },
   {
+    "name": "argocd",
+    "description": "ArgoCD exmaples",
+    "url": "https://github.com/wlanboy/argocd",
+    "pushed_at": "2026-05-30T08:29:42Z",
+    "default_branch": "main",
+    "readmes": [
+      {
+        "path": "argocd-workflows-BuildKit/readme.md",
+        "title": "Argo Workflows - CI/CD Pipeline mit BuildKit",
+        "description": "Die Workflows implementieren eine vollständige GitOps-CI/CD-Pipeline mit zwei Schritten:",
+        "type": "module"
+      },
+      {
+        "path": "argocd-workflows/readme.md",
+        "title": "Argo Workflows - CI/CD Pipeline",
+        "description": "Die Workflows implementieren eine vollständige GitOps-CI/CD-Pipeline mit zwei Schritten:",
+        "type": "module"
+      },
+      {
+        "path": "readme.md",
+        "title": "ArgoCD GitOps CI/CD Pipeline",
+        "description": "Dieses Verzeichnis enthält alle Konfigurationen für eine vollautomatische GitOps-Pipeline auf Basis von ArgoCD und Argo Workflows. Die Pipeline verwaltet vier Microservices, baut deren Docker-Images automatisch bei neuen GitHub-Tags und synchronisiert die Deployments über Helm-Charts in einen lokalen Kubernetes-Cluster mit Istio Service Mesh.\n\n**Verwaltete Microservices:**\n\n- **JavaHttpClient** – HTTP-Client-Service\n- **MirrorService** – Mirror-/Proxy-Service\n- **RandomFail** – Service mit zufälligen Fehlern (z.B. für Chaos-Testing)\n- **SimpleService** – Basis-Service\n\n**Ablauf der Pipeline:**\n\n1. CronWorkflow pollt alle 2 Minuten die GitHub-API auf neue Tags\n2. Bei neuem Tag wird ein Webhook ausgelöst\n3. Der Sensor empfängt den Webhook und startet ein Argo Workflow\n4. Kaniko baut das Docker-Image und pusht es nach Docker Hub\n5. Das Workflow aktualisiert den Image-Tag in der `values.yaml` des Helm-Charts\n6. ArgoCD erkennt die Änderung im Git und deployt die neue Version automatisch\n\n---",
+        "type": "readme"
+      },
+      {
+        "path": "tekton-BuildKit/readme.md",
+        "title": "Tekton Pipeline - CI/CD mit BuildKit",
+        "description": "Die Pipeline implementiert eine vollständige GitOps-CI/CD-Pipeline mit zwei Schritten:\n\n**1. Build** - Docker-Image bauen mit [BuildKit](https://github.com/moby/buildkit) (rootless)\n\n`buildkitd` läuft als persistentes Deployment im `tekton`-Namespace. Der Build-Pod verbindet sich als reiner `buildctl`-Client per TCP, zieht den Quellcode direkt aus GitHub und pusht das fertige Image nach Docker Hub. Ein lokales Registry-Cache (`local-registry`) beschleunigt wiederholte Builds via `--export-cache` und `--import-cache`.\n\n**2. Update Chart** - Helm-Chart aktualisieren per Git-Commit\n\nNach dem Build wird der Image-Tag im `values.yaml` des zugehörigen Helm-Charts per `sed` gesetzt und als Commit zurück ins GitHub-Repository gepusht.",
+        "type": "module"
+      }
+    ]
+  },
+  {
     "name": "bcrypt",
     "description": "bcrypt command line tool",
     "url": "https://github.com/wlanboy/bcrypt",
@@ -461,6 +494,21 @@
         "title": "kubecontext",
         "description": "TUI zum Zusammenführen von kubectl-Contexts aus SSH-Hosts in die lokale `~/.kube/config`.",
         "type": "text"
+      }
+    ]
+  },
+  {
+    "name": "kubectl_analytics",
+    "description": "A command-line tool for gathering and visualizing statistics about Kubernetes cluster resources",
+    "url": "https://github.com/wlanboy/kubectl_analytics",
+    "pushed_at": "2026-05-30T11:12:04Z",
+    "default_branch": "main",
+    "readmes": [
+      {
+        "path": "README.md",
+        "title": "kubectl analytics",
+        "description": "A command-line tool for gathering and visualizing statistics about Kubernetes cluster resources — focused on adoption rates, operator usage, and service mesh coverage, always broken down **per namespace**.",
+        "type": "readme"
       }
     ]
   },
@@ -1158,7 +1206,7 @@
     "name": "vagrantkind",
     "description": "scripts to installing containerd, tools, k3s or kind with certmanager, istio and argocd to run a local dev kubernetes cluster",
     "url": "https://github.com/wlanboy/vagrantkind",
-    "pushed_at": "2026-05-29T06:05:51Z",
+    "pushed_at": "2026-05-30T11:32:36Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1168,39 +1216,9 @@
         "type": "readme"
       },
       {
-        "path": "analytics/README.md",
-        "title": "kubectl analytics",
-        "description": "A command-line tool for gathering and visualizing statistics about Kubernetes cluster resources — focused on adoption rates, operator usage, and service mesh coverage, always broken down **per namespace**.",
-        "type": "module"
-      },
-      {
         "path": "apicurio/readme.md",
         "title": "Apicurio Registry",
         "description": "Apicurio Registry ist eine Schema-Registry für Event-Streaming und API-Management. Sie speichert und verwaltet Schemas (Avro, JSON Schema, Protobuf, OpenAPI, AsyncAPI u.a.) und stellt eine REST-API sowie eine Web-UI bereit.\n\nAls Backend wird PostgreSQL 15 verwendet.",
-        "type": "module"
-      },
-      {
-        "path": "argocd/argocd-workflows-BuildKit/readme.md",
-        "title": "Argo Workflows - CI/CD Pipeline mit BuildKit",
-        "description": "Die Workflows implementieren eine vollständige GitOps-CI/CD-Pipeline mit zwei Schritten:",
-        "type": "module"
-      },
-      {
-        "path": "argocd/argocd-workflows/readme.md",
-        "title": "Argo Workflows - CI/CD Pipeline",
-        "description": "Die Workflows implementieren eine vollständige GitOps-CI/CD-Pipeline mit zwei Schritten:",
-        "type": "module"
-      },
-      {
-        "path": "argocd/readme.md",
-        "title": "ArgoCD GitOps CI/CD Pipeline",
-        "description": "Dieses Verzeichnis enthält alle Konfigurationen für eine vollautomatische GitOps-Pipeline auf Basis von ArgoCD und Argo Workflows. Die Pipeline verwaltet vier Microservices, baut deren Docker-Images automatisch bei neuen GitHub-Tags und synchronisiert die Deployments über Helm-Charts in einen lokalen Kubernetes-Cluster mit Istio Service Mesh.\n\n**Verwaltete Microservices:**\n\n- **JavaHttpClient** – HTTP-Client-Service\n- **MirrorService** – Mirror-/Proxy-Service\n- **RandomFail** – Service mit zufälligen Fehlern (z.B. für Chaos-Testing)\n- **SimpleService** – Basis-Service\n\n**Ablauf der Pipeline:**\n\n1. CronWorkflow pollt alle 2 Minuten die GitHub-API auf neue Tags\n2. Bei neuem Tag wird ein Webhook ausgelöst\n3. Der Sensor empfängt den Webhook und startet ein Argo Workflow\n4. Kaniko baut das Docker-Image und pusht es nach Docker Hub\n5. Das Workflow aktualisiert den Image-Tag in der `values.yaml` des Helm-Charts\n6. ArgoCD erkennt die Änderung im Git und deployt die neue Version automatisch\n\n---",
-        "type": "module"
-      },
-      {
-        "path": "argocd/tekton-BuildKit/readme.md",
-        "title": "Tekton Pipeline - CI/CD mit BuildKit",
-        "description": "Die Pipeline implementiert eine vollständige GitOps-CI/CD-Pipeline mit zwei Schritten:\n\n**1. Build** - Docker-Image bauen mit [BuildKit](https://github.com/moby/buildkit) (rootless)\n\n`buildkitd` läuft als persistentes Deployment im `tekton`-Namespace. Der Build-Pod verbindet sich als reiner `buildctl`-Client per TCP, zieht den Quellcode direkt aus GitHub und pusht das fertige Image nach Docker Hub. Ein lokales Registry-Cache (`local-registry`) beschleunigt wiederholte Builds via `--export-cache` und `--import-cache`.\n\n**2. Update Chart** - Helm-Chart aktualisieren per Git-Commit\n\nNach dem Build wird der Image-Tag im `values.yaml` des zugehörigen Helm-Charts per `sed` gesetzt und als Commit zurück ins GitHub-Repository gepusht.",
         "type": "module"
       },
       {
@@ -1228,9 +1246,9 @@
         "type": "text"
       },
       {
-        "path": "external-mysqldb/external-db-bench.md",
-        "title": "dbclient - MySQL Benchmark Client mit Istio",
-        "description": "Sysbench-Deployment im Namespace `dbclient` mit Istio-Integration für persistente Verbindungen zum externen MySQL-Host `gmkchost.lan` (`192.168.178.28:3306`).",
+        "path": "istio/gateways.md",
+        "title": "Istio Gateways: Ingress & Egress",
+        "description": "---",
         "type": "text"
       },
       {
@@ -1240,27 +1258,21 @@
         "type": "text"
       },
       {
-        "path": "mariadb-replica/mariadb-replica.md",
-        "title": "MariaDB Replica Cluster Deployment",
-        "description": "Kubernetes StatefulSet-Deployment für einen MariaDB Primary-Replica Cluster mit automatischer Replikation.",
-        "type": "text"
-      },
-      {
-        "path": "mariadb-single/mariadb.md",
-        "title": "MariaDB Single Instance Deployment",
-        "description": "Kubernetes-Deployment für eine einzelne MariaDB-Instanz mit persistentem Storage und benutzerdefinierter Konfiguration.",
-        "type": "text"
-      },
-      {
-        "path": "mysql-replica/mysql-replica.md",
-        "title": "MySQL Replica Cluster mit MetalLB und MySQL Router",
-        "description": "Kubernetes StatefulSet-Deployment für einen MySQL 8.0 Primary-Replica Cluster.\nJeder Node ist über eine feste externe IP via MetalLB erreichbar.\nDer externe MySQL Router läuft als Docker Container auf dem Host.",
-        "type": "text"
-      },
-      {
         "path": "oldstuff/arm64-steps.md",
         "title": "kind + calico + ngxin ingress",
         "description": "Commands to install kind, calico and nginx on arm64.\n\nsee:\n* https://www.armbian.com/odroid-c2/#kernels-archive-all\n* https://docs.armbian.com/\n\n# generate kind config\n\n# create cluster\n\n# Calico\n\n# CoreDNS\n\n# ingress\n\n# deploy echo service\n\n# Delete cluster",
+        "type": "text"
+      },
+      {
+        "path": "status/spec.md",
+        "title": "EKS Operations Spec",
+        "description": "",
+        "type": "text"
+      },
+      {
+        "path": "velero/velero.md",
+        "title": "Velero Backup",
+        "description": "Velero sichert alle Kubernetes-Namespaces täglich in einen [Garage](https://garagehq.deuxfleurs.fr/) S3-Bucket.\nPVC-Inhalte werden via **kopia** (File-System-Backup) gesichert – ohne CSI-Snapshots.",
         "type": "text"
       }
     ]
@@ -1311,7 +1323,7 @@
     "name": "wlanboy.github.io",
     "description": "website",
     "url": "https://github.com/wlanboy/wlanboy.github.io",
-    "pushed_at": "2026-05-28T16:01:38Z",
+    "pushed_at": "2026-05-29T15:37:55Z",
     "default_branch": "main",
     "readmes": [
       {

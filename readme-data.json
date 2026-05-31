@@ -756,7 +756,7 @@
     "name": "raspberrypi",
     "description": "Raspberry Pi scripts for all my homelab services",
     "url": "https://github.com/wlanboy/raspberrypi",
-    "pushed_at": "2026-05-30T14:52:01Z",
+    "pushed_at": "2026-05-31T04:43:59Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -787,6 +787,12 @@
         "path": "bridge-second-lan.md",
         "title": "Dedicated Network Bridge",
         "description": "This setup isolates your second physical NIC (enp3s0) and turns it into a virtual switch (br0). Your host will not have an IP address on this interface, making it act as a \"transparent pipe\" for your VM.",
+        "type": "text"
+      },
+      {
+        "path": "c64/c64-os.md",
+        "title": "Commodore OS Vision 3.1 unter Ubuntu mit KVM virtualisieren",
+        "description": "Anleitung zum Download und zur Installation von Commodore OS Vision 3.1 in einer KVM-VM.\n\n---",
         "type": "text"
       },
       {
@@ -1212,7 +1218,7 @@
     "name": "vagrantkind",
     "description": "scripts to installing containerd, tools, k3s or kind with certmanager, istio and argocd to run a local dev kubernetes cluster",
     "url": "https://github.com/wlanboy/vagrantkind",
-    "pushed_at": "2026-05-30T14:48:09Z",
+    "pushed_at": "2026-05-31T05:29:47Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1222,16 +1228,16 @@
         "type": "readme"
       },
       {
-        "path": "apicurio/readme.md",
+        "path": "apicurio/apicurio.md",
         "title": "Apicurio Registry",
         "description": "Apicurio Registry ist eine Schema-Registry für Event-Streaming und API-Management. Sie speichert und verwaltet Schemas (Avro, JSON Schema, Protobuf, OpenAPI, AsyncAPI u.a.) und stellt eine REST-API sowie eine Web-UI bereit.\n\nAls Backend wird PostgreSQL 15 verwendet.",
-        "type": "module"
+        "type": "api"
       },
       {
-        "path": "ca_dns/readme.md",
+        "path": "ca_dns/ca-trust.md",
         "title": "CA und DNS Trust Setup",
         "description": "Dieses Verzeichnis enthält Skripte und Zertifikate zur Einrichtung einer lokalen Zertifizierungsstelle (CA) sowie zur Konfiguration eines benutzerdefinierten DNS-Servers im Homelab-Netzwerk.\n\nZwei selbstsignierte Root-CA-Zertifikate werden im System-Truststore registriert, damit alle TLS-Zertifikate, die von diesen CAs ausgestellt wurden, als vertrauenswürdig erkannt werden.\n\n---",
-        "type": "module"
+        "type": "text"
       },
       {
         "path": "ca_dns/truststore.md",
@@ -1240,10 +1246,10 @@
         "type": "text"
       },
       {
-        "path": "caddy/readme.md",
+        "path": "caddy/caddy-setup.md",
         "title": "Caddy Reverse Proxy Setup",
         "description": "Startet [Caddy](https://caddyserver.com/) als Docker-Container mit automatischen Let's Encrypt SSL-Zertifikaten.\nBestehende Docker-Container werden interaktiv als Subdomains konfiguriert.",
-        "type": "module"
+        "type": "text"
       },
       {
         "path": "chaos/kube-chaos.md",
@@ -1335,7 +1341,7 @@
     "name": "wlanboy.github.io",
     "description": "website",
     "url": "https://github.com/wlanboy/wlanboy.github.io",
-    "pushed_at": "2026-05-30T15:15:58Z",
+    "pushed_at": "2026-05-30T15:17:16Z",
     "default_branch": "main",
     "readmes": [
       {

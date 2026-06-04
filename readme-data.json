@@ -651,6 +651,21 @@
     ]
   },
   {
+    "name": "mcp-spring-ai-java",
+    "description": "Spring AI based MCP Server",
+    "url": "https://github.com/wlanboy/mcp-spring-ai-java",
+    "pushed_at": "2026-06-04T08:22:21Z",
+    "default_branch": "main",
+    "readmes": [
+      {
+        "path": "README.md",
+        "title": "MCP Hello World Server — Spring AI / Java 25",
+        "description": "Ein minimaler MCP-Server (Model Context Protocol) auf Basis von Spring Boot 4 und Spring AI 2.0.",
+        "type": "readme"
+      }
+    ]
+  },
+  {
     "name": "md",
     "description": null,
     "url": "https://github.com/wlanboy/md",
@@ -756,7 +771,7 @@
     "name": "raspberrypi",
     "description": "Raspberry Pi scripts for all my homelab services",
     "url": "https://github.com/wlanboy/raspberrypi",
-    "pushed_at": "2026-06-03T11:28:15Z",
+    "pushed_at": "2026-06-04T07:54:21Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1218,7 +1233,7 @@
     "name": "vagrantkind",
     "description": "scripts to installing containerd, tools, k3s or kind with certmanager, istio and argocd to run a local dev kubernetes cluster",
     "url": "https://github.com/wlanboy/vagrantkind",
-    "pushed_at": "2026-06-03T11:24:36Z",
+    "pushed_at": "2026-06-04T07:55:01Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1341,7 +1356,7 @@
     "name": "wlanboy.github.io",
     "description": "website",
     "url": "https://github.com/wlanboy/wlanboy.github.io",
-    "pushed_at": "2026-06-02T16:29:15Z",
+    "pushed_at": "2026-06-03T16:52:27Z",
     "default_branch": "main",
     "readmes": [
       {

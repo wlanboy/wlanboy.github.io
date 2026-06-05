@@ -36,39 +36,6 @@
     ]
   },
   {
-    "name": "argocd",
-    "description": "ArgoCD exmaples",
-    "url": "https://github.com/wlanboy/argocd",
-    "pushed_at": "2026-05-30T08:29:42Z",
-    "default_branch": "main",
-    "readmes": [
-      {
-        "path": "argocd-workflows-BuildKit/readme.md",
-        "title": "Argo Workflows - CI/CD Pipeline mit BuildKit",
-        "description": "Die Workflows implementieren eine vollständige GitOps-CI/CD-Pipeline mit zwei Schritten:",
-        "type": "module"
-      },
-      {
-        "path": "argocd-workflows/readme.md",
-        "title": "Argo Workflows - CI/CD Pipeline",
-        "description": "Die Workflows implementieren eine vollständige GitOps-CI/CD-Pipeline mit zwei Schritten:",
-        "type": "module"
-      },
-      {
-        "path": "readme.md",
-        "title": "ArgoCD GitOps CI/CD Pipeline",
-        "description": "Dieses Verzeichnis enthält alle Konfigurationen für eine vollautomatische GitOps-Pipeline auf Basis von ArgoCD und Argo Workflows. Die Pipeline verwaltet vier Microservices, baut deren Docker-Images automatisch bei neuen GitHub-Tags und synchronisiert die Deployments über Helm-Charts in einen lokalen Kubernetes-Cluster mit Istio Service Mesh.\n\n**Verwaltete Microservices:**\n\n- **JavaHttpClient** – HTTP-Client-Service\n- **MirrorService** – Mirror-/Proxy-Service\n- **RandomFail** – Service mit zufälligen Fehlern (z.B. für Chaos-Testing)\n- **SimpleService** – Basis-Service\n\n**Ablauf der Pipeline:**\n\n1. CronWorkflow pollt alle 2 Minuten die GitHub-API auf neue Tags\n2. Bei neuem Tag wird ein Webhook ausgelöst\n3. Der Sensor empfängt den Webhook und startet ein Argo Workflow\n4. Kaniko baut das Docker-Image und pusht es nach Docker Hub\n5. Das Workflow aktualisiert den Image-Tag in der `values.yaml` des Helm-Charts\n6. ArgoCD erkennt die Änderung im Git und deployt die neue Version automatisch\n\n---",
-        "type": "readme"
-      },
-      {
-        "path": "tekton-BuildKit/readme.md",
-        "title": "Tekton Pipeline - CI/CD mit BuildKit",
-        "description": "Die Pipeline implementiert eine vollständige GitOps-CI/CD-Pipeline mit zwei Schritten:\n\n**1. Build** - Docker-Image bauen mit [BuildKit](https://github.com/moby/buildkit) (rootless)\n\n`buildkitd` läuft als persistentes Deployment im `tekton`-Namespace. Der Build-Pod verbindet sich als reiner `buildctl`-Client per TCP, zieht den Quellcode direkt aus GitHub und pusht das fertige Image nach Docker Hub. Ein lokales Registry-Cache (`local-registry`) beschleunigt wiederholte Builds via `--export-cache` und `--import-cache`.\n\n**2. Update Chart** - Helm-Chart aktualisieren per Git-Commit\n\nNach dem Build wird der Image-Tag im `values.yaml` des zugehörigen Helm-Charts per `sed` gesetzt und als Commit zurück ins GitHub-Repository gepusht.",
-        "type": "module"
-      }
-    ]
-  },
-  {
     "name": "bcrypt",
     "description": "bcrypt command line tool",
     "url": "https://github.com/wlanboy/bcrypt",
@@ -201,7 +168,7 @@
     "name": "Dockerfiles",
     "description": "Collection of docker scripts",
     "url": "https://github.com/wlanboy/Dockerfiles",
-    "pushed_at": "2026-01-01T14:28:29Z",
+    "pushed_at": "2026-06-05T05:41:12Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -399,6 +366,21 @@
     ]
   },
   {
+    "name": "helm-for-java-devs",
+    "description": "Helm for Java Devs",
+    "url": "https://github.com/wlanboy/helm-for-java-devs",
+    "pushed_at": "2026-06-05T13:07:11Z",
+    "default_branch": "main",
+    "readmes": [
+      {
+        "path": "readme.md",
+        "title": "Helm for Java Devs — Schritt-für-Schritt-Anleitung",
+        "description": "Spring Boot Helloworld App → Tekton baut das Image → lokale k3s-Registry → ArgoCD deployt per Helm.",
+        "type": "readme"
+      }
+    ]
+  },
+  {
     "name": "hermes-local",
     "description": "Local docker hermes stack",
     "url": "https://github.com/wlanboy/hermes-local",
@@ -486,7 +468,7 @@
     "name": "kubecontext",
     "description": "Python tool to get and manage kube config files.",
     "url": "https://github.com/wlanboy/kubecontext",
-    "pushed_at": "2026-06-01T15:15:47Z",
+    "pushed_at": "2026-06-05T10:25:08Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -507,7 +489,7 @@
     "name": "kubectl_analytics",
     "description": "A command-line tool for gathering and visualizing statistics about Kubernetes cluster resources",
     "url": "https://github.com/wlanboy/kubectl_analytics",
-    "pushed_at": "2026-05-30T11:12:04Z",
+    "pushed_at": "2026-06-05T10:18:18Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -576,7 +558,7 @@
     "name": "kubestats",
     "description": "Python based kubectl crd statistic tool",
     "url": "https://github.com/wlanboy/kubestats",
-    "pushed_at": "2026-05-22T18:01:04Z",
+    "pushed_at": "2026-06-05T10:12:45Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -771,7 +753,7 @@
     "name": "raspberrypi",
     "description": "Raspberry Pi scripts for all my homelab services",
     "url": "https://github.com/wlanboy/raspberrypi",
-    "pushed_at": "2026-06-04T07:54:21Z",
+    "pushed_at": "2026-06-05T08:53:27Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1101,7 +1083,7 @@
     "name": "scan-tools",
     "description": "Python based scan tools for git repros",
     "url": "https://github.com/wlanboy/scan-tools",
-    "pushed_at": "2026-05-30T14:53:28Z",
+    "pushed_at": "2026-06-05T10:20:18Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1230,83 +1212,35 @@
     ]
   },
   {
-    "name": "vagrantkind",
-    "description": "scripts to installing containerd, tools, k3s or kind with certmanager, istio and argocd to run a local dev kubernetes cluster",
-    "url": "https://github.com/wlanboy/vagrantkind",
-    "pushed_at": "2026-06-04T07:55:01Z",
+    "name": "virtualbox-kubernets",
+    "description": "Virtualbox based, vagrant provisioned Kubernets Homelab from skratch",
+    "url": "https://github.com/wlanboy/virtualbox-kubernets",
+    "pushed_at": "2026-06-05T04:34:35Z",
     "default_branch": "main",
     "readmes": [
       {
         "path": "README.md",
-        "title": "Kubernetes Cluster Setup",
-        "description": "Dieses Repository enthält Skripte zum Aufbau eines lokalen Kubernetes-Clusters mit MetalLB, Istio, Cert-Manager und ArgoCD, sowie zur Einrichtung von KVM-Virtualisierung.",
+        "title": "virtualbox-kubernets",
+        "description": "Virtualbox based, vagrant provisioned Kubernets Homelab from skratch\n\n> looking for a simpler way? use the kind version: https://github.com/wlanboy/vagrantkind\n\n> Don't use minikube if you want to understand Kubernetes.\nThis is not for developers searching for an easy way to k8s.\n\n# Content\n- directory debian-k3s\n  * Single minimal Debian based VM\n  * Using k3s\n  * Installing Calico, Metallb and Istio\n  * Ideal minimal starting place for Kubernetes\n- directory homelab\n  * Single VM with k8 including network, storage, ingress provider\n  * Using kubeadm for setup\n  * Good start for beginners\n- directory homelabrancher\n  * Single VM with k3 including network provider\n  * Using Arkade, k3sup for setup\n- directory homelabstepbystep\n  * Single VM with all dependencies, java build tools and kubectl\n  * Good start to setup your k8 step by step\n- directory homelabwithnodes\n  * Multy VM k8 cluster including network, storage, ingress provider\n  * You can add VMs by alterting the vagrant var NODE_COUNT \n  * Increase NODE_COUNT and run vagrat up again to add more VMs\n- mattermost\n  * Kubernets files for a mattermost instance\n- postgresqlservice\n  * Kubernets files for a PostgreSQL instance\n\n# Key points\n1. This is a tutorial \n2. This is a playground to get in touch with k3 and k8\n3. Normally you have to choose your own network provider, see: https://kubernetes.io/docs/concepts/cluster-administration/networking/\n4. Normally you have to choose your own storage provider, see: https://kubernetes.io/docs/concepts/storage/storage-classes/\n5. Normally you have to choose your own ingress provider, see: https://kubernetes.io/docs/concepts/services-networking/ingress-controllers/\n6. You need an external load balancer provider too, the one from your cloud provider\n8. Kubernetes is a framework, not a toolset, see: https://kubernetes.io/docs/concepts/overview/what-is-kubernetes/#what-kubernetes-is-not\n9. Consider to use a local apt cache server to minimize traffic\n10. We have to patch Flannel to use the second iface. First Interface in Virtualbox is natted. See: https://github.com/flannel-io/flannel/blob/master/Documentation/configuration.md\n\n# Install Virtualbox on Windows or OS X\n* https://www.virtualbox.org/wiki/Downloads\n* OSX:\n* Windows: (asuming you are using gitbash: https://gitforwindows.org/)\n\n# Install a package manager\n* OS X: homebrew\n* Windows: chocolatey ( with powershell)\n\n# Install needed tools \n* OS X:\n* Windows:\n\n# Setup VM\n> Please look at the Vagrant file first and adjust the values!\n* at least we can now have ONE documentation\n\n# Destroy VM (if you made something wrong)\n\n# Start over again\n\n# Configure your local kubectl\n# Configure your local kubectl with nodes\n# Access kubernetes dashboard\n* use your browser: http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/\n\n# Access longhorn frontend\n* use your browser: http://192.168.56.100:31294/\n\n# Get cluster info\n\n# Check running pods (single node)\n\n# Check running pods (with nodes)\n\n# Get node port of ingress controller\n\n# Deploy a Spring Boot Microservice\n* see: https://github.com/wlanboy/virtualbox-kubernets/blob/main/deploy-a-service.md\n\n# Shutdown VM\n# Setup Multinode cluster\n* change folder to 'homelabwithnodes'\n* use 'vagrant ssh kubecontrol' instead of 'vagrant ssh'\n* change NODE_COUNT var in Vagrant file to add additional hosts\n* run 'vagrant up' after changing the NODE_COUNT, it will only add new vms\n\n# Setup kubernetes on your own\n* change folder to 'homelabsteps'\n* everything is prepared. Call each command from https://github.com/wlanboy/virtualbox-kubernets/blob/main/homelab/setup-kubernets-controlnode.sh \n\n# Setup k3s\n* change folder to 'homelabrancher'\n* this will install a k3s kubernets server\n\n# Key takeaways\n* don't install vms by hand\n* vms are containers too\n* play around and test things, break things early and often\n* automate everything to be able to rebuild anything, anytime\n* think in roles not in serverboxes\n\n# Current deprication warings\n* policy/v1beta1 PodSecurityPolicy is deprecated in v1.21+, unavailable in v1.25+, see: https://kubernetes.io/docs/reference/using-api/deprecation-guide/#psp-v125",
         "type": "readme"
       },
       {
-        "path": "apicurio/apicurio.md",
-        "title": "Apicurio Registry",
-        "description": "Apicurio Registry ist eine Schema-Registry für Event-Streaming und API-Management. Sie speichert und verwaltet Schemas (Avro, JSON Schema, Protobuf, OpenAPI, AsyncAPI u.a.) und stellt eine REST-API sowie eine Web-UI bereit.\n\nAls Backend wird PostgreSQL 15 verwendet.",
-        "type": "api"
-      },
-      {
-        "path": "ca_dns/ca-trust.md",
-        "title": "CA und DNS Trust Setup",
-        "description": "Dieses Verzeichnis enthält Skripte und Zertifikate zur Einrichtung einer lokalen Zertifizierungsstelle (CA) sowie zur Konfiguration eines benutzerdefinierten DNS-Servers im Homelab-Netzwerk.\n\nZwei selbstsignierte Root-CA-Zertifikate werden im System-Truststore registriert, damit alle TLS-Zertifikate, die von diesen CAs ausgestellt wurden, als vertrauenswürdig erkannt werden.\n\n---",
+        "path": "deploy-a-service.md",
+        "title": "Deploy a selfcontained Spring Boot Microservice",
+        "description": "We will use my Crudservice: https://github.com/wlanboy/CrudService\n\nIt is published on Docker Hub: https://hub.docker.com/repository/docker/wlanboy/crudservice\n\n# Prepare\n\n# check you local kubectl\n\n# deploy service on new namespace\n\n# check deployment and service\n\n# expose service and get node port\nResult:\n\n#  call crudservice\n* curl http://192.168.56.100:30411/actuator/health\n* Result",
         "type": "text"
       },
       {
-        "path": "ca_dns/truststore.md",
-        "title": "Java Truststore für eigene CA",
-        "description": "Dieses Setup importiert eigene Root-CA-Zertifikate in einen Java-Truststore (PKCS12-Format), damit Java-Anwendungen im Kubernetes-Cluster TLS-Verbindungen zu intern signierten Diensten vertrauen.",
+        "path": "homelabstepbystep/steps.md",
+        "title": "get root and set vars",
+        "description": "",
         "type": "text"
       },
       {
-        "path": "caddy/caddy-setup.md",
-        "title": "Caddy Reverse Proxy Setup",
-        "description": "Startet [Caddy](https://caddyserver.com/) als Docker-Container mit automatischen Let's Encrypt SSL-Zertifikaten.\nBestehende Docker-Container werden interaktiv als Subdomains konfiguriert.",
-        "type": "text"
-      },
-      {
-        "path": "chaos/kube-chaos.md",
-        "title": "Kube Chaos Monkey via Helm",
-        "description": "Kube Chaos Monkey (auch bekannt als **kube-monkey**) terminiert zufällig Pods in einem Kubernetes-Cluster, um die Resilienz von Anwendungen zu testen.\n\n---",
-        "type": "text"
-      },
-      {
-        "path": "istio/gateways.md",
-        "title": "Istio Gateways: Ingress & Egress",
-        "description": "Dieses Dokument beschreibt Istio Gateways als kontrollierten Ein- und Ausstiegspunkt eines Service Mesh. Es erklärt das Zwei-Ressourcen-Modell aus `Gateway` und `VirtualService`, zeigt Konfigurationsbeispiele für HTTP, HTTPS und Egress, und behandelt Traffic Splitting für Canary Deployments. Abschließend werden Debugging-Werkzeuge sowie Best Practices für Traffic Management, Deployment-Stabilität und Sicherheit (mTLS, AuthorizationPolicy, Pfad-Normalisierung) dokumentiert.\n\n---",
-        "type": "text"
-      },
-      {
-        "path": "istio/sidecar_vs_native_sidecar.md",
-        "title": "Klassische Sidecars vs. Native Sidecars",
-        "description": "Native Sidecars (Kubernetes 1.29+, KEP-753) lösen die drei Kernprobleme klassischer Sidecar-Architektur: Race conditions beim Start, hängende Jobs/CronJobs nach App-Exit und unkontrollierte Shutdown-Reihenfolge. Durch das neue Feld `restartPolicy: Always` auf einem `initContainer` garantiert Kubernetes, dass der Proxy vollständig bereit ist bevor die App startet — und nach App-Exit sauber terminiert. Für Istio-Umgebungen ab Version 1.18 ist die Migration empfohlen und erfordert keine Änderungen an der App selbst.\n\n---",
-        "type": "text"
-      },
-      {
-        "path": "nginx/nginx-frontend.md",
-        "title": "Nginx Frontend Proxy",
-        "description": "Nginx as a TLS terminator for the Istio Ingress Gateway running in a kind cluster. Listens on port 443, terminates SSL, and forwards plain HTTP traffic to the Istio NodePort (`172.18.0.2:32024`) on the `kind` Docker network. Certificates are mounted from `/certs` on the host.",
-        "type": "text"
-      },
-      {
-        "path": "oldstuff/arm64-steps.md",
-        "title": "kind + calico + ngxin ingress",
-        "description": "Commands to install kind, calico and nginx on arm64.\n\nsee:\n* https://www.armbian.com/odroid-c2/#kernels-archive-all\n* https://docs.armbian.com/\n\n# generate kind config\n\n# create cluster\n\n# Calico\n\n# CoreDNS\n\n# ingress\n\n# deploy echo service\n\n# Delete cluster",
-        "type": "text"
-      },
-      {
-        "path": "status/troubleshooting.md",
-        "title": "Troubleshooting",
-        "description": "Strukturierter Leitfaden für Kubernetes-Cluster-Probleme auf AWS EKS: von der schnellen Failure-Domain-Eingrenzung (Cluster-Diagnose in unter 2 Minuten) über Tier-0-Komponenten (Control Plane, CoreDNS, VPC CNI, EBS CSI), Netzwerk-Debugging (DNS, NLB-Timeouts, Network Policies, Conntrack), Security und Storage bis hin zu einem Troubleshooting-Cookbook für die häufigsten Szenarien wie `Pending`-Pods, DNS-Ausfälle und unerreichbare Load Balancer.",
-        "type": "text"
-      },
-      {
-        "path": "velero/velero.md",
-        "title": "Velero Backup",
-        "description": "Velero sichert alle Kubernetes-Namespaces täglich in einen [Garage](https://garagehq.deuxfleurs.fr/) S3-Bucket.\nPVC-Inhalte werden via **kopia** (File-System-Backup) gesichert – ohne CSI-Snapshots.",
-        "type": "text"
+        "path": "postgresqlservice/readme.md",
+        "title": "Install PostgreSQL on Kubernetes",
+        "description": "",
+        "type": "module"
       }
     ]
   },
@@ -1356,7 +1290,7 @@
     "name": "wlanboy.github.io",
     "description": "website",
     "url": "https://github.com/wlanboy/wlanboy.github.io",
-    "pushed_at": "2026-06-03T16:52:27Z",
+    "pushed_at": "2026-06-05T04:35:10Z",
     "default_branch": "main",
     "readmes": [
       {

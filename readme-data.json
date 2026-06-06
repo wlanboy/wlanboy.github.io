@@ -39,7 +39,7 @@
     "name": "bcrypt",
     "description": "bcrypt command line tool",
     "url": "https://github.com/wlanboy/bcrypt",
-    "pushed_at": "2026-06-03T11:32:05Z",
+    "pushed_at": "2026-06-05T18:22:21Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -120,13 +120,13 @@
     "name": "debian-cloud-init",
     "description": "Create libvirt  vm of debian 12 and 13 with cloud init - with amd64 and arm64 support",
     "url": "https://github.com/wlanboy/debian-cloud-init",
-    "pushed_at": "2026-05-16T07:51:12Z",
+    "pushed_at": "2026-06-06T13:27:21Z",
     "default_branch": "main",
     "readmes": [
       {
         "path": "README.md",
-        "title": "debian/ubuntu kvm virsh install with cloud init",
-        "description": "This repo describes how to auto install Debian 12, Debian 13, Ubuntu 22.04 and Ubuntu 24.04 with virsh-install and cloud-init.\nWhich images you can use, and which images you should not use.\nHow to add user passwords with hashes and how to create harddisk images from templates.",
+        "title": "debian/ubuntu cloud init installer",
+        "description": "This repo describes how to auto install Debian 12, Debian 13, Ubuntu 22.04 and Ubuntu 24.04 with cloud-init — on a local KVM/libvirt host or a **remote Proxmox server**.\nWhich images you can use, and which images you should not use.\nHow to add user passwords with hashes and how to create harddisk images from templates.",
         "type": "readme"
       },
       {
@@ -369,9 +369,15 @@
     "name": "helm-for-java-devs",
     "description": "Helm for Java Devs",
     "url": "https://github.com/wlanboy/helm-for-java-devs",
-    "pushed_at": "2026-06-05T13:07:11Z",
+    "pushed_at": "2026-06-06T04:23:32Z",
     "default_branch": "main",
     "readmes": [
+      {
+        "path": "argocd/user/argocd-user.md",
+        "title": "ArgoCD User Management",
+        "description": "Dieses Verzeichnis enthält die Konfiguration für lokale ArgoCD-User ohne externen SSO-Provider.",
+        "type": "text"
+      },
       {
         "path": "readme.md",
         "title": "Helm for Java Devs — Schritt-für-Schritt-Anleitung",
@@ -732,7 +738,7 @@
     "name": "randomfail",
     "description": "Ein absichtlich instabiler FastAPI-Service zur Simulation realer Ausfallszenarien in Kubernetes-Clustern.",
     "url": "https://github.com/wlanboy/randomfail",
-    "pushed_at": "2026-05-22T14:27:24Z",
+    "pushed_at": "2026-06-06T06:24:22Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -746,321 +752,6 @@
         "title": "Helm install",
         "description": "This helm script installs the WebShell within a kubernetes cluster.",
         "type": "module"
-      }
-    ]
-  },
-  {
-    "name": "raspberrypi",
-    "description": "Raspberry Pi scripts for all my homelab services",
-    "url": "https://github.com/wlanboy/raspberrypi",
-    "pushed_at": "2026-06-05T08:53:27Z",
-    "default_branch": "main",
-    "readmes": [
-      {
-        "path": "README.md",
-        "title": "raspberrypi",
-        "description": "Raspberry Pi projects I am using for my own homelab.",
-        "type": "readme"
-      },
-      {
-        "path": "arduino/boards-manager-urls.md",
-        "title": "Arduino UI",
-        "description": "URLs for additional board manager configurations.",
-        "type": "text"
-      },
-      {
-        "path": "arduino/useful-libs.md",
-        "title": "Useful Arduino libraries",
-        "description": "A curated list of tested and working Arduino libraries for displays, GPS, sensors, and UI components.",
-        "type": "text"
-      },
-      {
-        "path": "bluetooth-serial.md",
-        "title": "Create bluetooth serial console",
-        "description": "Commands to create a bluetooth serial console to connect your phone via bluetooth to your linux pc.",
-        "type": "text"
-      },
-      {
-        "path": "bridge-second-lan.md",
-        "title": "Dedicated Network Bridge",
-        "description": "This setup isolates your second physical NIC (enp3s0) and turns it into a virtual switch (br0). Your host will not have an IP address on this interface, making it act as a \"transparent pipe\" for your VM.",
-        "type": "text"
-      },
-      {
-        "path": "c64/c64-os.md",
-        "title": "Commodore OS Vision 3.1 unter Ubuntu mit KVM virtualisieren",
-        "description": "Anleitung zum Download und zur Installation von Commodore OS Vision 3.1 in einer KVM-VM.\n\n---",
-        "type": "text"
-      },
-      {
-        "path": "ca/cert-manager/readme.md",
-        "title": "Install cert-manager in k3s with local CA",
-        "description": "Installs and configures [cert-manager](https://cert-manager.io/) on a Kubernetes cluster using a self-hosted CA.\ncert-manager automates the issuance and renewal of TLS certificates via a `ClusterIssuer` backed by your own CA key and certificate.",
-        "type": "module"
-      },
-      {
-        "path": "ca/external-ca/readme.md",
-        "title": "Trust for external CA in Istio",
-        "description": "Injects a custom CA certificate into Istio sidecars so that services can trust TLS certificates signed by an external CA.\nThis is useful when internal services use certificates issued by a self-hosted CA that is not trusted by default.\n\nSee: <https://preliminary.istio.io/latest/docs/reference/config/annotations/#SidecarUserVolume>",
-        "type": "module"
-      },
-      {
-        "path": "ca/istio/readme.md",
-        "title": "cert-manager with Istio Ingress Gateway",
-        "description": "Step-by-step guide to install Istio, the Ingress Gateway, and a test service\nwith TLS termination via a cert-manager issued certificate. Assumes a running\nKubernetes cluster with Helm, cert-manager, and a configured `ClusterIssuer`.",
-        "type": "module"
-      },
-      {
-        "path": "ca/local-dns/readme.md",
-        "title": "Use Local Pi-hole DNS Server in k3s",
-        "description": "Configures Ubuntu nodes and a k3s cluster to use a self-hosted Pi-hole instance as the DNS resolver.\nThis ensures that custom local domain names (e.g. `*.nuc.lan`) are resolved correctly within the cluster.",
-        "type": "module"
-      },
-      {
-        "path": "ca/readme.md",
-        "title": "Create a Local Certificate Authority",
-        "description": "Creating a local Certificate Authority (CA) and using `acme.sh` with it is a great way to manage certificates for your homelab.\nThis section walks you through creating your own self-signed root CA certificate. This certificate will be used to sign other certificates for your local devices.",
-        "type": "module"
-      },
-      {
-        "path": "ceph.md",
-        "title": "Local ceph install",
-        "description": "Commands to install a local ceph instance with loopback devices instead of real hard disks.",
-        "type": "text"
-      },
-      {
-        "path": "chromebook/Crostini-LLM.md",
-        "title": "Lokales LLM auf dem Chromebook (Intel N150, 16 GB RAM)",
-        "description": "Diese Anleitung richtet einen lokalen LLM-Chat im Terminal auf einem Chromebook mit\nIntel N150 ein. Die Inferenz läuft rein per CPU — keine GPU nötig.\nMit 16 GB RAM sind Modelle bis ca. 7B Parameter (Q4-Quantisierung) sinnvoll nutzbar.\n\n---",
-        "type": "text"
-      },
-      {
-        "path": "chrony/chrony.md",
-        "title": "GPS-gestützter NTP-Zeitserver mit Chrony",
-        "description": "Diese Anleitung beschreibt den Aufbau eines präzisen NTP-Zeitservers unter Linux,\nder ein USB-GPS-Modul als primäre Zeitquelle nutzt. Chrony synchronisiert die\nSystemzeit mit dem GPS-Signal und stellt sie im lokalen Netzwerk bereit.\n\n---",
-        "type": "text"
-      },
-      {
-        "path": "create-floppy-image.md",
-        "title": "Erstellen und Befüllen eines DOS‑Disketten‑Images",
-        "description": "Diese Anleitung beschreibt, wie du mit mtools ein 1,44‑MB‑Disketten‑Image erstellst und anschließend Dateien hinein kopierst.\nSie eignet sich z. B. für DOS‑Treiber, Bootdisketten oder virtuelle Maschinen.",
-        "type": "text"
-      },
-      {
-        "path": "create-raid1.md",
-        "title": "create raid with two usb disks",
-        "description": "Commands to create a raid level 1 array with two usb disks on Linux.",
-        "type": "text"
-      },
-      {
-        "path": "docker.md",
-        "title": "Docker Installation on Raspberry Pi",
-        "description": "All commands to install and configure Docker on a Raspberry Pi.\n\nDetails: [official Docker documentation](https://docs.docker.com/engine/install/debian/).\n\n---",
-        "type": "text"
-      },
-      {
-        "path": "firecracker/firecracker.md",
-        "title": "Firecracker MicroVM-Fleet auf Ubuntu Server",
-        "description": "Firecracker ist ein schlanker VMM (Virtual Machine Monitor) von AWS, der auf KVM aufbaut und\nechte VMs in unter 125 ms startet. Im Vergleich zu Docker-Containern bietet Firecracker:\n\n- **Vollständige Kernel-Isolation** – jede VM läuft mit eigenem Kernel, eigenem Speicher-Namespace und eigenem Netzwerk-Stack; ein Angreifer, der aus einer VM ausbricht, landet nicht auf dem Host\n- **Kein Kernel-Sharing** – Container teilen sich den Host-Kernel; Firecracker-VMs nicht; CVEs im Host-Kernel sind für den Gast-Kernel irrelevant\n- **Vorhersehbares Ressourcen-Limit** – vCPU- und RAM-Obergrenzen sind hardware-erzwungen, nicht durch cgroups approximiert\n- **Schlanke Angriffsfläche** – Firecracker hat ~50.000 Zeilen Rust-Code und keinen BIOS/UEFI-Stack, keine PCI-Bus-Emulation, keine USB-Unterstützung\n- **Produktionsreif** – von AWS für Lambda und Fargate eingesetzt; jede Invocation läuft in einer eigenen MicroVM\n\nDieses Repository enthält drei Skripte für den kompletten Lebenszyklus einer MicroVM-Fleet:\n\n| Skript | Zweck |\n|---|---|\n| [firecracker.sh](firecracker.sh) | Einmalige Host-Einrichtung: Binary, Kernel, goldenes Base-Image |\n| [addserver.sh](addserver.sh) | Neue VM aus dem Base-Image klonen und starten |\n| [removeserver.sh](removeserver.sh) | VM stoppen und alle Ressourcen sauber entfernen |\n\n---",
-        "type": "text"
-      },
-      {
-        "path": "gitea/gitea.md",
-        "title": "Gitea – Self-hosted Git-Server mit Docker Compose",
-        "description": "Diese Anleitung beschreibt die Einrichtung einer eigenen Gitea-Instanz mit MariaDB als\nDatenbank, HTTPS über eigene Zertifikate und persistentem Datenspeicher auf einem\nSATA-Laufwerk.\n\n---",
-        "type": "text"
-      },
-      {
-        "path": "headless-wlan-client.md",
-        "title": "headless configuration of wlan client",
-        "description": "Mount sd card on your pc and change following settings to enable ssh daemon and wlan login for your Raspberry Pi.",
-        "type": "text"
-      },
-      {
-        "path": "intel_arc_pro_b60/intel-arc.md",
-        "title": "Intel Arc Pro B60 – Einrichtung unter Ubuntu 24.04 (Noble)",
-        "description": "Diese Anleitung beschreibt die vollständige Einrichtung einer Intel Arc Pro B60 GPU\n(Battlemage / Xe2-Architektur) unter Ubuntu 24.04 LTS, inklusive OpenCL/Level-Zero-Treiber,\nGPU-Monitoring und Steam-Gaming-Setup.\n\n---",
-        "type": "text"
-      },
-      {
-        "path": "java-process-info.md",
-        "title": "Monitoring von Java‑Prozessen unter Linux",
-        "description": "(PID‑Liste, JAR‑Name, Heap‑Usage, CPU‑Usage, RAM‑Usage)\n\nDiese Anleitung zeigt, wie du:\n- Java‑Prozesse findest\n- Heap‑Usage per jstat ausliest\n- CPU‑ und RAM‑Usage per ps ermittelst\n- Thread count",
-        "type": "text"
-      },
-      {
-        "path": "k3s-argocd.md",
-        "title": "Install Argo CD on the k3s cluster and expose the Web UI via MetalLB",
-        "description": "How to deploy Argo CD on k3s, configure an nginx ingress controller, and expose the Web UI using a MetalLB LoadBalancer IP.\n\nPrerequisites\n\n- k3s cluster up and kubeconfig copied (see k3s-cluster.md).\n- MetalLB installed and a pool configured (example pool in k3s-cluster.md: 192.168.170.10-192.168.170.250).",
-        "type": "text"
-      },
-      {
-        "path": "k3s-cluster.md",
-        "title": "Create arm64 based k3s cluster on ubuntu",
-        "description": "Commands to create an arm64 based k3s cluster on Ubuntu using Raspberry Pi or similar single-board computers.\nThe setup includes a k3s server node and one or more agent nodes, with MetalLB as load balancer and kubectl for cluster management.\nTraefik and ServiceLB are disabled in favour of a custom MetalLB configuration.",
-        "type": "text"
-      },
-      {
-        "path": "k3s-tools/README.md",
-        "title": "k3s-tools",
-        "description": "A collection of helper scripts for managing a k3s Kubernetes cluster.",
-        "type": "module"
-      },
-      {
-        "path": "mariadb-in-docker.md",
-        "title": "create mariadb instance with docker",
-        "description": "Simple commands to create mariadb instance with docker.",
-        "type": "text"
-      },
-      {
-        "path": "mcp-a2a/a2a-agentcard.md",
-        "title": "AgentCard",
-        "description": "Die AgentCard ist die \"Visitenkarte\" eines A2A-Agenten. Sie wird als JSON unter `/.well-known/agent-card.json` bereitgestellt und ermoeglicht anderen Agenten und Clients, die Faehigkeiten des Agenten zu erkennen.",
-        "type": "text"
-      },
-      {
-        "path": "mcp-a2a/a2a.md",
-        "title": "A2A-Architektur: Komponenten, Protokoll und Scopes",
-        "description": "**Zusammenfassung:** Das A2A-Protokoll (Agent-to-Agent) standardisiert die Kommunikation zwischen autonomen KI-Agenten unabhängig von Technologie oder LLM-Provider. Es definiert eine vierschichtige Architektur (Transport, Message, Protocol, Application), ein Discovery-Verfahren über AgentCards, einen aufgabenorientierten Task-Lebenszyklus sowie ein JSON-RPC-basiertes Nachrichtenformat — und ermöglicht damit die Komposition mehrerer Agenten zu verteilten, interoperablen Systemen.",
-        "type": "text"
-      },
-      {
-        "path": "minio.md",
-        "title": "Start MinIO on Raspberry Pi with Docker",
-        "description": "MinIO is a high-performance, S3-compatible object storage solution, perfect for storing large amounts of unstructured data.\n\n---",
-        "type": "text"
-      },
-      {
-        "path": "openvino/openvino.md",
-        "title": "OpenVINO Model Server – Inbetriebnahme mit Docker",
-        "description": "",
-        "type": "text"
-      },
-      {
-        "path": "openwrt.md",
-        "title": "Flash openwrt image to sd and boot your Raspberry Pi",
-        "description": "How to flash openwrt to an sd and setup USB LAN and WLAN adapters.",
-        "type": "text"
-      },
-      {
-        "path": "pi-hole.md",
-        "title": "Pi-hole Installation via Script",
-        "description": "This document describes how to create a flexible shell script that sets up a Pi-hole Docker container. You only need to pass the IP address of your server as an argument.",
-        "type": "text"
-      },
-      {
-        "path": "pihole/pihole.md",
-        "title": "Pi-hole",
-        "description": "Pi-hole ist ein netzwerkweiter Werbeblocker, der als DNS-Sinkhole fungiert. Er blockiert Werbe- und Tracking-Domains für alle Geräte im lokalen Netzwerk.",
-        "type": "text"
-      },
-      {
-        "path": "portainer.md",
-        "title": "🚀 Portainer Installation via Script",
-        "description": "Portainer is an intuitive, open-source interface for managing Docker environments. With the following simple script, you can install Portainer as a Docker container.",
-        "type": "text"
-      },
-      {
-        "path": "qemu-mac/qemu-mac.md",
-        "title": "Mac OS 9.1 unter Ubuntu virtualisieren mit QEMU",
-        "description": "Anleitung zum Extrahieren einer `.sit`-Datei und Erstellen einer performanten virtuellen Mac-Umgebung mit Internetanbindung.\n\n---",
-        "type": "text"
-      },
-      {
-        "path": "secure-uv.md",
-        "title": "uv – Installation und sichere Konfiguration",
-        "description": "",
-        "type": "text"
-      },
-      {
-        "path": "tekton/readme.md",
-        "title": "use tekton pipelines on k3s",
-        "description": "How to install tekton pipelines on your local kubernetes cluster. Including bugfixed for yet privilaged mode.",
-        "type": "module"
-      },
-      {
-        "path": "timing-server.md",
-        "title": "Linux timing server with gps source",
-        "description": "How to build your own ntp server which is using a usb gsp module as timing source.",
-        "type": "text"
-      },
-      {
-        "path": "tl-wn725n.md",
-        "title": "TP-LINK TL-WN725N USB 2 WLAN Stick",
-        "description": "How to get this USB Wlan Stick work on Raspberry Pi.\n\n\n# usb info\n\n\n# network device info\n\n\n# network device status\n\n\n# module information",
-        "type": "text"
-      },
-      {
-        "path": "tl-wn823n.md",
-        "title": "TP-Link TL-WN823N USB WLAN Stick",
-        "description": "How to identify and set up the TP-Link TL-WN823N (RTL8192CU) USB WLAN adapter on Raspberry Pi.",
-        "type": "text"
-      },
-      {
-        "path": "tmux.md",
-        "title": "tmux cheatsheet",
-        "description": "Quick reference for the most common tmux commands to manage sessions, windows, and panes.\n\nstart new:\n\n    tmux\n\nstart new with session name:\n\n    tmux new -s myname\n\nattach:\n\n    tmux a  #  (or at, or attach)\n\nattach to named:\n\n    tmux a -t myname\n\nlist sessions:\n\n    tmux ls\n\nkill session:\n\n    tmux kill-session -t myname\n\nIn tmux, hit the prefix `ctrl+b` and then:",
-        "type": "text"
-      },
-      {
-        "path": "tools/docker-volumes-backup-readme.md",
-        "title": "Docker/Podman Volume Backup/Restore Tool",
-        "description": "A Python CLI tool to backup, list, delete, and restore Docker or Podman volumes using a temporary Alpine container.",
-        "type": "text"
-      },
-      {
-        "path": "tools/tools.md",
-        "title": "Git & Maven Toolsammlung",
-        "description": "Diese Sammlung enthält Python- und Shell-Scripte für den täglichen Umgang mit mehreren\nGit-Repositories sowie für die automatische Pflege von Maven- und Python-Abhängigkeiten,\nDocker-Images und GitHub Actions.\n\n---",
-        "type": "text"
-      },
-      {
-        "path": "tor-hidden-service.md",
-        "title": "Create tor service",
-        "description": "Commands to setup torrc and provide a tor service on your own risk.",
-        "type": "text"
-      },
-      {
-        "path": "usb-lan-adapter.md",
-        "title": "Use USB LAN adapter in libvirt vm",
-        "description": "This guide explains how to isolate a USB LAN adapter from your host OS and pass it through directly to a VM using libvirt and virt-install. This ensures the host doesn't interfere with the network traffic of your OPNsense/Firewall VM.",
-        "type": "text"
-      },
-      {
-        "path": "usb_bridge_trim_support.md",
-        "title": "Enable TRIM support on your USB SATA SSD",
-        "description": "The JMicron JMS567 is notorious for having \"broken\" TRIM reporting in Linux, even though the hardware usually supports it. \nYou can almost always fix this by forcing the unmap provisioning mode.",
-        "type": "text"
-      },
-      {
-        "path": "vice-c64.md",
-        "title": "C64 Emulator",
-        "description": "How to compile vice emulator on the latest sources.",
-        "type": "text"
-      },
-      {
-        "path": "windows-pdf-printer.md",
-        "title": "Create a virtual pdf printer for windows clients",
-        "description": "Commands to create a virtual pdf printer for windows clients on any linux pc.\nSamba should be installed. If not see this tutorial:\n\n* [Create windows share for raid volume](https://github.com/wlanboy/raspberrypi/blob/main/windows-share.md)",
-        "type": "text"
-      },
-      {
-        "path": "windows-share.md",
-        "title": "Create smb share for windows clients",
-        "description": "Commands to create a smb share for windows clients on any linux pc.",
-        "type": "text"
-      },
-      {
-        "path": "wlan-access-point.md",
-        "title": "Wlan Access Point with Adblocker",
-        "description": "How to install a wlan access point with dhcp server and ad blocker on your Raspberry Pi or Linux server.",
-        "type": "text"
-      },
-      {
-        "path": "xfce4.md",
-        "title": "Switch to xfce4",
-        "description": "Commands to switch to xfce4 environment.",
-        "type": "text"
       }
     ]
   },
@@ -1083,7 +774,7 @@
     "name": "scan-tools",
     "description": "Python based scan tools for git repros",
     "url": "https://github.com/wlanboy/scan-tools",
-    "pushed_at": "2026-06-05T10:20:18Z",
+    "pushed_at": "2026-06-06T10:54:07Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1290,7 +981,7 @@
     "name": "wlanboy.github.io",
     "description": "website",
     "url": "https://github.com/wlanboy/wlanboy.github.io",
-    "pushed_at": "2026-06-05T04:35:10Z",
+    "pushed_at": "2026-06-05T14:54:43Z",
     "default_branch": "main",
     "readmes": [
       {

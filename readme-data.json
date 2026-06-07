@@ -120,7 +120,7 @@
     "name": "debian-cloud-init",
     "description": "Create libvirt  vm of debian 12 and 13 with cloud init - with amd64 and arm64 support",
     "url": "https://github.com/wlanboy/debian-cloud-init",
-    "pushed_at": "2026-06-06T13:27:21Z",
+    "pushed_at": "2026-06-06T14:05:03Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -168,37 +168,175 @@
     "name": "Dockerfiles",
     "description": "Collection of docker scripts",
     "url": "https://github.com/wlanboy/Dockerfiles",
-    "pushed_at": "2026-06-05T05:41:12Z",
+    "pushed_at": "2026-06-07T11:28:37Z",
     "default_branch": "main",
     "readmes": [
       {
-        "path": "PiHole/password.md",
-        "title": "Pi Hole new password for web ui",
-        "description": "How to create or change password on Pi Hole Docker container.",
+        "path": "Artefactory/Artefactory.md",
+        "title": "Artifactory OSS Docker Setup",
+        "description": "Dieses Verzeichnis enthält ein Skript zum Starten von JFrog Artifactory Open Source via Docker. Artifactory ist ein universeller Artefakt-Repository-Manager, der Maven-, Gradle-, npm-, Docker- und weitere Paketformate unterstützt. Er dient als lokaler Spiegel für externe Repositories und als internes Ablagesystem für Build-Artefakte.",
+        "type": "text"
+      },
+      {
+        "path": "Code-Server/codeserver.md",
+        "title": "Code-Server",
+        "description": "Browser-basierte VS Code Instanz. Erreichbar unter http://localhost:9000",
+        "type": "text"
+      },
+      {
+        "path": "Consul/Consul.md",
+        "title": "Consul Docker Setup (Zwei-Server-Cluster)",
+        "description": "Dieses Verzeichnis enthält ein Skript zum Starten eines Consul-Clusters mit zwei Server-Nodes via Docker. Consul ist ein Service-Mesh- und Service-Discovery-Tool von HashiCorp. Es bietet Health-Checking, Key-Value-Store, DNS-basierte Service Discovery und eine Web-UI.",
+        "type": "text"
+      },
+      {
+        "path": "CoreDNS/CoreDNS.md",
+        "title": "CoreDNS Docker Setup",
+        "description": "Dieses Verzeichnis enthält Skripte und Konfigurationsdateien für einen CoreDNS-Server via Docker. CoreDNS ist ein leichtgewichtiger, erweiterbarer DNS-Server, der sich besonders für den Einsatz in Heimnetzwerken und als interner Service-Discovery-DNS eignet. Die Konfiguration enthält eine lokale Zone für interne Hostnamen sowie Forwarding für alle anderen Anfragen.",
+        "type": "text"
+      },
+      {
+        "path": "Couchbase/Couchbase.md",
+        "title": "Couchbase Docker Setup (Zwei-Knoten-Cluster)",
+        "description": "Dieses Verzeichnis enthält ein Skript zum Starten eines Zwei-Knoten-Couchbase-Clusters via Docker. Couchbase ist eine verteilte NoSQL-Dokumentendatenbank mit integriertem Caching, N1QL-Abfragesprache und Web-UI.",
+        "type": "text"
+      },
+      {
+        "path": "DockerRegistry/dockerregistry.md",
+        "title": "Docker Registry",
+        "description": "Private Docker Registry mit htpasswd-Authentifizierung. Läuft auf Port 5000.",
+        "type": "text"
+      },
+      {
+        "path": "Elk/elk.md",
+        "title": "ELK Stack Docker Setup (einzelne Container)",
+        "description": "Dieses Verzeichnis enthält Skripte zum Starten des ELK-Stacks als einzelne Docker-Container (ohne Compose). Die Logstash-Pipeline ist auf das Spring-Boot-Logformat ausgelegt. Für den Compose-basierten Stack siehe [ElkStack](../ElkStack/).",
+        "type": "text"
+      },
+      {
+        "path": "ElkStack/ElkStack.md",
+        "title": "ELK Stack Docker Compose Setup",
+        "description": "Dieses Verzeichnis enthält eine Docker Compose Konfiguration für den vollständigen ELK-Stack: Elasticsearch, Kibana und Logstash. Der Stack wird im bestehenden Docker-Netzwerk `spring-net` betrieben und dient zur zentralen Log-Aggregation für Spring-Boot-Anwendungen.",
+        "type": "text"
+      },
+      {
+        "path": "Gitea/gitea.md",
+        "title": "Gitea Docker Setup",
+        "description": "Dieses Verzeichnis enthält ein Skript zum Starten einer selbst gehosteten Gitea-Instanz via Docker. Gitea ist ein leichtgewichtiger, quelloffener Git-Dienst mit Web-UI, Issue-Tracker, Pull-Request-Workflow und CI/CD-Integration. Er eignet sich besonders für den Heimserver- und Intranet-Einsatz.",
+        "type": "text"
+      },
+      {
+        "path": "InfluxDB/influxdb.md",
+        "title": "InfluxDB 3 Core",
+        "description": "Zeitreihendatenbank für Metriken und Monitoring. Läuft auf Port 8181.",
+        "type": "text"
+      },
+      {
+        "path": "JenkinsStack/jenkins-with-builder.md",
+        "title": "Jenkins mit Build-Agent (Docker-in-Docker)",
+        "description": "Dieses Verzeichnis enthält Skripte und ein Dockerfile für einen Jenkins CI/CD-Stack bestehend aus einem Jenkins Master und einem angebundenen Build-Agent. Der Agent kann Docker-Befehle ausführen, da der Host-Docker-Socket eingebunden wird.",
+        "type": "text"
+      },
+      {
+        "path": "Kafka/Kafka.md",
+        "title": "Kafka Docker Setup",
+        "description": "Dieses Verzeichnis enthält Skripte zum Starten eines Apache Kafka Brokers mit Zookeeper via Docker. Kafka ist eine verteilte Event-Streaming-Plattform für hochdurchsatzfähige, fehlertolerante Nachrichtenverarbeitung. Die enthaltene Konfiguration ist als Single-Broker-Setup für Entwicklung und lokale Umgebungen ausgelegt.",
+        "type": "text"
+      },
+      {
+        "path": "MariaDB/MariaDB.md",
+        "title": "MariaDB Docker Setup",
+        "description": "Dieses Verzeichnis enthält Skripte zum Starten eines MariaDB Containers via Docker. MariaDB ist ein leistungsstarkes, quelloffenes relationales Datenbanksystem und ein vollständig kompatibler Fork von MySQL. Es eignet sich für den Einsatz in Entwicklungsumgebungen, auf Einplatinenrechnern und in Produktionssystemen.",
+        "type": "text"
+      },
+      {
+        "path": "Memcached/Memcached.md",
+        "title": "Memcached Docker Setup",
+        "description": "Dieses Verzeichnis enthält ein Skript zum Starten eines Memcached Containers via Docker. Memcached ist ein leistungsstarkes, verteiltes In-Memory-Caching-System, das häufig zur Beschleunigung dynamischer Webanwendungen eingesetzt wird, indem Daten und Objekte im RAM zwischengespeichert werden. Es unterstützt sowohl das klassische Textprotokoll als auch das effizientere Binärprotokoll.",
+        "type": "text"
+      },
+      {
+        "path": "Nextcloud/nextcloud-arm.md",
+        "title": "Nextcloud ARM64",
+        "description": "Nextcloud als selbst gehostete Cloud-Lösung auf ARM64-Geräten (Raspberry Pi, Apple Silicon).\nDas `fpm-alpine`-Image nutzt PHP-FPM statt Apache — kleiner, ressourcenschonender, aber ohne eingebauten Webserver.",
+        "type": "text"
+      },
+      {
+        "path": "PiHole/pihole-password.md",
+        "title": "Pi Hole",
+        "description": "DNS-basierter Werbeblocker mit Web-UI.",
+        "type": "text"
+      },
+      {
+        "path": "PiHole/pihole.md",
+        "title": "Pi-hole",
+        "description": "DNS-basierter Werbeblocker der Werbung und Tracker für alle Geräte im Heimnetzwerk blockiert —\nohne Browser-Extensions, direkt auf DNS-Ebene. Web-UI erreichbar unter http://localhost:8080/admin",
+        "type": "text"
+      },
+      {
+        "path": "Postgres/postgres.md",
+        "title": "PostgreSQL Docker Setup",
+        "description": "Dieses Verzeichnis enthält Skripte zum Starten eines PostgreSQL 16.1 Containers via Docker – wahlweise für amd64- oder ARM64-Systeme. Die Datenbank wird mit einem Init-Skript vorkonfiguriert und persistiert ihre Daten auf dem Host.",
+        "type": "text"
+      },
+      {
+        "path": "PromethusStack/PromethusStack.md",
+        "title": "Prometheus Monitoring Stack",
+        "description": "Dieser Docker-Compose-Stack stellt einen vollständigen Monitoring-Stack bereit: Prometheus sammelt Metriken, Node Exporter liefert Host-Metriken, Alertmanager verschickt Benachrichtigungen und Grafana visualisiert alles in Dashboards.",
         "type": "text"
       },
       {
         "path": "README.md",
         "title": "Dockerfiles",
-        "description": "Repository for my docker files, scripts and configs",
+        "description": "Repository for Docker run scripts, compose files, and infrastructure configs.",
         "type": "readme"
+      },
+      {
+        "path": "RabbitMQ/RabbitMQ.md",
+        "title": "RabbitMQ Docker Setup",
+        "description": "Dieses Verzeichnis enthält Skripte zum Starten eines RabbitMQ 3.8.2 Containers via Docker – wahlweise für amd64- oder ARM64-Systeme. RabbitMQ wird mit aktiviertem Management-Plugin gestartet und stellt AMQP- sowie Management-Ports bereit.",
+        "type": "text"
+      },
+      {
+        "path": "Solr/README.md",
+        "title": "Solr",
+        "description": "Startet Apache Solr als Docker-Container auf Basis des offiziellen `solr:10-slim`-Images. Der Container ist für den Dauerbetrieb konfiguriert und speichert Cores und Indizes in einem persistenten Host-Verzeichnis.",
+        "type": "module"
+      },
+      {
+        "path": "Valkey/Valkey.md",
+        "title": "Valkey Docker Setup",
+        "description": "Dieses Verzeichnis enthält ein Skript zum Starten eines Valkey Containers via Docker. Valkey ist ein quelloffener Fork von Redis, der unter der BSD-3-Clause-Lizenz weiterentwickelt wird und vollständig kompatibel mit Redis-Clients ist.",
+        "type": "text"
       },
       {
         "path": "clean-history.md",
         "title": "clean git repro",
-        "description": "How to clean a git repro from old files.",
+        "description": "Anleitung um alte/große Dateien aus der Git-Historie zu entfernen ohne den aktuellen Stand zu verlieren.",
         "type": "text"
       },
       {
         "path": "docker-on-windows.md",
         "title": "Docker on Windows",
-        "description": "All powershell commmands to install wsl and a linux container to run docker containers in Windows.",
+        "description": "Docker ohne Docker Desktop auf Windows betreiben — via WSL2 und Debian.",
+        "type": "text"
+      },
+      {
+        "path": "letsencrypt/letsencrypt.md",
+        "title": "Let's Encrypt",
+        "description": "Kostenlose, automatisierte TLS-Zertifikate von der gemeinnützigen Certificate Authority Let's Encrypt.\nZertifikate sind 90 Tage gültig und können vollautomatisch über das ACME-Protokoll ausgestellt und erneuert werden —\nohne manuelle Eingriffe oder Kosten.",
         "type": "text"
       },
       {
         "path": "start-webtop.md",
         "title": "Start webtop instance",
-        "description": "Command to start a Ubuntu based webtop instance. You can now access a Ubuntu Desktop Client through your browser.",
+        "description": "Ubuntu-Desktop im Browser — kein VNC-Client nötig, Zugriff direkt über http://127.0.0.1:3000",
+        "type": "text"
+      },
+      {
+        "path": "windows-on-kvm/windows-with-kvm.md",
+        "title": "Windows 10 mit KVM/QEMU",
+        "description": "Dieses Verzeichnis enthält Shell-Skripte zur Installation und zum Betrieb einer Windows 10 VM unter KVM/QEMU mit libvirt. VirtIO-Treiber sorgen für maximale I/O-Performance bei Disk und Netzwerk.",
         "type": "text"
       }
     ]
@@ -369,7 +507,7 @@
     "name": "helm-for-java-devs",
     "description": "Helm for Java Devs",
     "url": "https://github.com/wlanboy/helm-for-java-devs",
-    "pushed_at": "2026-06-06T04:23:32Z",
+    "pushed_at": "2026-06-07T06:33:52Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -467,27 +605,6 @@
         "title": "kanbantabs",
         "description": "golang based console kanban board with local storage\n\nExmaple:",
         "type": "readme"
-      }
-    ]
-  },
-  {
-    "name": "kubecontext",
-    "description": "Python tool to get and manage kube config files.",
-    "url": "https://github.com/wlanboy/kubecontext",
-    "pushed_at": "2026-06-05T10:25:08Z",
-    "default_branch": "main",
-    "readmes": [
-      {
-        "path": "README.md",
-        "title": "kubecontext",
-        "description": "Interaktives TUI-Tool zur Verwaltung von Kubernetes-Kontexten in `~/.kube/config`. Es ermöglicht das Importieren von Kubeconfigs von Remote-Servern per SSH, das Verwalten von SSH-Tunneln, das Wechseln des aktiven Kontexts, das Löschen von Kontexten sowie die Validierung der Cluster-Erreichbarkeit – alles über ein einfaches Auswahlmenü im Terminal.",
-        "type": "readme"
-      },
-      {
-        "path": "old/old.md",
-        "title": "kubecontext",
-        "description": "TUI zum Zusammenführen von kubectl-Contexts aus SSH-Hosts in die lokale `~/.kube/config`.",
-        "type": "text"
       }
     ]
   },
@@ -608,33 +725,6 @@
         "title": "MCP Duck Search",
         "description": "Ein MCP-Server (Model Context Protocol) auf Basis von [FastMCP](https://gofastmcp.com), der LLM-Modellen die Internetsuche ermöglicht — optimiert fuer Code-, Fehler- und Dokumentationssuche.\n\nAls Such-Backend wird automatisch **SearXNG** verwendet, wenn die Umgebungsvariable `SEARXNG_URL` gesetzt ist, andernfalls **DuckDuckGo**.",
         "type": "readme"
-      }
-    ]
-  },
-  {
-    "name": "mcp-md-fileserver",
-    "description": "A FastMCP python based mcp server to search in markdown files",
-    "url": "https://github.com/wlanboy/mcp-md-fileserver",
-    "pushed_at": "2026-05-30T14:58:50Z",
-    "default_branch": "main",
-    "readmes": [
-      {
-        "path": "README.md",
-        "title": "MCP Markdown Wissensdatenbank",
-        "description": "Ein MCP-Server (Model Context Protocol) zur Verwaltung von Markdown-Dokumenten mit automatischer Stichwort-Extraktion. LLMs können damit eine Sammlung von Markdown-Dateien durchsuchen und deren Inhalte abrufen.",
-        "type": "readme"
-      },
-      {
-        "path": "qwen-thinking-prompt.md",
-        "title": "Qwen Thinking Prompt Example",
-        "description": "Dieses Dokument zeigt ein Beispiel, wie ein Qwen-Modell mit aktiviertem Thinking-Modus\neine Benutzeranfrage an den MCP-MD-Fileserver verarbeitet. Es illustriert den mehrstufigen\nReasoning-Prozess: initiales Denken, Tool-Aufruf mit Zwischenreflexion und finales Ergebnis.\n\n---",
-        "type": "text"
-      },
-      {
-        "path": "spec.md",
-        "title": "MCP Markdown Fileserver - Technische Spezifikation",
-        "description": "**Summary**: Ein MCP-Server (Model Context Protocol) auf Python-Basis, der ein Verzeichnis mit Markdown-Dateien als durchsuchbare Wissensdatenbank bereitstellt. Kernfunktionen: automatisches, periodisches Scannen von `.md`-Dateien, NLP-basierte Stichwort-Extraktion via spaCy, SQLite-Persistenz sowie 5 MCP-Tools (Keyword-Suche, Volltextsuche, Dateilisting, Dateiinhalt) und 3 Prompt-Templates für LLM-Clients. Der Server läuft per HTTP auf `localhost:8000/mcp`.",
-        "type": "text"
       }
     ]
   },
@@ -981,7 +1071,7 @@
     "name": "wlanboy.github.io",
     "description": "website",
     "url": "https://github.com/wlanboy/wlanboy.github.io",
-    "pushed_at": "2026-06-05T14:54:43Z",
+    "pushed_at": "2026-06-06T13:47:04Z",
     "default_branch": "main",
     "readmes": [
       {

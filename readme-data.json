@@ -69,13 +69,13 @@
     "name": "caweb",
     "description": "Python based web frontend to create ssl certs for hostname on a given ca",
     "url": "https://github.com/wlanboy/caweb",
-    "pushed_at": "2026-05-28T12:28:45Z",
+    "pushed_at": "2026-06-07T17:21:17Z",
     "default_branch": "main",
     "readmes": [
       {
         "path": "README.md",
-        "title": "caweb",
-        "description": "A tiny certificate authority (CA) web UI for issuing and managing certificates. This repository contains a small FastAPI (uvicorn) web application and a Dockerfile so you can run it locally or inside a container.",
+        "title": "caweb – Minimal Web UI for a Local Certificate Authority",
+        "description": "caweb is a tiny, self‑contained Certificate Authority (CA) web interface for issuing and managing certificates.\nIt includes a lightweight FastAPI (uvicorn) application and a Dockerfile, allowing you to run it locally or inside a container with minimal setup.\n\nThe goal is to provide a simple, developer‑friendly CA tool without the complexity of full PKI suites — ideal for labs, internal services, development clusters, or automated certificate workflows.",
         "type": "readme"
       },
       {
@@ -120,13 +120,13 @@
     "name": "debian-cloud-init",
     "description": "Create libvirt  vm of debian 12 and 13 with cloud init - with amd64 and arm64 support",
     "url": "https://github.com/wlanboy/debian-cloud-init",
-    "pushed_at": "2026-06-06T14:05:03Z",
+    "pushed_at": "2026-06-07T17:12:55Z",
     "default_branch": "main",
     "readmes": [
       {
         "path": "README.md",
         "title": "debian/ubuntu cloud init installer",
-        "description": "This repo describes how to auto install Debian 12, Debian 13, Ubuntu 22.04 and Ubuntu 24.04 with cloud-init — on a local KVM/libvirt host or a **remote Proxmox server**.\nWhich images you can use, and which images you should not use.\nHow to add user passwords with hashes and how to create harddisk images from templates.",
+        "description": "This repository provides a complete workflow for automated installation of Debian 12/13 and Ubuntu 22.04/24.04 using cloud-init.\nIt supports both local KVM/libvirt environments and remote Proxmox servers, making it ideal for homelabs, DevOps automation, and reproducible VM provisioning.\n\nIt explains which cloud images work reliably, which ones should be avoided, and how to configure users, SSH keys, and password hashes.\nThe project also demonstrates how to generate custom disk images from templates for fast and consistent VM deployment.\n\nA key component is the Python-based TUI, which guides you step-by-step through:\n\n- Selecting the distribution\n- Choosing the correct cloud image\n- Adding SSH keys and password hashes\n- Generating cloud-init configuration\n- Creating QCOW2 disk images\n- Deploying to KVM/libvirt or Proxmox\n\nThis makes cloud-init–based VM provisioning accessible even for users without prior experience.",
         "type": "readme"
       },
       {
@@ -507,7 +507,7 @@
     "name": "helm-for-java-devs",
     "description": "Helm for Java Devs",
     "url": "https://github.com/wlanboy/helm-for-java-devs",
-    "pushed_at": "2026-06-07T06:33:52Z",
+    "pushed_at": "2026-06-07T17:09:47Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -519,7 +519,7 @@
       {
         "path": "readme.md",
         "title": "Helm for Java Devs — Schritt-für-Schritt-Anleitung",
-        "description": "Spring Boot Helloworld App → Tekton baut das Image → lokale k3s-Registry → ArgoCD deployt per Helm.",
+        "description": "Eine vollständige Kubernetes Pipeline für eine Spring Boot App in einem Container.\nSpring Boot Helloworld App → Tekton baut das Image → lokale k3s-Registry → ArgoCD deployt per Helm.\n\nVerwendet ConfigMap, Secrets, SSL Certificate, Istio Gateway, VirtualService, HealthChecks, Readness Checks.\nServiceEntry und DestinationRule für eine externe Datenbankabhängigkeit.\nHat ein Feature Flag für den Wechsel von h2 auf MySQL.",
         "type": "readme"
       }
     ]
@@ -528,13 +528,13 @@
     "name": "hermes-local",
     "description": "Local docker hermes stack",
     "url": "https://github.com/wlanboy/hermes-local",
-    "pushed_at": "2026-05-17T18:43:36Z",
+    "pushed_at": "2026-06-07T17:22:49Z",
     "default_branch": "main",
     "readmes": [
       {
         "path": "README.md",
-        "title": "Hermes Local",
-        "description": "Lokale KI-Assistenten-Umgebung auf Basis von [Hermes](https://github.com/NousResearch/hermes-agent) und [Ollama](https://ollama.com). Läuft vollständig offline — keine Cloud-Abhängigkeit, keine Daten verlassen den Rechner.",
+        "title": "Hermes Local – Lokale KI‑Assistenten‑Umgebung (offline)",
+        "description": "Hermes Local ist eine vollständig offline laufende KI‑Assistenten‑Umgebung auf Basis von Hermes und Ollama.\nKeine Cloud‑Dienste, keine externen Abhängigkeiten — alle Daten bleiben lokal auf dem Rechner.\n\nDas Setup kombiniert einen lokalen LLM‑Server, ein Web‑Dashboard und eine OpenAI‑kompatible API, sodass sich KI‑Modelle wie in der Cloud nutzen lassen, aber komplett lokal betrieben werden.",
         "type": "readme"
       },
       {
@@ -612,13 +612,13 @@
     "name": "kubectl_analytics",
     "description": "A command-line tool for gathering and visualizing statistics about Kubernetes cluster resources",
     "url": "https://github.com/wlanboy/kubectl_analytics",
-    "pushed_at": "2026-06-05T10:18:18Z",
+    "pushed_at": "2026-06-07T17:16:13Z",
     "default_branch": "main",
     "readmes": [
       {
         "path": "README.md",
         "title": "kubectl analytics",
-        "description": "A command-line tool for gathering and visualizing statistics about Kubernetes cluster resources — focused on adoption rates, operator usage, and service mesh coverage, always broken down **per namespace**.",
+        "description": "kubectl_analytics is a lightweight tool that analyzes Kubernetes logs, events, and resource states to provide actionable insights into cluster behavior.\nIt helps identify patterns, anomalies, and potential issues by aggregating and interpreting data directly from the Kubernetes API.\n\nThe tool focuses on fast, local analytics without requiring external services or complex observability stacks.\nIt is ideal for debugging, troubleshooting, and gaining a deeper understanding of what is happening inside your cluster.\n\nKey capabilities include:\n\n- Collecting and analyzing pod logs\n- Inspecting Kubernetes events to detect warnings and failure patterns\n- Summarizing resource states across namespaces\n- Highlighting anomalies or repeating error messages\n- Providing human‑readable diagnostics for faster troubleshooting\n\nThis makes kubectl_analytics a practical companion for:\n\n- Developers debugging workloads\n- Platform engineers analyzing cluster health\n- SREs investigating incidents\n\nAnyone who wants quick insights without deploying a full observability stack\n\n---",
         "type": "readme"
       }
     ]
@@ -828,13 +828,13 @@
     "name": "randomfail",
     "description": "Ein absichtlich instabiler FastAPI-Service zur Simulation realer Ausfallszenarien in Kubernetes-Clustern.",
     "url": "https://github.com/wlanboy/randomfail",
-    "pushed_at": "2026-06-06T06:24:22Z",
+    "pushed_at": "2026-06-07T17:14:38Z",
     "default_branch": "main",
     "readmes": [
       {
         "path": "README.md",
         "title": "Kubernetes Chaos Simulator – randomfail",
-        "description": "Ein absichtlich instabiler FastAPI-Service zur Simulation realer Ausfallszenarien in Kubernetes-Clustern. Der Service löst automatisch und manuell verschiedene Fehlerzustände aus und ermöglicht so das gezielte Testen von Liveness/Readiness-Probes, Self-Healing-Mechanismen, HPA-Reaktionen, PVC-Limits und Graceful-Shutdown-Verhalten.\n\nDer Chaos-Zyklus wechselt in konfigurierbaren Intervallen automatisch zwischen den Szenarien. Zusätzlich können alle Szenarien jederzeit manuell per HTTP-Endpoint ausgelöst werden.\n\n---",
+        "description": "randomfail ist ein absichtlich instabiler FastAPI‑Service zur Simulation realer Ausfallszenarien in Kubernetes‑Clustern.\nDer Dienst erzeugt automatisch oder manuell verschiedene Fehlerzustände und ermöglicht so das gezielte Testen von:\n\n- Liveness‑ und Readiness‑Probes\n- Self‑Healing‑Mechanismen\n- HPA‑Reaktionen unter Last\n- PVC‑Limits und Storage‑Fehlern\n- Graceful‑Shutdown‑Verhalten\n\nDer integrierte Chaos‑Zyklus wechselt in frei konfigurierbaren Intervallen automatisch zwischen verschiedenen Fehlerszenarien.\nZusätzlich lassen sich alle Szenarien jederzeit manuell über HTTP‑Endpoints auslösen — ideal für reproduzierbare Tests, Demos oder Chaos‑Engineering‑Workshops.\n\n---",
         "type": "readme"
       },
       {
@@ -981,13 +981,13 @@
     "name": "usbview",
     "description": "Python opencv based webserver for streaming usb capture card streams",
     "url": "https://github.com/wlanboy/usbview",
-    "pushed_at": "2026-05-25T08:48:01Z",
+    "pushed_at": "2026-06-07T17:19:35Z",
     "default_branch": "main",
     "readmes": [
       {
         "path": "README.md",
-        "title": "usbview",
-        "description": "Browser-basierter Live-Viewer für USB-HDMI-Capture-Cards unter Linux.  \nGedacht für den Zugriff auf BIOS/UEFI-Einstellungen von Server-Boards ohne KVM-Switch — einfach Capture Card anstecken, Server starten, Browser öffnen.",
+        "title": "usbview – Browser‑basierter Live‑Viewer für USB‑HDMI‑Capture‑Cards",
+        "description": "usbview ist ein browserbasierter Live‑Viewer für USB‑HDMI‑Capture‑Cards unter Linux.\nDer Dienst stellt einen HTTP‑Stream bereit, über den das angeschlossene HDMI‑Gerät direkt im Browser betrachtet werden kann — ganz ohne zusätzliche Software.\n\nDas Tool eignet sich besonders für Server‑Hardware ohne KVM‑Switch:\nCapture‑Card einstecken, Server einschalten, Browser öffnen — und schon lassen sich BIOS‑ oder UEFI‑Einstellungen bequem aus der Ferne betrachten.",
         "type": "readme"
       }
     ]
@@ -1029,7 +1029,7 @@
     "name": "vram-model-calculator",
     "description": "Python based calculator for total vram usage of you gguf models",
     "url": "https://github.com/wlanboy/vram-model-calculator",
-    "pushed_at": "2026-06-03T11:55:20Z",
+    "pushed_at": "2026-06-07T16:16:55Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1071,7 +1071,7 @@
     "name": "wlanboy.github.io",
     "description": "website",
     "url": "https://github.com/wlanboy/wlanboy.github.io",
-    "pushed_at": "2026-06-06T13:47:04Z",
+    "pushed_at": "2026-06-07T16:19:29Z",
     "default_branch": "main",
     "readmes": [
       {

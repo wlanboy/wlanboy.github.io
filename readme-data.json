@@ -948,6 +948,27 @@
     ]
   },
   {
+    "name": "testing",
+    "description": "My personal testing ground.",
+    "url": "https://github.com/wlanboy/testing",
+    "pushed_at": "2026-06-08T06:40:07Z",
+    "default_branch": "gh-pages",
+    "readmes": [
+      {
+        "path": "README.md",
+        "title": "testing",
+        "description": "github page for using A record and CAA record\n\n# content\nMy private place to test things (most locally) :-)",
+        "type": "readme"
+      },
+      {
+        "path": "mysqlrouter.md",
+        "title": "REST-API-User manuell anlegen",
+        "description": "Wer den Router betreibt (z.B. RPM/DEB-Installation oder ein fremdes Docker-Setup), muss die folgenden Schritte von Hand durchführen.",
+        "type": "text"
+      }
+    ]
+  },
+  {
     "name": "triggerhappy",
     "description": "Python based trigger queue",
     "url": "https://github.com/wlanboy/triggerhappy",
@@ -1071,7 +1092,7 @@
     "name": "wlanboy.github.io",
     "description": "website",
     "url": "https://github.com/wlanboy/wlanboy.github.io",
-    "pushed_at": "2026-06-07T16:19:29Z",
+    "pushed_at": "2026-06-07T17:24:20Z",
     "default_branch": "main",
     "readmes": [
       {

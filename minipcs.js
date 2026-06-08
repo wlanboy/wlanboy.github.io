@@ -153,6 +153,23 @@ const devices = [
     perf: 84
   },
   {
+    name: "GMKtec M8 (Ryzen 5 PRO 6650H)",
+    year: 2023,
+    vendor: "amd",
+    vendorLabel: "AMD",
+    cpu: "Ryzen 5 PRO 6650H · 6C/12T · 3.30 / 4.50 GHz",
+    ram: "16 GB LPDDR5-6400",
+    gpu: "Radeon 660M RDNA 2 · ~1536 GFLOPS",
+    tdpW: 45,
+    tdp: "45 W (konfig.)",
+    storage: "M.2 NVMe (PCIe 4.0)",
+    network: "2× 2,5 GbE · WiFi 6E · BT 5.2 · USB4 40 Gbps · USB 3.2 Gen2 ×3 · HDMI 2.0 · DP 1.4",
+    os: "Windows 11 · Linux",
+    usecase: "Büro, Heimserver, leichtes Gaming, Virtualisierung",
+    cb23: 11500,
+    perf: 72
+  },
+  {
     name: "Minisforum UM890 Pro",
     year: 2024,
     vendor: "amd",

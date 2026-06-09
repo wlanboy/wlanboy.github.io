@@ -810,6 +810,21 @@
     ]
   },
   {
+    "name": "mysqlrouter-metricsexporter",
+    "description": "Spring based Metrics Exporter",
+    "url": "https://github.com/wlanboy/mysqlrouter-metricsexporter",
+    "pushed_at": "2026-06-09T08:37:56Z",
+    "default_branch": "main",
+    "readmes": [
+      {
+        "path": "README.md",
+        "title": "MySQL Router Metrics Exporter",
+        "description": "Fragt die MySQL Router REST API (HTTPS, Basic Auth) ab und stellt Prometheus-Metriken bereit — entweder per Push an ein Pushgateway oder per Pull über einen eigenen HTTP-Endpunkt. Gebaut mit Spring Boot 4.0 und Java 25.\n\n---",
+        "type": "readme"
+      }
+    ]
+  },
+  {
     "name": "python-sqlplus-checker",
     "description": "Python based pl/sql sqlplus checker for devs",
     "url": "https://github.com/wlanboy/python-sqlplus-checker",
@@ -1092,7 +1107,7 @@
     "name": "wlanboy.github.io",
     "description": "website",
     "url": "https://github.com/wlanboy/wlanboy.github.io",
-    "pushed_at": "2026-06-07T17:24:20Z",
+    "pushed_at": "2026-06-08T19:27:19Z",
     "default_branch": "main",
     "readmes": [
       {

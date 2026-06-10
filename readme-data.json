@@ -507,7 +507,7 @@
     "name": "helm-for-java-devs",
     "description": "Helm for Java Devs",
     "url": "https://github.com/wlanboy/helm-for-java-devs",
-    "pushed_at": "2026-06-07T17:09:47Z",
+    "pushed_at": "2026-06-09T16:14:31Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -966,7 +966,7 @@
     "name": "testing",
     "description": "My personal testing ground.",
     "url": "https://github.com/wlanboy/testing",
-    "pushed_at": "2026-06-08T06:40:07Z",
+    "pushed_at": "2026-06-10T05:51:39Z",
     "default_branch": "gh-pages",
     "readmes": [
       {
@@ -974,12 +974,6 @@
         "title": "testing",
         "description": "github page for using A record and CAA record\n\n# content\nMy private place to test things (most locally) :-)",
         "type": "readme"
-      },
-      {
-        "path": "mysqlrouter.md",
-        "title": "REST-API-User manuell anlegen",
-        "description": "Wer den Router betreibt (z.B. RPM/DEB-Installation oder ein fremdes Docker-Setup), muss die folgenden Schritte von Hand durchführen.",
-        "type": "text"
       }
     ]
   },
@@ -1107,7 +1101,7 @@
     "name": "wlanboy.github.io",
     "description": "website",
     "url": "https://github.com/wlanboy/wlanboy.github.io",
-    "pushed_at": "2026-06-08T19:27:19Z",
+    "pushed_at": "2026-06-09T14:56:13Z",
     "default_branch": "main",
     "readmes": [
       {

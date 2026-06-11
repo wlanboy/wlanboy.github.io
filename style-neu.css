@@ -434,3 +434,22 @@ pre#modalText {
 ::-webkit-scrollbar-track    { background: transparent; }
 ::-webkit-scrollbar-thumb    { background: var(--border); border-radius: 3px; }
 ::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.18); }
+
+/* ─── MOBILE ─── */
+@media (max-width: 600px) {
+  #controls {
+    flex-wrap: wrap;
+    overflow-x: visible;
+    gap: 0.4rem;
+    padding: 0.6rem 1rem;
+  }
+
+  #search-wrapper {
+    flex: 1 1 100%;
+    max-width: 100%;
+  }
+
+  select {
+    flex: 1 1 calc(50% - 0.2rem);
+  }
+}

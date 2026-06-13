@@ -504,25 +504,12 @@
     ]
   },
   {
-    "name": "helm-for-java-devs",
-    "description": "Helm for Java Devs",
-    "url": "https://github.com/wlanboy/helm-for-java-devs",
-    "pushed_at": "2026-06-09T16:14:31Z",
+    "name": "helm-for-spring-boot",
+    "description": "ArgoCD App and Helm Chart for simple Spring Boot App",
+    "url": "https://github.com/wlanboy/helm-for-spring-boot",
+    "pushed_at": "2026-06-13T12:48:48Z",
     "default_branch": "main",
-    "readmes": [
-      {
-        "path": "argocd/user/argocd-user.md",
-        "title": "ArgoCD User Management",
-        "description": "Dieses Verzeichnis enthält die Konfiguration für lokale ArgoCD-User ohne externen SSO-Provider.",
-        "type": "text"
-      },
-      {
-        "path": "readme.md",
-        "title": "Helm for Java Devs — Schritt-für-Schritt-Anleitung",
-        "description": "Eine vollständige Kubernetes Pipeline für eine Spring Boot App in einem Container.\nSpring Boot Helloworld App → Tekton baut das Image → lokale k3s-Registry → ArgoCD deployt per Helm.\n\nVerwendet ConfigMap, Secrets, SSL Certificate, Istio Gateway, VirtualService, HealthChecks, Readness Checks.\nServiceEntry und DestinationRule für eine externe Datenbankabhängigkeit.\nHat ein Feature Flag für den Wechsel von h2 auf MySQL.",
-        "type": "readme"
-      }
-    ]
+    "readmes": []
   },
   {
     "name": "hermes-local",
@@ -648,7 +635,7 @@
     "name": "kubeeventjava",
     "description": "Spring Boot Kubernetes Eventlistener for namespaces to export metrics on kubernetes events",
     "url": "https://github.com/wlanboy/kubeeventjava",
-    "pushed_at": "2026-05-30T14:54:39Z",
+    "pushed_at": "2026-06-13T11:59:08Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -729,21 +716,6 @@
     ]
   },
   {
-    "name": "mcp-spring-ai-java",
-    "description": "Spring AI based MCP Server",
-    "url": "https://github.com/wlanboy/mcp-spring-ai-java",
-    "pushed_at": "2026-06-04T08:22:21Z",
-    "default_branch": "main",
-    "readmes": [
-      {
-        "path": "README.md",
-        "title": "MCP Hello World Server — Spring AI / Java 25",
-        "description": "Ein minimaler MCP-Server (Model Context Protocol) auf Basis von Spring Boot 4 und Spring AI 2.0.",
-        "type": "readme"
-      }
-    ]
-  },
-  {
     "name": "md",
     "description": null,
     "url": "https://github.com/wlanboy/md",
@@ -792,7 +764,7 @@
     "name": "MirrorService",
     "description": "Spring Framework based service mirroring requests with parameterized wait time and http response codes",
     "url": "https://github.com/wlanboy/MirrorService",
-    "pushed_at": "2026-06-03T11:32:01Z",
+    "pushed_at": "2026-06-13T11:59:37Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -806,21 +778,6 @@
         "title": "MirrorService – Tekton Pipeline",
         "description": "Dieses Dokument beschreibt den Aufbau und Betrieb der Tekton CI/CD-Pipeline für den MirrorService.\nDie Pipeline ersetzt die GitHub Actions Workflows durch eine lokale, Kubernetes-native Lösung auf Basis eines kind-Clusters.\nSie umfasst alle Schritte von Repository-Clone über Maven-Build mit Spring Boot AOT bis zum Docker-Image-Push nach Docker Hub.",
         "type": "text"
-      }
-    ]
-  },
-  {
-    "name": "mysqlrouter-metricsexporter",
-    "description": "Spring based Metrics Exporter",
-    "url": "https://github.com/wlanboy/mysqlrouter-metricsexporter",
-    "pushed_at": "2026-06-09T08:37:56Z",
-    "default_branch": "main",
-    "readmes": [
-      {
-        "path": "README.md",
-        "title": "MySQL Router Metrics Exporter",
-        "description": "Fragt die MySQL Router REST API (HTTPS, Basic Auth) ab und stellt Prometheus-Metriken bereit — entweder per Push an ein Pushgateway oder per Pull über einen eigenen HTTP-Endpunkt. Gebaut mit Spring Boot 4.0 und Java 25.\n\n---",
-        "type": "readme"
       }
     ]
   },
@@ -936,7 +893,7 @@
     "name": "SimpleService",
     "description": "Simple Spring Rest Service playing Blockchain",
     "url": "https://github.com/wlanboy/SimpleService",
-    "pushed_at": "2026-06-03T11:32:03Z",
+    "pushed_at": "2026-06-13T12:00:19Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1080,7 +1037,7 @@
     "name": "WebShell",
     "description": "Spring Boot Web Shell",
     "url": "https://github.com/wlanboy/WebShell",
-    "pushed_at": "2026-05-24T17:31:51Z",
+    "pushed_at": "2026-06-13T12:18:30Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1101,7 +1058,7 @@
     "name": "wlanboy.github.io",
     "description": "website",
     "url": "https://github.com/wlanboy/wlanboy.github.io",
-    "pushed_at": "2026-06-11T19:58:39Z",
+    "pushed_at": "2026-06-12T15:18:40Z",
     "default_branch": "main",
     "readmes": [
       {

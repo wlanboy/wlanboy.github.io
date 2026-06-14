@@ -507,15 +507,28 @@
     "name": "helm-for-spring-boot",
     "description": "ArgoCD App and Helm Chart for simple Spring Boot App",
     "url": "https://github.com/wlanboy/helm-for-spring-boot",
-    "pushed_at": "2026-06-13T12:48:48Z",
+    "pushed_at": "2026-06-14T06:25:25Z",
     "default_branch": "main",
-    "readmes": []
+    "readmes": [
+      {
+        "path": "README.md",
+        "title": "helm-for-spring-boot",
+        "description": "Vollständige lokale Kubernetes-Entwicklungsumgebung auf Basis von KinD — mit Istio Service Mesh für Traffic-Management und TLS, ArgoCD für GitOps-basierte Deployments sowie einem Helm Chart für Spring Boot Anwendungen. Ports 80 und 443 werden direkt über KinD-Port-Mappings und einen Istio NodePort-Ingress auf den Host exponiert.",
+        "type": "readme"
+      },
+      {
+        "path": "Tools.md",
+        "title": "Tools",
+        "description": "Alle benötigten Binaries werden manuell von den offiziellen Release-Seiten heruntergeladen und ins Projektverzeichnis gelegt.",
+        "type": "text"
+      }
+    ]
   },
   {
     "name": "hermes-local",
     "description": "Local docker hermes stack",
     "url": "https://github.com/wlanboy/hermes-local",
-    "pushed_at": "2026-06-07T17:22:49Z",
+    "pushed_at": "2026-06-14T06:25:26Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -599,7 +612,7 @@
     "name": "kubectl_analytics",
     "description": "A command-line tool for gathering and visualizing statistics about Kubernetes cluster resources",
     "url": "https://github.com/wlanboy/kubectl_analytics",
-    "pushed_at": "2026-06-07T17:16:13Z",
+    "pushed_at": "2026-06-14T06:25:27Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -968,7 +981,7 @@
     "name": "usbview",
     "description": "Python opencv based webserver for streaming usb capture card streams",
     "url": "https://github.com/wlanboy/usbview",
-    "pushed_at": "2026-06-07T17:19:35Z",
+    "pushed_at": "2026-06-14T06:25:28Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1016,7 +1029,7 @@
     "name": "vram-model-calculator",
     "description": "Python based calculator for total vram usage of you gguf models",
     "url": "https://github.com/wlanboy/vram-model-calculator",
-    "pushed_at": "2026-06-11T20:12:38Z",
+    "pushed_at": "2026-06-14T06:10:05Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1058,7 +1071,7 @@
     "name": "wlanboy.github.io",
     "description": "website",
     "url": "https://github.com/wlanboy/wlanboy.github.io",
-    "pushed_at": "2026-06-12T15:18:40Z",
+    "pushed_at": "2026-06-13T14:03:10Z",
     "default_branch": "main",
     "readmes": [
       {

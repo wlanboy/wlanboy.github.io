@@ -507,7 +507,7 @@
     "name": "helm-for-spring-boot",
     "description": "ArgoCD App and Helm Chart for simple Spring Boot App",
     "url": "https://github.com/wlanboy/helm-for-spring-boot",
-    "pushed_at": "2026-06-14T06:25:25Z",
+    "pushed_at": "2026-06-15T15:54:37Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -612,14 +612,20 @@
     "name": "kubectl_analytics",
     "description": "A command-line tool for gathering and visualizing statistics about Kubernetes cluster resources",
     "url": "https://github.com/wlanboy/kubectl_analytics",
-    "pushed_at": "2026-06-14T06:25:27Z",
+    "pushed_at": "2026-06-14T18:59:05Z",
     "default_branch": "main",
     "readmes": [
       {
         "path": "README.md",
         "title": "kubectl analytics",
-        "description": "kubectl_analytics is a lightweight tool that analyzes Kubernetes logs, events, and resource states to provide actionable insights into cluster behavior.\nIt helps identify patterns, anomalies, and potential issues by aggregating and interpreting data directly from the Kubernetes API.\n\nThe tool focuses on fast, local analytics without requiring external services or complex observability stacks.\nIt is ideal for debugging, troubleshooting, and gaining a deeper understanding of what is happening inside your cluster.\n\nKey capabilities include:\n\n- Collecting and analyzing pod logs\n- Inspecting Kubernetes events to detect warnings and failure patterns\n- Summarizing resource states across namespaces\n- Highlighting anomalies or repeating error messages\n- Providing human‑readable diagnostics for faster troubleshooting\n\nThis makes kubectl_analytics a practical companion for:\n\n- Developers debugging workloads\n- Platform engineers analyzing cluster health\n- SREs investigating incidents\n\nAnyone who wants quick insights without deploying a full observability stack\n\n---",
+        "description": "kubectl_analytics is a lightweight tool that analyzes Kubernetes logs, events, and resource states to provide actionable insights into cluster behavior.\nIt helps identify patterns, anomalies, and potential issues by aggregating and interpreting data directly from the Kubernetes API.\n\nThe tool focuses on fast, local analytics without requiring external services or complex observability stacks.\nIt is ideal for debugging, troubleshooting, and gaining a deeper understanding of what is happening inside your cluster.\n\nKey capabilities include:\n\n- Collecting and analyzing pod logs\n- Highlighting anomalies or repeating error messages\n- Inspecting Kubernetes events to detect warnings and failure patterns\n- Summarizing resource states across namespaces\n- Providing human‑readable diagnostics for faster troubleshooting\n\nThis makes kubectl_analytics a practical companion for:\n\n- Developers debugging workloads\n- Platform engineers analyzing cluster health\n- SREs investigating incidents\n\nAnyone who wants quick insights without deploying a full observability stack.\n\n---",
         "type": "readme"
+      },
+      {
+        "path": "docker.md",
+        "title": "Docker",
+        "description": "",
+        "type": "text"
       }
     ]
   },
@@ -1071,7 +1077,7 @@
     "name": "wlanboy.github.io",
     "description": "website",
     "url": "https://github.com/wlanboy/wlanboy.github.io",
-    "pushed_at": "2026-06-13T14:03:10Z",
+    "pushed_at": "2026-06-14T14:06:30Z",
     "default_branch": "main",
     "readmes": [
       {

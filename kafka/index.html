@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Globaler Broker vs. dezentrale Broker — Knative Eventing auf Kafka</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="sheet">
+
+    <!-- ============ KOPF ============ -->
+    <header class="doc-head">
+      <div class="kicker">Knative Eventing Auswirkungen auf Kafka</div>
+      <h1>Was kostet ein <span class="hl-blue">globaler Broker</span> wirklich?</h1>
+      <p class="lead">
+        Wenn viele Microservices über <em>einen</em> gemeinsamen Knative-Broker laufen, wächst die
+        Kafka-Last nicht mit dem Nutzen, sondern mit der Zahl <em>aller</em> Trigger.
+      </p>
+    </header>
+
+    <!-- ============ 4 STUFEN: WO/WANN FILTERN ============ -->
+    <section class="stages-explainer">
+      <ol class="stage-chips">
+        <li class="chip">
+          <span class="chip-num">1</span>
+          <span class="chip-name">Empfangen</span>
+          <span class="chip-desc">Der Java-Receiver nimmt das Event per HTTP an und schreibt es
+            <strong>einmal</strong> ins Kafka-Topic.</span>
+        </li>
+        <li class="chip">
+          <span class="chip-num">2</span>
+          <span class="chip-name">Lesen</span>
+          <span class="chip-desc">Pro Trigger eine Consumer-Group. Jede liest <strong>jedes</strong> Event
+            aus dem Topic — noch ungefiltert.</span>
+        </li>
+        <li class="chip chip-key">
+          <span class="chip-num">3</span>
+          <span class="chip-name">Filtern</span>
+          <span class="chip-desc">Erst <strong>hier</strong>, im Java-Dispatcher, wird der Trigger-Filter
+            ausgewertet. Treffer → weiter, sonst verworfen.</span>
+        </li>
+        <li class="chip">
+          <span class="chip-num">4</span>
+          <span class="chip-name">Zustellen</span>
+          <span class="chip-desc">Passende Events gehen per HTTP an den Ziel-Service.</span>
+        </li>
+      </ol>
+    </section>
+
+    <!-- ============ SZENARIO 1: DEZENTRAL ============ -->
+    <section class="scenario" id="sc-decentral">
+      <div class="scenario-head">
+        <div class="scenario-badge badge-green">Szenario 1</div>
+        <h2>Dezentrale Broker — ein Topic pro Domäne</h2>
+      </div>
+      <div class="diagram-wrap">
+        <div class="diagram" data-scenario="decentral" aria-label="Diagramm dezentrale Broker">
+          <div class="stage"></div>
+          <svg class="edges" xmlns="http://www.w3.org/2000/svg"></svg>
+          <div class="tokens"></div>
+          <div class="amp-badge" data-amp>×1</div>
+        </div>
+        <aside class="panel" data-panel="decentral">
+          <div class="scoreboard">
+            <div class="stat" data-stat="writes"><span class="stat-num">0</span><span class="stat-label">Geschrieben</span></div>
+            <div class="stat stat-hero" data-stat="reads"><span class="stat-num">0</span><span class="stat-label">Reads (Kafka)</span></div>
+            <div class="stat" data-stat="discarded"><span class="stat-num">0</span><span class="stat-label">Verworfen</span></div>
+            <div class="stat" data-stat="delivered"><span class="stat-num">0</span><span class="stat-label">Zugestellt</span></div>
+          </div>
+          <div class="step-indicator"><span class="step-dots"></span><span class="step-count" data-stepcount>Start</span></div>
+          <p class="caption" data-caption>Bereit. Klick auf „Nächster Schritt" oder direkt ins Diagramm.</p>
+          <div class="controls">
+            <button class="btn btn-ghost" data-act="prev">‹ Zurück</button>
+            <button class="btn btn-primary" data-act="next">Nächster Schritt ›</button>
+            <button class="btn btn-ghost" data-act="reset">↺ Reset</button>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- ============ SZENARIO 2: GLOBAL ============ -->
+    <section class="scenario" id="sc-global">
+      <div class="scenario-head">
+        <div class="scenario-badge badge-red">Szenario 2</div>
+        <h2>Globaler Broker — alle teilen sich ein Topic</h2>
+        <p>Drei Services publizieren in denselben Broker. Verfolge ein einzelnes Event von
+          <em>Service A</em> und beobachte, wie oft es gelesen wird.</p>
+      </div>
+      <div class="diagram-wrap">
+        <div class="diagram" data-scenario="global" aria-label="Diagramm globaler Broker">
+          <div class="stage"></div>
+          <svg class="edges" xmlns="http://www.w3.org/2000/svg"></svg>
+          <div class="tokens"></div>
+          <div class="amp-badge" data-amp>×3</div>
+        </div>
+        <aside class="panel" data-panel="global">
+          <div class="scoreboard">
+            <div class="stat" data-stat="writes"><span class="stat-num">0</span><span class="stat-label">Geschrieben</span></div>
+            <div class="stat stat-hero" data-stat="reads"><span class="stat-num">0</span><span class="stat-label">Reads (Kafka)</span></div>
+            <div class="stat" data-stat="discarded"><span class="stat-num">0</span><span class="stat-label">Verworfen</span></div>
+            <div class="stat" data-stat="delivered"><span class="stat-num">0</span><span class="stat-label">Zugestellt</span></div>
+          </div>
+          <div class="step-indicator"><span class="step-dots"></span><span class="step-count" data-stepcount>Start</span></div>
+          <p class="caption" data-caption>Bereit. Klick auf „Nächster Schritt" oder direkt ins Diagramm.</p>
+          <div class="trigger-control">
+            <div class="trigger-control-hd">
+              <span class="trigger-control-label">Trigger-Anzahl</span>
+              <strong class="trigger-count-val" id="trigger-count-val">3</strong>
+            </div>
+            <input type="range" id="trigger-count" min="3" max="1000" value="3" step="1" class="trigger-slider">
+            <div class="trigger-control-range">
+              <span>3</span><span>1.000</span>
+            </div>
+          </div>
+          <div class="controls">
+            <button class="btn btn-ghost" data-act="prev">‹ Zurück</button>
+            <button class="btn btn-primary" data-act="next">Nächster Schritt ›</button>
+            <button class="btn btn-ghost" data-act="reset">↺ Reset</button>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <div class="page-break"></div>
+
+    <!-- ============ KOSTENFORMEL ============ -->
+    <section class="cost">
+      <h2 class="block-title">Die Last in einer Formel</h2>
+      <div class="cost-grid">
+        <div class="cost-card cost-red">
+          <div class="cost-tag">Global</div>
+          <div class="formula">Reads/s ≈ Events/s × <span class="f-em">Trigger<sub>gesamt</sub></span></div>
+          <p>Ein einziges, geteiltes Topic. Jeder Trigger im Cluster liest jedes Event.</p>
+        </div>
+        <div class="cost-card cost-green">
+          <div class="cost-tag">Dezentral</div>
+          <div class="formula">Reads/s ≈ Σ<sub>Broker</sub> ( Events/s × <span class="f-em">Trigger<sub>Broker</sub></span> )</div>
+          <p>Jede Domäne trägt nur ihre eigene Last — verteilt über viele kleine Topics.</p>
+        </div>
+      </div>
+      <div class="cost-example">
+        <span class="ce-label">Beispielrechnung</span>
+        <p>1.000.000 Events/s, 50 Trigger.
+          <span class="ce-red">Global: bis zu&nbsp;50.000.000&nbsp;Reads/s</span> auf einem Topic. &nbsp;
+          <span class="ce-green">Dezentral: ~20.000&nbsp;Reads/s</span></p>
+      </div>
+    </section>
+
+  </div>
+  <script src="script.js" defer></script>
+</body>
+</html>

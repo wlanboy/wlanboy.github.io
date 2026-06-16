@@ -1,0 +1,1132 @@
+openapi: "3.0.3"
+info:
+  title: XRepository REST API
+  description: |
+    Maschinelle Abfrage von Codelisten und Standards aus dem XRepository (xrepository.de).
+
+    Alle Pfade sind relativ zur Basis-URL `https://www.xrepository.de/api`.
+    Öffentliche Inhalte sind ohne Token abrufbar. Geschützte Inhalte erfordern einen
+    Bearer-Token (Umgebungsvariable `XREP_TOKEN`).
+
+    Der Client sendet bei allen Anfragen `Accept: application/json` und folgt HTTP-Redirects
+    automatisch. Timeout: 60 Sekunden. Binärdownloads werden als Streaming-Response
+    in 64 KB-Chunks übertragen.
+  version: "1.0.0"
+  contact:
+    name: KoSIT – Koordinierungsstelle für IT-Standards
+    url: https://www.xrepository.de
+
+servers:
+  - url: https://www.xrepository.de/api
+    description: Produktions-API
+
+security:
+  - bearerAuth: []
+  - {}
+
+tags:
+  - name: Allgemein
+    description: Endpunkte für alle Inhaltstypen (Codelisten und Standards)
+  - name: Suche
+    description: Volltext- und Filtersuche im XRepository
+  - name: Codeliste
+    description: Codelisten-spezifische Endpunkte
+  - name: Standard
+    description: Standards und Standardversionen
+
+paths:
+
+  # ---------------------------------------------------------------------------
+  # Allgemein
+  # ---------------------------------------------------------------------------
+
+  /xrepository/{kennung}:
+    get:
+      tags: [Allgemein]
+      summary: Metadaten eines Inhalts abrufen
+      description: |
+        Liefert die Metadaten eines Inhalts (Codeliste oder Standard). Die Antwort enthält
+        Titel, Status, Herausgeber, Gültigkeitszeitraum sowie bei Codelisten das Feld
+        `versionCodeliste.kennung` mit der Liste aller Versionskennungen.
+
+        `GET /codeliste/{kennung}` ist ein Alias für diesen Endpunkt.
+      operationId: getXrepositoryMetadaten
+      parameters:
+        - $ref: "#/components/parameters/kennung"
+      responses:
+        "200":
+          description: Metadaten des Inhalts
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InhaltMetadaten"
+              example:
+                kennung: "urn:de:xoev:codeliste:erreichbarkeit"
+                nameLang:
+                  - value: "Kommunikationskanal / Erreichbarkeit"
+                    lang: null
+                nameKurz:
+                  - value: "Erreichbarkeit"
+                    lang: null
+                nameTechnisch: "erreichbarkeit"
+                statusVeroeffentlichung:
+                  code: "VEROEFFENTLICHT"
+                statusVerwendung:
+                  code: "AKTUELL"
+                versionCodeliste.kennung:
+                  - "urn:de:xoev:codeliste:erreichbarkeit_1"
+                  - "urn:de:xoev:codeliste:erreichbarkeit_4.1"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+
+  /codeliste/{kennung}:
+    get:
+      tags: [Allgemein]
+      summary: Metadaten eines Inhalts abrufen (Alias)
+      description: |
+        Alias für `GET /xrepository/{kennung}`. Liefert dieselbe Antwort.
+        Wird vom Client verwendet, um die Liste aller Versions-Kennungen
+        (`versionCodeliste.kennung`) abzufragen.
+      operationId: getCodelisteMetadaten
+      parameters:
+        - $ref: "#/components/parameters/kennung"
+      responses:
+        "200":
+          description: Metadaten des Inhalts
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InhaltMetadaten"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+
+  /xrepository/{kennung}/dokumente:
+    get:
+      tags: [Allgemein]
+      summary: Alle Dokumente eines Inhalts herunterladen
+      description: |
+        Lädt alle zum Inhalt oder einer Version des Inhalts angelegten Dokumente als
+        ZIP-Datei herunter (Spezifikation, XÖV-Fachmodell, XML Schema-Definitionen etc.).
+      operationId: getDokumente
+      parameters:
+        - $ref: "#/components/parameters/kennung"
+      responses:
+        "200":
+          description: ZIP-Archiv mit allen Dokumenten
+          content:
+            application/zip:
+              schema:
+                type: string
+                format: binary
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+
+  /xrepository/{kennung}/dokumentation/{name}:
+    get:
+      tags: [Allgemein]
+      summary: Einzelnes Dokumentationsdokument herunterladen
+      description: Lädt ein einzelnes Dokument aus dem Bereich Dokumentation herunter.
+      operationId: getDokumentationDatei
+      parameters:
+        - $ref: "#/components/parameters/kennung"
+        - name: name
+          in: path
+          required: true
+          description: Dateiname des Dokuments
+          schema:
+            type: string
+          example: "xdomea-Nachrichten-Beschreibung.pdf"
+      responses:
+        "200":
+          description: Dateiinhalt (Content-Type abhängig von Dateiendung)
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+
+  /xrepository/{kennung}/technischerBestandteil/{name}:
+    get:
+      tags: [Allgemein]
+      summary: Technischen Bestandteil herunterladen
+      description: |
+        Lädt ein Dokument aus dem Bereich `technischerBestandteil` herunter,
+        z.B. eine einzelne XSD-Datei.
+      operationId: getTechnischerBestandteil
+      parameters:
+        - $ref: "#/components/parameters/kennung"
+        - name: name
+          in: path
+          required: true
+          description: Dateiname des technischen Bestandteils
+          schema:
+            type: string
+          example: "xdomea-Nachrichten.xsd"
+      responses:
+        "200":
+          description: Dateiinhalt (Content-Type abhängig von Dateiendung)
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+
+  # ---------------------------------------------------------------------------
+  # Suche
+  # ---------------------------------------------------------------------------
+
+  /xrepository/suche:
+    post:
+      tags: [Suche]
+      summary: Volltext- und Filtersuche
+      description: |
+        Ermöglicht die gefilterte Suche nach Inhalten im XRepository.
+        Gibt eine paginierte Trefferliste sowie Aggregationen zurück.
+      operationId: sucheInhalte
+      parameters:
+        - name: page
+          in: query
+          description: Seite (0-basiert)
+          schema:
+            type: integer
+            default: 0
+            minimum: 0
+        - name: size
+          in: query
+          description: Ergebnisse pro Seite
+          schema:
+            type: integer
+            default: 20
+            minimum: 1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SucheRequest"
+            examples:
+              alleCodelisten:
+                summary: Alle Codelisten von Destatis
+                value:
+                  typen: ["CODELISTE"]
+                  herausgebernameKurz: ["Destatis"]
+              herausgeberAggregation:
+                summary: Herausgeber-Aggregation abrufen
+                value:
+                  typen: ["CODELISTE"]
+      responses:
+        "200":
+          description: Suchergebnis mit Trefferliste und Aggregationen
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SucheResponse"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+
+  # ---------------------------------------------------------------------------
+  # Codeliste
+  # ---------------------------------------------------------------------------
+
+  /version_codeliste/{kennung}:
+    get:
+      tags: [Codeliste]
+      summary: Versionsmetadaten direkt abrufen
+      description: |
+        Liefert die vollständigen Metadaten einer Codelistenversion direkt über die
+        Versionskennung (mit Versionssuffix). Wird intern genutzt, um nach einem Download
+        die Status-Felder nachzuladen (`statusVeroeffentlichung`, `statusVerwendung`,
+        `statusFassung`).
+
+        Liefert dasselbe Schema wie `GET /codeliste/{kennung}/gueltigeVersion`.
+      operationId: getVersionCodeliste
+      parameters:
+        - $ref: "#/components/parameters/kennung"
+      responses:
+        "200":
+          description: Vollständige Metadaten der Codelistenversion
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/VersionCodelisteMetadaten"
+              example:
+                kennung: "urn:de:xoev:codeliste:erreichbarkeit_4.1"
+                version: "4.1"
+                statusVeroeffentlichung:
+                  code: "VEROEFFENTLICHT"
+                statusVerwendung:
+                  code: "AKTUELL"
+                statusFassung:
+                  code: "ENDFASSUNG"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+
+  /codeliste/{kennung}/gueltigeVersion:
+    get:
+      tags: [Codeliste]
+      summary: Metadaten der aktuell gültigen Version abrufen
+      description: |
+        Liefert die Metadaten zur aktuell gültigen Version einer Codeliste — dieselbe
+        Struktur wie `GET /version_codeliste/{kennung}`, aber ohne explizite Versionskennung.
+
+        Ausgewählt wird diejenige Version, die als „aktuell", „veröffentlicht" und
+        „Endfassung" markiert ist und gemäß `Gültig ab`- und `Gültig bis`-Datum aktuell
+        ist. Bei mehreren Treffern wird die zuletzt eingestellte Version geliefert.
+
+        Das Feld `kennung` (Top-Level) enthält die **Versionskennung** (mit Suffix),
+        die für Download-Aufrufe verwendet wird.
+      operationId: getGueltigeVersion
+      parameters:
+        - $ref: "#/components/parameters/kennung"
+      responses:
+        "200":
+          description: Vollständige Metadaten der aktuell gültigen Version
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/VersionCodelisteMetadaten"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+
+  /version_codeliste/{kennung}/json:
+    get:
+      tags: [Codeliste]
+      summary: Codeliste als JSON herunterladen
+      description: |
+        Liefert die JSON-Fassung zu einer Codelistenversion.
+        `daten` ist eine zweidimensionale Liste: jede Zeile entspricht einem Code-Eintrag,
+        die Spalten folgen der Reihenfolge aus `spalten`.
+      operationId: getVersionCodelisteJson
+      parameters:
+        - $ref: "#/components/parameters/kennung"
+      responses:
+        "200":
+          description: JSON-Daten der Codelistenversion
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CodelisteJson"
+              example:
+                metadaten:
+                  version: "4.1"
+                  kennungInhalt: "urn:de:xoev:codeliste:erreichbarkeit"
+                  nameTechnisch: "erreichbarkeit"
+                spalten:
+                  - spaltennameLang: "Code"
+                    spaltennameTechnisch: "code"
+                    codeSpalte: true
+                    empfohleneCodeSpalte: true
+                    datentyp: "string"
+                daten:
+                  - ["01", "E-Mail"]
+                  - ["02", "Telefon Festnetz"]
+                empfohleneCodes: ["01", "02"]
+                codes: [["01", "02"]]
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+
+  /version_codeliste/{kennung}/genericode:
+    get:
+      tags: [Codeliste]
+      summary: Codeliste als Genericode-XML herunterladen
+      description: |
+        Liefert die Genericode-Datei (ISO/IEC 30142, XML-Format) zu einer
+        Codelistenversion. Wird z.B. für die Validierung von XÖV-Nachrichten benötigt.
+      operationId: getVersionCodelisteGenericode
+      parameters:
+        - $ref: "#/components/parameters/kennung"
+      responses:
+        "200":
+          description: Genericode-XML-Datei
+          content:
+            application/xml:
+              schema:
+                type: string
+                format: binary
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+
+  /version_codeliste/{kennung}/excel:
+    get:
+      tags: [Codeliste]
+      summary: Codeliste als Excel herunterladen
+      description: Liefert die Excel-Fassung (`.xlsx`) zu einer Codelistenversion.
+      operationId: getVersionCodelisteExcel
+      parameters:
+        - $ref: "#/components/parameters/kennung"
+      responses:
+        "200":
+          description: Excel-Datei (.xlsx)
+          content:
+            application/vnd.openxmlformats-officedocument.spreadsheetml.sheet:
+              schema:
+                type: string
+                format: binary
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+
+  /version_codeliste/{kennung}/markdown:
+    get:
+      tags: [Codeliste]
+      summary: Codeliste als Markdown herunterladen
+      description: Liefert die Markdown-Fassung (`.md`) zu einer Codelistenversion.
+      operationId: getVersionCodelisteMarkdown
+      parameters:
+        - $ref: "#/components/parameters/kennung"
+      responses:
+        "200":
+          description: Markdown-Datei
+          content:
+            text/markdown:
+              schema:
+                type: string
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+
+  /version_codeliste/{kennung}/magicdraw:
+    get:
+      tags: [Codeliste]
+      summary: Codeliste als MagicDraw-XML herunterladen
+      description: Liefert die MagicDraw-kompatible XML-Fassung (`.xml`) zu einer Codelistenversion.
+      operationId: getVersionCodelisteMagicdraw
+      parameters:
+        - $ref: "#/components/parameters/kennung"
+      responses:
+        "200":
+          description: MagicDraw-XML-Datei
+          content:
+            application/xml:
+              schema:
+                type: string
+                format: binary
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+
+  # ---------------------------------------------------------------------------
+  # Standard / Standardversion
+  # ---------------------------------------------------------------------------
+
+  /version_standard/{kennung}/normalisiertesFachmodellXMI:
+    get:
+      tags: [Standard]
+      summary: Normalisiertes Fachmodell (XMI) herunterladen
+      description: Lädt das normalisierte XMI-Fachmodell einer Standardversion herunter.
+      operationId: getNormalisiertesFachmodellXMI
+      parameters:
+        - $ref: "#/components/parameters/kennung"
+      responses:
+        "200":
+          description: Normalisiertes XMI-Fachmodell
+          content:
+            application/xml:
+              schema:
+                type: string
+                format: binary
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+
+  /version_standard/{kennung}/originalFachmodellXMI:
+    get:
+      tags: [Standard]
+      summary: Originales Fachmodell (XMI) herunterladen
+      description: Lädt das originale XMI-Fachmodell einer Standardversion herunter.
+      operationId: getOriginalFachmodellXMI
+      parameters:
+        - $ref: "#/components/parameters/kennung"
+      responses:
+        "200":
+          description: Originales XMI-Fachmodell
+          content:
+            application/xml:
+              schema:
+                type: string
+                format: binary
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+
+  /version_standard/{kennung}/originalFachmodellProprietaer:
+    get:
+      tags: [Standard]
+      summary: Proprietäres Fachmodell herunterladen
+      description: |
+        Lädt das proprietäre Originalmodell einer Standardversion herunter
+        (herstellerspezifisches Binärformat).
+      operationId: getOriginalFachmodellProprietaer
+      parameters:
+        - $ref: "#/components/parameters/kennung"
+      responses:
+        "200":
+          description: Proprietäres Modell (Binärformat)
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+
+  /version_standard/{kennung}/xmlschema:
+    get:
+      tags: [Standard]
+      summary: XML Schema-Definitionen herunterladen
+      description: |
+        Lädt die XML Schema-Definitionen (XSD-Dateien) einer Standardversion als
+        ZIP-Archiv herunter. Das ZIP enthält alle zugehörigen Schema-Dateien des Standards.
+      operationId: getXmlschema
+      parameters:
+        - $ref: "#/components/parameters/kennung"
+      responses:
+        "200":
+          description: ZIP-Archiv mit XSD-Dateien
+          content:
+            application/zip:
+              schema:
+                type: string
+                format: binary
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+
+  /version_standard/{kennung}/genutzteAktuelleCodelisten:
+    get:
+      tags: [Standard]
+      summary: Alle genutzten Codelisten einer Standardversion herunterladen
+      description: |
+        Lädt alle Codelisten, auf die eine Standardversion verweist, als ZIP-Archiv
+        herunter. Nicht abrufbare Codelisten werden im ZIP als XML-Fehlerdatei ausgewiesen.
+        Der Dateiname im `Content-Disposition`-Header enthält den menschenlesbaren Namen
+        des Standards.
+      operationId: getGenutzteAktuelleCodelisten
+      parameters:
+        - $ref: "#/components/parameters/kennung"
+      responses:
+        "200":
+          description: ZIP-Archiv mit allen genutzten Codelisten
+          headers:
+            Content-Disposition:
+              description: Enthält den menschenlesbaren Dateinamen des Standards
+              schema:
+                type: string
+              example: 'inline; filename="xdomea 3.0.0 genutzteAktuelleCodelisten.zip"'
+          content:
+            application/zip:
+              schema:
+                type: string
+                format: binary
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+
+# ---------------------------------------------------------------------------
+# Components
+# ---------------------------------------------------------------------------
+
+components:
+
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: |
+        Optionaler Bearer-Token. Kann auch über die Umgebungsvariable `XREP_TOKEN` gesetzt
+        werden. Ohne Token sind nur öffentliche Inhalte abrufbar.
+
+  parameters:
+    kennung:
+      name: kennung
+      in: path
+      required: true
+      description: URN-Kennung des Inhalts (Codeliste, Standard oder Version)
+      schema:
+        type: string
+      example: "urn:de:xoev:codeliste:erreichbarkeit"
+
+  responses:
+    Unauthorized:
+      description: Kein oder ungültiger Bearer-Token
+    Forbidden:
+      description: Zugriff auf diesen Inhalt nicht erlaubt
+    NotFound:
+      description: Kennung nicht gefunden
+
+  schemas:
+
+    LocalizedString:
+      type: object
+      properties:
+        value:
+          type: string
+          nullable: true
+        lang:
+          type: string
+          nullable: true
+
+    StatusCode:
+      type: object
+      properties:
+        code:
+          type: string
+      example:
+        code: "VEROEFFENTLICHT"
+
+    Ansprechpartner:
+      type: object
+      properties:
+        vorname:
+          type: string
+          nullable: true
+        name:
+          type: string
+          nullable: true
+        eMail:
+          type: string
+          nullable: true
+        organisation:
+          type: string
+          nullable: true
+
+    InhaltMetadaten:
+      type: object
+      description: Metadaten eines Inhalts (Codeliste oder Standard)
+      properties:
+        kennung:
+          type: string
+          description: Eindeutige URN-Kennung
+        nameLang:
+          type: array
+          items:
+            $ref: "#/components/schemas/LocalizedString"
+        nameKurz:
+          type: array
+          items:
+            $ref: "#/components/schemas/LocalizedString"
+        nameTechnisch:
+          type: string
+          nullable: true
+        beschreibung:
+          type: array
+          nullable: true
+          items:
+            $ref: "#/components/schemas/LocalizedString"
+        herausgebernameLang:
+          type: array
+          nullable: true
+          items:
+            $ref: "#/components/schemas/LocalizedString"
+        herausgebernameKurz:
+          type: array
+          nullable: true
+          items:
+            $ref: "#/components/schemas/LocalizedString"
+        externeWebsite:
+          type: string
+          nullable: true
+        zeitpunktAnlage:
+          type: string
+          format: date-time
+          nullable: true
+        zeitpunktLetzteBearbeitung:
+          type: string
+          format: date-time
+          nullable: true
+        statusVeroeffentlichung:
+          $ref: "#/components/schemas/StatusCode"
+        statusVerwendung:
+          $ref: "#/components/schemas/StatusCode"
+        aktualisierungszyklus:
+          $ref: "#/components/schemas/StatusCode"
+        vorentwurf:
+          type: boolean
+        "versionCodeliste.kennung":
+          type: array
+          nullable: true
+          description: Liste aller Versions-Kennungen (nur bei Codelisten)
+          items:
+            type: string
+        "nutzendeVersionStandard.kennung":
+          type: array
+          nullable: true
+          items:
+            type: string
+        "nutzendeVersionDatentyp.kennung":
+          type: array
+          nullable: true
+          items:
+            type: string
+        "aehnlicheCodeliste.kennung":
+          type: array
+          nullable: true
+          items:
+            type: string
+        technischerBestandteil:
+          type: object
+          nullable: true
+        dokumentation:
+          type: object
+          nullable: true
+        ansprechpartner:
+          type: array
+          nullable: true
+          items:
+            $ref: "#/components/schemas/Ansprechpartner"
+        besitzer:
+          type: object
+          nullable: true
+          properties:
+            kennung:
+              type: string
+            email:
+              type: string
+            name:
+              type: string
+            typ:
+              type: string
+
+    Spalte:
+      type: object
+      description: Spaltendefinition einer Codelistenversion
+      properties:
+        spaltennameLang:
+          type: string
+        spaltennameTechnisch:
+          type: string
+        datentyp:
+          type: string
+          enum: [string, integer, decimal, boolean, date]
+        codeSpalte:
+          type: boolean
+        empfohleneCodeSpalte:
+          type: boolean
+        verwendung:
+          $ref: "#/components/schemas/StatusCode"
+        sprache:
+          type: string
+          nullable: true
+
+    TechnischerBestandteilDatei:
+      type: object
+      properties:
+        dateiname:
+          type: string
+        encoding:
+          type: string
+          nullable: true
+        mimeType:
+          type: string
+          nullable: true
+        dateiFormat:
+          type: string
+          nullable: true
+        xrepository2Kennung:
+          type: string
+          nullable: true
+
+    VersionCodelisteMetadaten:
+      type: object
+      description: Vollständige Metadaten einer Codelistenversion
+      properties:
+        kennung:
+          type: string
+          description: Versionskennung (mit Suffix), z.B. urn:de:xoev:codeliste:erreichbarkeit_4.1
+        kennungInhalt:
+          type: string
+          description: Kennung der übergeordneten Codeliste (ohne Versionssuffix)
+        "codeliste.kennung":
+          type: string
+        version:
+          type: string
+        vorentwurf:
+          type: boolean
+        datumGueltigkeitAb:
+          type: string
+          format: date-time
+          nullable: true
+        datumGueltigkeitBis:
+          type: string
+          format: date-time
+          nullable: true
+        zeitpunktEinstellung:
+          type: string
+          format: date-time
+          nullable: true
+        zeitpunktLetzteBearbeitung:
+          type: string
+          format: date-time
+          nullable: true
+        statusVeroeffentlichung:
+          $ref: "#/components/schemas/StatusCode"
+        statusVerwendung:
+          $ref: "#/components/schemas/StatusCode"
+        statusFassung:
+          $ref: "#/components/schemas/StatusCode"
+        versionCodelistenHandbuch:
+          type: string
+          nullable: true
+        versionXOEVHandbuch:
+          type: string
+          nullable: true
+        lizenz:
+          type: string
+          nullable: true
+        bezugsort:
+          type: string
+          nullable: true
+        xrepository2Kennung:
+          type: string
+          nullable: true
+        beschreibung:
+          type: array
+          nullable: true
+          items:
+            $ref: "#/components/schemas/LocalizedString"
+        aenderungZurVorversion:
+          type: array
+          nullable: true
+          items:
+            $ref: "#/components/schemas/LocalizedString"
+        "nutzendeVersionStandard.kennung":
+          type: array
+          nullable: true
+          items:
+            type: string
+        "nutzendeVersionDatentyp.kennung":
+          type: array
+          nullable: true
+          items:
+            type: string
+        spalte:
+          type: array
+          items:
+            $ref: "#/components/schemas/Spalte"
+        technischerBestandteilGenericode:
+          type: object
+          nullable: true
+          properties:
+            datei:
+              type: array
+              items:
+                $ref: "#/components/schemas/TechnischerBestandteilDatei"
+            zeitpunktLetzteEinstellung:
+              type: string
+              format: date-time
+              nullable: true
+            created:
+              type: boolean
+        dokument:
+          type: object
+          nullable: true
+        versionCodelisteExtrakt:
+          type: object
+          nullable: true
+          description: Zusammenfassung der Codelisten-Metadaten innerhalb der Version
+
+    CodelistenSpalte:
+      type: object
+      description: Spaltendefinition im JSON-Download-Format
+      properties:
+        spaltennameLang:
+          type: string
+        spaltennameTechnisch:
+          type: string
+        codeSpalte:
+          type: boolean
+        empfohleneCodeSpalte:
+          type: boolean
+        datentyp:
+          type: string
+        sprache:
+          type: string
+          nullable: true
+        verwendung:
+          type: string
+          nullable: true
+
+    LocalizedValue:
+      type: object
+      properties:
+        first:
+          type: string
+          nullable: true
+        defaultValue:
+          type: string
+          nullable: true
+        liste:
+          type: array
+          items:
+            $ref: "#/components/schemas/LocalizedString"
+
+    CodelisteJsonMetadaten:
+      type: object
+      properties:
+        version:
+          type: string
+        kennungInhalt:
+          type: string
+        nameTechnisch:
+          type: string
+        nameKurz:
+          $ref: "#/components/schemas/LocalizedValue"
+        nameLang:
+          $ref: "#/components/schemas/LocalizedValue"
+        beschreibung:
+          $ref: "#/components/schemas/LocalizedValue"
+        herausgebernameKurz:
+          $ref: "#/components/schemas/LocalizedValue"
+        herausgebernameLang:
+          $ref: "#/components/schemas/LocalizedValue"
+        beschreibungVersion:
+          $ref: "#/components/schemas/LocalizedValue"
+        aenderungZurVorversion:
+          $ref: "#/components/schemas/LocalizedValue"
+
+    CodelisteJson:
+      type: object
+      description: JSON-Fassung einer Codelistenversion
+      properties:
+        metadaten:
+          $ref: "#/components/schemas/CodelisteJsonMetadaten"
+        spalten:
+          type: array
+          items:
+            $ref: "#/components/schemas/CodelistenSpalte"
+        daten:
+          type: array
+          description: Zweidimensionale Liste — jede Zeile ein Code-Eintrag, Spalten gemäß `spalten`
+          items:
+            type: array
+            items:
+              type: string
+              nullable: true
+        empfohleneCodes:
+          type: array
+          description: Alle Werte der empfohlenen Code-Spalte als flache Liste
+          items:
+            type: string
+        codes:
+          type: array
+          description: Dieselben Werte, eingebettet in ein äußeres Array
+          items:
+            type: array
+            items:
+              type: string
+
+    SucheRequest:
+      type: object
+      description: Filterkriterien für die Suche
+      properties:
+        typen:
+          type: array
+          description: Inhaltstypen-Filter
+          items:
+            type: string
+            enum:
+              - CODELISTE
+              - VERSION_CODELISTE
+              - STANDARD
+              - VERSION_STANDARD
+              - DATEI
+        herausgebernameKurz:
+          type: array
+          description: Herausgeber-Kurznamen (aus Aggregation)
+          items:
+            type: string
+        statusVeroeffentlichung:
+          type: array
+          description: Status-Filter
+          items:
+            type: string
+            enum:
+              - VEROEFFENTLICHT
+              - NICHT_VEROEFFENTLICHT
+              - IN_BEARBEITUNG
+        suchbegriff:
+          type: string
+          description: Freitext-Suchbegriff
+          nullable: true
+
+    SucheHitReferenz:
+      type: object
+      properties:
+        kennung:
+          type: string
+        typ:
+          type: string
+        classification:
+          type: string
+        version:
+          type: string
+          nullable: true
+        statusVeroeffentlichung:
+          type: string
+          nullable: true
+        statusFassung:
+          type: string
+          nullable: true
+        statusVerwendung:
+          type: string
+          nullable: true
+        vorentwurf:
+          type: boolean
+        zeitpunktAnlage:
+          type: string
+          format: date-time
+          nullable: true
+        zeitpunktLetzteBearbeitung:
+          type: string
+          format: date-time
+          nullable: true
+        eigentuemer:
+          type: string
+          nullable: true
+        eigentuemerName:
+          type: string
+          nullable: true
+        eigentuemerTyp:
+          type: string
+          nullable: true
+
+    SucheHit:
+      type: object
+      properties:
+        kennung:
+          type: string
+        typ:
+          type: string
+          enum:
+            - CODELISTE
+            - VERSION_CODELISTE
+            - STANDARD
+            - VERSION_STANDARD
+            - DATEI
+        vorentwurf:
+          type: boolean
+        statusFassung:
+          type: string
+          nullable: true
+        version:
+          type: string
+          nullable: true
+        zeitpunktAnlage:
+          type: string
+          format: date-time
+          nullable: true
+        i18n:
+          type: object
+          description: Internationalisierte Metadaten
+          additionalProperties: true
+        ansprechpartner:
+          type: array
+          nullable: true
+          items:
+            $ref: "#/components/schemas/Ansprechpartner"
+        referenzen:
+          type: array
+          nullable: true
+          items:
+            $ref: "#/components/schemas/SucheHitReferenz"
+
+    AggregationBucket:
+      type: object
+      properties:
+        name:
+          type: string
+        count:
+          type: integer
+
+    Aggregation:
+      type: object
+      properties:
+        name:
+          type: string
+          example: "herausgebernameKurz"
+        buckets:
+          type: array
+          items:
+            $ref: "#/components/schemas/AggregationBucket"
+
+    SucheResponse:
+      type: object
+      properties:
+        total:
+          type: integer
+          description: Gesamtanzahl der Treffer
+        hits:
+          type: array
+          items:
+            $ref: "#/components/schemas/SucheHit"
+        aggregations:
+          type: array
+          items:
+            $ref: "#/components/schemas/Aggregation"

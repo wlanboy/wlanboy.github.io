@@ -213,6 +213,9 @@
       this.edgeEls = {};
       this.step = 0;
       this.timers = [];
+      this.accumBase = { writes: 0, reads: 0, discarded: 0, delivered: 0 };
+      this.isPlaying = false;
+      this.autoPlayTimer = null;
 
       this.buildStage();
       this.buildEdges();
@@ -308,18 +311,20 @@
       t.className = "token" + (opts.color === "red" ? " red" : opts.color === "green" ? " green" : "");
       t.style.left = a.x + "px";
       t.style.top = a.y + "px";
+      const dur = this.isPlaying ? 320 : 720;
+      if (this.isPlaying) t.style.transition = "transform " + dur + "ms cubic-bezier(.45,.05,.35,1)";
       this.tokensLayer.appendChild(t);
       const dx = b.x - a.x, dy = b.y - a.y;
       const delay = opts.delay || 0;
       this.timer(() => {
         t.style.transform = "translate(calc(-50% + " + dx + "px), calc(-50% + " + dy + "px))";
       }, 30 + delay);
-      this.timer(() => { t.classList.add("pulse"); }, 30 + delay + 720);
+      this.timer(() => { t.classList.add("pulse"); }, 30 + delay + dur);
       this.timer(() => {
-        t.style.transition = "opacity .3s";
+        t.style.transition = "opacity .2s";
         t.style.opacity = "0";
-      }, 30 + delay + 1050);
-      this.timer(() => { if (t.parentNode) t.remove(); }, 30 + delay + 1400);
+      }, 30 + delay + dur + 120);
+      this.timer(() => { if (t.parentNode) t.remove(); }, 30 + delay + dur + 380);
     }
 
     timer(fn, ms) { this.timers.push(setTimeout(fn, ms)); }
@@ -342,6 +347,7 @@
           if (act === "next") this.next();
           else if (act === "prev") this.prev();
           else if (act === "reset") this.reset();
+          else if (act === "auto") { if (this.isPlaying) this.stopAuto(); else this.startAuto(); }
         });
       });
       this.statEls = {};
@@ -350,13 +356,16 @@
       });
       this.captionEl = this.panel.querySelector("[data-caption]");
       this.stepCountEl = this.panel.querySelector("[data-stepcount]");
+      this.playBtnEl = this.panel.querySelector('[data-act="auto"]');
     }
 
-    next() { if (this.step < this.steps.length - 1) this.applyStep(this.step + 1, true); }
-    prev() { if (this.step > 0) this.applyStep(this.step - 1, true); }
-    reset() { this.applyStep(0, false); }
+    next() { if (this.isPlaying) { this.stopAuto(); return; } if (this.step < this.steps.length - 1) this.applyStep(this.step + 1, true); }
+    prev() { if (this.isPlaying) { this.stopAuto(); return; } if (this.step > 0) this.applyStep(this.step - 1, true); }
+    reset() { this.stopAuto(); this.accumBase = { writes: 0, reads: 0, discarded: 0, delivered: 0 }; this.applyStep(0, false); }
 
     setTriggerCount(n) {
+      this.stopAuto();
+      this.accumBase = { writes: 0, reads: 0, discarded: 0, delivered: 0 };
       this.steps = makeGlobalSteps(n);
       // Update g-t3 sub-label to reflect how many triggers it represents
       var t3 = this.nodeEls["g-t3"];
@@ -404,7 +413,7 @@
       this.setCounters(cur.count, animate);
 
       // Caption + Step-Label
-      this.captionEl.innerHTML = cur.caption;
+      if (this.captionEl) this.captionEl.innerHTML = cur.caption;
       this.stepCountEl.textContent = cur.label;
 
       // Dots
@@ -424,8 +433,8 @@
       // Buttons aktiv/inaktiv
       const prevBtn = this.panel.querySelector('[data-act="prev"]');
       const nextBtn = this.panel.querySelector('[data-act="next"]');
-      if (prevBtn) prevBtn.disabled = n === 0;
-      if (nextBtn) nextBtn.disabled = n === this.steps.length - 1;
+      if (prevBtn) prevBtn.disabled = this.isPlaying || n === 0;
+      if (nextBtn) nextBtn.disabled = this.isPlaying || n === this.steps.length - 1;
 
       // Animation nur beim Vorwärtsgehen
       if (animate && cur.anim) {
@@ -440,7 +449,8 @@
         if (!wrap) return;
         const numEl = wrap.querySelector(".stat-num");
         const old = numEl.textContent;
-        const val = String(count[key]);
+        const total = count[key] + (this.accumBase[key] || 0);
+        const val = total.toLocaleString("de-DE");
         numEl.textContent = val;
         if (animate && old !== val) {
           wrap.classList.remove("bump");
@@ -448,9 +458,58 @@
           wrap.classList.add("bump");
         }
       });
-      // Reads-Alarm bei Vervielfachung
       const reads = this.statEls.reads;
-      if (reads) reads.classList.toggle("alarm", count.reads > 1);
+      if (reads) reads.classList.toggle("alarm", (count.reads + (this.accumBase.reads || 0)) > 1);
+    }
+
+    startAuto() {
+      if (this.isPlaying) return;
+      this.isPlaying = true;
+      this.updatePlayBtn();
+      const delay = this.step === 0 ? 200 : 850;
+      this.autoPlayTimer = setTimeout(() => this.autoTick(), delay);
+    }
+
+    stopAuto() {
+      if (!this.isPlaying) return;
+      this.isPlaying = false;
+      if (this.autoPlayTimer) { clearTimeout(this.autoPlayTimer); this.autoPlayTimer = null; }
+      this.clearTimers();
+      this.updatePlayBtn();
+      const prevBtn = this.panel.querySelector('[data-act="prev"]');
+      const nextBtn = this.panel.querySelector('[data-act="next"]');
+      if (prevBtn) prevBtn.disabled = this.step === 0;
+      if (nextBtn) nextBtn.disabled = this.step === this.steps.length - 1;
+    }
+
+    autoTick() {
+      if (!this.isPlaying) return;
+      if (this.step < this.steps.length - 1) {
+        this.applyStep(this.step + 1, true);
+        this.autoPlayTimer = setTimeout(() => this.autoTick(), 850);
+      } else {
+        // Letzten Schritt anzeigen, Zähler akkumulieren, dann Schleife
+        this.autoPlayTimer = setTimeout(() => {
+          if (!this.isPlaying) return;
+          const finalCount = this.steps[this.step].count;
+          Object.keys(finalCount).forEach(k => {
+            this.accumBase[k] = (this.accumBase[k] || 0) + finalCount[k];
+          });
+          this.applyStep(1, true);
+          this.autoPlayTimer = setTimeout(() => this.autoTick(), 850);
+        }, 1200);
+      }
+    }
+
+    updatePlayBtn() {
+      if (!this.playBtnEl) return;
+      if (this.isPlaying) {
+        this.playBtnEl.textContent = "◼ Stopp";
+        this.playBtnEl.classList.add("is-playing");
+      } else {
+        this.playBtnEl.textContent = "► Abspielen";
+        this.playBtnEl.classList.remove("is-playing");
+      }
     }
   }
 

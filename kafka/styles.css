@@ -372,6 +372,15 @@ em { font-style: normal; font-weight: 650; color: var(--ink); }
 .btn-ghost:hover { background: var(--line-soft); }
 .btn:disabled { opacity: .4; cursor: default; }
 
+.btn-play {
+  display: block; width: 100%; margin-top: 8px;
+  padding: 7px 14px; font-size: 13px; text-align: center;
+  background: var(--ink); color: #fff; border-color: var(--ink);
+}
+.btn-play:hover { background: var(--ink-2); border-color: var(--ink-2); }
+.btn-play.is-playing { background: var(--red-600); border-color: var(--red-600); }
+.btn-play.is-playing:hover { background: var(--red-500); border-color: var(--red-500); }
+
 /* ---------------- Trigger-Slider (Szenario 1) ---------------- */
 .trigger-control {
   margin-bottom: 14px;

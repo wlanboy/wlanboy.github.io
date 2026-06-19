@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>KNative Eventing – Hierarchische Broker-Architektur</title>
+  <link rel="stylesheet" href="broker.css" />
+</head>
+<body>
+
+<!-- ═══════════════════ NAV ═══════════════════ -->
+<nav>
+  <span class="brand">KNative Eventing</span>
+  <a href="#basics">Grundlagen</a>
+  <a href="#problem">Das Problem</a>
+  <a href="#warum">Warum kritisch</a>
+  <a href="#loesungen">Lösungen</a>
+  <a href="#empfehlung">Empfehlung</a>
+  <a href="#filter">Filter</a>
+</nav>
+
+<!-- ═══════════════════ HERO ═══════════════════ -->
+<div class="hero">
+  <div class="tag">KNative Eventing &middot; Kafka Betrieb</div>
+  <h1>Hierarchische KNative Broker</h1>
+</div>
+
+<main>
+
+<!-- ═══════════════════ 1. GRUNDLAGEN ═══════════════════ -->
+<section id="basics">
+  <h2><span class="num">1</span> KNative Eventing – Grundlagen</h2>
+
+  <div class="grid-3">
+    <div class="card info">
+      <h3 style="margin-top:0">Broker</h3>
+      <p>Zentraler Event-Sammelpunkt. Produzenten senden CloudEvents per HTTP POST. Der Broker nimmt sie an und verteilt sie an registrierte Trigger.</p>
+    </div>
+    <div class="card info">
+      <h3 style="margin-top:0">Trigger</h3>
+      <p>Abonnement auf einem Broker. Definiert einen <strong>Filter</strong> (CloudEvent-Attribute) und ein <strong>Sink</strong> (Ziel: Service, anderer Broker, Channel).</p>
+    </div>
+    <div class="card info">
+      <h3 style="margin-top:0">CloudEvent</h3>
+      <p>Standardformat (CNCF). Enthält Pflichtattribute: <code>id</code>, <code>source</code>, <code>type</code>, <code>specversion</code> – plus beliebige Extensions.</p>
+    </div>
+  </div>
+
+  <h3>Event-Fluss (Basis)</h3>
+  <div class="diagram" id="diag-1"></div>
+</section>
+
+<!-- ═══════════════════ 2. DAS PROBLEM ═══════════════════ -->
+<section id="problem">
+  <h2><span class="num">2</span> Das Problem – Direkte Broker-Kette</h2>
+
+  <p>
+    Die intuitive Lösung für "global → namespace" sieht so aus:
+    Ein globaler KNative Broker empfängt alle Events.
+    Pro Namespace gibt es einen eigenen KNative Broker mit mehreren Triggern.
+    Trigger auf dem globalen Broker leiten gefilterte Events an den jeweiligen Namespace-Broker weiter.
+  </p>
+
+  <h3>Broker Kette</h3>
+  <div class="diagram" id="diag-2"></div>
+
+  <div class="card warn">
+    <strong>Was passiert intern bei jedem Event:</strong>
+    <ol style="margin-top:.7rem">
+      <li>Event kommt an → wird in <code>global-events</code> Topic geschrieben (Kafka Schreibvorgang #1)</li>
+      <li>Global Trigger liest aus <code>global-events</code> (Kafka Lesevorgang)</li>
+      <li>Trigger prüft Filter → Event passt zu Namespace "alpha"</li>
+      <li>Trigger sendet Event per HTTP an den Namespace-Broker</li>
+      <li>Namespace-Broker schreibt Event in seinen Topic (Kafka Schreibvorgang #2)</li>
+      <li>Namespace-Trigger liest aus dessen Topic und liefert an Service</li>
+    </ol>
+    <p style="margin-top:.7rem;margin-bottom:0">
+      <strong>Ergebnis:</strong> Ein Event wird mindestens <strong>2× in Kafka gespeichert</strong>.
+      Bei 3 Namespaces und einem Event das in 2 davon passt: <strong>3× gespeichert</strong> (1× global-events + 1× ns-alpha + 1× ns-beta).<br>
+      Mit Replikationsfaktor 3 multipliziert sich das weiter: jeder Kafka-Schreibvorgang erzeugt 3 physische Kopien –<br>
+      also bis zu <strong>9 physische Kopien</strong> eines einzelnen Events im Cluster.
+    </p>
+  </div>
+</section>
+
+<!-- ═══════════════════ 3. WARUM KRITISCH ═══════════════════ -->
+<section id="warum">
+  <h2><span class="num">3</span> Warum das ein ernstes Problem ist</h2>
+
+  <div class="grid-2">
+    <div class="card warn">
+      <h3 style="margin-top:0">Speicher-Explosion</h3>
+      <p>Kafka speichert Events für die konfigurierte Retention (z.B. 7 Tage). Bei 10 Namespaces und 1 GB/Tag Eventvolumen:
+      <br/><strong>10 GB/Tag × 7 Tage = 70 GB extra</strong> nur für Kopien.</p>
+    </div>
+    <div class="card warn">
+      <h3 style="margin-top:0">Latenz-Verdopplung</h3>
+      <p>Jeder Kafka-Hop kostet Zeit: Schreiben + Lesen + Polling-Interval + HTTP-Weiterleitung.
+      In dieser Architektur: <strong>mindestens 2 vollständige Kafka-Zyklen</strong> bevor ein Service das Event sieht.</p>
+    </div>
+    <div class="card warn">
+      <h3 style="margin-top:0">Kafka Cluster Druck</h3>
+      <p>Doppelter Durchsatz auf dem Kafka-Cluster: alle Events zweimal geschrieben, zweimal gelesen.<br>
+      Mit Replikationsfaktor 3 bedeutet das <strong>6 physische Schreibvorgänge</strong> pro Event.<br>
+      Bei hohem Volumen kann dies zu <strong>Broker-Überlastung</strong> und Rebalancing-Problemen führen.</p>
+    </div>
+    <div class="card warn">
+      <h3 style="margin-top:0">Fehlerszenarien</h3>
+      <p>Wenn der globale Broker-Trigger einen Namespace-Broker nicht erreicht (HTTP-Fehler), muss er <strong>erneut versuchen</strong> – während das Event bereits im globalen Topic liegt und sich Consumer-Lag aufbaut.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ 4. LÖSUNGEN ═══════════════════ -->
+<section id="loesungen">
+  <h2><span class="num">4</span> Lösungen – Optimierungsansätze</h2>
+
+  <h3>Ansatz I – Consumer-seitige Filterung (aktueller KNative-Stand)</h3>
+  <div class="card info">
+    <p>
+      KNative filtert <strong>ausschließlich consumer-seitig im Trigger</strong>: Alle Events landen im Kafka-Topic des
+      Namespace-Brokers; der Trigger liest sie und verwirft nicht passende Events lokal.
+    </p>
+    <p>
+      Die Idee, Filter upstream zur Quelle zu propagieren (KNative Issue #934), wurde vom KNative-Team
+      explizit als <strong>„wont-fix"</strong> geschlossen und ist <em>nicht implementiert</em>.
+      Das CeSQl-Filtersystem wurde jedoch bewusst kompatibel dazu entworfen – die Filterdialekte stehen bereits bereit.
+    </p>
+    <pre><span class="cm"># Filter-Dialekte die KNative Trigger unterstützt:</span>
+<span class="cm"># 1. Legacy Exact-Match (spec.filter.attributes)</span>
+<span class="key">spec:</span>
+  <span class="key">filter:</span>
+    <span class="key">attributes:</span>
+      <span class="key">type:</span> <span class="str">com.example.order.created</span>
+      <span class="key">source:</span> <span class="str">team-alpha</span>
+
+<span class="cm"># 2. Modern CeSQl-Ausdruck (spec.filters)</span>
+<span class="key">spec:</span>
+  <span class="key">filters:</span>
+    - <span class="key">cesql:</span> <span class="str">"type LIKE 'com.example.order%' AND team = 'alpha'"</span></pre>
+  </div>
+
+  <h3>Ansatz II – Kafka-natives Partitions-Routing</h3>
+  <div class="card note">
+    <p>
+      Der Producer setzt beim Schreiben einen <strong>Partition Key = Namespace/Team-Name</strong>.
+      Kafka verteilt Events damit deterministisch auf feste Partitionen.
+      Jede KafkaSource-Instanz pro Namespace abonniert <strong>nur die ihr zugewiesenen Partitionen</strong>
+      über explizite Consumer-Group-Partition-Assignments.
+    </p>
+    <p>
+      Das Routing findet auf reiner Kafka-Infrastruktur-Ebene statt – vollständig außerhalb von KNative Eventing.
+      Kein Filtering, kein Broker-Hop, keine CPU für CEL-Auswertung.
+    </p>
+    <div class="grid-2">
+      <div>
+        <p><strong>Wann sinnvoll:</strong></p>
+        <ul>
+          <li>Namespaces sind stabil (selten neue Teams)</li>
+          <li>Producer-Code ist kontrollierbar</li>
+          <li>Kafka-Expertise im Team vorhanden</li>
+          <li>Sehr hohe Durchsatzanforderungen</li>
+        </ul>
+      </div>
+      <div>
+        <p><strong>Einschränkungen:</strong></p>
+        <ul>
+          <li>Partition-Count limitiert Namespace-Anzahl</li>
+          <li>Re-Partitionierung erfordert Topic-Neuanlage</li>
+          <li>Kein Attribut-basiertes Routing möglich</li>
+          <li>Routing-Logik liegt beim Producer, nicht bei KNative</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ 5. EMPFOHLENE Ansatz ═══════════════════ -->
+<section id="empfehlung">
+  <h2><span class="num">5</span> Zu testender Lösungsansatz</h2>
+
+  <p>
+    Kombination aus <strong>Ansatz I + II</strong>: Ein einziges zentrales Kafka-Topic für alle Events,
+    pro Namespace eine eigene <code>KafkaSource</code> mit dedizierter Kafka Consumer Group.
+    <br>Aus <strong>Ansatz I</strong> kommt das Trigger-basierte Feinrouting – Filterung findet consumer-seitig
+    im Namespace-Broker statt, kein globaler KNative Broker als Zwischenschicht.
+    <br>Aus <strong>Ansatz II</strong> kommt die Kafka-native Isolation: jede Consumer Group verwaltet
+    ihren Offset vollständig unabhängig, ohne Partition-Neuzuweisung oder Producer-Änderungen.
+  </p>
+
+  <div class="card note">
+    <h3 style="margin-top:0">Wie der Ansatz funktioniert – Schritt für Schritt</h3>
+    <ol style="margin-top:.7rem">
+      <li>Alle Produzenten schreiben Events in <strong>ein zentrales Kafka-Topic</strong> (<code>global-events</code>) – keine Änderung am Producer erforderlich.</li>
+      <li>Pro Namespace ist eine <code>KafkaSource</code> konfiguriert, die dieses Topic mit einer <strong>eigenen Consumer Group</strong> (z.B. <code>cg-alpha</code>, <code>cg-beta</code>) liest.</li>
+      <li>Jede <code>KafkaSource</code> liest alle Events aus dem zentralen Topic und liefert sie an den namespace-lokalen Broker. Der <strong>Trigger filtert consumer-seitig</strong> – nur passende Events werden an Services weitergeleitet, nicht passende werden verworfen.</li>
+      <li>Gefilterte Events werden direkt an den <strong>namespace-lokalen Broker</strong> geliefert – ohne globalen KNative Broker als Zwischenschicht.</li>
+      <li>Innerhalb des Namespace routen <strong>Trigger</strong> die Events fein-granular an die zuständigen Services. Konfiguration liegt vollständig beim Namespace-Team.</li>
+    </ol>
+  </div>
+
+  <div class="grid-2">
+    <div class="card good">
+      <h3 style="margin-top:0">Vorteile dieses Ansatzes</h3>
+      <ul>
+        <li>Events werden <strong>genau 1× in Kafka gespeichert</strong> – kein Topic-Duplikat, keine physischen Kopien durch Broker-Ketten</li>
+        <li><strong>Volle Consumer-Group-Isolation</strong>: Rückstand oder Fehler in einem Namespace beeinflussen andere Namespaces nicht</li>
+        <li><strong>Neue Namespaces ohne zentralen Eingriff</strong>: eine neue <code>KafkaSource</code> + Consumer Group genügt – Producer und zentrales Topic bleiben unverändert</li>
+        <li><strong>Fein-Routing im Namespace</strong> durch Trigger – Teams definieren Filterregeln und Ziele selbstständig, ohne Abhängigkeit von einer zentralen Konfiguration</li>
+        <li><strong>Nur 1 Kafka-Hop</strong> vom globalen Topic bis zum Service – minimale Latenz, kein zusätzlicher HTTP-Weiterleitung-Zyklus</li>
+        <li>Kein globaler KNative Broker als <strong>Single Point of Failure</strong> im Event-Fluss zwischen Producer und Namespace</li>
+      </ul>
+    </div>
+    <div class="card warn">
+      <h3 style="margin-top:0">Voraussetzungen &amp; Risiken</h3>
+      <ul>
+        <li>Jede <code>KafkaSource</code> liest <strong>alle Events</strong> aus dem zentralen Topic – bei n Namespaces und hohem Volumen erhöht sich der Kafka-Leseaufwand linear mit der Namespace-Anzahl</li>
+        <li>Events ohne passenden Trigger-Filter bleiben unverarbeitet – eine <strong>Dead-Letter-Strategie</strong> für nicht konsumierte Events ist empfohlen</li>
+        <li>Anzahl aktiver <code>KafkaSource</code>-Instanzen skaliert linear mit Namespace-Anzahl – bei sehr vielen Namespaces den <strong>Connection-Overhead</strong> zum Kafka-Cluster im Blick behalten</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>Architektur-Überblick</h3>
+  <div class="diagram" id="diag-5"></div>
+</section>
+
+<!-- ═══════════════════ 6. FILTER ═══════════════════ -->
+<section id="filter">
+  <h2><span class="num">6</span> Filter-System im Detail</h2>
+
+  <p>
+    KNative Trigger unterstützen mehrere Filter-Dialekte: von einfachem Exact-Match über Prefix/Suffix bis zum mächtigen
+    <strong>CeSQl (CloudEvents SQL Query Language)</strong>. Filter werden zu kombinierten Ausdrücken zusammengefasst – ideal für Multi-Tenant-Umgebungen.
+  </p>
+
+  <div class="grid-3">
+    <div class="card">
+      <h3 style="margin-top:0">Exact Match</h3>
+      <p>Einfachster Filter. Attribut muss exakt übereinstimmen.</p>
+      <pre style="margin:0;font-size:.78rem"><span class="key">spec</span>:
+  <span class="key">filter</span>:
+    <span class="key">attributes</span>:
+      <span class="key">type</span>: <span class="str">order.created</span>
+      <span class="key">source</span>: <span class="str">shop-a</span></pre>
+    </div>
+    <div class="card">
+      <h3 style="margin-top:0">CeSQl-Ausdruck</h3>
+      <p>Mächtige Filterung mit SQL-ähnlichen Operatoren (LIKE, IN, AND/OR).</p>
+      <pre style="margin:0;font-size:.78rem"><span class="key">spec</span>:
+  <span class="key">filters</span>:
+    - <span class="key">cesql</span>: <span class="str">"type LIKE 'order%'
+      AND priority = 'high'"</span></pre>
+    </div>
+    <div class="card">
+      <h3 style="margin-top:0">Kombiniert</h3>
+      <p>Mehrere Dialekte kombinierbar via <code>all</code>: Exact-Match und Prefix gemeinsam.</p>
+      <pre style="margin:0;font-size:.78rem"><span class="key">spec</span>:
+  <span class="key">filters</span>:
+    - <span class="key">exact</span>:
+        <span class="key">team</span>: <span class="str">alpha</span>
+    - <span class="key">prefix</span>:
+        <span class="key">type</span>: <span class="str">order</span></pre>
+    </div>
+  </div>
+
+  <h3>Wo findet Filtering statt?</h3>
+  <div class="card note">
+    <p>
+      <strong>Consumer-Side (einziger implementierter Modus).</strong> Der Trigger liest alle Events vom Broker (Kafka Consumer Group) und
+      filtert lokal. Events die nicht passen werden verworfen. Das bedeutet: alle Events landen im Kafka-Topic des Brokers,
+      aber nur passende werden an den Service weitergeleitet.
+    </p>
+    <p>
+      <strong>Upstream Propagation (nicht implementiert):</strong> Die Idee, Trigger-Filter upstream zur Quelle zu propagieren,
+      wurde als Design-Ziel konzipiert (KNative Issue #934), aber explizit als <em>„wont-fix"</em> geschlossen.
+      Das CeSQl-Filtersystem wurde bewusst kompatibel dazu entworfen – aktuell findet Filterung jedoch
+      ausschließlich consumer-seitig im Trigger statt.
+    </p>
+  </div>
+
+  <h3>Übersicht: Wer filtert wann?</h3>
+  <div class="diagram" id="diag-6"></div>
+</section>
+
+</main>
+<script src="diagrams.js"></script>
+</body>
+</html>

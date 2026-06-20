@@ -69,7 +69,7 @@
     "name": "caweb",
     "description": "Python based web frontend to create ssl certs for hostname on a given ca",
     "url": "https://github.com/wlanboy/caweb",
-    "pushed_at": "2026-06-07T17:21:17Z",
+    "pushed_at": "2026-06-20T10:01:22Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -105,7 +105,7 @@
     "name": "CloudConfigPropertyGenerator",
     "description": "Spring based property generator - generated k8s ConfigMap from Spring Cloud Config Server",
     "url": "https://github.com/wlanboy/CloudConfigPropertyGenerator",
-    "pushed_at": "2026-05-16T04:58:46Z",
+    "pushed_at": "2026-06-20T09:55:57Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -141,7 +141,7 @@
     "name": "deployment_monitor",
     "description": "python based ansible deployment monitor, using sqlite as storage and pushing results to prometheus",
     "url": "https://github.com/wlanboy/deployment_monitor",
-    "pushed_at": "2026-05-16T07:51:14Z",
+    "pushed_at": "2026-06-20T10:03:06Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -372,7 +372,7 @@
     "name": "eurekaclientjava",
     "description": "Java based service to create several eureka clients entries without having to use the eureka lib",
     "url": "https://github.com/wlanboy/eurekaclientjava",
-    "pushed_at": "2026-06-03T11:32:07Z",
+    "pushed_at": "2026-06-20T10:02:05Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -504,23 +504,17 @@
     ]
   },
   {
-    "name": "helm-for-spring-boot",
-    "description": "ArgoCD App and Helm Chart for simple Spring Boot App",
-    "url": "https://github.com/wlanboy/helm-for-spring-boot",
-    "pushed_at": "2026-06-15T15:54:37Z",
+    "name": "helm-for-java-devs",
+    "description": "Helm for Java Devs",
+    "url": "https://github.com/wlanboy/helm-for-java-devs",
+    "pushed_at": "2026-06-20T13:08:16Z",
     "default_branch": "main",
     "readmes": [
       {
-        "path": "README.md",
-        "title": "helm-for-spring-boot",
-        "description": "Vollständige lokale Kubernetes-Entwicklungsumgebung auf Basis von KinD — mit Istio Service Mesh für Traffic-Management und TLS, ArgoCD für GitOps-basierte Deployments sowie einem Helm Chart für Spring Boot Anwendungen. Ports 80 und 443 werden direkt über KinD-Port-Mappings und einen Istio NodePort-Ingress auf den Host exponiert.",
+        "path": "readme.md",
+        "title": "Helm for Java Devs — Schritt-für-Schritt-Anleitung",
+        "description": "Eine vollständige Kubernetes Pipeline für eine Spring Boot App in einem Container.\nSpring Boot Helloworld App → Tekton baut das Image → lokale k3s-Registry → ArgoCD deployt per Helm.\n\nVerwendet ConfigMap, Secrets, SSL Certificate, Istio Gateway, VirtualService, HealthChecks, Readness Checks.\nServiceEntry und DestinationRule für eine externe Datenbankabhängigkeit.\nHat ein Feature Flag für den Wechsel von h2 auf MySQL.\n\n---",
         "type": "readme"
-      },
-      {
-        "path": "Tools.md",
-        "title": "Tools",
-        "description": "Alle benötigten Binaries werden manuell von den offiziellen Release-Seiten heruntergeladen und ins Projektverzeichnis gelegt.",
-        "type": "text"
       }
     ]
   },
@@ -528,7 +522,7 @@
     "name": "hermes-local",
     "description": "Local docker hermes stack",
     "url": "https://github.com/wlanboy/hermes-local",
-    "pushed_at": "2026-06-14T06:25:26Z",
+    "pushed_at": "2026-06-20T04:13:32Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -582,7 +576,7 @@
     "name": "kanban",
     "description": "Python based tui for a kanban board",
     "url": "https://github.com/wlanboy/kanban",
-    "pushed_at": "2026-05-16T07:51:16Z",
+    "pushed_at": "2026-06-20T10:03:45Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -597,7 +591,7 @@
     "name": "kanbantabs",
     "description": "golang based console kanban board",
     "url": "https://github.com/wlanboy/kanbantabs",
-    "pushed_at": "2026-05-16T04:58:02Z",
+    "pushed_at": "2026-06-20T10:04:17Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -846,7 +840,7 @@
     "name": "scan-tools",
     "description": "Python based scan tools for git repros",
     "url": "https://github.com/wlanboy/scan-tools",
-    "pushed_at": "2026-06-06T10:54:07Z",
+    "pushed_at": "2026-06-20T05:48:41Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -854,18 +848,6 @@
         "title": "scan-tools",
         "description": "Eine Sammlung einfacher Security-Scanner für Git-Repositories, Node.js-Projekte und Linux-Systeme. Alle Tools sind eigenständige Python-Skripte ohne externe Abhängigkeiten (Standardbibliothek genügt) und liefern strukturierte Berichte als Text oder JSON.\n\n**Zielgruppe:** Entwickler, DevSecOps-Teams und Security-Analysten, die externe Endpunkte, Supply-Chain-Risiken und Proxy-Konfigurationen automatisiert prüfen möchten.\n\n**Sprache / Laufzeit:** Python 3.11+  \n**Paketmanager:** [uv](https://github.com/astral-sh/uv) (`pyproject.toml` vorhanden)\n\n---",
         "type": "readme"
-      },
-      {
-        "path": "copyfail/copyfail.md",
-        "title": "scan-copyfail.py",
-        "description": "Scanner für den AF_ALG + splice() Page-Cache-Exploit — eine lokale Privilegienerhöhung (LPE) auf Linux-Kerneln 4.10–6.14. Er prüft Voraussetzungen (Kernel-Version, geladene Module, Socket-Zugriff), Spuren im Audit- und Kernel-Log sowie Härtungsmaßnahmen (AppArmor/SELinux, su-Integrität, offene Dateideskriptoren). Der Scanner **führt keinen Exploit aus** und gibt seinen Report auf stdout aus.",
-        "type": "text"
-      },
-      {
-        "path": "copyfail/copyfrag.md",
-        "title": "scan-copyfail.py — DirtyFrag-Erweiterung",
-        "description": "Scanner für drei Varianten des **Dirty Frag**-Exploits (lokale Privilegienerhöhung via Page-Cache-In-Place-Dekryption): xfrm-ESP (Kernel ≥ 4.10, kein Patch), RxRPC (Kernel ≥ 6.4, auf Ubuntu standardmäßig aktiv, kein Patch) und Fragnesia/espintcp (Patch 2026-05-13). Er prüft geladene Module, Socket-Erreichbarkeit, Namespace-Konfiguration, Integrität von `/usr/bin/su` und `/etc/passwd` sowie MAC-Policies — ohne selbst einen Exploit auszuführen.",
-        "type": "text"
       }
     ]
   },
@@ -873,7 +855,7 @@
     "name": "ServiceConfig",
     "description": "Spring Framework based configuration service",
     "url": "https://github.com/wlanboy/ServiceConfig",
-    "pushed_at": "2026-05-16T08:03:20Z",
+    "pushed_at": "2026-06-20T09:58:08Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -888,7 +870,7 @@
     "name": "ServiceRegistry",
     "description": "Spring Framework based Service Registry",
     "url": "https://github.com/wlanboy/ServiceRegistry",
-    "pushed_at": "2026-05-16T08:03:25Z",
+    "pushed_at": "2026-06-20T10:00:27Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1068,7 +1050,7 @@
     "name": "wlanboy.github.io",
     "description": "website",
     "url": "https://github.com/wlanboy/wlanboy.github.io",
-    "pushed_at": "2026-06-19T03:45:15Z",
+    "pushed_at": "2026-06-19T15:22:25Z",
     "default_branch": "main",
     "readmes": [
       {

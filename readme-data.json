@@ -66,6 +66,21 @@
     ]
   },
   {
+    "name": "burll",
+    "description": "bash based curl light",
+    "url": "https://github.com/wlanboy/burll",
+    "pushed_at": "2026-06-21T06:34:59Z",
+    "default_branch": "main",
+    "readmes": [
+      {
+        "path": "README.md",
+        "title": "burll",
+        "description": "A curl-like HTTP client implemented in pure bash using `/dev/tcp` — no curl, no wget, no external tools required for plain HTTP.",
+        "type": "readme"
+      }
+    ]
+  },
+  {
     "name": "caweb",
     "description": "Python based web frontend to create ssl certs for hostname on a given ca",
     "url": "https://github.com/wlanboy/caweb",
@@ -507,7 +522,7 @@
     "name": "helm-for-java-devs",
     "description": "Helm for Java Devs",
     "url": "https://github.com/wlanboy/helm-for-java-devs",
-    "pushed_at": "2026-06-20T13:08:16Z",
+    "pushed_at": "2026-06-21T07:05:52Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1050,7 +1065,7 @@
     "name": "wlanboy.github.io",
     "description": "website",
     "url": "https://github.com/wlanboy/wlanboy.github.io",
-    "pushed_at": "2026-06-19T15:22:25Z",
+    "pushed_at": "2026-06-20T14:07:29Z",
     "default_branch": "main",
     "readmes": [
       {

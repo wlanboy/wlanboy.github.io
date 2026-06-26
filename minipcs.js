@@ -34,6 +34,23 @@ const devices = [
     perf: 1.2
   },
   {
+    name: "Odroid C2",
+    year: 2016,
+    vendor: "arm",
+    vendorLabel: "ARM",
+    cpu: "Amlogic S905 · Cortex-A53 (ARMv8) · 4C/4T · 1.50 GHz",
+    ram: "2 GB DDR3 (32-Bit · 912 MHz)",
+    gpu: "Mali-450 MP3 · ~13 GFLOPS",
+    tdpW: 4,
+    tdp: "~4 W (5 V / 0,8 A typ.)",
+    storage: "eMMC · MicroSD (UHS-1)",
+    network: "GbE · USB 2.0 ×4 · HDMI 2.0 (4K/60)",
+    os: "Ubuntu · Android · Linux",
+    usecase: "Miniserver, IoT, Heimautomation",
+    cb23: 450,
+    perf: 2.8
+  },
+  {
     name: "Bqeel Z83 II",
     year: 2017,
     vendor: "intel",

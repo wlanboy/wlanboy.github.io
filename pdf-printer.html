@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Linux als virtueller PDF-Drucker für Windows</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="stylesheet" href="style-neu.css">
+  <style>
+    .doc-body {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem 4rem;
+    }
+
+    .step {
+      margin: 2.5rem 0;
+      position: relative;
+    }
+
+    .step-header {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+    }
+
+    .step-num {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #3b82f6 0%, #6366f1 100%);
+      color: #fff;
+      font-size: 0.82rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      box-shadow: 0 2px 8px rgba(59,130,246,0.35);
+    }
+
+    .step-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+    }
+
+    .step p, .step ul, .step ol {
+      font-size: 0.9rem;
+      line-height: 1.7;
+      color: var(--text-muted);
+      margin-bottom: 0.75rem;
+    }
+
+    .step ul, .step ol { padding-left: 1.4rem; }
+    .step li { margin: 0.3rem 0; }
+
+    .code-block {
+      position: relative;
+      margin: 1rem 0;
+    }
+
+    .code-label {
+      display: inline-block;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      padding: 3px 10px;
+      border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-bottom: none;
+      color: var(--text-muted);
+    }
+
+    .code-label.bash { color: #4ade80; }
+    .code-label.file { color: #22d3ee; }
+    .code-label.out  { color: #a3a3a3; }
+    .code-label.win  { color: #60a5fa; }
+
+    pre.code {
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: 0 var(--radius-sm) var(--radius-sm) var(--radius-sm);
+      padding: 1rem 3.5rem 1rem 1.1rem;
+      font-family: 'SF Mono','Fira Code','Cascadia Code', Consolas, monospace;
+      font-size: 0.82rem;
+      line-height: 1.65;
+      color: var(--text);
+      overflow-x: auto;
+      margin: 0;
+      white-space: pre;
+    }
+
+    pre.code.no-copy { padding-right: 1.1rem; }
+
+    .copy-btn {
+      position: absolute;
+      top: 0.5rem;
+      right: 0.5rem;
+      padding: 4px 10px;
+      font-size: 0.7rem;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      background: var(--glass);
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s, border-color 0.15s;
+    }
+
+    .copy-btn:hover {
+      background: var(--glass-hover);
+      border-color: var(--border-hover);
+      color: var(--text);
+    }
+
+    .copy-btn.copied {
+      color: #4ade80;
+      border-color: rgba(74,222,128,0.3);
+    }
+
+    .callout {
+      display: flex;
+      gap: 0.75rem;
+      padding: 0.85rem 1rem;
+      border-radius: var(--radius-sm);
+      margin: 1rem 0;
+      font-size: 0.85rem;
+      line-height: 1.6;
+    }
+
+    .callout-icon { flex-shrink: 0; font-size: 1rem; margin-top: 1px; }
+
+    .callout.warn {
+      background: rgba(245,158,11,0.08);
+      border: 1px solid rgba(245,158,11,0.2);
+      color: #fbbf24;
+    }
+
+    .callout.info {
+      background: rgba(59,130,246,0.07);
+      border: 1px solid rgba(59,130,246,0.2);
+      color: #93c5fd;
+    }
+
+    .callout.tip {
+      background: rgba(34,197,94,0.07);
+      border: 1px solid rgba(34,197,94,0.2);
+      color: #86efac;
+    }
+
+    .section-title {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin: 3rem 0 1.25rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .toc {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.1rem 1.3rem;
+      margin: 1.5rem 0 2.5rem;
+    }
+
+    .toc-title {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 0.7rem;
+    }
+
+    .toc ol { margin: 0; padding-left: 1.3rem; }
+    .toc li { margin: 0.25rem 0; }
+
+    .toc a {
+      font-size: 0.85rem;
+      color: #60a5fa;
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+
+    .toc a:hover { color: #93c5fd; text-decoration: underline; }
+
+    code {
+      font-family: 'SF Mono','Fira Code','Cascadia Code', Consolas, monospace;
+      font-size: 0.82em;
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      padding: 1px 5px;
+      color: #22d3ee;
+    }
+
+    .comp-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.85rem;
+      margin: 1rem 0;
+    }
+
+    .comp-table th {
+      text-align: left;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      padding: 0.5rem 0.75rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .comp-table td {
+      padding: 0.6rem 0.75rem;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+      line-height: 1.5;
+      color: var(--text-muted);
+    }
+
+    .comp-table tr:last-child td { border-bottom: none; }
+
+    .comp-table td:first-child {
+      font-family: 'SF Mono','Fira Code','Cascadia Code', Consolas, monospace;
+      font-size: 0.8rem;
+      color: #60a5fa;
+      white-space: nowrap;
+    }
+
+    /* numbered UI steps */
+    .ui-steps {
+      list-style: none;
+      padding: 0;
+      margin: 0.75rem 0;
+      counter-reset: ui-step;
+    }
+
+    .ui-steps li {
+      counter-increment: ui-step;
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      padding: 0.55rem 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.87rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    .ui-steps li:last-child { border-bottom: none; }
+
+    .ui-steps li::before {
+      content: counter(ui-step);
+      flex-shrink: 0;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      font-size: 0.7rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #60a5fa;
+      margin-top: 1px;
+    }
+
+    @media (max-width: 600px) {
+      .doc-body { padding: 1.25rem 1rem 3rem; }
+      .step-title { font-size: 1rem; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="header-title">PDF-Drucker</div>
+  <div class="header-sub">Linux als virtueller PDF-Drucker für Windows-Clients via CUPS + Samba</div>
+</header>
+
+<div id="controls">
+  <button class="ctrl-btn" id="toggleTheme">🌙/☀️</button>
+  <a href="./index.html" id="terminalLink">← Projekte</a>
+</div>
+
+<div class="doc-body">
+
+  <!-- Intro / Architecture -->
+  <div class="step">
+    <div class="step-header">
+      <div class="step-num" style="background: linear-gradient(135deg,#06b6d4,#3b82f6)">⬡</div>
+      <div class="step-title">Wie es funktioniert</div>
+    </div>
+
+    <p>Ein Linux-System übernimmt zwei Rollen gleichzeitig: Es stellt einen <strong>virtuellen Netzwerkdrucker</strong> bereit (CUPS + CUPS-PDF) und teilt den PDF-Ausgabeordner als <strong>Windows-Netzlaufwerk</strong> (Samba). Windows-Clients drucken in einen Netzwerkdrucker – das Ergebnis ist eine PDF-Datei, die sofort im Netzlaufwerk erscheint.</p>
+
+    <div class="code-block">
+      <div class="code-label">Ablauf</div>
+      <pre class="code no-copy">Windows-Client
+    │
+    │  1. Druckt auf Netzwerkdrucker (IPP / Port 631)
+    ▼
+Linux-Server  ──  CUPS empfängt den Druckauftrag
+    │
+    │  2. CUPS-PDF wandelt PostScript → PDF
+    ▼
+/mnt/sata/smb/pdf/
+    │
+    │  3. Samba teilt den Ordner als \\server\pdf
+    ▼
+Windows-Client
+    Öffnet \\server\pdf – PDF ist fertig</pre>
+    </div>
+
+    <table class="comp-table">
+      <thead>
+        <tr><th>Komponente</th><th>Aufgabe</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Samba (smbd)</td><td>Teilt Verzeichnisse als Windows-Netzlaufwerke (SMB/CIFS-Protokoll)</td></tr>
+        <tr><td>CUPS</td><td>Druckserver – empfängt Druckaufträge von Windows per IPP</td></tr>
+        <tr><td>cups-pdf</td><td>Virtuelles Druckermodul – konvertiert eingehende PostScript-Daten in PDF</td></tr>
+        <tr><td>AppArmor</td><td>Sicherheitsmodul das einschränkt, wohin CUPS schreiben darf – muss für den PDF-Pfad erweitert werden</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- TOC -->
+  <div class="toc">
+    <div class="toc-title">Inhalt</div>
+    <ol>
+      <li><a href="#samba-install">Samba installieren</a></li>
+      <li><a href="#pdf-share">PDF-Ausgabeordner anlegen</a></li>
+      <li><a href="#samba-config">Samba konfigurieren</a></li>
+      <li><a href="#cups-install">CUPS + cups-pdf installieren</a></li>
+      <li><a href="#cups-pdf-path">PDF-Ausgabepfad in CUPS-PDF setzen</a></li>
+      <li><a href="#cups-config">CUPS für Netzwerkzugriff konfigurieren</a></li>
+      <li><a href="#apparmor">AppArmor-Profil erweitern</a></li>
+      <li><a href="#cups-webui">Drucker im CUPS-Webinterface hinzufügen</a></li>
+      <li><a href="#windows">Windows-Client verbinden</a></li>
+      <li><a href="#verify">Testen</a></li>
+      <li><a href="#troubleshoot">Troubleshooting</a></li>
+    </ol>
+  </div>
+
+  <div class="section-title">Teil 1 – Samba (Netzlaufwerk)</div>
+
+  <!-- Step 1: Samba install -->
+  <div id="samba-install" class="step">
+    <div class="step-header">
+      <div class="step-num">1</div>
+      <div class="step-title">Samba installieren</div>
+    </div>
+
+    <div class="code-block">
+      <div class="code-label bash">bash</div>
+      <pre class="code">sudo apt update
+sudo apt install -y samba samba-common-bin</pre>
+      <button class="copy-btn">Kopieren</button>
+    </div>
+
+    <p>Optionaler Benutzer mit Samba-Passwort (für passwortgeschützte Shares):</p>
+
+    <div class="code-block">
+      <div class="code-label bash">bash</div>
+      <pre class="code"><span class="cmt"># Linux-Systembenutzer muss bereits existieren</span>
+sudo smbpasswd -a BENUTZERNAME</pre>
+      <button class="copy-btn">Kopieren</button>
+    </div>
+
+    <div class="callout info">
+      <span class="callout-icon">ℹ</span>
+      <span>Der PDF-Share wird im nächsten Schritt als <em>Guest-Share</em> eingerichtet – kein Samba-Passwort nötig. Ein Benutzer ist nur relevant, wenn du zusätzliche passwortgeschützte Shares anlegen möchtest.</span>
+    </div>
+  </div>
+
+  <!-- Step 2: PDF share dir -->
+  <div id="pdf-share" class="step">
+    <div class="step-header">
+      <div class="step-num">2</div>
+      <div class="step-title">PDF-Ausgabeordner anlegen</div>
+    </div>
+
+    <p>CUPS-PDF schreibt die fertigen PDF-Dateien in diesen Ordner. Samba teilt ihn mit Windows-Clients. Der Ordner braucht Schreibrechte für den CUPS-Prozess (<code>nobody</code>):</p>
+
+    <div class="code-block">
+      <div class="code-label bash">bash</div>
+      <pre class="code"><span class="cmt"># Pfad anpassen falls dein Storage woanders liegt</span>
+sudo mkdir -p /mnt/sata/smb/pdf
+sudo chown -R nobody:users /mnt/sata/smb/pdf
+sudo chmod -R 2775 /mnt/sata/smb/pdf</pre>
+      <button class="copy-btn">Kopieren</button>
+    </div>
+
+    <div class="callout tip">
+      <span class="callout-icon">✓</span>
+      <span>Das Sticky-Bit (<code>2775</code>) stellt sicher, dass neue Dateien die Gruppe <code>users</code> erben – so können alle Gruppenmitglieder die PDFs lesen.</span>
+    </div>
+  </div>
+
+  <!-- Step 3: Samba config -->
+  <div id="samba-config" class="step">
+    <div class="step-header">
+      <div class="step-num">3</div>
+      <div class="step-title">Samba konfigurieren</div>
+    </div>
+
+    <p>Den neuen Share ans Ende der <code>/etc/samba/smb.conf</code> anfügen:</p>
+
+    <div class="code-block">
+      <div class="code-label file">/etc/samba/smb.conf – Share-Block anfügen</div>
+      <pre class="code">[pdf]
+   comment = PDF Printer Output
+   path = /mnt/sata/smb/pdf
+   browseable = yes
+   read only = no
+   guest ok = yes
+   guest only = yes
+   force user = nobody
+   force group = users
+   create mask = 0664
+   directory mask = 0775</pre>
+      <button class="copy-btn">Kopieren</button>
+    </div>
+
+    <div class="code-block">
+      <div class="code-label bash">bash – Konfiguration testen und Samba neu starten</div>
+      <pre class="code"><span class="cmt"># Syntaxprüfung – sollte "Loaded services file OK" melden</span>
+sudo testparm -s
+
+sudo systemctl enable --now smbd
+sudo systemctl restart smbd</pre>
+      <button class="copy-btn">Kopieren</button>
+    </div>
+
+    <div class="callout info">
+      <span class="callout-icon">ℹ</span>
+      <span>Der Share ist absichtlich ohne Passwort (<code>guest ok = yes</code>) – er dient nur als Ablagefach für eigene Druckausgaben im lokalen Netz. In einem öffentlichen Netz Passwortschutz ergänzen (<code>guest ok = no</code>, <code>valid users = BENUTZERNAME</code>).</span>
+    </div>
+  </div>
+
+  <div class="section-title">Teil 2 – CUPS + virtueller Drucker</div>
+
+  <!-- Step 4: cups-pdf install -->
+  <div id="cups-install" class="step">
+    <div class="step-header">
+      <div class="step-num">4</div>
+      <div class="step-title">CUPS und cups-pdf installieren</div>
+    </div>
+
+    <div class="code-block">
+      <div class="code-label bash">bash</div>
+      <pre class="code">sudo apt install -y cups cups-pdf
+
+<span class="cmt"># Eigenen Benutzer zur CUPS-Admingruppe hinzufügen</span>
+sudo usermod -a -G lpadmin $USER</pre>
+      <button class="copy-btn">Kopieren</button>
+    </div>
+
+    <div class="callout warn">
+      <span class="callout-icon">⚠</span>
+      <span>Nach <code>usermod</code> neu anmelden oder <code>newgrp lpadmin</code> ausführen, damit die Gruppenmitgliedschaft aktiv wird.</span>
+    </div>
+  </div>
+
+  <!-- Step 5: cups-pdf output path -->
+  <div id="cups-pdf-path" class="step">
+    <div class="step-header">
+      <div class="step-num">5</div>
+      <div class="step-title">PDF-Ausgabepfad in cups-pdf.conf setzen</div>
+    </div>
+
+    <p>Standardmäßig schreibt cups-pdf die PDFs in <code>/var/spool/cups-pdf/${USER}</code>. Das wird auf den Samba-Share umgebogen:</p>
+
+    <div class="code-block">
+      <div class="code-label bash">bash</div>
+      <pre class="code"><span class="cmt"># Aktuelle Out-Zeile anzeigen</span>
+grep "^Out" /etc/cups/cups-pdf.conf</pre>
+      <button class="copy-btn">Kopieren</button>
+    </div>
+
+    <div class="code-block">
+      <div class="code-label file">/etc/cups/cups-pdf.conf – Zeile ändern</div>
+      <pre class="code"><span class="cmt"># Alt:</span>
+# Out /var/spool/cups-pdf/${USER}
+
+<span class="cmt"># Neu:</span>
+Out /mnt/sata/smb/pdf</pre>
+      <button class="copy-btn">Kopieren</button>
+    </div>
+
+    <div class="code-block">
+      <div class="code-label bash">bash – Änderung per sed vornehmen</div>
+      <pre class="code">sudo sed -i 's|^Out .*|Out /mnt/sata/smb/pdf|' /etc/cups/cups-pdf.conf</pre>
+      <button class="copy-btn">Kopieren</button>
+    </div>
+  </div>
+
+  <!-- Step 6: CUPS network config -->
+  <div id="cups-config" class="step">
+    <div class="step-header">
+      <div class="step-num">6</div>
+      <div class="step-title">CUPS für Netzwerkzugriff freischalten</div>
+    </div>
+
+    <p>CUPS lauscht standardmäßig nur auf <code>localhost</code>. Für den Netzwerkdrucker muss es auf allen Interfaces hören und Drucker nach außen freigeben:</p>
+
+    <div class="code-block">
+      <div class="code-label bash">bash</div>
+      <pre class="code"><span class="cmt"># Netzwerkzugriff und Druckerfreigabe aktivieren</span>
+sudo cupsctl --remote-any --share-printers
+
+<span class="cmt"># Optional: Server-Alias für Hostnamen im LAN (z. B. gmk.lan)</span>
+sudo cupsctl --server-name gmk.lan</pre>
+      <button class="copy-btn">Kopieren</button>
+    </div>
+
+    <p>Falls der Linux-Hostname per mDNS oder lokales DNS nicht auflösbar ist, den Alias manuell in <code>cupsd.conf</code> eintragen:</p>
+
+    <div class="code-block">
+      <div class="code-label file">/etc/cups/cupsd.conf – Zeile ergänzen (oberhalb der ersten &lt;Location&gt;-Sektion)</div>
+      <pre class="code">ServerAlias gmk.lan</pre>
+      <button class="copy-btn">Kopieren</button>
+    </div>
+
+    <div class="code-block">
+      <div class="code-label bash">bash</div>
+      <pre class="code">sudo systemctl restart cups</pre>
+      <button class="copy-btn">Kopieren</button>
+    </div>
+
+    <div class="callout info">
+      <span class="callout-icon">ℹ</span>
+      <span>Das CUPS-Webinterface ist danach unter <strong>https://&lt;IP-des-Servers&gt;:631</strong> erreichbar. Der selbstsignierte HTTPS-Zertifikat-Fehler im Browser kann ignoriert werden.</span>
+    </div>
+  </div>
+
+  <!-- Step 7: AppArmor -->
+  <div id="apparmor" class="step">
+    <div class="step-header">
+      <div class="step-num">7</div>
+      <div class="step-title">AppArmor-Profil für CUPS erweitern</div>
+    </div>
+
+    <p>AppArmor beschränkt, welche Dateipfade CUPS beschreiben darf. Da <code>/mnt/sata/smb/pdf</code> nicht im Standard-Profil steht, wird CUPS ohne diesen Schritt stillschweigend am Schreiben gehindert.</p>
+
+    <div class="code-block">
+      <div class="code-label bash">bash – Pfad ans Ende des Profils anfügen (vor der schließenden <code>}</code>)</div>
+      <pre class="code"><span class="cmt"># Pfad anpassen wenn dein Ausgabeordner woanders liegt</span>
+sudo tee -a /etc/apparmor.d/usr.sbin.cupsd &lt;&lt;'EOF'
+  /mnt/sata/smb/pdf/ rw,
+  /mnt/sata/smb/pdf/** rw,
+EOF</pre>
+      <button class="copy-btn">Kopieren</button>
+    </div>
+
+    <div class="callout warn">
+      <span class="callout-icon">⚠</span>
+      <span><code>tee -a</code> hängt die Zeilen ans Ende der Datei an – das kann außerhalb der schließenden <code>}</code> landen und das Profil ungültig machen. Danach kurz prüfen: <code>sudo apparmor_parser -p /etc/apparmor.d/usr.sbin.cupsd</code></span>
+    </div>
+
+    <p>Sicherer: Profil manuell bearbeiten und die zwei Zeilen <em>vor</em> die letzte <code>}</code> einfügen:</p>
+
+    <div class="code-block">
+      <div class="code-label bash">bash</div>
+      <pre class="code">sudo nano /etc/apparmor.d/usr.sbin.cupsd</pre>
+      <button class="copy-btn">Kopieren</button>
+    </div>
+
+    <div class="code-block">
+      <div class="code-label file">Einfügen vor der letzten } im Profil</div>
+      <pre class="code">  /mnt/sata/smb/pdf/ rw,
+  /mnt/sata/smb/pdf/** rw,</pre>
+      <button class="copy-btn">Kopieren</button>
+    </div>
+
+    <div class="code-block">
+      <div class="code-label bash">bash – Profil neu laden</div>
+      <pre class="code">sudo systemctl restart apparmor
+sudo systemctl restart cups</pre>
+      <button class="copy-btn">Kopieren</button>
+    </div>
+  </div>
+
+  <!-- Step 8: CUPS Web UI -->
+  <div id="cups-webui" class="step">
+    <div class="step-header">
+      <div class="step-num">8</div>
+      <div class="step-title">Drucker im CUPS-Webinterface hinzufügen</div>
+    </div>
+
+    <p>Im Browser <strong>https://&lt;Server-IP&gt;:631/admin</strong> öffnen und mit dem Linux-Benutzerkonto einloggen.</p>
+
+    <ol class="ui-steps">
+      <li><strong>Administration → Add Printer</strong> klicken</li>
+      <li>In der Liste <strong>CUPS-PDF (Virtual PDF Printer)</strong> auswählen → <em>Continue</em></li>
+      <li>Name vergeben, z. B. <code>Network-PDF-Printer</code><br>Beschreibung: <code>Virtueller PDF-Drucker</code><br>Standort: <code>LAN</code></li>
+      <li><strong>Share This Printer</strong> aktivieren → <em>Continue</em></li>
+      <li>Bei <em>Make</em>: <strong>Generic</strong> auswählen → <em>Continue</em></li>
+      <li>Bei <em>Model</em>: <strong>Generic CUPS-PDF Printer (no options)</strong> auswählen → <em>Add Printer</em></li>
+      <li>Standardoptionen übernehmen → <em>Set Default Options</em></li>
+    </ol>
+
+    <div class="callout tip">
+      <span class="callout-icon">✓</span>
+      <span>Den Drucker direkt im Webinterface testen: <strong>Maintenance → Print Test Page</strong>. Eine PDF-Datei sollte in <code>/mnt/sata/smb/pdf/</code> erscheinen.</span>
+    </div>
+  </div>
+
+  <div class="section-title">Teil 3 – Windows-Client</div>
+
+  <!-- Step 9: Windows -->
+  <div id="windows" class="step">
+    <div class="step-header">
+      <div class="step-num">9</div>
+      <div class="step-title">Windows-Client verbinden</div>
+    </div>
+
+    <p><strong>Netzlaufwerk verbinden</strong> (für den PDF-Ausgabeordner):</p>
+
+    <ol class="ui-steps">
+      <li>Windows-Explorer öffnen → <em>Dieser PC</em> → <strong>Netzlaufwerk verbinden</strong></li>
+      <li>Pfad eingeben: <code>\\&lt;Server-IP&gt;\pdf</code> (oder <code>\\gmk.lan\pdf</code>)</li>
+      <li><em>Verbindung bei Anmeldung wiederherstellen</em> aktivieren → <em>Fertig stellen</em></li>
+    </ol>
+
+    <p><strong>Netzwerkdrucker hinzufügen</strong>:</p>
+
+    <ol class="ui-steps">
+      <li><em>Einstellungen → Bluetooth &amp; Geräte → Drucker &amp; Scanner → Drucker hinzufügen</em></li>
+      <li><em>Der gewünschte Drucker ist nicht aufgeführt</em> klicken</li>
+      <li><em>Freigegebenen Drucker über seinen Namen auswählen</em> wählen und eingeben:<br><code>https://&lt;Server-IP&gt;:631/printers/Network-PDF-Printer</code></li>
+      <li>Bei der Treiberauswahl: <strong>Generic → MS Publisher Imagesetter</strong><br>(Standard-PostScript-Treiber – funktioniert zuverlässig mit CUPS-PDF)</li>
+      <li>Drucker benennen und als Standard setzen falls gewünscht</li>
+    </ol>
+
+    <div class="callout info">
+      <span class="callout-icon">ℹ</span>
+      <span>Windows findet den Drucker manchmal automatisch per mDNS/Bonjour, wenn Avahi auf dem Linux-Server läuft (<code>sudo apt install avahi-daemon</code>). Dann taucht er in der Druckerliste ohne manuelle URL auf.</span>
+    </div>
+  </div>
+
+  <!-- Verify -->
+  <div id="verify" class="step">
+    <div class="step-header">
+      <div class="step-num">10</div>
+      <div class="step-title">Testen</div>
+    </div>
+
+    <p>Vom Windows-Client aus ein beliebiges Dokument auf den neuen Netzwerkdrucker drucken. Danach:</p>
+
+    <div class="code-block">
+      <div class="code-label bash">bash – auf dem Linux-Server prüfen</div>
+      <pre class="code"><span class="cmt"># PDF-Datei erschienen?</span>
+ls -lh /mnt/sata/smb/pdf/
+
+<span class="cmt"># CUPS-Druckerwarteschlange anzeigen</span>
+lpstat -p -d
+
+<span class="cmt"># Letzte Druckaufträge</span>
+sudo journalctl -u cups --since "5 min ago" | tail -20</pre>
+      <button class="copy-btn">Kopieren</button>
+    </div>
+
+    <p>Vom Windows-Client aus das Netzlaufwerk öffnen – die neue PDF-Datei sollte dort erscheinen.</p>
+  </div>
+
+  <div class="section-title">Fehlersuche</div>
+
+  <!-- Troubleshoot -->
+  <div id="troubleshoot" class="step">
+    <div class="step-header">
+      <div class="step-num" style="background: linear-gradient(135deg,#f59e0b,#ef4444)">!</div>
+      <div class="step-title">Troubleshooting</div>
+    </div>
+
+    <table class="comp-table">
+      <thead>
+        <tr><th>Problem</th><th>Lösung</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>CUPS-Webinterface nicht erreichbar</td>
+          <td>Firewall prüfen: <code>sudo ufw allow 631/tcp</code>. CUPS-Status: <code>sudo systemctl status cups</code>. Lauscht CUPS auf allen Interfaces? <code>ss -tlnp | grep 631</code></td>
+        </tr>
+        <tr>
+          <td>Druckauftrag bleibt hängen / keine PDF</td>
+          <td>AppArmor-Block prüfen: <code>sudo journalctl -u cups | grep -i denied</code>. Pfade in <code>/etc/apparmor.d/usr.sbin.cupsd</code> korrekt eingetragen und AppArmor neu geladen?</td>
+        </tr>
+        <tr>
+          <td>Kein Schreibrecht auf /mnt/sata/smb/pdf</td>
+          <td>Eigentümer prüfen: <code>ls -la /mnt/sata/smb/pdf</code> – muss <code>nobody:users</code> sein. CUPS läuft als <code>nobody</code>: <code>ps aux | grep cups</code></td>
+        </tr>
+        <tr>
+          <td>Windows findet Netzlaufwerk nicht</td>
+          <td>Samba läuft: <code>sudo systemctl status smbd</code>. Config testen: <code>sudo testparm</code>. SMB-Port offen: <code>sudo ufw allow samba</code>. Verbindung direkt per IP testen: <code>\\192.168.x.x\pdf</code></td>
+        </tr>
+        <tr>
+          <td>Windows zeigt "Zugriff verweigert" beim Drucker</td>
+          <td>CUPS-Druckerfreigabe aktiv? <code>cupsctl | grep share</code> muss <code>share-printers=1</code> zeigen. Drucker-URL in Windows auf korrekte Schreibweise prüfen (Groß-/Kleinschreibung beachten)</td>
+        </tr>
+        <tr>
+          <td>PDF enthält nur leere Seiten</td>
+          <td>Falscher Windows-Druckertreiber gewählt. <strong>MS Publisher Imagesetter</strong> (Generic, PostScript) verwenden – kein PCL-Treiber</td>
+        </tr>
+        <tr>
+          <td>ServerAlias-Fehler im CUPS-Log</td>
+          <td><code>ServerAlias</code> in <code>cupsd.conf</code> muss dem Hostnamen entsprechen, den der Browser in der URL nutzt. Mit IP ansprechen umgeht das Problem komplett.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="code-block">
+      <div class="code-label bash">bash – alle relevanten Logs auf einmal</div>
+      <pre class="code">sudo journalctl -u cups -u smbd --since "10 min ago" -f</pre>
+      <button class="copy-btn">Kopieren</button>
+    </div>
+  </div>
+
+</div><!-- /doc-body -->
+
+<script>
+  const themeBtn = document.getElementById('toggleTheme');
+  if (localStorage.getItem('theme') === 'light') document.body.classList.add('light');
+  themeBtn.addEventListener('click', () => {
+    document.body.classList.toggle('light');
+    localStorage.setItem('theme', document.body.classList.contains('light') ? 'light' : 'dark');
+  });
+
+  document.querySelectorAll('.copy-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const pre = btn.closest('.code-block').querySelector('pre.code');
+      navigator.clipboard.writeText(pre.innerText).then(() => {
+        btn.textContent = 'Kopiert!';
+        btn.classList.add('copied');
+        setTimeout(() => { btn.textContent = 'Kopieren'; btn.classList.remove('copied'); }, 1800);
+      });
+    });
+  });
+</script>
+</body>
+</html>

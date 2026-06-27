@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>USB SSD TRIM Support aktivieren</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="stylesheet" href="style-neu.css">
+  <style>
+    .doc-body {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem 4rem;
+    }
+
+    .step {
+      margin: 2.5rem 0;
+      position: relative;
+    }
+
+    .step-header {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+    }
+
+    .step-num {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #3b82f6 0%, #6366f1 100%);
+      color: #fff;
+      font-size: 0.82rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      box-shadow: 0 2px 8px rgba(59,130,246,0.35);
+    }
+
+    .step-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+    }
+
+    .step p, .step ul, .step ol {
+      font-size: 0.9rem;
+      line-height: 1.7;
+      color: var(--text-muted);
+      margin-bottom: 0.75rem;
+    }
+
+    .step ul, .step ol { padding-left: 1.4rem; }
+    .step li { margin: 0.25rem 0; }
+
+    .code-block {
+      position: relative;
+      margin: 1rem 0;
+    }
+
+    .code-label {
+      display: inline-block;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      padding: 3px 10px;
+      border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-bottom: none;
+      color: var(--text-muted);
+    }
+
+    .code-label.bash { color: #4ade80; }
+    .code-label.file { color: #22d3ee; }
+    .code-label.out  { color: #a3a3a3; }
+
+    pre.code {
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: 0 var(--radius-sm) var(--radius-sm) var(--radius-sm);
+      padding: 1rem 3.5rem 1rem 1.1rem;
+      font-family: 'SF Mono','Fira Code','Cascadia Code', Consolas, monospace;
+      font-size: 0.82rem;
+      line-height: 1.65;
+      color: var(--text);
+      overflow-x: auto;
+      margin: 0;
+      white-space: pre;
+    }
+
+    pre.code.no-copy {
+      padding-right: 1.1rem;
+    }
+
+    .copy-btn {
+      position: absolute;
+      top: 0.5rem;
+      right: 0.5rem;
+      padding: 4px 10px;
+      font-size: 0.7rem;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      background: var(--glass);
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s, border-color 0.15s;
+    }
+
+    .copy-btn:hover {
+      background: var(--glass-hover);
+      border-color: var(--border-hover);
+      color: var(--text);
+    }
+
+    .copy-btn.copied {
+      color: #4ade80;
+      border-color: rgba(74,222,128,0.3);
+    }
+
+    .callout {
+      display: flex;
+      gap: 0.75rem;
+      padding: 0.85rem 1rem;
+      border-radius: var(--radius-sm);
+      margin: 1rem 0;
+      font-size: 0.85rem;
+      line-height: 1.6;
+    }
+
+    .callout-icon { flex-shrink: 0; font-size: 1rem; margin-top: 1px; }
+
+    .callout.warn {
+      background: rgba(245,158,11,0.08);
+      border: 1px solid rgba(245,158,11,0.2);
+      color: #fbbf24;
+    }
+
+    .callout.info {
+      background: rgba(59,130,246,0.07);
+      border: 1px solid rgba(59,130,246,0.2);
+      color: #93c5fd;
+    }
+
+    .callout.tip {
+      background: rgba(34,197,94,0.07);
+      border: 1px solid rgba(34,197,94,0.2);
+      color: #86efac;
+    }
+
+    .callout.danger {
+      background: rgba(239,68,68,0.07);
+      border: 1px solid rgba(239,68,68,0.2);
+      color: #fca5a5;
+    }
+
+    .section-title {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin: 3rem 0 1.25rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .toc {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.1rem 1.3rem;
+      margin: 1.5rem 0 2.5rem;
+    }
+
+    .toc-title {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 0.7rem;
+    }
+
+    .toc ol { margin: 0; padding-left: 1.3rem; }
+    .toc li { margin: 0.25rem 0; }
+    .toc a {
+      font-size: 0.85rem;
+      color: #60a5fa;
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+    .toc a:hover { color: #93c5fd; text-decoration: underline; }
+
+    code {
+      font-family: 'SF Mono','Fira Code','Cascadia Code', Consolas, monospace;
+      font-size: 0.82em;
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      padding: 1px 5px;
+      color: #22d3ee;
+    }
+
+    /* diff-style highlight for changed output lines */
+    .out-before { color: #f87171; }
+    .out-after  { color: #4ade80; }
+    .out-dim    { color: #4b5563; }
+
+    .comp-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.85rem;
+      margin: 1rem 0;
+    }
+
+    .comp-table th {
+      text-align: left;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      padding: 0.5rem 0.75rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .comp-table td {
+      padding: 0.6rem 0.75rem;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+      line-height: 1.5;
+      color: var(--text-muted);
+    }
+
+    .comp-table tr:last-child td { border-bottom: none; }
+
+    .comp-table td:first-child {
+      font-family: 'SF Mono','Fira Code','Cascadia Code', Consolas, monospace;
+      font-size: 0.8rem;
+      color: #60a5fa;
+      white-space: nowrap;
+    }
+
+    @media (max-width: 600px) {
+      .doc-body { padding: 1.25rem 1rem 3rem; }
+      .step-title { font-size: 1rem; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="header-title">USB SSD TRIM</div>
+  <div class="header-sub">TRIM-Support für USB-SATA-Bridges unter Linux aktivieren</div>
+</header>
+
+<div id="controls">
+  <button class="ctrl-btn" id="toggleTheme">🌙/☀️</button>
+  <a href="./index.html" id="terminalLink">← Projekte</a>
+</div>
+
+<div class="doc-body">
+
+  <!-- Intro -->
+  <div class="step">
+    <div class="step-header">
+      <div class="step-num" style="background: linear-gradient(135deg,#06b6d4,#3b82f6)">⬡</div>
+      <div class="step-title">Hintergrund: Warum TRIM bei USB-SSDs oft fehlt</div>
+    </div>
+
+    <p>TRIM (ATA) bzw. UNMAP (SCSI/USB) erlaubt dem Betriebssystem, der SSD mitzuteilen, welche Blöcke nicht mehr genutzt werden. Ohne TRIM muss die SSD beim Schreiben erst löschen – was sie über Zeit messbar langsamer macht.</p>
+
+    <p>USB-SATA-Bridges wie der <strong>JMicron JMS567</strong> melden dem Kernel fälschlicherweise, TRIM nicht zu unterstützen (<code>DISC-MAX=0</code>), obwohl die angeschlossene SSD es kann. Der Grund: der Treiber wählt den falschen SCSI-Provisioning-Modus. Das lässt sich per udev-Regel dauerhaft korrigieren, ohne den Kernel-Treiber zu patchen.</p>
+
+    <table class="comp-table">
+      <thead>
+        <tr><th>Begriff</th><th>Bedeutung</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>TRIM / UNMAP</td><td>Befehl, mit dem das OS der SSD freigegebene Blöcke meldet – hält die Schreibperformance langfristig stabil</td></tr>
+        <tr><td>provisioning_mode</td><td>Kernel-Attribut am SCSI-Gerät: <code>full</code> = kein TRIM, <code>unmap</code> = TRIM aktiv</td></tr>
+        <tr><td>udev-Regel</td><td>Wird beim Einstecken des Geräts ausgeführt und setzt <code>provisioning_mode</code> automatisch</td></tr>
+        <tr><td>fstrim.timer</td><td>Systemd-Timer, der wöchentlich <code>fstrim</code> auf allen gemounteten Dateisystemen ausführt</td></tr>
+      </tbody>
+    </table>
+
+    <div class="callout info">
+      <span class="callout-icon">ℹ</span>
+      <span>Diese Anleitung gilt für den JMicron JMS567 (<code>152d:3562</code>). Andere Bridges (JMS578, ASMedia ASM1153, Realtek RTL9210) können dieselbe Symptomatik zeigen – die udev-Regel funktioniert analog, nur Vendor- und Product-ID unterscheiden sich.</span>
+    </div>
+  </div>
+
+  <!-- TOC -->
+  <div class="toc">
+    <div class="toc-title">Inhalt</div>
+    <ol>
+      <li><a href="#identify">Gerät identifizieren</a></li>
+      <li><a href="#check-before">TRIM-Status prüfen (vorher)</a></li>
+      <li><a href="#udev">udev-Regel erstellen</a></li>
+      <li><a href="#apply">Regel sofort anwenden</a></li>
+      <li><a href="#verify">Ergebnis überprüfen</a></li>
+      <li><a href="#manual-trim">Manuellen TRIM ausführen</a></li>
+      <li><a href="#timer">Automatischen TRIM einrichten</a></li>
+      <li><a href="#other-bridges">Andere USB-Bridges</a></li>
+      <li><a href="#troubleshoot">Troubleshooting</a></li>
+    </ol>
+  </div>
+
+  <div class="section-title">Diagnose</div>
+
+  <!-- Step 1: Identify -->
+  <div id="identify" class="step">
+    <div class="step-header">
+      <div class="step-num">1</div>
+      <div class="step-title">Gerät identifizieren</div>
+    </div>
+
+    <p>Zuerst Vendor-ID und Product-ID der USB-SATA-Bridge ermitteln:</p>
+
+    <div class="code-block">
+      <div class="code-label bash">bash</div>
+      <pre class="code">lsusb</pre>
+      <button class="copy-btn">Kopieren</button>
+    </div>
+
+    <div class="code-block">
+      <div class="code-label out">Ausgabe (Beispiel)</div>
+      <pre class="code no-copy"><span class="out-dim">Bus 001 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
+Bus 001 Device 002: ID 2109:3431 VIA Labs, Inc. Hub</span>
+Bus 002 Device 002: ID <span class="out-after">152d:3562</span> JMicron Technology Corp. JMS567 SATA 6Gb/s bridge</pre>
+    </div>
+
+    <p>Das Format ist immer <code>VendorID:ProductID</code> – hier <code>152d</code> (JMicron) und <code>3562</code> (JMS567). Diese beiden Werte kommen in der udev-Regel zum Einsatz.</p>
+
+    <p>Welches Block-Device die Bridge erzeugt hat:</p>
+
+    <div class="code-block">
+      <div class="code-label bash">bash</div>
+      <pre class="code">lsblk -o NAME,MODEL,TRAN,SIZE</pre>
+      <button class="copy-btn">Kopieren</button>
+    </div>
+
+    <div class="code-block">
+      <div class="code-label out">Ausgabe (Beispiel)</div>
+      <pre class="code no-copy">NAME   MODEL              TRAN   SIZE
+<span class="out-after">sda    Samsung SSD 870    usb    931G</span>
+├─sda1                          512M
+└─sda2                          930G</pre>
+    </div>
+  </div>
+
+  <!-- Step 2: Check before -->
+  <div id="check-before" class="step">
+    <div class="step-header">
+      <div class="step-num">2</div>
+      <div class="step-title">TRIM-Status prüfen (vorher)</div>
+    </div>
+
+    <p><code>lsblk -D</code> zeigt die Discard-Fähigkeiten jedes Block-Devices. Entscheidend ist <code>DISC-MAX</code>: ist der Wert <code>0B</code>, erkennt Linux kein TRIM.</p>
+
+    <div class="code-block">
+      <div class="code-label bash">bash</div>
+      <pre class="code">lsblk -D</pre>
+      <button class="copy-btn">Kopieren</button>
+    </div>
+
+    <div class="code-block">
+      <div class="code-label out">Ausgabe ohne TRIM-Fix</div>
+      <pre class="code no-copy">NAME   DISC-ALN DISC-GRAN DISC-MAX DISC-ZERO
+<span class="out-before">sda           0        0B       0B         0
+├─sda1        0        0B       0B         0
+└─sda2        0        0B       0B         0</span></pre>
+    </div>
+
+    <div class="callout info">
+      <span class="callout-icon">ℹ</span>
+      <span><code>DISC-MAX=0B</code> und <code>DISC-GRAN=0B</code> bedeuten: der Kernel glaubt, das Gerät unterstützt kein TRIM. Nach dem Fix sollten beide Werte größer null sein.</span>
+    </div>
+  </div>
+
+  <div class="section-title">Fix</div>
+
+  <!-- Step 3: udev rule -->
+  <div id="udev" class="step">
+    <div class="step-header">
+      <div class="step-num">3</div>
+      <div class="step-title">udev-Regel erstellen</div>
+    </div>
+
+    <p>Die Regel setzt <code>provisioning_mode=unmap</code> immer dann, wenn genau dieses Gerät (per Vendor/Product-ID) als SCSI-Disk erkannt wird. Sie ist damit gerätespezifisch und beeinflusst keine anderen USB-Geräte.</p>
+
+    <div class="code-block">
+      <div class="code-label file">/etc/udev/rules.d/10-jmicron-trim.rules</div>
+      <pre class="code">ACTION=="add|change", ATTRS{idVendor}=="152d", ATTRS{idProduct}=="3562", SUBSYSTEM=="scsi_disk", ATTR{provisioning_mode}="unmap"</pre>
+      <button class="copy-btn">Kopieren</button>
+    </div>
+
+    <div class="callout info">
+      <span class="callout-icon">ℹ</span>
+      <span>Den Dateinamen <code>10-jmicron-trim.rules</code> so lassen – niedrige Präfix-Zahl (10) stellt sicher, dass die Regel früh geladen wird, bevor andere Regeln das Gerät konfigurieren.</span>
+    </div>
+
+    <div class="callout warn">
+      <span class="callout-icon">⚠</span>
+      <span>Andere Bridge? Vendor-ID und Product-ID aus <code>lsusb</code> (Schritt 1) entsprechend anpassen. Alle Werte sind hexadezimal und vierstellig, z. B. <code>174c:55aa</code> für ASMedia ASM1153.</span>
+    </div>
+  </div>
+
+  <!-- Step 4: Apply -->
+  <div id="apply" class="step">
+    <div class="step-header">
+      <div class="step-num">4</div>
+      <div class="step-title">Regel sofort anwenden (kein Neustart nötig)</div>
+    </div>
+
+    <div class="code-block">
+      <div class="code-label bash">bash</div>
+      <pre class="code"><span class="cmt"># udev-Regeln neu laden</span>
+sudo udevadm control --reload-rules
+
+<span class="cmt"># Ereignisse für alle vorhandenen Geräte erneut auslösen</span>
+sudo udevadm trigger</pre>
+      <button class="copy-btn">Kopieren</button>
+    </div>
+
+    <p>Direkt prüfen, ob die Regel greift:</p>
+
+    <div class="code-block">
+      <div class="code-label bash">bash</div>
+      <pre class="code">cat /sys/block/sda/device/scsi_disk/*/provisioning_mode</pre>
+      <button class="copy-btn">Kopieren</button>
+    </div>
+
+    <div class="code-block">
+      <div class="code-label out">Erwartete Ausgabe</div>
+      <pre class="code no-copy"><span class="out-after">unmap</span></pre>
+    </div>
+  </div>
+
+  <div class="section-title">Verifikation</div>
+
+  <!-- Step 5: Verify -->
+  <div id="verify" class="step">
+    <div class="step-header">
+      <div class="step-num">5</div>
+      <div class="step-title">Ergebnis überprüfen</div>
+    </div>
+
+    <div class="code-block">
+      <div class="code-label bash">bash</div>
+      <pre class="code">lsblk -D</pre>
+      <button class="copy-btn">Kopieren</button>
+    </div>
+
+    <div class="code-block">
+      <div class="code-label out">Ausgabe nach dem Fix</div>
+      <pre class="code no-copy">NAME   DISC-ALN DISC-GRAN DISC-MAX DISC-ZERO
+<span class="out-after">sda           0        4K       4G         0
+├─sda1        0        4K       4G         0
+└─sda2        0        4K       4G         0</span></pre>
+    </div>
+
+    <p><code>DISC-GRAN=4K</code> und <code>DISC-MAX=4G</code> bedeuten: TRIM ist aktiv. Die SSD meldet ihre tatsächlichen Discard-Grenzen an den Kernel.</p>
+
+    <div class="callout tip">
+      <span class="callout-icon">✓</span>
+      <span>Zweite Prüfmöglichkeit mit <code>hdparm</code>: <code>sudo hdparm -I /dev/sda | grep -i trim</code> – sollte <em>Data Set Management TRIM supported</em> zeigen.</span>
+    </div>
+  </div>
+
+  <!-- Step 6: Manual TRIM -->
+  <div id="manual-trim" class="step">
+    <div class="step-header">
+      <div class="step-num">6</div>
+      <div class="step-title">Manuellen TRIM ausführen</div>
+    </div>
+
+    <p>Einmalig testen, ob der Kernel wirklich TRIM-Befehle an die SSD senden kann:</p>
+
+    <div class="code-block">
+      <div class="code-label bash">bash</div>
+      <pre class="code">sudo fstrim -v /</pre>
+      <button class="copy-btn">Kopieren</button>
+    </div>
+
+    <div class="code-block">
+      <div class="code-label out">Erwartete Ausgabe</div>
+      <pre class="code no-copy"><span class="out-after">/: 690.2 MiB (723771392 bytes) trimmed</span></pre>
+    </div>
+
+    <p>Alle gemounteten Dateisysteme auf einmal trimmen:</p>
+
+    <div class="code-block">
+      <div class="code-label bash">bash</div>
+      <pre class="code">sudo fstrim -av</pre>
+      <button class="copy-btn">Kopieren</button>
+    </div>
+
+    <div class="callout danger">
+      <span class="callout-icon">✗</span>
+      <span>Die Mount-Option <code>discard</code> in <code>/etc/fstab</code> (kontinuierliches TRIM) vermeiden – sie erzeugt viele kleine SCSI UNMAP-Befehle und kann USB-Bridges mit begrenztem Command-Queuing ausbremsen. Periodisches TRIM via <code>fstrim.timer</code> ist die bessere Wahl.</span>
+    </div>
+  </div>
+
+  <!-- Step 7: Timer -->
+  <div id="timer" class="step">
+    <div class="step-header">
+      <div class="step-num">7</div>
+      <div class="step-title">Automatischen wöchentlichen TRIM einrichten</div>
+    </div>
+
+    <p>Systemd bringt einen fertigen Timer mit, der einmal pro Woche <code>fstrim -av</code> aufruft:</p>
+
+    <div class="code-block">
+      <div class="code-label bash">bash</div>
+      <pre class="code">sudo systemctl enable --now fstrim.timer</pre>
+      <button class="copy-btn">Kopieren</button>
+    </div>
+
+    <div class="code-block">
+      <div class="code-label bash">bash – Status und nächste Ausführung prüfen</div>
+      <pre class="code">systemctl status fstrim.timer
+systemctl list-timers fstrim.timer</pre>
+      <button class="copy-btn">Kopieren</button>
+    </div>
+
+    <div class="callout tip">
+      <span class="callout-icon">✓</span>
+      <span>Der Timer läuft standardmäßig montags um 00:00 Uhr. Mit <code>sudo systemctl start fstrim.service</code> lässt er sich manuell auslösen.</span>
+    </div>
+  </div>
+
+  <div class="section-title">Referenz</div>
+
+  <!-- Other bridges -->
+  <div id="other-bridges" class="step">
+    <div class="step-header">
+      <div class="step-num" style="background: linear-gradient(135deg,#a855f7,#6366f1)">◆</div>
+      <div class="step-title">Andere USB-SATA-Bridges</div>
+    </div>
+
+    <p>Das Problem tritt bei mehreren verbreiteten Chips auf. Die udev-Regel ist identisch – nur die IDs ändern sich:</p>
+
+    <table class="comp-table">
+      <thead>
+        <tr><th>Chip</th><th>Vendor:Product</th><th>Verbreitung</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>JMicron JMS567</td><td>152d:3562</td><td>Häufig in günstigen 2,5″-Gehäusen</td></tr>
+        <tr><td>JMicron JMS578</td><td>152d:0578</td><td>Neuere JMicron-Generation</td></tr>
+        <tr><td>ASMedia ASM1153</td><td>174c:55aa</td><td>In vielen Raspberry Pi-Gehäusen</td></tr>
+        <tr><td>ASMedia ASM2362</td><td>174c:2362</td><td>NVMe-Adapter mit USB 3.2</td></tr>
+        <tr><td>Realtek RTL9210</td><td>0bda:9210</td><td>Neuere High-Speed-Adapter</td></tr>
+      </tbody>
+    </table>
+
+    <div class="code-block">
+      <div class="code-label bash">bash – unbekannte Bridge identifizieren</div>
+      <pre class="code"><span class="cmt"># Alle USB-Storage-Geräte mit IDs anzeigen</span>
+lsusb | grep -i "storage\|jmicron\|asmedia\|realtek\|seagate\|western"
+
+<span class="cmt"># Detailinfo zum Block-Device (zeigt auch USB-IDs)</span>
+udevadm info --query=all --name=/dev/sda | grep -E "ID_VENDOR|ID_MODEL|idVendor|idProduct"</pre>
+      <button class="copy-btn">Kopieren</button>
+    </div>
+  </div>
+
+  <!-- Troubleshooting -->
+  <div id="troubleshoot" class="step">
+    <div class="step-header">
+      <div class="step-num" style="background: linear-gradient(135deg,#f59e0b,#ef4444)">!</div>
+      <div class="step-title">Troubleshooting</div>
+    </div>
+
+    <table class="comp-table">
+      <thead>
+        <tr><th>Problem</th><th>Lösung</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>DISC-MAX bleibt 0B nach Regel-Reload</td>
+          <td>Regel-Datei auf Syntaxfehler prüfen: <code>udevadm test $(udevadm info -q path -n /dev/sda)</code> – Ausgabe zeigt, ob die Regel matcht und was gesetzt wird</td>
+        </tr>
+        <tr>
+          <td>provisioning_mode nicht schreibbar</td>
+          <td>Kernel-Modul <code>sg</code> fehlt: <code>sudo modprobe sg</code> dann Regel erneut anwenden</td>
+        </tr>
+        <tr>
+          <td>fstrim meldet "Operation not supported"</td>
+          <td>Das Dateisystem unterstützt TRIM nicht (z. B. FAT32). ext4, f2fs, btrfs, xfs und NTFS (ntfs3) unterstützen es; FAT32/exFAT nicht</td>
+        </tr>
+        <tr>
+          <td>fstrim: "Device or resource busy"</td>
+          <td>Gerät ist intensiv in Nutzung. Zu einem ruhigeren Zeitpunkt erneut versuchen oder <code>fstrim.timer</code> übernehmen lassen</td>
+        </tr>
+        <tr>
+          <td>Nach Neustart ist DISC-MAX wieder 0</td>
+          <td>Regel wird nicht geladen: Datei liegt falsch (<code>ls /etc/udev/rules.d/10-jmicron*</code>) oder Schreibfehler im Dateinamen (.rules fehlt)</td>
+        </tr>
+        <tr>
+          <td>Gerät ist an anderem Bus als erwartet</td>
+          <td>Regel nutzt <code>ATTRS{}</code> (Eltern-Attribute) – funktioniert unabhängig vom USB-Port. Kein Anpassen nötig beim Umstecken</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="code-block">
+      <div class="code-label bash">bash – vollständige udev-Diagnose</div>
+      <pre class="code"><span class="cmt"># Regel testen ohne Neustart (zeigt alle Attribute und Aktionen)</span>
+sudo udevadm test $(udevadm info -q path -n /dev/sda) 2>&1 | grep -E "provisioning|TRIM|match|run"</pre>
+      <button class="copy-btn">Kopieren</button>
+    </div>
+  </div>
+
+</div><!-- /doc-body -->
+
+<script>
+  const themeBtn = document.getElementById('toggleTheme');
+  if (localStorage.getItem('theme') === 'light') document.body.classList.add('light');
+  themeBtn.addEventListener('click', () => {
+    document.body.classList.toggle('light');
+    localStorage.setItem('theme', document.body.classList.contains('light') ? 'light' : 'dark');
+  });
+
+  document.querySelectorAll('.copy-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const pre = btn.closest('.code-block').querySelector('pre.code');
+      navigator.clipboard.writeText(pre.innerText).then(() => {
+        btn.textContent = 'Kopiert!';
+        btn.classList.add('copied');
+        setTimeout(() => { btn.textContent = 'Kopieren'; btn.classList.remove('copied'); }, 1800);
+      });
+    });
+  });
+</script>
+</body>
+</html>

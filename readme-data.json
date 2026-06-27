@@ -555,6 +555,33 @@
     ]
   },
   {
+    "name": "intel-arc-for-ubuntu",
+    "description": "All drivers and Openvino, nvtop scripts for Ubuntu",
+    "url": "https://github.com/wlanboy/intel-arc-for-ubuntu",
+    "pushed_at": "2026-06-27T08:11:31Z",
+    "default_branch": "main",
+    "readmes": [
+      {
+        "path": "intel-arc-noble.md",
+        "title": "Intel Arc Pro B60 – Einrichtung unter Ubuntu 24.04 (Noble)",
+        "description": "Diese Anleitung beschreibt die vollständige Einrichtung einer Intel Arc Pro B60 GPU\n(Battlemage / Xe2-Architektur) unter Ubuntu 24.04 LTS, inklusive OpenCL/Level-Zero-Treiber,\nGPU-Monitoring und Steam-Gaming-Setup.\n\n---",
+        "type": "text"
+      },
+      {
+        "path": "intel-arc-resolute-raccoon.md",
+        "title": "Intel Arc Pro B60 – Einrichtung unter Ubuntu 26.04 (Resolute Raccoon)",
+        "description": "Diese Anleitung beschreibt die vollständige Einrichtung einer Intel Arc Pro B60 GPU\n(Battlemage / Xe2-Architektur) unter Ubuntu 26.04 LTS, inklusive OpenCL/Level-Zero-Treiber,\nGPU-Monitoring und Steam-Gaming-Setup.\n\n---",
+        "type": "text"
+      },
+      {
+        "path": "readme.md",
+        "title": "Intel Arc Pro B60 – Setup für Ubuntu",
+        "description": "Dieses Repository enthält Skripte und Anleitungen zur vollständigen Einrichtung einer\n**Intel Arc Pro B60** GPU (Battlemage / Xe2-Architektur) unter Ubuntu.",
+        "type": "readme"
+      }
+    ]
+  },
+  {
     "name": "JavaHttpClient",
     "description": "Spring based rest service to test http call within k8s and istio",
     "url": "https://github.com/wlanboy/JavaHttpClient",
@@ -621,7 +648,7 @@
     "name": "kubectl_analytics",
     "description": "A command-line tool for gathering and visualizing statistics about Kubernetes cluster resources",
     "url": "https://github.com/wlanboy/kubectl_analytics",
-    "pushed_at": "2026-06-14T18:59:05Z",
+    "pushed_at": "2026-06-27T07:49:57Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -632,8 +659,8 @@
       },
       {
         "path": "docker.md",
-        "title": "Docker",
-        "description": "",
+        "title": "Docker build für kubectl analytics",
+        "description": "kubectl analytics als container local ausführen.",
         "type": "text"
       }
     ]
@@ -819,7 +846,7 @@
     "name": "randomfail",
     "description": "Ein absichtlich instabiler FastAPI-Service zur Simulation realer Ausfallszenarien in Kubernetes-Clustern.",
     "url": "https://github.com/wlanboy/randomfail",
-    "pushed_at": "2026-06-07T17:14:38Z",
+    "pushed_at": "2026-06-27T07:51:26Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -830,8 +857,8 @@
       },
       {
         "path": "randomfail-chart/readme.md",
-        "title": "Helm install",
-        "description": "This helm script installs the WebShell within a kubernetes cluster.",
+        "title": "Helm install for randomfail chart",
+        "description": "This helm script installs the randmon fail deployment within a kubernetes cluster.",
         "type": "module"
       }
     ]
@@ -1023,7 +1050,7 @@
     "name": "vram-model-calculator",
     "description": "Python based calculator for total vram usage of you gguf models",
     "url": "https://github.com/wlanboy/vram-model-calculator",
-    "pushed_at": "2026-06-14T06:10:05Z",
+    "pushed_at": "2026-06-26T20:13:57Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1065,7 +1092,7 @@
     "name": "wlanboy.github.io",
     "description": "website",
     "url": "https://github.com/wlanboy/wlanboy.github.io",
-    "pushed_at": "2026-06-26T13:06:48Z",
+    "pushed_at": "2026-06-27T07:44:41Z",
     "default_branch": "main",
     "readmes": [
       {

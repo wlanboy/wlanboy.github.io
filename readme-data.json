@@ -645,6 +645,27 @@
     ]
   },
   {
+    "name": "kubecontext",
+    "description": "Python tool to get and manage kube config files.",
+    "url": "https://github.com/wlanboy/kubecontext",
+    "pushed_at": "2026-06-27T09:59:21Z",
+    "default_branch": "main",
+    "readmes": [
+      {
+        "path": "README.md",
+        "title": "kubecontext",
+        "description": "Ein interaktives TUI-Tool (Terminal User Interface) zur effizienten und sicheren Verwaltung von Kubernetes-Kontexten in der lokalen ~/.kube/config.\n\nkubecontext vereinfacht das Handling mehrerer Cluster, indem es das manuelle Editieren von Kubeconfigs überflüssig macht. Es kombiniert nahtlosen Remote-Import per SSH, integriertes Tunnel-Management und schnelle Kontext-Wechsel in einer intuitiven Terminal-Oberfläche.",
+        "type": "readme"
+      },
+      {
+        "path": "old/old.md",
+        "title": "kubecontext",
+        "description": "TUI zum Zusammenführen von kubectl-Contexts aus SSH-Hosts in die lokale `~/.kube/config`.",
+        "type": "text"
+      }
+    ]
+  },
+  {
     "name": "kubectl_analytics",
     "description": "A command-line tool for gathering and visualizing statistics about Kubernetes cluster resources",
     "url": "https://github.com/wlanboy/kubectl_analytics",
@@ -824,6 +845,21 @@
         "title": "MirrorService – Tekton Pipeline",
         "description": "Dieses Dokument beschreibt den Aufbau und Betrieb der Tekton CI/CD-Pipeline für den MirrorService.\nDie Pipeline ersetzt die GitHub Actions Workflows durch eine lokale, Kubernetes-native Lösung auf Basis eines kind-Clusters.\nSie umfasst alle Schritte von Repository-Clone über Maven-Build mit Spring Boot AOT bis zum Docker-Image-Push nach Docker Hub.",
         "type": "text"
+      }
+    ]
+  },
+  {
+    "name": "mysqlrouter_metriccollector",
+    "description": "Python based mysql router metric collector",
+    "url": "https://github.com/wlanboy/mysqlrouter_metriccollector",
+    "pushed_at": "2026-06-27T09:53:26Z",
+    "default_branch": "main",
+    "readmes": [
+      {
+        "path": "README.md",
+        "title": "MySQL Router Prometheus Exporter",
+        "description": "Liest alle Metriken aus der MySQL Router REST API und schickt sie per HTTP PUT an ein Prometheus Pushgateway. Implementiert in reinem Python (stdlib only, keine pip-Abhängigkeiten).\n\nLäuft standardmäßig als Daemon-Loop (60-Sekunden-Intervall) oder optional als One-Shot.\n\n---",
+        "type": "readme"
       }
     ]
   },
@@ -1092,7 +1128,7 @@
     "name": "wlanboy.github.io",
     "description": "website",
     "url": "https://github.com/wlanboy/wlanboy.github.io",
-    "pushed_at": "2026-06-27T07:44:41Z",
+    "pushed_at": "2026-06-27T08:12:53Z",
     "default_branch": "main",
     "readmes": [
       {

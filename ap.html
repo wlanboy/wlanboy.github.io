@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Linux WLAN Access Point Setup</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="stylesheet" href="style-neu.css">
+  <style>
+    .doc-body {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem 4rem;
+    }
+
+    /* ── Architecture Diagram ── */
+    .arch-box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      font-family: 'SF Mono','Fira Code','Cascadia Code', Consolas, monospace;
+      font-size: 0.8rem;
+      line-height: 1.8;
+      color: var(--text-muted);
+      margin: 1.5rem 0;
+      overflow-x: auto;
+    }
+
+    .arch-box .hl { color: var(--text); }
+    .arch-box .accent { color: #60a5fa; }
+    .arch-box .green  { color: #4ade80; }
+    .arch-box .yellow { color: #fbbf24; }
+
+    /* ── Steps ── */
+    .step {
+      margin: 2.5rem 0;
+      position: relative;
+    }
+
+    .step-header {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+    }
+
+    .step-num {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #3b82f6 0%, #6366f1 100%);
+      color: #fff;
+      font-size: 0.82rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      box-shadow: 0 2px 8px rgba(59,130,246,0.35);
+    }
+
+    .step-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+    }
+
+    .step p, .step ul, .step ol {
+      font-size: 0.9rem;
+      line-height: 1.7;
+      color: var(--text-muted);
+      margin-bottom: 0.75rem;
+    }
+
+    .step ul, .step ol {
+      padding-left: 1.4rem;
+    }
+
+    .step li { margin: 0.25rem 0; }
+
+    /* ── Code Blocks ── */
+    .code-block {
+      position: relative;
+      margin: 1rem 0;
+    }
+
+    .code-label {
+      display: inline-block;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      padding: 3px 10px;
+      border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-bottom: none;
+      color: var(--text-muted);
+    }
+
+    .code-label.bash  { color: #4ade80; }
+    .code-label.conf  { color: #fbbf24; }
+    .code-label.file  { color: #22d3ee; }
+
+    pre.code {
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: 0 var(--radius-sm) var(--radius-sm) var(--radius-sm);
+      padding: 1rem 3.5rem 1rem 1.1rem;
+      font-family: 'SF Mono','Fira Code','Cascadia Code', Consolas, monospace;
+      font-size: 0.82rem;
+      line-height: 1.65;
+      color: var(--text);
+      overflow-x: auto;
+      margin: 0;
+      white-space: pre;
+    }
+
+    .copy-btn {
+      position: absolute;
+      top: 0.5rem;
+      right: 0.5rem;
+      padding: 4px 10px;
+      font-size: 0.7rem;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      background: var(--glass);
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s, border-color 0.15s;
+    }
+
+    .copy-btn:hover {
+      background: var(--glass-hover);
+      border-color: var(--border-hover);
+      color: var(--text);
+    }
+
+    .copy-btn.copied {
+      color: #4ade80;
+      border-color: rgba(74,222,128,0.3);
+    }
+
+    /* ── Callouts ── */
+    .callout {
+      display: flex;
+      gap: 0.75rem;
+      padding: 0.85rem 1rem;
+      border-radius: var(--radius-sm);
+      margin: 1rem 0;
+      font-size: 0.85rem;
+      line-height: 1.6;
+    }
+
+    .callout-icon {
+      flex-shrink: 0;
+      font-size: 1rem;
+      margin-top: 1px;
+    }
+
+    .callout.warn {
+      background: rgba(245,158,11,0.08);
+      border: 1px solid rgba(245,158,11,0.2);
+      color: #fbbf24;
+    }
+
+    .callout.info {
+      background: rgba(59,130,246,0.07);
+      border: 1px solid rgba(59,130,246,0.2);
+      color: #93c5fd;
+    }
+
+    .callout.tip {
+      background: rgba(34,197,94,0.07);
+      border: 1px solid rgba(34,197,94,0.2);
+      color: #86efac;
+    }
+
+    /* ── Section Divider ── */
+    .section-title {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin: 3rem 0 1.25rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    /* ── Component Table ── */
+    .comp-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.85rem;
+      margin: 1rem 0;
+    }
+
+    .comp-table th {
+      text-align: left;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      padding: 0.5rem 0.75rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .comp-table td {
+      padding: 0.6rem 0.75rem;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+      line-height: 1.5;
+    }
+
+    .comp-table tr:last-child td { border-bottom: none; }
+
+    .comp-table td:first-child {
+      font-family: 'SF Mono','Fira Code','Cascadia Code', Consolas, monospace;
+      font-size: 0.8rem;
+      color: #60a5fa;
+      white-space: nowrap;
+    }
+
+    .comp-table td:last-child {
+      color: var(--text-muted);
+    }
+
+    /* ── TOC ── */
+    .toc {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.1rem 1.3rem;
+      margin: 1.5rem 0 2.5rem;
+    }
+
+    .toc-title {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 0.7rem;
+    }
+
+    .toc ol {
+      margin: 0;
+      padding-left: 1.3rem;
+    }
+
+    .toc li {
+      margin: 0.25rem 0;
+    }
+
+    .toc a {
+      font-size: 0.85rem;
+      color: #60a5fa;
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+
+    .toc a:hover { color: #93c5fd; text-decoration: underline; }
+
+    /* ── inline code ── */
+    code {
+      font-family: 'SF Mono','Fira Code','Cascadia Code', Consolas, monospace;
+      font-size: 0.82em;
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      padding: 1px 5px;
+      color: #22d3ee;
+    }
+
+    /* ── Comment in code ── */
+    .cmt { color: #4b5563; }
+    .kw  { color: #c084fc; }
+    .val { color: #fbbf24; }
+    .chg { color: #f87171; font-style: italic; }
+
+    /* ── Verify checks ── */
+    .check-list {
+      list-style: none;
+      padding: 0;
+      margin: 0.75rem 0;
+    }
+
+    .check-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.6rem;
+      font-size: 0.87rem;
+      color: var(--text-muted);
+      padding: 0.4rem 0;
+      border-bottom: 1px solid var(--border);
+      line-height: 1.5;
+    }
+
+    .check-list li:last-child { border-bottom: none; }
+
+    .check-list li::before {
+      content: '›';
+      color: #60a5fa;
+      font-weight: 700;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    @media (max-width: 600px) {
+      .doc-body { padding: 1.25rem 1rem 3rem; }
+      .step-title { font-size: 1rem; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="header-title">WLAN Access Point</div>
+  <div class="header-sub">Linux Hotspot mit hostapd + dnsmasq einrichten</div>
+</header>
+
+<div id="controls">
+  <button class="ctrl-btn" id="toggleTheme">🌙/☀️</button>
+  <a href="./index.html" id="terminalLink">← Projekte</a>
+</div>
+
+<div class="doc-body">
+
+  <!-- TOC -->
+  <div class="toc">
+    <div class="toc-title">Inhalt</div>
+    <ol>
+      <li><a href="#arch">Architektur &amp; Komponenten</a></li>
+      <li><a href="#prereq">Voraussetzungen</a></li>
+      <li><a href="#packages">Pakete installieren</a></li>
+      <li><a href="#staticip">Statische IP für wlan0</a></li>
+      <li><a href="#dnsmasq">dnsmasq (DHCP + DNS)</a></li>
+      <li><a href="#hostapd">hostapd konfigurieren</a></li>
+      <li><a href="#forwarding">IP-Forwarding &amp; NAT</a></li>
+      <li><a href="#services">Dienste aktivieren</a></li>
+      <li><a href="#verify">Verbindung testen</a></li>
+      <li><a href="#pihole">Optional: Pi-hole Adblocker</a></li>
+      <li><a href="#troubleshoot">Troubleshooting</a></li>
+    </ol>
+  </div>
+
+  <!-- Architecture -->
+  <div id="arch" class="step">
+    <div class="step-header">
+      <div class="step-num" style="background: linear-gradient(135deg,#06b6d4,#3b82f6)">⬡</div>
+      <div class="step-title">Architektur &amp; Komponenten</div>
+    </div>
+
+    <p>Der Access Point leitet WLAN-Clients über eine kabelgebundene Verbindung (<code>eth0</code>) ins Internet weiter. Drei Dienste arbeiten zusammen:</p>
+
+    <table class="comp-table">
+      <thead>
+        <tr><th>Komponente</th><th>Aufgabe</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>hostapd</td><td>Stellt den WLAN-Hotspot bereit – verwaltet Authentifizierung (WPA2/3) und Beacon-Frames</td></tr>
+        <tr><td>dnsmasq</td><td>DHCP-Server (vergibt IP-Adressen an Clients) + DNS-Resolver (leitet Anfragen weiter oder blockt Ads)</td></tr>
+        <tr><td>iptables / nftables</td><td>NAT-Masquerading: verbirgt das private 192.168.42.x-Netz hinter der öffentlichen eth0-IP</td></tr>
+      </tbody>
+    </table>
+
+    <div class="code-block">
+      <div class="code-label">Netzwerk-Topologie</div>
+      <pre class="code">Internet
+    │
+    │  (WAN / eth0)
+┌────────────────────────────────────────┐
+│          Linux / Raspberry Pi          │
+│                                        │
+│  eth0 ──── iptables NAT ──── wlan0     │
+│                          192.168.42.1  │
+│           hostapd + dnsmasq            │
+└────────────────────────────────────────┘
+                          │  (AP / Hotspot)
+          ┌───────────────┼───────────────┐
+       Client 1        Client 2        Client 3
+    192.168.42.10   192.168.42.11   192.168.42.12</pre>
+    </div>
+  </div>
+
+  <!-- Prerequisites -->
+  <div id="prereq" class="step">
+    <div class="step-header">
+      <div class="step-num">0</div>
+      <div class="step-title">Voraussetzungen</div>
+    </div>
+
+    <ul>
+      <li>Linux-System mit <strong>zwei Netzwerkschnittstellen</strong>: eine kabelgebundene (<code>eth0</code>) für den Internetzugang und eine WLAN-Karte (<code>wlan0</code>) für den Hotspot</li>
+      <li>Die WLAN-Karte muss den <strong>AP-Modus</strong> (Access-Point-Modus) unterstützen</li>
+      <li>Root-Zugriff (<code>sudo</code>)</li>
+    </ul>
+
+    <div class="callout info">
+      <span class="callout-icon">ℹ</span>
+      <span>AP-Modus prüfen: <code>iw list | grep -A 10 "Supported interface modes"</code> – es muss <strong>AP</strong> in der Liste stehen.</span>
+    </div>
+
+    <div class="code-block">
+      <div class="code-label bash">bash</div>
+      <pre class="code"><span class="cmt"># Schnittstellen anzeigen</span>
+ip link show
+
+<span class="cmt"># AP-Modus-Unterstützung prüfen</span>
+iw list | grep -A 10 "Supported interface modes"
+
+<span class="cmt"># NetworkManager ggf. für wlan0 deaktivieren (damit hostapd übernehmen kann)</span>
+sudo nmcli device set wlan0 managed no</pre>
+      <button class="copy-btn" data-target="0">Kopieren</button>
+    </div>
+  </div>
+
+  <div class="section-title">Installation &amp; Konfiguration</div>
+
+  <!-- Step 1: Packages -->
+  <div id="packages" class="step">
+    <div class="step-header">
+      <div class="step-num">1</div>
+      <div class="step-title">Pakete installieren</div>
+    </div>
+
+    <p>Statt des schwergewichtigen <code>isc-dhcp-server</code> verwenden wir <strong>dnsmasq</strong> – es vereint DHCP und DNS in einem einzigen, leichtgewichtigen Dienst.</p>
+
+    <div class="code-block">
+      <div class="code-label bash">bash</div>
+      <pre class="code">sudo apt update
+sudo apt install -y hostapd dnsmasq iptables iptables-persistent</pre>
+      <button class="copy-btn" data-target="1">Kopieren</button>
+    </div>
+
+    <div class="callout tip">
+      <span class="callout-icon">✓</span>
+      <span>Dienste direkt nach der Installation stoppen, damit wir erst konfigurieren und dann starten:</span>
+    </div>
+
+    <div class="code-block">
+      <div class="code-label bash">bash</div>
+      <pre class="code">sudo systemctl stop hostapd dnsmasq
+sudo systemctl unmask hostapd</pre>
+      <button class="copy-btn" data-target="2">Kopieren</button>
+    </div>
+  </div>
+
+  <!-- Step 2: Static IP -->
+  <div id="staticip" class="step">
+    <div class="step-header">
+      <div class="step-num">2</div>
+      <div class="step-title">Statische IP für wlan0 vergeben</div>
+    </div>
+
+    <p>Das Gerät selbst bekommt die IP <code>192.168.42.1</code> – das wird der Gateway für alle WLAN-Clients.</p>
+
+    <div class="code-block">
+      <div class="code-label file">/etc/network/interfaces.d/wlan0</div>
+      <pre class="code">allow-hotplug wlan0
+iface wlan0 inet static
+    address 192.168.42.1
+    netmask 255.255.255.0</pre>
+      <button class="copy-btn" data-target="3">Kopieren</button>
+    </div>
+
+    <p>Schnittstelle sofort aktivieren (ohne Neustart):</p>
+
+    <div class="code-block">
+      <div class="code-label bash">bash</div>
+      <pre class="code">sudo ip addr flush dev wlan0
+sudo ip addr add 192.168.42.1/24 dev wlan0
+sudo ip link set wlan0 up</pre>
+      <button class="copy-btn" data-target="4">Kopieren</button>
+    </div>
+
+    <div class="callout info">
+      <span class="callout-icon">ℹ</span>
+      <span>Raspberry Pi OS und Debian-Systeme mit <code>dhcpcd</code>: IP stattdessen in <code>/etc/dhcpcd.conf</code> eintragen:<br>
+      <code>interface wlan0</code>&nbsp;&nbsp;<code>static ip_address=192.168.42.1/24</code></span>
+    </div>
+  </div>
+
+  <!-- Step 3: dnsmasq -->
+  <div id="dnsmasq" class="step">
+    <div class="step-header">
+      <div class="step-num">3</div>
+      <div class="step-title">dnsmasq – DHCP &amp; DNS konfigurieren</div>
+    </div>
+
+    <p>Die Standardkonfiguration sichern und neu erstellen:</p>
+
+    <div class="code-block">
+      <div class="code-label bash">bash</div>
+      <pre class="code">sudo mv /etc/dnsmasq.conf /etc/dnsmasq.conf.orig</pre>
+      <button class="copy-btn" data-target="5">Kopieren</button>
+    </div>
+
+    <div class="code-block">
+      <div class="code-label file">/etc/dnsmasq.conf</div>
+      <pre class="code"><span class="cmt"># Nur auf wlan0 hören</span>
+interface=wlan0
+bind-interfaces
+
+<span class="cmt"># DHCP-Pool: 40 Adressen, 24h Lease</span>
+dhcp-range=192.168.42.10,192.168.42.50,255.255.255.0,24h
+
+<span class="cmt"># Gateway und DNS für Clients</span>
+dhcp-option=option:router,192.168.42.1
+dhcp-option=option:dns-server,192.168.42.1
+
+<span class="cmt"># Lokale Domain</span>
+domain=local
+local=/local/
+
+<span class="cmt"># Upstream-DNS (Cloudflare + Fallback)</span>
+server=1.1.1.1
+server=9.9.9.9
+
+<span class="cmt"># Keine /etc/hosts-Einträge ins DNS leaken</span>
+no-hosts
+expand-hosts</pre>
+      <button class="copy-btn" data-target="6">Kopieren</button>
+    </div>
+  </div>
+
+  <!-- Step 4: hostapd -->
+  <div id="hostapd" class="step">
+    <div class="step-header">
+      <div class="step-num">4</div>
+      <div class="step-title">hostapd – Access Point konfigurieren</div>
+    </div>
+
+    <div class="callout warn">
+      <span class="callout-icon">⚠</span>
+      <span>SSID und Passwort <strong>unbedingt ändern</strong> – die Standardwerte sind nicht sicher.</span>
+    </div>
+
+    <div class="code-block">
+      <div class="code-label file">/etc/hostapd/hostapd.conf</div>
+      <pre class="code"><span class="cmt"># Netzwerkkarte (ggf. anpassen: wlan1, wlp2s0, …)</span>
+interface=wlan0
+driver=nl80211
+
+<span class="cmt"># SSID und Land</span>
+ssid=<span class="chg">MeinHotspot</span>                <span class="cmt"># ← ÄNDERN</span>
+country_code=DE               <span class="cmt"># ← Länderkürzel anpassen</span>
+
+<span class="cmt"># 2,4 GHz 802.11n (kompatibel mit allen Geräten)</span>
+hw_mode=g
+channel=6                     <span class="cmt"># Kanal 1, 6 oder 11 empfohlen</span>
+ieee80211n=1
+ieee80211d=1
+wmm_enabled=1
+
+<span class="cmt"># WPA2 – sicher und kompatibel</span>
+auth_algs=1
+wpa=2
+wpa_key_mgmt=WPA-PSK
+rsn_pairwise=CCMP
+wpa_passphrase=<span class="chg">SicheresPasswort123!</span>  <span class="cmt"># ← ÄNDERN (mind. 12 Zeichen)</span>
+wpa_group_rekey=86400
+
+<span class="cmt"># SSID sichtbar lassen (0 = sichtbar)</span>
+ignore_broadcast_ssid=0
+macaddr_acl=0</pre>
+      <button class="copy-btn" data-target="7">Kopieren</button>
+    </div>
+
+    <p>hostapd auf diese Konfigurationsdatei verweisen:</p>
+
+    <div class="code-block">
+      <div class="code-label file">/etc/default/hostapd</div>
+      <pre class="code">DAEMON_CONF="/etc/hostapd/hostapd.conf"</pre>
+      <button class="copy-btn" data-target="8">Kopieren</button>
+    </div>
+
+    <div class="callout tip">
+      <span class="callout-icon">✓</span>
+      <span><strong>5-GHz-Hotspot (802.11ac):</strong> <code>hw_mode=a</code>, Kanal z. B. <code>36</code> oder <code>48</code>, zusätzlich <code>ieee80211ac=1</code> eintragen. Karte muss 5 GHz im AP-Modus unterstützen.</span>
+    </div>
+  </div>
+
+  <!-- Step 5: Forwarding -->
+  <div id="forwarding" class="step">
+    <div class="step-header">
+      <div class="step-num">5</div>
+      <div class="step-title">IP-Forwarding &amp; NAT aktivieren</div>
+    </div>
+
+    <p>Der Linux-Kernel muss Pakete zwischen <code>wlan0</code> und <code>eth0</code> weiterleiten:</p>
+
+    <div class="code-block">
+      <div class="code-label file">/etc/sysctl.conf – Zeile einfügen oder entkommentieren</div>
+      <pre class="code">net.ipv4.ip_forward=1</pre>
+      <button class="copy-btn" data-target="9">Kopieren</button>
+    </div>
+
+    <div class="code-block">
+      <div class="code-label bash">bash</div>
+      <pre class="code"><span class="cmt"># Sofort aktivieren (ohne Neustart)</span>
+sudo sysctl -w net.ipv4.ip_forward=1
+
+<span class="cmt"># NAT-Masquerading: Clients nach außen über eth0 verstecken</span>
+sudo iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
+
+<span class="cmt"># Forwarding-Regeln</span>
+sudo iptables -A FORWARD -i wlan0 -o eth0 -j ACCEPT
+sudo iptables -A FORWARD -i eth0 -o wlan0 -m state --state RELATED,ESTABLISHED -j ACCEPT
+
+<span class="cmt"># Regeln dauerhaft speichern (iptables-persistent)</span>
+sudo netfilter-persistent save</pre>
+      <button class="copy-btn" data-target="10">Kopieren</button>
+    </div>
+
+    <div class="callout info">
+      <span class="callout-icon">ℹ</span>
+      <span>Heißt das Kabel-Interface <strong>nicht</strong> <code>eth0</code>? Mit <code>ip route | grep default</code> das richtige Interface ermitteln und in den iptables-Befehlen ersetzen.</span>
+    </div>
+  </div>
+
+  <!-- Step 6: Enable services -->
+  <div id="services" class="step">
+    <div class="step-header">
+      <div class="step-num">6</div>
+      <div class="step-title">Dienste aktivieren &amp; starten</div>
+    </div>
+
+    <div class="code-block">
+      <div class="code-label bash">bash</div>
+      <pre class="code"><span class="cmt"># hostapd testen (zeigt Fehler direkt im Terminal; Strg+C zum Beenden)</span>
+sudo /usr/sbin/hostapd /etc/hostapd/hostapd.conf
+
+<span class="cmt"># Wenn kein Fehler: Dienste dauerhaft einrichten</span>
+sudo systemctl enable --now hostapd
+sudo systemctl enable --now dnsmasq</pre>
+      <button class="copy-btn" data-target="11">Kopieren</button>
+    </div>
+
+    <div class="callout tip">
+      <span class="callout-icon">✓</span>
+      <span>Status prüfen: <code>sudo systemctl status hostapd dnsmasq</code> – beide sollten <em>active (running)</em> zeigen.</span>
+    </div>
+  </div>
+
+  <div class="section-title">Verifizierung</div>
+
+  <!-- Verify -->
+  <div id="verify" class="step">
+    <div class="step-header">
+      <div class="step-num">7</div>
+      <div class="step-title">Verbindung testen</div>
+    </div>
+
+    <ul class="check-list">
+      <li>SSID erscheint auf einem anderen Gerät in der WLAN-Liste</li>
+      <li>Verbindung mit dem konfigurierten Passwort möglich</li>
+      <li>Client erhält eine IP aus dem Bereich 192.168.42.10–50</li>
+      <li>Ping an Gateway funktioniert: <code>ping 192.168.42.1</code></li>
+      <li>Internetzugriff funktioniert: <code>ping 1.1.1.1</code> und <code>ping google.com</code></li>
+    </ul>
+
+    <div class="code-block">
+      <div class="code-label bash">bash</div>
+      <pre class="code"><span class="cmt"># Verbundene Clients anzeigen (auf dem AP-System)</span>
+iw dev wlan0 station dump
+
+<span class="cmt"># Vergebene DHCP-Leases anzeigen</span>
+cat /var/lib/misc/dnsmasq.leases
+
+<span class="cmt"># Aktive iptables-NAT-Regeln prüfen</span>
+sudo iptables -t nat -L -n -v</pre>
+      <button class="copy-btn" data-target="12">Kopieren</button>
+    </div>
+  </div>
+
+  <div class="section-title">Optional</div>
+
+  <!-- Pi-hole -->
+  <div id="pihole" class="step">
+    <div class="step-header">
+      <div class="step-num" style="background: linear-gradient(135deg,#a855f7,#ec4899)">◆</div>
+      <div class="step-title">Pi-hole – Netzwerkweiter Adblocker</div>
+    </div>
+
+    <p>Pi-hole ersetzt <code>dnsmasq</code> als DNS-Resolver und blockiert Werbung &amp; Tracking für alle WLAN-Clients gleichzeitig.</p>
+
+    <div class="callout warn">
+      <span class="callout-icon">⚠</span>
+      <span>Pi-hole bringt einen eigenen DHCP-Server mit. Entweder den Pi-hole-DHCP aktivieren <strong>oder</strong> dnsmasq für DHCP behalten und Pi-hole nur als DNS nutzen – nicht beides parallel.</span>
+    </div>
+
+    <div class="code-block">
+      <div class="code-label bash">bash</div>
+      <pre class="code"><span class="cmt"># dnsmasq stoppen, damit Pi-hole Port 53 übernehmen kann</span>
+sudo systemctl stop dnsmasq
+sudo systemctl disable dnsmasq
+
+<span class="cmt"># Pi-hole installieren</span>
+curl -sSL https://install.pi-hole.net | bash</pre>
+      <button class="copy-btn" data-target="13">Kopieren</button>
+    </div>
+
+    <p>Beim Installer:</p>
+    <ul>
+      <li>Interface: <code>wlan0</code> wählen</li>
+      <li>Statische IP: vorhandene 192.168.42.1 bestätigen</li>
+      <li>Upstream-DNS: beliebig (Cloudflare, Quad9, …)</li>
+    </ul>
+
+    <p>Nach der Installation im Pi-hole-Webinterface (<code>http://pi.hole/admin</code>) konfigurieren:</p>
+
+    <ul>
+      <li><strong>Settings → DNS</strong>: <em>Permit all origins</em> aktivieren, <em>Never forward non-FQDN queries</em> aktivieren</li>
+      <li><strong>Settings → DHCP</strong>: Pi-hole-DHCP aktivieren (Range: 192.168.42.10–50, Gateway: 192.168.42.1)</li>
+      <li><strong>Group Management → Adlists</strong>: Blocklisten hinzufügen</li>
+      <li><strong>Tools → Update Gravity</strong>: Listen aktualisieren</li>
+    </ul>
+
+    <div class="code-block">
+      <div class="code-label bash">bash</div>
+      <pre class="code"><span class="cmt"># Pi-hole-Status prüfen</span>
+pihole status
+
+<span class="cmt"># Blocklisten manuell aktualisieren</span>
+pihole -g</pre>
+      <button class="copy-btn" data-target="14">Kopieren</button>
+    </div>
+  </div>
+
+  <div class="section-title">Fehlersuche</div>
+
+  <!-- Troubleshooting -->
+  <div id="troubleshoot" class="step">
+    <div class="step-header">
+      <div class="step-num" style="background: linear-gradient(135deg,#f59e0b,#ef4444)">!</div>
+      <div class="step-title">Troubleshooting</div>
+    </div>
+
+    <table class="comp-table">
+      <thead>
+        <tr><th>Problem</th><th>Lösung</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>SSID erscheint nicht</td>
+          <td><code>sudo journalctl -u hostapd -n 50</code> – häufige Ursachen: falsches Interface, fehlender Treiber, AP-Modus nicht unterstützt, RF-Kill aktiv (<code>rfkill unblock wifi</code>)</td>
+        </tr>
+        <tr>
+          <td>hostapd startet nicht</td>
+          <td>Testlauf im Vordergrund: <code>sudo /usr/sbin/hostapd -dd /etc/hostapd/hostapd.conf</code> – Fehler werden direkt ausgegeben</td>
+        </tr>
+        <tr>
+          <td>Client bekommt keine IP</td>
+          <td><code>sudo journalctl -u dnsmasq -n 30</code> – Port 53/67 belegt? <code>sudo ss -ulnp | grep ':67\|:53'</code></td>
+        </tr>
+        <tr>
+          <td>Kein Internet auf Clients</td>
+          <td>IP-Forwarding prüfen: <code>sysctl net.ipv4.ip_forward</code> muss 1 sein. NAT-Regel prüfen: <code>sudo iptables -t nat -L -n</code>. Interface-Name in POSTROUTING korrekt?</td>
+        </tr>
+        <tr>
+          <td>WLAN-Karte beschäftigt (Device busy)</td>
+          <td>NetworkManager gibt wlan0 nicht frei: <code>sudo nmcli device set wlan0 managed no</code> oder Eintrag in <code>/etc/NetworkManager/conf.d/10-ap.conf</code>: <code>[keyfile] unmanaged-devices=interface-name:wlan0</code></td>
+        </tr>
+        <tr>
+          <td>Schlechte Reichweite / Interferenz</td>
+          <td>Kanal wechseln (1, 6 oder 11 für 2,4 GHz) oder auf 5 GHz wechseln wenn unterstützt. Belegung prüfen: <code>sudo iwlist wlan0 scan | grep -E 'ESSID|Channel'</code></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="code-block">
+      <div class="code-label bash">bash – Logs auf einen Blick</div>
+      <pre class="code">sudo journalctl -u hostapd -u dnsmasq --since "5 min ago" -f</pre>
+      <button class="copy-btn" data-target="15">Kopieren</button>
+    </div>
+  </div>
+
+</div><!-- /doc-body -->
+
+<script>
+  /* Theme toggle */
+  const themeBtn = document.getElementById('toggleTheme');
+  const saved = localStorage.getItem('theme');
+  if (saved === 'light') document.body.classList.add('light');
+  themeBtn.addEventListener('click', () => {
+    document.body.classList.toggle('light');
+    localStorage.setItem('theme', document.body.classList.contains('light') ? 'light' : 'dark');
+  });
+
+  /* Copy buttons */
+  document.querySelectorAll('.copy-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const pre = btn.closest('.code-block').querySelector('pre.code');
+      navigator.clipboard.writeText(pre.innerText).then(() => {
+        btn.textContent = 'Kopiert!';
+        btn.classList.add('copied');
+        setTimeout(() => { btn.textContent = 'Kopieren'; btn.classList.remove('copied'); }, 1800);
+      });
+    });
+  });
+</script>
+</body>
+</html>

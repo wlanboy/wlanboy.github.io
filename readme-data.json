@@ -120,7 +120,7 @@
     "name": "CloudConfigPropertyGenerator",
     "description": "Spring based property generator - generated k8s ConfigMap from Spring Cloud Config Server",
     "url": "https://github.com/wlanboy/CloudConfigPropertyGenerator",
-    "pushed_at": "2026-06-20T09:55:57Z",
+    "pushed_at": "2026-06-28T12:59:39Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -135,7 +135,7 @@
     "name": "debian-cloud-init",
     "description": "Create libvirt  vm of debian 12 and 13 with cloud init - with amd64 and arm64 support",
     "url": "https://github.com/wlanboy/debian-cloud-init",
-    "pushed_at": "2026-06-07T17:12:55Z",
+    "pushed_at": "2026-06-27T17:43:46Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -387,7 +387,7 @@
     "name": "eurekaclientjava",
     "description": "Java based service to create several eureka clients entries without having to use the eureka lib",
     "url": "https://github.com/wlanboy/eurekaclientjava",
-    "pushed_at": "2026-06-20T10:02:05Z",
+    "pushed_at": "2026-06-28T12:26:59Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -522,7 +522,7 @@
     "name": "helm-for-java-devs",
     "description": "Helm for Java Devs",
     "url": "https://github.com/wlanboy/helm-for-java-devs",
-    "pushed_at": "2026-06-21T07:05:52Z",
+    "pushed_at": "2026-06-28T09:14:16Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -537,7 +537,7 @@
     "name": "hermes-local",
     "description": "Local docker hermes stack",
     "url": "https://github.com/wlanboy/hermes-local",
-    "pushed_at": "2026-06-20T04:13:32Z",
+    "pushed_at": "2026-06-28T10:14:07Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -585,7 +585,7 @@
     "name": "JavaHttpClient",
     "description": "Spring based rest service to test http call within k8s and istio",
     "url": "https://github.com/wlanboy/JavaHttpClient",
-    "pushed_at": "2026-06-03T11:31:59Z",
+    "pushed_at": "2026-06-28T12:26:15Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -711,7 +711,7 @@
     "name": "kubeeventjava",
     "description": "Spring Boot Kubernetes Eventlistener for namespaces to export metrics on kubernetes events",
     "url": "https://github.com/wlanboy/kubeeventjava",
-    "pushed_at": "2026-06-17T18:01:40Z",
+    "pushed_at": "2026-06-28T13:00:09Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -879,6 +879,21 @@
     ]
   },
   {
+    "name": "openclaw-local",
+    "description": "Container based local openclaw instance",
+    "url": "https://github.com/wlanboy/openclaw-local",
+    "pushed_at": "2026-06-28T11:07:53Z",
+    "default_branch": "main",
+    "readmes": [
+      {
+        "path": "README.md",
+        "title": "OpenClaw Local – Lokale KI-Assistenten-Umgebung (offline)",
+        "description": "OpenClaw Local ist eine vollständig offline laufende KI-Assistenten-Umgebung auf Basis von [OpenClaw](https://openclaw.ai) und Ollama.\nKeine Cloud-Dienste, keine externen Abhängigkeiten — alle Daten bleiben lokal auf dem Rechner.\n\nDas Setup kombiniert einen lokalen LLM-Server (Ollama) mit dem OpenClaw Gateway, das ein Web-Dashboard und eine API bereitstellt.",
+        "type": "readme"
+      }
+    ]
+  },
+  {
     "name": "python-sqlplus-checker",
     "description": "Python based pl/sql sqlplus checker for devs",
     "url": "https://github.com/wlanboy/python-sqlplus-checker",
@@ -948,7 +963,7 @@
     "name": "ServiceConfig",
     "description": "Spring Framework based configuration service",
     "url": "https://github.com/wlanboy/ServiceConfig",
-    "pushed_at": "2026-06-20T09:58:08Z",
+    "pushed_at": "2026-06-28T12:35:31Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -963,7 +978,7 @@
     "name": "ServiceRegistry",
     "description": "Spring Framework based Service Registry",
     "url": "https://github.com/wlanboy/ServiceRegistry",
-    "pushed_at": "2026-06-20T10:00:27Z",
+    "pushed_at": "2026-06-28T12:39:56Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1101,7 +1116,7 @@
     "name": "vram-model-calculator",
     "description": "Python based calculator for total vram usage of you gguf models",
     "url": "https://github.com/wlanboy/vram-model-calculator",
-    "pushed_at": "2026-06-27T12:49:17Z",
+    "pushed_at": "2026-06-28T11:40:09Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1143,7 +1158,7 @@
     "name": "wlanboy.github.io",
     "description": "website",
     "url": "https://github.com/wlanboy/wlanboy.github.io",
-    "pushed_at": "2026-06-27T11:28:14Z",
+    "pushed_at": "2026-06-27T13:47:09Z",
     "default_branch": "main",
     "readmes": [
       {

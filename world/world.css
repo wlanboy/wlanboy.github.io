@@ -1,0 +1,163 @@
+#country-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+  gap: 0.85rem;
+  padding: 1rem 1.5rem 2rem;
+  align-items: start;
+}
+
+.country-card {
+  background: var(--glass);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.2rem 1rem 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  box-shadow: var(--shadow);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s, border-color 0.2s;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+.country-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: var(--accent-docs);
+  opacity: 0.45;
+  transition: opacity 0.2s;
+}
+
+.country-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-hover);
+  background: var(--glass-hover);
+  border-color: var(--border-hover);
+}
+
+.country-card:hover::before { opacity: 1; }
+
+.country-flag {
+  font-size: 2.8rem;
+  line-height: 1;
+  margin-bottom: 0.55rem;
+  user-select: none;
+}
+
+.country-name {
+  font-size: 0.88rem;
+  font-weight: 600;
+  line-height: 1.3;
+  margin-bottom: 0.3rem;
+}
+
+.country-capital {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  line-height: 1.3;
+}
+
+.continent-badge {
+  position: absolute;
+  top: 7px; right: 7px;
+  font-size: 0.55rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 2px 5px;
+  border-radius: var(--radius-sm);
+}
+
+.cb-africa   { background: rgba(245,158,11,0.15);  color: #fbbf24; }
+.cb-asia     { background: rgba(168,85,247,0.15);  color: #c084fc; }
+.cb-europe   { background: rgba(59,130,246,0.15);  color: #60a5fa; }
+.cb-namerica { background: rgba(34,197,94,0.15);   color: #4ade80; }
+.cb-samerica { background: rgba(6,182,212,0.15);   color: #22d3ee; }
+.cb-oceania  { background: rgba(239,68,68,0.15);   color: #f87171; }
+
+#result-info {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  padding: 0.5rem 1.5rem 0;
+}
+
+.hidden-card { display: none; }
+
+/* Modal */
+#flag-modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0,0,0,0.55);
+  backdrop-filter: blur(4px);
+}
+#flag-modal.open { display: flex; }
+
+.modal-box {
+  background: var(--glass);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-hover);
+  padding: 2rem 2.5rem 1.8rem;
+  min-width: 260px;
+  max-width: 90vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6rem;
+  position: relative;
+  text-align: center;
+}
+
+.modal-close {
+  position: absolute;
+  top: 0.6rem; right: 0.8rem;
+  background: none;
+  border: none;
+  font-size: 1.3rem;
+  color: var(--text-muted);
+  cursor: pointer;
+  line-height: 1;
+  padding: 0.2rem 0.4rem;
+}
+.modal-close:hover { color: var(--text); }
+
+.modal-flag { font-size: 5rem; line-height: 1; user-select: none; }
+
+.modal-name {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-top: 0.4rem;
+  transition: opacity 0.2s;
+}
+.modal-capital {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  transition: opacity 0.2s;
+}
+.modal-info.hidden-info .modal-name,
+.modal-info.hidden-info .modal-capital { opacity: 0; pointer-events: none; }
+
+.modal-actions {
+  display: flex;
+  gap: 0.6rem;
+  margin-top: 0.8rem;
+}
+.modal-btn {
+  background: var(--glass-hover);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text);
+  font-size: 0.82rem;
+  padding: 0.45rem 1rem;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+}
+.modal-btn:hover { background: var(--border); border-color: var(--border-hover); }

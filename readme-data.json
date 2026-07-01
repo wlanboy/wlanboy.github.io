@@ -840,7 +840,7 @@
     "name": "MirrorService",
     "description": "Spring Framework based service mirroring requests with parameterized wait time and http response codes",
     "url": "https://github.com/wlanboy/MirrorService",
-    "pushed_at": "2026-06-17T17:03:43Z",
+    "pushed_at": "2026-07-01T15:27:26Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -993,7 +993,7 @@
     "name": "SimpleService",
     "description": "Simple Spring Rest Service playing Blockchain",
     "url": "https://github.com/wlanboy/SimpleService",
-    "pushed_at": "2026-06-17T17:47:47Z",
+    "pushed_at": "2026-07-01T15:24:22Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1131,7 +1131,7 @@
     "name": "vram-model-calculator",
     "description": "Python based calculator for total vram usage of you gguf models",
     "url": "https://github.com/wlanboy/vram-model-calculator",
-    "pushed_at": "2026-06-28T19:25:05Z",
+    "pushed_at": "2026-07-01T18:24:42Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1145,6 +1145,21 @@
         "title": "GGUF-Format – Technische Übersicht",
         "description": "GGUF (GGML Universal Format) ist das binäre Dateiformat für KI-Modelle, das von llama.cpp verwendet wird. Es löste das ältere GGML- und GGJT-Format ab und wurde so konzipiert, dass Metadaten, Tokenizer und Tensor-Gewichte in einer einzigen Datei gespeichert werden können.\n\n---",
         "type": "text"
+      }
+    ]
+  },
+  {
+    "name": "wakeonlan",
+    "description": "Python based wake on lan web ui",
+    "url": "https://github.com/wlanboy/wakeonlan",
+    "pushed_at": "2026-07-01T19:44:04Z",
+    "default_branch": "main",
+    "readmes": [
+      {
+        "path": "README.md",
+        "title": "Wake on LAN",
+        "description": "Ein schlankes FastAPI-Webinterface im dunklen Theme, um Geräte im lokalen\nNetzwerk zu finden und per Wake-on-LAN (WOL) aufzuwecken.",
+        "type": "readme"
       }
     ]
   },
@@ -1173,7 +1188,7 @@
     "name": "wlanboy.github.io",
     "description": "website",
     "url": "https://github.com/wlanboy/wlanboy.github.io",
-    "pushed_at": "2026-06-30T19:47:41Z",
+    "pushed_at": "2026-07-01T18:25:24Z",
     "default_branch": "main",
     "readmes": [
       {

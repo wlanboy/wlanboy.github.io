@@ -1020,6 +1020,21 @@
     ]
   },
   {
+    "name": "spring-ai-mcp",
+    "description": "Spring Based MCP Server",
+    "url": "https://github.com/wlanboy/spring-ai-mcp",
+    "pushed_at": "2026-06-30T17:04:33Z",
+    "default_branch": "main",
+    "readmes": [
+      {
+        "path": "readme.md",
+        "title": "Spring AI based MCP Hello World Server",
+        "description": "Ein minimaler MCP-Server (Model Context Protocol) auf Basis von Spring Boot 4 und Spring AI 2.0.\n\nDas **Model Context Protocol** ist ein offener Standard, mit dem KI-Modelle (z. B. Claude, GPT)\nstrukturiert auf externe Tools und Dienste zugreifen können — ohne Prompt-Engineering für\njeden Anwendungsfall neu schreiben zu müssen.\n\nDieses Projekt zeigt den kleinstmöglichen Aufbau:\n\n| Schicht | Technologie |\n|---|---|\n| HTTP-Transport | Spring WebMVC oder WebFlux (SSE) |\n| MCP-Protokollstack | `spring-ai-starter-mcp-server-webmvc` / `-webflux` |\n| Tool-Definition | `@Tool`-Annotation auf einfachen Spring-Beans |\n| Build | Maven mit AOT-Processing für schnellen Start |\n\nDie enthaltenen Beispiel-Tools (`greet`, `serverTime`) demonstrieren das Grundprinzip\nund lassen sich als Vorlage für eigene Integrationen verwenden.",
+        "type": "readme"
+      }
+    ]
+  },
+  {
     "name": "testing",
     "description": "My personal testing ground.",
     "url": "https://github.com/wlanboy/testing",
@@ -1158,7 +1173,7 @@
     "name": "wlanboy.github.io",
     "description": "website",
     "url": "https://github.com/wlanboy/wlanboy.github.io",
-    "pushed_at": "2026-06-29T15:49:59Z",
+    "pushed_at": "2026-06-30T19:47:41Z",
     "default_branch": "main",
     "readmes": [
       {

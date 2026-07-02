@@ -555,6 +555,21 @@
     ]
   },
   {
+    "name": "httptester",
+    "description": "http tester servie for kubernets, istio and service mesh connection and dns tests. Local dual kind setup for istio service mesh.",
+    "url": "https://github.com/wlanboy/httptester",
+    "pushed_at": "2026-07-02T12:50:21Z",
+    "default_branch": "main",
+    "readmes": [
+      {
+        "path": "readme.md",
+        "title": "http tester for service mesh",
+        "description": "A simple web ui to run http get und nslookup request inside of the cluster.\nPerfect to check availability of services, dns entries and hostnames from a pod point of view.\n\nDer `http-tester` läuft als eigener Pod im Mesh und bietet drei Kernfunktionen:\n\n* **GET-Requests absetzen** – beliebige URL vom Pod aus aufrufen und Response-Body sowie -Header sehen. Damit lässt sich prüfen, ob ein Service über Ingress-Gateway, Egress-Gateway oder East-West-Gateway erreichbar ist, ob mTLS/AuthorizationPolicies greifen und wie mesh-interne Antworten aussehen.\n* **DNS-Auflösung** – Hostnamen per `nslookup`-Äquivalent aus Pod-Sicht auflösen, um Kubernetes-DNS, ServiceEntries und externe Namensauflösung (z. B. für Egress) zu verifizieren.\n* **JSON-Echo** (`/postbody`) – zum Testen von Payload-Weiterleitung, Content-Type-Handling und Proxy-Verhalten (z. B. Header-Manipulation durch EnvoyFilter).\n\nDa alles über eine einfache Web-UI und Swagger (`/docs`) bedienbar ist, braucht man\nkeinen eigenen `curl`/`dig` im Debug-Container – der Pod selbst ist das Werkzeug.\nTypische Einsatzszenarien: Erreichbarkeit von Services vor/nach einem Rollout prüfen,\nIstio Ingress-/Egress-/East-West-Gateways verifizieren, oder schnell aus einem\nbestimmten Namespace heraus testen, ob eine Zielresource überhaupt sichtbar ist.",
+        "type": "readme"
+      }
+    ]
+  },
+  {
     "name": "intel-arc-for-ubuntu",
     "description": "All drivers and Openvino, nvtop scripts for Ubuntu",
     "url": "https://github.com/wlanboy/intel-arc-for-ubuntu",
@@ -669,7 +684,7 @@
     "name": "kubectl_analytics",
     "description": "A command-line tool for gathering and visualizing statistics about Kubernetes cluster resources",
     "url": "https://github.com/wlanboy/kubectl_analytics",
-    "pushed_at": "2026-06-27T07:49:57Z",
+    "pushed_at": "2026-07-02T06:39:56Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -840,7 +855,7 @@
     "name": "MirrorService",
     "description": "Spring Framework based service mirroring requests with parameterized wait time and http response codes",
     "url": "https://github.com/wlanboy/MirrorService",
-    "pushed_at": "2026-07-01T15:27:26Z",
+    "pushed_at": "2026-07-02T06:56:02Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -963,7 +978,7 @@
     "name": "ServiceConfig",
     "description": "Spring Framework based configuration service",
     "url": "https://github.com/wlanboy/ServiceConfig",
-    "pushed_at": "2026-06-28T12:35:31Z",
+    "pushed_at": "2026-07-02T11:55:24Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -978,7 +993,7 @@
     "name": "ServiceRegistry",
     "description": "Spring Framework based Service Registry",
     "url": "https://github.com/wlanboy/ServiceRegistry",
-    "pushed_at": "2026-06-28T12:39:56Z",
+    "pushed_at": "2026-07-02T11:55:52Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1188,7 +1203,7 @@
     "name": "wlanboy.github.io",
     "description": "website",
     "url": "https://github.com/wlanboy/wlanboy.github.io",
-    "pushed_at": "2026-07-01T18:25:24Z",
+    "pushed_at": "2026-07-01T19:48:25Z",
     "default_branch": "main",
     "readmes": [
       {

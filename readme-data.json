@@ -417,9 +417,15 @@
     "name": "gitops",
     "description": "Simple way to create project, repros and apps in argocd",
     "url": "https://github.com/wlanboy/gitops",
-    "pushed_at": "2026-05-30T15:02:22Z",
+    "pushed_at": "2026-07-04T09:05:27Z",
     "default_branch": "main",
     "readmes": [
+      {
+        "path": "apps-trust/readme.md",
+        "title": "Apps",
+        "description": "Enthält ArgoCD `Application`-Manifeste für alle verwalteten Dienste. Jede Datei definiert eine eigene ArgoCD-Application, die ArgoCD anweist, die jeweilige Anwendung aus dem GitOps-Repository zu synchronisieren und im Cluster zu deployen.",
+        "type": "module"
+      },
       {
         "path": "apps/readme.md",
         "title": "Apps",
@@ -552,9 +558,21 @@
     "name": "helm-for-java-devs",
     "description": "Helm for Java Devs",
     "url": "https://github.com/wlanboy/helm-for-java-devs",
-    "pushed_at": "2026-06-28T09:14:16Z",
+    "pushed_at": "2026-07-04T09:28:22Z",
     "default_branch": "main",
     "readmes": [
+      {
+        "path": "db-schwenk.md",
+        "title": "MySQL aktivieren (Feature Flag)",
+        "description": "Die App startet standardmäßig mit einer In-Memory-H2-Datenbank. Der Wechsel auf eine externe MySQL-Instanz erfolgt über das Feature Flag `mysql.external.enabled` in `values.yaml`.",
+        "type": "text"
+      },
+      {
+        "path": "kunden-traffic.md",
+        "title": "Zwei Versionen: intern/extern (Source-Namespace-Routing)",
+        "description": "Der Chart deployt **zwei Versionen** derselben App parallel (`values.yaml` → `versions`), um Istio Source-Namespace-Routing zu demonstrieren.\n\n| Version | `sourceNamespace` | ConfigMap | `app.version-label` |\n|---|---|---|---|\n| `extern` | `testclientextern` | `helloworld-config-extern` | `extern` |\n| `intern` | `testclientintern` | `helloworld-config-intern` | `intern` |\n\nJede Version bekommt ein eigenes Deployment, eine eigene ConfigMap (`config/application-<name>.properties`)\nund ein eigenes DestinationRule-Subset. Der VirtualService routet Sidecar-zu-Sidecar-Traffic\n(Gateway `mesh`) anhand des **Namespace, aus dem der Call kommt**: Ruft ein Pod aus `testclientextern`\nauf, landet er beim `extern`-Subset; aus `testclientintern` beim `intern`-Subset. Traffic über den\nexternen Istio-Ingress (`https://helloworld.tp.lan`) hat kein Source-Workload in einem dieser\nNamespaces und landet immer auf der Default-Route (`extern`).\n\n> Das Source-Namespace-Matching wird vom **Envoy-Sidecar des aufrufenden Pods** ausgewertet — die\n> Testclient-Namespaces brauchen deshalb selbst Istio Sidecar-Injection, sonst greift die Regel nicht.\n\nDas gilt unabhängig vom Client: die busybox-Pods unten dienen nur zum schnellen Testen mit `wget`.\nDer [JavaHttpClient](../JavaHttpClient/javahttpclient-chart) — ein generischer HTTP-Client, der\nbeliebige Ziel-URLs per `POST /client` weiterleitet — läuft aber in seinem eigenen Namespace\n`javahttpclient`, nicht in `testclientextern` oder `testclientintern`. Ruft er von dort\n`http://helloworld.helloworld.svc.cluster.local:8080/version` auf, kommt **gemischt** `extern` und\n`intern` zurück — nicht deterministisch wie beim busybox-Test.\n\nDer Grund liegt in `exportTo`: Sowohl DestinationRule als auch VirtualService von `helloworld`\nexportieren ihre Konfiguration nur nach `.`, `istio-ingress`, `istio-system`, `testclientextern`,\n`testclientintern`. Der Namespace `javahttpclient` steht **nicht** in dieser Liste — istiod schickt\ndessen Envoy-Sidecar die Routing-Regeln für den Host `helloworld` also gar nicht erst zu. Ohne\nsichtbares VirtualService/DestinationRule kennt der Sidecar auch keine Subsets; er behandelt den\nAufruf wie plain Kubernetes-Service-Traffic und lastverteilt stur über **alle** Endpoints hinter dem\nService `helloworld` — dessen Selector (`app: helloworld`) matcht ja sowohl `extern`- als auch\n`intern`-Pods gleichermaßen (siehe [service.yaml](helmchart/templates/service.yaml)). Daher der\nZufallsmix.",
+        "type": "text"
+      },
       {
         "path": "readme.md",
         "title": "Helm for Java Devs — Schritt-für-Schritt-Anleitung",
@@ -720,7 +738,7 @@
     "name": "kubectl_analytics",
     "description": "A command-line tool for gathering and visualizing statistics about Kubernetes cluster resources",
     "url": "https://github.com/wlanboy/kubectl_analytics",
-    "pushed_at": "2026-07-03T11:26:07Z",
+    "pushed_at": "2026-07-04T12:23:21Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -808,6 +826,21 @@
         "path": "readme.md",
         "title": "LGTM Observability Stack",
         "description": "Lokales Observability-Setup auf Basis des Grafana-Stacks. Kombiniert Metriken, Logs und Traces in einer einzigen Grafana-Oberfläche — vollständig mit Docker Compose betreibbar, ohne Cloud-Abhängigkeiten.\n\n---",
+        "type": "readme"
+      }
+    ]
+  },
+  {
+    "name": "lm-studio-remote",
+    "description": "Python based remote for LM Studio",
+    "url": "https://github.com/wlanboy/lm-studio-remote",
+    "pushed_at": "2026-07-04T12:57:20Z",
+    "default_branch": "main",
+    "readmes": [
+      {
+        "path": "README.md",
+        "title": "lm-studio-remote",
+        "description": "Eine Python-basierte Terminal-UI (gebaut mit [Textual](https://textual.textualize.io/)), um eine oder mehrere [LM Studio](https://lmstudio.ai/)-Instanzen im lokalen Netzwerk fernzusteuern, ohne die LM Studio Desktop-App selbst zu öffnen. Die App scannt das lokale /24-Subnetz nach erreichbaren LM-Studio-REST-API-Servern, merkt sich gefundene Server in einer JSON-Datei und erlaubt es, sich per Dropdown mit einem Server zu verbinden (optional mit API-Token). Nach dem Verbinden zeigt eine Tabelle alle verfügbaren Modelle inklusive Typ, Publisher, Parametergröße, Dateigröße, Format und Ladezustand an. Modelle können direkt aus der TUI geladen (mit Optionen wie Context Length, Flash Attention, Eval Batch Size) und wieder entladen werden; ein Log-Tab protokolliert alle Aktionen und Fehler.",
         "type": "readme"
       }
     ]
@@ -963,7 +996,7 @@
     "name": "randomfail",
     "description": "Ein absichtlich instabiler FastAPI-Service zur Simulation realer Ausfallszenarien in Kubernetes-Clustern.",
     "url": "https://github.com/wlanboy/randomfail",
-    "pushed_at": "2026-07-03T11:31:55Z",
+    "pushed_at": "2026-07-04T12:21:44Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1218,7 +1251,7 @@
     "name": "wakeonlan",
     "description": "Python based wake on lan web ui",
     "url": "https://github.com/wlanboy/wakeonlan",
-    "pushed_at": "2026-07-03T12:39:00Z",
+    "pushed_at": "2026-07-04T12:22:17Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1254,7 +1287,7 @@
     "name": "wlanboy.github.io",
     "description": "website",
     "url": "https://github.com/wlanboy/wlanboy.github.io",
-    "pushed_at": "2026-07-02T14:04:42Z",
+    "pushed_at": "2026-07-03T14:08:28Z",
     "default_branch": "main",
     "readmes": [
       {

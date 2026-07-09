@@ -654,7 +654,7 @@
     "name": "JavaHttpClient",
     "description": "Spring based rest service to test http call within k8s and istio",
     "url": "https://github.com/wlanboy/JavaHttpClient",
-    "pushed_at": "2026-06-28T12:26:15Z",
+    "pushed_at": "2026-07-08T17:29:34Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -717,7 +717,7 @@
     "name": "kubecontext",
     "description": "Python tool to get and manage kube config files.",
     "url": "https://github.com/wlanboy/kubecontext",
-    "pushed_at": "2026-07-03T11:24:37Z",
+    "pushed_at": "2026-07-08T19:37:53Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -780,7 +780,7 @@
     "name": "kubeeventjava",
     "description": "Spring Boot Kubernetes Eventlistener for namespaces to export metrics on kubernetes events",
     "url": "https://github.com/wlanboy/kubeeventjava",
-    "pushed_at": "2026-06-28T13:00:09Z",
+    "pushed_at": "2026-07-08T18:05:51Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -806,6 +806,21 @@
         "title": "kubeeventjava – Tekton Pipeline",
         "description": "Dieses Dokument beschreibt die Tekton-Pipeline für das Projekt **kubeeventjava**.\nDie Pipeline ersetzt die bestehenden GitHub Actions Workflows und führt in drei\nSchritten – Repository-Clone, Maven-Build (mit Spring Boot AOT) und\nKaniko-Image-Build/Push – ein vollständiges CI/CD aus, das innerhalb eines\nlokalen kind-Clusters läuft.",
         "type": "text"
+      }
+    ]
+  },
+  {
+    "name": "kubernetes-crds",
+    "description": "Python based kubernetes crd statistics",
+    "url": "https://github.com/wlanboy/kubernetes-crds",
+    "pushed_at": "2026-07-09T15:10:38Z",
+    "default_branch": "main",
+    "readmes": [
+      {
+        "path": "README.md",
+        "title": "kubernetes-crds",
+        "description": "Dieses Tool dient dazu, die CustomResourceDefinitions (CRDs) eines Kubernetes-Clusters zu erfassen und auszuwerten. Es listet alle CRDs samt ihrer API-Versionen auf.\nIn einer Tabelle wird gezeigt, welche Version jeweils \"served\" bzw. \"storage\" ist, und ermittelt die Anzahl der tatsächlich existierenden Instanzen je Namespace (bzw. clusterweit bei cluster-scoped CRDs). \nDadurch lässt sich nicht nur nachvollziehen, welche CRDs im Cluster installiert sind und wie sie genutzt werden, sondern auch, welche CRDs keine oder kaum Instanzen besitzen – also ungenutzte oder veraltete CRDs, die Kandidaten für eine Bereinigung sind.",
+        "type": "readme"
       }
     ]
   },
@@ -1308,7 +1323,7 @@
     "name": "wlanboy.github.io",
     "description": "website",
     "url": "https://github.com/wlanboy/wlanboy.github.io",
-    "pushed_at": "2026-07-07T14:37:56Z",
+    "pushed_at": "2026-07-08T14:12:50Z",
     "default_branch": "main",
     "readmes": [
       {

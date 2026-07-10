@@ -84,7 +84,7 @@
     "name": "caweb",
     "description": "Python based web frontend to create ssl certs for hostname on a given ca",
     "url": "https://github.com/wlanboy/caweb",
-    "pushed_at": "2026-07-03T11:16:18Z",
+    "pushed_at": "2026-07-10T06:42:20Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -135,7 +135,7 @@
     "name": "debian-cloud-init",
     "description": "Create libvirt  vm of debian 12 and 13 with cloud init - with amd64 and arm64 support",
     "url": "https://github.com/wlanboy/debian-cloud-init",
-    "pushed_at": "2026-07-03T11:19:35Z",
+    "pushed_at": "2026-07-10T06:41:58Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -156,7 +156,7 @@
     "name": "deployment_monitor",
     "description": "python based ansible deployment monitor, using sqlite as storage and pushing results to prometheus",
     "url": "https://github.com/wlanboy/deployment_monitor",
-    "pushed_at": "2026-07-03T11:21:18Z",
+    "pushed_at": "2026-07-10T06:39:48Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -606,7 +606,7 @@
     "name": "httptester",
     "description": "http tester servie for kubernets, istio and service mesh connection and dns tests. Local dual kind setup for istio service mesh.",
     "url": "https://github.com/wlanboy/httptester",
-    "pushed_at": "2026-07-03T11:22:52Z",
+    "pushed_at": "2026-07-10T06:19:57Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -717,7 +717,7 @@
     "name": "kubecontext",
     "description": "Python tool to get and manage kube config files.",
     "url": "https://github.com/wlanboy/kubecontext",
-    "pushed_at": "2026-07-08T19:37:53Z",
+    "pushed_at": "2026-07-10T06:47:39Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -813,13 +813,13 @@
     "name": "kubernetes-crds",
     "description": "Python based kubernetes crd statistics",
     "url": "https://github.com/wlanboy/kubernetes-crds",
-    "pushed_at": "2026-07-09T15:10:38Z",
+    "pushed_at": "2026-07-10T14:13:35Z",
     "default_branch": "main",
     "readmes": [
       {
         "path": "README.md",
         "title": "kubernetes-crds",
-        "description": "Dieses Tool dient dazu, die CustomResourceDefinitions (CRDs) eines Kubernetes-Clusters zu erfassen und auszuwerten. Es listet alle CRDs samt ihrer API-Versionen auf.\nIn einer Tabelle wird gezeigt, welche Version jeweils \"served\" bzw. \"storage\" ist, und ermittelt die Anzahl der tatsächlich existierenden Instanzen je Namespace (bzw. clusterweit bei cluster-scoped CRDs). \nDadurch lässt sich nicht nur nachvollziehen, welche CRDs im Cluster installiert sind und wie sie genutzt werden, sondern auch, welche CRDs keine oder kaum Instanzen besitzen – also ungenutzte oder veraltete CRDs, die Kandidaten für eine Bereinigung sind.",
+        "description": "Dieses Tool dient dazu, die CustomResourceDefinitions (CRDs) eines Kubernetes-Clusters zu erfassen und auszuwerten. Es listet alle CRDs samt ihrer API-Versionen auf.\nIn einer Tabelle wird gezeigt, welche Version jeweils \"served\" bzw. \"storage\" ist, ob die CRD eine `Webhook`-Konversionsstrategie verwendet (`spec.conversion.strategy`), und ermittelt die Anzahl der tatsächlich existierenden Instanzen je Namespace (bzw. clusterweit bei cluster-scoped CRDs). \nDadurch lässt sich nicht nur nachvollziehen, welche CRDs im Cluster installiert sind und wie sie genutzt werden, sondern auch, welche CRDs keine oder kaum Instanzen besitzen – also ungenutzte oder veraltete CRDs, die Kandidaten für eine Bereinigung sind.",
         "type": "readme"
       }
     ]
@@ -1203,7 +1203,7 @@
     "name": "usbview",
     "description": "Python opencv based webserver for streaming usb capture card streams",
     "url": "https://github.com/wlanboy/usbview",
-    "pushed_at": "2026-07-03T11:35:04Z",
+    "pushed_at": "2026-07-10T06:42:37Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1287,7 +1287,7 @@
     "name": "wakeonlan",
     "description": "Python based wake on lan web ui",
     "url": "https://github.com/wlanboy/wakeonlan",
-    "pushed_at": "2026-07-04T12:22:17Z",
+    "pushed_at": "2026-07-10T14:01:54Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1323,7 +1323,7 @@
     "name": "wlanboy.github.io",
     "description": "website",
     "url": "https://github.com/wlanboy/wlanboy.github.io",
-    "pushed_at": "2026-07-08T14:12:50Z",
+    "pushed_at": "2026-07-10T06:44:41Z",
     "default_branch": "main",
     "readmes": [
       {

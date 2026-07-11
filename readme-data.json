@@ -84,7 +84,7 @@
     "name": "caweb",
     "description": "Python based web frontend to create ssl certs for hostname on a given ca",
     "url": "https://github.com/wlanboy/caweb",
-    "pushed_at": "2026-07-10T06:42:20Z",
+    "pushed_at": "2026-07-11T03:42:56Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -606,7 +606,7 @@
     "name": "httptester",
     "description": "http tester servie for kubernets, istio and service mesh connection and dns tests. Local dual kind setup for istio service mesh.",
     "url": "https://github.com/wlanboy/httptester",
-    "pushed_at": "2026-07-10T06:19:57Z",
+    "pushed_at": "2026-07-11T03:51:51Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -717,7 +717,7 @@
     "name": "kubecontext",
     "description": "Python tool to get and manage kube config files.",
     "url": "https://github.com/wlanboy/kubecontext",
-    "pushed_at": "2026-07-10T06:47:39Z",
+    "pushed_at": "2026-07-11T11:47:46Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -780,7 +780,7 @@
     "name": "kubeeventjava",
     "description": "Spring Boot Kubernetes Eventlistener for namespaces to export metrics on kubernetes events",
     "url": "https://github.com/wlanboy/kubeeventjava",
-    "pushed_at": "2026-07-08T18:05:51Z",
+    "pushed_at": "2026-07-11T04:07:30Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -813,7 +813,7 @@
     "name": "kubernetes-crds",
     "description": "Python based kubernetes crd statistics",
     "url": "https://github.com/wlanboy/kubernetes-crds",
-    "pushed_at": "2026-07-10T14:13:35Z",
+    "pushed_at": "2026-07-10T15:11:24Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -849,13 +849,13 @@
     "name": "lm-studio-remote",
     "description": "Python based remote for LM Studio",
     "url": "https://github.com/wlanboy/lm-studio-remote",
-    "pushed_at": "2026-07-04T15:21:28Z",
+    "pushed_at": "2026-07-11T05:12:38Z",
     "default_branch": "main",
     "readmes": [
       {
         "path": "README.md",
         "title": "lm-studio-remote",
-        "description": "Eine Python-basierte Terminal-UI (gebaut mit [Textual](https://textual.textualize.io/)), um eine oder mehrere [LM Studio](https://lmstudio.ai/)-Instanzen im lokalen Netzwerk fernzusteuern, ohne die LM Studio Desktop-App selbst zu öffnen. Die App scannt das lokale /24-Subnetz nach erreichbaren LM-Studio-REST-API-Servern, merkt sich gefundene Server in einer JSON-Datei und erlaubt es, sich per Dropdown mit einem Server zu verbinden (optional mit API-Token). Nach dem Verbinden zeigt eine Tabelle alle verfügbaren Modelle inklusive Typ, Publisher, Parametergröße, Dateigröße, Format und Ladezustand an. Modelle können direkt aus der TUI geladen (mit Optionen wie Context Length, Flash Attention, Eval Batch Size) und wieder entladen werden; ein Log-Tab protokolliert alle Aktionen und Fehler.",
+        "description": "Eine Python-basierte Terminal-UI (gebaut mit [Textual](https://textual.textualize.io/)), um eine oder mehrere [LM Studio](https://lmstudio.ai/)-Instanzen im lokalen Netzwerk fernzusteuern, ohne die LM Studio Desktop-App selbst zu öffnen. Die App scannt das lokale /24-Subnetz nach erreichbaren LM-Studio-REST-API-Servern, merkt sich gefundene Server samt optionalem API-Token in einer JSON-Datei (`lmstudioserver.json`, unverschlüsselt) und erlaubt es, sich per Dropdown mit einem Server zu verbinden. Ein Hintergrund-Healthcheck prüft alle bekannten Server periodisch und zeigt den Status als Ampel-Symbol im Dropdown sowie neben dem verbundenen Server an. Nach dem Verbinden zeigt eine Tabelle alle verfügbaren Modelle inklusive Typ, Publisher, Parametergröße, Dateigröße, Format und Ladezustand an. Modelle können direkt aus der TUI geladen (mit Optionen wie Context Length, Flash Attention, Eval Batch Size) und wieder entladen werden; ein Log-Tab protokolliert alle Aktionen und Fehler.",
         "type": "readme"
       }
     ]
@@ -900,7 +900,7 @@
     "name": "mcp-duck-search",
     "description": "Python based mcp server für duckduckgo search",
     "url": "https://github.com/wlanboy/mcp-duck-search",
-    "pushed_at": "2026-07-03T11:28:10Z",
+    "pushed_at": "2026-07-10T16:25:48Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1173,13 +1173,13 @@
     "name": "triggerhappy",
     "description": "Python based trigger queue",
     "url": "https://github.com/wlanboy/triggerhappy",
-    "pushed_at": "2026-05-16T07:51:30Z",
+    "pushed_at": "2026-07-10T15:50:33Z",
     "default_branch": "main",
     "readmes": [
       {
         "path": "README.md",
         "title": "TriggerHappy",
-        "description": "Ein Cron-basierter Scheduler für Python-Skripte mit Web-UI und Echtzeit-Logs.",
+        "description": "TriggerHappy ist ein leichtgewichtiger, selbst gehosteter Scheduler für Python-Skripte – gedacht als einfache Alternative zu klassischem Cron, wenn man zusätzlich eine Web-Oberfläche, Ausführungshistorie und Echtzeit-Logs haben möchte, ohne dafür ein komplettes Orchestrierungs-System wie Airflow aufzusetzen.\n\nDas Backend basiert auf FastAPI und APScheduler (`AsyncIOScheduler`) und läuft als einzelner Prozess. Trigger sind einfache Python-Skripte im `triggers/`-Ordner; ihre Metadaten (Name, Crontab-Ausdruck, Timeout) stehen als Kommentare im Dateikopf. Ein periodischer Sync-Job liest diesen Ordner jede Minute ein, legt neue Trigger automatisch in der SQLite-Datenbank an, aktualisiert geänderte Zeitpläne und entfernt gelöschte Skripte wieder aus dem Scheduler – es ist also kein manuelles Registrieren über die API nötig, ein Deployment der Skript-Datei reicht aus.\n\nBei der Ausführung startet TriggerHappy das Skript als Subprozess in einem Thread-Pool (4 Worker), damit der async Event-Loop von FastAPI nicht blockiert wird. Jede Ausführung erzeugt einen Eintrag in der `outbox`-Tabelle, dessen Status (`running`, `success`, `error`, `cancelled`) und `stdout`-Zeilen laufend aktualisiert werden – die Web-UI pollt diese Einträge und zeigt Logs so nahezu in Echtzeit an. Läuft ein Trigger zu lange, wird er per Timeout abgebrochen; er kann aber auch manuell über die API/UI gestartet oder gecancelt werden. Alte Ausführungshistorie wird nach 7 Tagen automatisch bereinigt.\n\nDie Web-Oberfläche (statisches HTML/CSS/JS unter `static/`) zeigt alle Trigger tabellarisch mit letzter Ausführung und Status, erlaubt Filtern nach Namen sowie das Anzeigen der Ausführungshistorie und Live-Logs pro Trigger in einem Detail-Panel. Für den Betrieb in Kubernetes stehen `/readiness`- und `/liveness`-Endpoints bereit.",
         "type": "readme"
       }
     ]
@@ -1266,7 +1266,7 @@
     "name": "vram-model-calculator",
     "description": "Python based calculator for total vram usage of you gguf models",
     "url": "https://github.com/wlanboy/vram-model-calculator",
-    "pushed_at": "2026-07-04T15:47:16Z",
+    "pushed_at": "2026-07-11T11:12:40Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1323,7 +1323,7 @@
     "name": "wlanboy.github.io",
     "description": "website",
     "url": "https://github.com/wlanboy/wlanboy.github.io",
-    "pushed_at": "2026-07-10T06:44:41Z",
+    "pushed_at": "2026-07-10T14:29:39Z",
     "default_branch": "main",
     "readmes": [
       {

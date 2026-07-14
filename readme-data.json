@@ -357,6 +357,27 @@
     ]
   },
   {
+    "name": "dotnet-container",
+    "description": "Best practices dotnet core container",
+    "url": "https://github.com/wlanboy/dotnet-container",
+    "pushed_at": "2026-07-13T18:44:58Z",
+    "default_branch": "main",
+    "readmes": [
+      {
+        "path": "readme.md",
+        "title": "dotnet-container",
+        "description": "Minimale Todo-REST-API auf Basis von ASP.NET Core Minimal APIs (.NET 10), gebaut als\nschlankes, produktionsnahes Container-Image mit Native AOT.",
+        "type": "readme"
+      },
+      {
+        "path": "tekton/tekton.md",
+        "title": "Tekton Pipeline für dotnetrest",
+        "description": "CI/CD-Pipeline auf Basis von [Tekton Pipelines](https://tekton.dev/), die den Container-Build\nfür `dotnetrest` (Native AOT) im Cluster ausführt und das Image in die lokale k3s/kind-Registry\npusht.",
+        "type": "text"
+      }
+    ]
+  },
+  {
     "name": "eurekaclient",
     "description": "Python based fake eureka client to register services in legacy eureka server instance",
     "url": "https://github.com/wlanboy/eurekaclient",
@@ -879,7 +900,7 @@
     "name": "mcp-dotnet-websearch",
     "description": "MCP Server in dotnet core für websuche",
     "url": "https://github.com/wlanboy/mcp-dotnet-websearch",
-    "pushed_at": "2026-07-05T17:12:19Z",
+    "pushed_at": "2026-07-13T18:06:03Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1323,7 +1344,7 @@
     "name": "wlanboy.github.io",
     "description": "website",
     "url": "https://github.com/wlanboy/wlanboy.github.io",
-    "pushed_at": "2026-07-12T13:24:04Z",
+    "pushed_at": "2026-07-13T14:38:53Z",
     "default_branch": "main",
     "readmes": [
       {

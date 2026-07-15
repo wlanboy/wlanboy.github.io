@@ -360,7 +360,7 @@
     "name": "dotnet-container",
     "description": "Best practices dotnet core container",
     "url": "https://github.com/wlanboy/dotnet-container",
-    "pushed_at": "2026-07-13T18:44:58Z",
+    "pushed_at": "2026-07-14T16:34:34Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -834,7 +834,7 @@
     "name": "kubernetes-crds",
     "description": "Python based kubernetes crd statistics",
     "url": "https://github.com/wlanboy/kubernetes-crds",
-    "pushed_at": "2026-07-12T14:54:43Z",
+    "pushed_at": "2026-07-14T18:20:16Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1104,9 +1104,15 @@
     "name": "ServiceConfig",
     "description": "Spring Framework based configuration service",
     "url": "https://github.com/wlanboy/ServiceConfig",
-    "pushed_at": "2026-07-02T11:55:24Z",
+    "pushed_at": "2026-07-15T05:55:27Z",
     "default_branch": "main",
     "readmes": [
+      {
+        "path": "Metrics.md",
+        "title": "Metrics",
+        "description": "Dieser Config-Server exponiert Micrometer-Metriken über `/actuator/prometheus`\n(siehe `management.endpoints.web.exposure.include` in `bootstrap.properties`).",
+        "type": "text"
+      },
       {
         "path": "README.md",
         "title": "ServiceConfig",
@@ -1344,7 +1350,7 @@
     "name": "wlanboy.github.io",
     "description": "website",
     "url": "https://github.com/wlanboy/wlanboy.github.io",
-    "pushed_at": "2026-07-13T14:38:53Z",
+    "pushed_at": "2026-07-14T13:47:12Z",
     "default_branch": "main",
     "readmes": [
       {

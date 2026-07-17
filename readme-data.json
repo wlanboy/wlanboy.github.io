@@ -675,7 +675,7 @@
     "name": "istio-crds",
     "description": "Python based istio crd statistics",
     "url": "https://github.com/wlanboy/istio-crds",
-    "pushed_at": "2026-07-16T06:49:47Z",
+    "pushed_at": "2026-07-16T17:46:26Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1380,7 +1380,7 @@
     "name": "wlanboy.github.io",
     "description": "website",
     "url": "https://github.com/wlanboy/wlanboy.github.io",
-    "pushed_at": "2026-07-15T13:46:21Z",
+    "pushed_at": "2026-07-16T13:54:35Z",
     "default_branch": "main",
     "readmes": [
       {

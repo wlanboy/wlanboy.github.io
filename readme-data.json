@@ -975,7 +975,7 @@
     "name": "mcp-duck-search",
     "description": "Python based mcp server für duckduckgo search",
     "url": "https://github.com/wlanboy/mcp-duck-search",
-    "pushed_at": "2026-07-10T16:25:48Z",
+    "pushed_at": "2026-07-18T11:45:34Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1374,7 +1374,7 @@
     "name": "wlanboy.github.io",
     "description": "website",
     "url": "https://github.com/wlanboy/wlanboy.github.io",
-    "pushed_at": "2026-07-17T13:41:11Z",
+    "pushed_at": "2026-07-18T11:01:01Z",
     "default_branch": "main",
     "readmes": [
       {

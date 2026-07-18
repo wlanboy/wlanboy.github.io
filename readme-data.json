@@ -360,9 +360,15 @@
     "name": "dotnet-container",
     "description": "Best practices dotnet core container",
     "url": "https://github.com/wlanboy/dotnet-container",
-    "pushed_at": "2026-07-14T16:34:34Z",
+    "pushed_at": "2026-07-18T10:46:40Z",
     "default_branch": "main",
     "readmes": [
+      {
+        "path": "k8s/kubernetes-deployment.md",
+        "title": "Kubernetes-Deployment für dotnetrest (Istio-ready)",
+        "description": "Schritt-für-Schritt-Anleitung, um `dotnetrest` in einem Namespace mit\nIstio-Sidecar-Injection und STRICT-mTLS auszurollen.",
+        "type": "text"
+      },
       {
         "path": "readme.md",
         "title": "dotnet-container",
@@ -879,7 +885,7 @@
     "name": "lgtm",
     "description": "Docker compose for LGTM Stack (Loki, Grafana, Tempo, Mimir)",
     "url": "https://github.com/wlanboy/lgtm",
-    "pushed_at": "2026-05-05T11:51:37Z",
+    "pushed_at": "2026-07-18T05:59:32Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -893,6 +899,24 @@
         "title": "LGTM Observability Stack",
         "description": "Lokales Observability-Setup auf Basis des Grafana-Stacks. Kombiniert Metriken, Logs und Traces in einer einzigen Grafana-Oberfläche — vollständig mit Docker Compose betreibbar, ohne Cloud-Abhängigkeiten.\n\n---",
         "type": "readme"
+      },
+      {
+        "path": "troubleshooting-loki.md",
+        "title": "Troubleshooting: Loki (Log-Aggregation)",
+        "description": "Incident-Runbook für Grafana Loki `3.7.1` in diesem Stack. Ergänzt die Kurzsektion in [readme.md](readme.md#troubleshooting) um eine tiefergehende Analyse für Produktionsprobleme.\n\nRelevante Endpunkte in diesem Setup:\n\n| Zweck | URL/Port |\n|---|---|\n| Loki HTTP API | http://localhost:3100 |\n| Ready-Check | http://localhost:3100/ready |\n| Interne Metriken | http://localhost:3100/metrics |\n| Push-API (von Alloy genutzt) | http://loki:3100/loki/api/v1/push |\n\nKonfiguration: `config/loki-config.yaml` (via `./config:/mnt/config` gemountet). Log-Quelle: Alloy liest `/var/log/*log` vom Host (siehe [shared/config.alloy](shared/config.alloy)).\n\n---",
+        "type": "text"
+      },
+      {
+        "path": "troubleshooting-prometheus.md",
+        "title": "Troubleshooting: Prometheus (Metriken)",
+        "description": "Incident-Runbook für Prometheus `v3.10.0` in diesem Stack. Ergänzt die Kurzsektion in [readme.md](readme.md#troubleshooting) um eine tiefergehende Analyse für Produktionsprobleme.\n\nRelevante Endpunkte in diesem Setup:\n\n| Zweck | URL/Port |\n|---|---|\n| Web-UI / PromQL | http://localhost:9090 |\n| Health-Check | http://localhost:9090/-/healthy |\n| Ready-Check | http://localhost:9090/-/ready |\n| Targets-Status | http://localhost:9090/targets |\n| Aktive Alerts | http://localhost:9090/alerts |\n| Remote-Write-Empfang (von Tempo Metrics-Generator) | http://localhost:9090/api/v1/write |\n\nBesonderheiten dieses Stacks: gestartet mit `--web.enable-remote-write-receiver` (Tempo schreibt Service-Graph-/Span-Metriken direkt hinein) und `--enable-feature=exemplar-storage,native-histograms`. Konfiguration: [shared/prometheus.yaml](shared/prometheus.yaml).\n\n---",
+        "type": "text"
+      },
+      {
+        "path": "troubleshooting-tempo.md",
+        "title": "Troubleshooting: Tempo (Distributed Tracing)",
+        "description": "Incident-Runbook für Grafana Tempo `2.10.4` in diesem Stack. Ergänzt die Kurzsektion in [readme.md](readme.md#troubleshooting) um eine tiefergehende Analyse für Produktionsprobleme.\n\nRelevante Endpunkte in diesem Setup:\n\n| Zweck | URL/Port |\n|---|---|\n| Tempo HTTP API / Ready | http://localhost:3200 |\n| Tempo gRPC | localhost:9095 |\n| OTLP gRPC Ingest | localhost:4317 |\n| OTLP HTTP Ingest | localhost:4318 |\n| Jaeger Ingest | localhost:14268 |\n| Zipkin Ingest | localhost:9411 |\n| Alloy Pipeline UI | http://localhost:12345 |\n| Memcached (Search-Frontend-Cache) | localhost:11211 |\n\nKonfiguration: [config/tempo.yaml](config/tempo.yaml) — Beachte: `block_retention: 24h` und `max_block_duration: 5m` sind bewusst niedrig für den Demo-/Dev-Betrieb gesetzt. In Produktion deutlich höher konfigurieren.\n\nDieser Stack läuft als **Tempo-Monolith** (`storage.trace.backend: local`, keine separaten Microservices, kein Kafka-basiertes Ingestion). Teile der offiziellen Tempo-Doku beziehen sich auf die Microservices-Architektur (`live-store`, `block-builder`, Kafka-Konsumenten) ab Tempo 3.x — diese Hinweise sind für dieses Setup **nicht relevant** und wurden unten bewusst weggelassen.\n\n---",
+        "type": "text"
       }
     ]
   },
@@ -1227,21 +1251,6 @@
     ]
   },
   {
-    "name": "triggerhappy",
-    "description": "Python based trigger queue",
-    "url": "https://github.com/wlanboy/triggerhappy",
-    "pushed_at": "2026-07-13T10:48:10Z",
-    "default_branch": "main",
-    "readmes": [
-      {
-        "path": "README.md",
-        "title": "TriggerHappy",
-        "description": "TriggerHappy ist ein leichtgewichtiger, selbst gehosteter Scheduler für Python-Skripte – gedacht als einfache Alternative zu klassischem Cron, wenn man zusätzlich eine Web-Oberfläche, Ausführungshistorie und Echtzeit-Logs haben möchte, ohne dafür ein komplettes Orchestrierungs-System wie Airflow aufzusetzen.\n\nDas Backend basiert auf FastAPI und APScheduler (`AsyncIOScheduler`) und läuft als einzelner Prozess. Trigger sind einfache Python-Skripte im `triggers/`-Ordner; ihre Metadaten (Name, Crontab-Ausdruck, Timeout) stehen als Kommentare im Dateikopf. Ein periodischer Sync-Job liest diesen Ordner jede Minute ein, legt neue Trigger automatisch in der SQLite-Datenbank an, aktualisiert geänderte Zeitpläne und entfernt gelöschte Skripte wieder aus dem Scheduler – es ist also kein manuelles Registrieren über die API nötig, ein Deployment der Skript-Datei reicht aus.\n\nBei der Ausführung startet TriggerHappy das Skript als Subprozess in einem Thread-Pool (4 Worker), damit der async Event-Loop von FastAPI nicht blockiert wird. Jede Ausführung erzeugt einen Eintrag in der `outbox`-Tabelle, dessen Status (`running`, `success`, `error`, `cancelled`) und `stdout`-Zeilen laufend aktualisiert werden – die Web-UI pollt diese Einträge und zeigt Logs so nahezu in Echtzeit an. Läuft ein Trigger zu lange, wird er per Timeout abgebrochen; er kann aber auch manuell über die API/UI gestartet oder gecancelt werden. Alte Ausführungshistorie wird nach 7 Tagen automatisch bereinigt.\n\nDie Web-Oberfläche (statisches HTML/CSS/JS unter `static/`) zeigt alle Trigger tabellarisch mit letzter Ausführung und Status, erlaubt Filtern nach Namen sowie das Anzeigen der Ausführungshistorie und Live-Logs pro Trigger in einem Detail-Panel. Für den Betrieb in Kubernetes stehen `/readiness`- und `/liveness`-Endpoints bereit.",
-        "type": "readme"
-      }
-    ]
-  },
-  {
     "name": "uhren",
     "description": "my watch collection",
     "url": "https://github.com/wlanboy/uhren",
@@ -1341,21 +1350,6 @@
     ]
   },
   {
-    "name": "wakeonlan",
-    "description": "Python based wake on lan web ui",
-    "url": "https://github.com/wlanboy/wakeonlan",
-    "pushed_at": "2026-07-13T09:20:47Z",
-    "default_branch": "main",
-    "readmes": [
-      {
-        "path": "README.md",
-        "title": "Wake on LAN",
-        "description": "Ein schlankes FastAPI-Webinterface im dunklen Theme, um Geräte im lokalen\nNetzwerk zu finden und per Wake-on-LAN (WOL) aufzuwecken.",
-        "type": "readme"
-      }
-    ]
-  },
-  {
     "name": "WebShell",
     "description": "Spring Boot Web Shell",
     "url": "https://github.com/wlanboy/WebShell",
@@ -1380,7 +1374,7 @@
     "name": "wlanboy.github.io",
     "description": "website",
     "url": "https://github.com/wlanboy/wlanboy.github.io",
-    "pushed_at": "2026-07-16T13:54:35Z",
+    "pushed_at": "2026-07-17T13:41:11Z",
     "default_branch": "main",
     "readmes": [
       {

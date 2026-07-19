@@ -1134,6 +1134,21 @@
     ]
   },
   {
+    "name": "opensearch-analyze",
+    "description": "Python based opensearch analyze tool",
+    "url": "https://github.com/wlanboy/opensearch-analyze",
+    "pushed_at": "2026-07-19T07:31:25Z",
+    "default_branch": "main",
+    "readmes": [
+      {
+        "path": "readme.md",
+        "title": "opensearch-analyze",
+        "description": "Lokales Setup zum Betrieb und zur Analyse eines [OpenSearch](https://opensearch.org/)-Clusters:\nein Docker-Compose-Stack mit einem 2-Node-Cluster, Log-Shipping über\n[Fluent Bit](https://fluentbit.io/) sowie ein Python-CLI-Tool, das Cluster-, Index- und\nNode-Metriken auswertet und als Text- oder JSON-Report ausgibt.",
+        "type": "readme"
+      }
+    ]
+  },
+  {
     "name": "python-sqlplus-checker",
     "description": "Python based pl/sql sqlplus checker for devs",
     "url": "https://github.com/wlanboy/python-sqlplus-checker",
@@ -1419,7 +1434,7 @@
     "name": "wlanboy.github.io",
     "description": "website",
     "url": "https://github.com/wlanboy/wlanboy.github.io",
-    "pushed_at": "2026-07-19T04:54:25Z",
+    "pushed_at": "2026-07-19T06:58:51Z",
     "default_branch": "main",
     "readmes": [
       {

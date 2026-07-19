@@ -444,7 +444,7 @@
     "name": "gitops",
     "description": "Simple way to create project, repros and apps in argocd",
     "url": "https://github.com/wlanboy/gitops",
-    "pushed_at": "2026-07-04T09:05:27Z",
+    "pushed_at": "2026-07-19T06:42:34Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -460,6 +460,18 @@
         "type": "module"
       },
       {
+        "path": "argocd-cheatsheet.md",
+        "title": "ArgoCD CLI Cheat Sheet",
+        "description": "Eine Sammlung nützlicher `argocd`-Befehle zur Verwaltung von Applications, Projects und Clustern über die CLI.",
+        "type": "text"
+      },
+      {
+        "path": "buildah/buildah.md",
+        "title": "Buildah Build Jobs",
+        "description": "Minimales Setup für Docker Image Builds mit Buildah in Kubernetes — Alternative zu [../kaniko/kaniko.md](../kaniko/kaniko.md), da Kaniko seit 2025-06-03 archiviert und unmaintained ist. Buildah (containers-Projekt, Red Hat) ist frei nutzbar und aktiv gepflegt.",
+        "type": "text"
+      },
+      {
         "path": "kaniko/argo-workflows/readme.md",
         "title": "Argo Workflows + Kaniko",
         "description": "Kubernetes-native Build Pipelines mit Argo Workflows und Kaniko.",
@@ -468,13 +480,13 @@
       {
         "path": "kaniko/kaniko.md",
         "title": "Kaniko Build Jobs",
-        "description": "Minimales Setup für Docker Image Builds mit Kaniko in Kubernetes.",
+        "description": "Minimales Setup für Docker Image Builds mit Kaniko in Kubernetes.\n\n> ⚠️ **Kaniko ist seit 2025-06-03 archiviert** (GoogleContainerTools/kaniko wird nicht mehr gepflegt, `gcr.io/kaniko-project/executor` bekommt keine Updates/CVE-Fixes mehr). Chainguard pflegt einen Fork, das Image ist aber nur kostenpflichtig über einen eigenen Chainguard-Account (`cgr.dev/ORGANIZATION/kaniko`) verfügbar. Für neue Projekte siehe die Alternative [../buildah/buildah.md](../buildah/buildah.md) (Buildah, frei & aktiv gepflegt). Dieses Verzeichnis dient nur noch als Referenz für Bestandssetups.",
         "type": "text"
       },
       {
         "path": "kubectl-cheatsheet.md",
-        "title": "Kubernetes cheat sheet for node oversight",
-        "description": "A collection of useful `kubectl` commands for monitoring and inspecting node resources, capacity, and workload distribution across namespaces.",
+        "title": "Kubernetes Cheat Sheet zur Node-Überwachung",
+        "description": "Eine Sammlung nützlicher `kubectl`-Befehle zur Überwachung und Untersuchung von Node-Ressourcen, Kapazitäten und der Verteilung von Workloads über Namespaces hinweg.",
         "type": "text"
       },
       {
@@ -504,7 +516,13 @@
       {
         "path": "remotecluster.md",
         "title": "Add remote cluster",
-        "description": "Dieses Dokument beschreibt, wie ein entfernter Kubernetes-Cluster zu ArgoCD hinzugefügt wird. ArgoCD benötigt dafür einen dedizierten ServiceAccount mit den nötigen Berechtigungen sowie die Zugangsdaten (Token und CA-Zertifikat) des Ziel-Clusters.",
+        "description": "Dieses Dokument beschreibt, wie ein entfernter Kubernetes-Cluster zu ArgoCD hinzugefügt wird. ArgoCD verwaltet Ziel-Cluster nicht über eine eigene Anmeldung, sondern über ein Kubernetes-Secret im `argocd`-Namespace, das die Zugangsdaten eines ServiceAccounts auf dem Ziel-Cluster enthält (Bearer-Token + CA-Zertifikat des API-Servers).\n\nDer Ablauf läuft über zwei verschiedene Cluster-Kontexte – vorher mit `kubectl config get-contexts` prüfen, welcher Kontext gerade aktiv ist, und bei Bedarf mit `kubectl config use-context <name>` wechseln:\n\n1. Auf dem **Ziel-Cluster**: ServiceAccount + Berechtigungen anlegen, Token und CA extrahieren.\n2. Auf dem **ArgoCD-Cluster**: Aus diesen Daten ein Cluster-Secret bauen und anwenden.",
+        "type": "text"
+      },
+      {
+        "path": "tekton-cheatsheet.md",
+        "title": "Tekton CLI (tkn) Cheat Sheet",
+        "description": "Eine Sammlung nützlicher `tkn`-Befehle zur Verwaltung von Pipelines, Tasks und Runs über die CLI.",
         "type": "text"
       },
       {
@@ -516,7 +534,7 @@
       {
         "path": "tekton/tekton.md",
         "title": "Tekton Builds",
-        "description": "Tekton Pipelines für deine GitHub-Projekte und ArgoCD Apps einrichten.\n\n**Voraussetzungen:** K3s Cluster, Istio, Cert-Manager und ArgoCD müssen laufen.\n\n---",
+        "description": "Tekton Pipelines für deine GitHub-Projekte und ArgoCD Apps einrichten.\n\n**Voraussetzungen:** K3s Cluster, Istio, Cert-Manager und ArgoCD müssen laufen.\n\n> ⚠️ **Kaniko ist seit 2025-06-03 archiviert** (GoogleContainerTools/kaniko wird nicht mehr gepflegt, `gcr.io/kaniko-project/executor` bekommt keine Updates/CVE-Fixes mehr). Die Kaniko-Task in Abschnitt 3 funktioniert weiterhin und dient als Referenz für Bestandssetups. Für neue Pipelines siehe die `buildah-build`-Task (Abschnitt 3, Alternative) — Buildah (containers-Projekt, Red Hat) ist frei nutzbar und aktiv gepflegt. Siehe auch [../kaniko/kaniko.md](../kaniko/kaniko.md) und [../buildah/buildah.md](../buildah/buildah.md) für die Job-basierten (Nicht-Tekton) Varianten desselben Vergleichs.\n\n---",
         "type": "text"
       }
     ]
@@ -585,7 +603,7 @@
     "name": "haproxy-monitoring",
     "description": "HA Proxy Monitoring",
     "url": "https://github.com/wlanboy/haproxy-monitoring",
-    "pushed_at": "2026-07-19T04:51:18Z",
+    "pushed_at": "2026-07-19T05:22:57Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -593,6 +611,12 @@
         "title": "HAProxy Monitoring Stack",
         "description": "Vollständiger Monitoring-Stack für HAProxy mit Prometheus, Grafana und Blackbox Exporter. Das Setup simuliert eine Microservice-Landschaft mit 22 HAProxy-Backends, die alle über einen internen nginx-Container bedient werden. Drei Grafana-Dashboards zeigen HAProxy-Metriken, Backend-Erreichbarkeit per Blackbox-Probing sowie eine Backend-Registry.",
         "type": "readme"
+      },
+      {
+        "path": "config-generator/README.md",
+        "title": "generate_targets.py",
+        "description": "Dieses Script fragt den HAProxy Stats-Endpoint (CSV-Export) ab, ermittelt daraus\n**jeden einzelnen Server jedes konfigurierten Backends** samt Adresse und schreibt\nsie als Prometheus `file_sd`-Target-Datei heraus. Diese Datei wird vom\n`blackbox-exporter` als Service-Discovery-Quelle für den HTTP-Probe-Job genutzt –\nso wird nicht nur ein Backend stellvertretend, sondern jeder Server dahinter\neinzeln per HTTP-Probe überwacht.\n\nEs läuft als Init-Container (siehe [Dockerfile](Dockerfile), Base-Image `python:3.13-alpine`)\nvor dem eigentlichen Blackbox-Exporter und generiert die Zieldatei einmalig beim Start.",
+        "type": "module"
       }
     ]
   },
@@ -600,7 +624,7 @@
     "name": "helm-for-java-devs",
     "description": "Helm for Java Devs",
     "url": "https://github.com/wlanboy/helm-for-java-devs",
-    "pushed_at": "2026-07-06T11:44:27Z",
+    "pushed_at": "2026-07-19T06:54:15Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -620,6 +644,12 @@
         "title": "Helm for Java Devs — Schritt-für-Schritt-Anleitung",
         "description": "Eine vollständige Kubernetes Pipeline für eine Spring Boot App in einem Container.\nSpring Boot Helloworld App → Tekton baut das Image → lokale k3s-Registry → ArgoCD deployt per Helm.\n\nVerwendet ConfigMap, Secrets, SSL Certificate, Istio Gateway, VirtualService, HealthChecks, Readness Checks.\nServiceEntry und DestinationRule für eine externe Datenbankabhängigkeit.\nHat ein Feature Flag für den Wechsel von h2 auf MySQL.\n\n---",
         "type": "readme"
+      },
+      {
+        "path": "tekton/tekton.md",
+        "title": "Tekton",
+        "description": "",
+        "type": "text"
       }
     ]
   },
@@ -1389,7 +1419,7 @@
     "name": "wlanboy.github.io",
     "description": "website",
     "url": "https://github.com/wlanboy/wlanboy.github.io",
-    "pushed_at": "2026-07-18T13:18:15Z",
+    "pushed_at": "2026-07-19T04:54:25Z",
     "default_branch": "main",
     "readmes": [
       {

@@ -603,7 +603,7 @@
     "name": "haproxy-monitoring",
     "description": "HA Proxy Monitoring",
     "url": "https://github.com/wlanboy/haproxy-monitoring",
-    "pushed_at": "2026-07-19T05:22:57Z",
+    "pushed_at": "2026-07-19T18:01:58Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -617,6 +617,12 @@
         "title": "generate_targets.py",
         "description": "Dieses Script fragt den HAProxy Stats-Endpoint (CSV-Export) ab, ermittelt daraus\n**jeden einzelnen Server jedes konfigurierten Backends** samt Adresse und schreibt\nsie als Prometheus `file_sd`-Target-Datei heraus. Diese Datei wird vom\n`blackbox-exporter` als Service-Discovery-Quelle für den HTTP-Probe-Job genutzt –\nso wird nicht nur ein Backend stellvertretend, sondern jeder Server dahinter\neinzeln per HTTP-Probe überwacht.\n\nEs läuft als Init-Container (siehe [Dockerfile](Dockerfile), Base-Image `python:3.13-alpine`)\nvor dem eigentlichen Blackbox-Exporter und generiert die Zieldatei einmalig beim Start.",
         "type": "module"
+      },
+      {
+        "path": "prometheus/prometheus.md",
+        "title": "prometheus.yml",
+        "description": "Konfiguration des Prometheus-Servers für diesen Stack. Definiert zwei Scrape-Jobs.",
+        "type": "text"
       }
     ]
   },
@@ -726,7 +732,7 @@
     "name": "istio-crds",
     "description": "Python based istio crd statistics",
     "url": "https://github.com/wlanboy/istio-crds",
-    "pushed_at": "2026-07-16T17:46:26Z",
+    "pushed_at": "2026-07-20T06:41:43Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1137,7 +1143,7 @@
     "name": "opensearch-analyze",
     "description": "Python based opensearch analyze tool",
     "url": "https://github.com/wlanboy/opensearch-analyze",
-    "pushed_at": "2026-07-19T07:31:25Z",
+    "pushed_at": "2026-07-19T17:56:55Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1434,7 +1440,7 @@
     "name": "wlanboy.github.io",
     "description": "website",
     "url": "https://github.com/wlanboy/wlanboy.github.io",
-    "pushed_at": "2026-07-19T06:58:51Z",
+    "pushed_at": "2026-07-19T13:20:10Z",
     "default_branch": "main",
     "readmes": [
       {

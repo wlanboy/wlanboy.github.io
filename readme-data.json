@@ -732,7 +732,7 @@
     "name": "istio-crds",
     "description": "Python based istio crd statistics",
     "url": "https://github.com/wlanboy/istio-crds",
-    "pushed_at": "2026-07-21T13:10:18Z",
+    "pushed_at": "2026-07-22T08:52:40Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -740,6 +740,12 @@
         "title": "istio-crds",
         "description": "Kommandozeilen-Tool, das alle in einem Kubernetes-Cluster installierten\n**Istio-CRDs** (Gruppe `*.istio.io`) mit jeder API-Version auflistet.\nZusätzlich werden potenzielle Cluster-Probleme rund um diese CRDs erkannt:\nveraltete API-Versionen, ausstehende Storage-Version-Migrationen sowie\nnicht erreichbare/ungesunde CRDs.",
         "type": "readme"
+      },
+      {
+        "path": "syncjob/syncjob.md",
+        "title": "sync-job.py",
+        "description": "Führt [`istio-graph.py`](../istio-graph.py) und [`datenimport.py`](../datenimport.py)\neinmalig hintereinander aus (Graph erzeugen → nach Neo4j importieren) und\nbeendet sich danach. Gedacht für den Betrieb als Kubernetes CronJob — die\nWiederholung übernimmt dabei der CronJob, dieses Skript macht pro Aufruf\ngenau einen Durchlauf.\n\nKonfiguration kommt aus Umgebungsvariablen bzw. einer `.env`-Datei im\naktuellen Verzeichnis:\n\n| Variable | Beschreibung |\n|---|---|\n| `NEO4J_URI`, `NEO4J_USER`, `NEO4J_PASSWORD`, `NEO4J_DATABASE` | Wie bei `datenimport.py` — werden unverändert durchgereicht. |\n| `GRAPH_OUTPUT` | Zieldatei für den erzeugten Graphen (Standard: `data/graph.json`). |\n| `ISTIO_NAMESPACE` | Nur diesen Namespace erfassen (Standard: alle). |\n| `ISTIO_INSECURE_SKIP_TLS_VERIFY` | `true`/`1`, um die TLS-Prüfung gegenüber dem API-Server zu deaktivieren. |\n| `DATENIMPORT_CLEAR` | `true`/`1`, um vor jedem Import alle vorhandenen Knoten/Kanten in Neo4j zu löschen statt sie nur per MERGE zu aktualisieren (ohne diese Option bleiben Knoten für inzwischen gelöschte Cluster-Ressourcen bestehen). |\n| `VERBOSE` | `true`/`1` für Debug-Logging. |",
+        "type": "text"
       }
     ]
   },
@@ -1398,7 +1404,7 @@
     "name": "vram-model-calculator",
     "description": "Python based calculator for total vram usage of you gguf models",
     "url": "https://github.com/wlanboy/vram-model-calculator",
-    "pushed_at": "2026-07-18T16:52:03Z",
+    "pushed_at": "2026-07-21T16:26:08Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1440,7 +1446,7 @@
     "name": "wlanboy.github.io",
     "description": "website",
     "url": "https://github.com/wlanboy/wlanboy.github.io",
-    "pushed_at": "2026-07-20T14:09:02Z",
+    "pushed_at": "2026-07-21T13:53:53Z",
     "default_branch": "main",
     "readmes": [
       {

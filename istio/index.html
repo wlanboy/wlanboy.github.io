@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Istio Service Mesh – Traffic Flow Guide</title>
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<nav>
+  <span class="brand">Istio Service Mesh</span>
+  <a href="#basics">Grundlagen</a>
+  <a href="#ingress">Ingress Gateway</a>
+  <a href="#vs">Virtual Service</a>
+  <a href="#dr">Destination Rule</a>
+  <a href="#service">Service &amp; Sidecar</a>
+  <a href="#east-west">Service-zu-Service</a>
+  <a href="#egress">Egress &amp; External Services</a>
+  <a href="#overview">Gesamtüberblick</a>
+</nav>
+
+<div class="hero">
+  <div class="tag">Service Mesh · Kubernetes · Envoy</div>
+  <h1>Wie Istio den Traffic durch euren Cluster lenkt</h1>
+  <p>Ein Rundgang durch die wichtigsten Bausteine – vom externen Request bis zur Antwort eines internen Microservice,
+     inklusive kontrolliertem Zugriff auf externe Systeme wie RabbitMQ.</p>
+</div>
+
+<main>
+
+<!-- ═══════════════════ 1. GRUNDLAGEN ═══════════════════ -->
+<section id="basics">
+  <h2><span class="num">1</span> Grundlagen – Data Plane &amp; Control Plane</h2>
+
+  <p>
+    Istio besteht aus zwei getrennten Ebenen: der <strong>Data Plane</strong>, die den eigentlichen Netzwerkverkehr
+    transportiert, und der <strong>Control Plane</strong> (<code>istiod</code>), die Konfiguration verteilt und Zertifikate
+    ausstellt. Kein Anwendungscode wird verändert – der gesamte Netzwerkverkehr eines Pods wird transparent über einen
+    injizierten <strong>Envoy-Sidecar</strong> umgeleitet.
+  </p>
+
+  <div class="grid-3">
+    <div class="card routing">
+      <h3>Control Plane – istiod</h3>
+      <p>Verteilt Routing-Regeln, TLS-Zertifikate (mTLS) und Sicherheitsrichtlinien an alle Envoy-Proxys im Mesh.
+      Selbst kein Teil des Datenpfads.</p>
+    </div>
+    <div class="card security">
+      <h3>Data Plane – Envoy Sidecar</h3>
+      <p>Ein Envoy-Proxy pro Pod, injiziert als zweiter Container. Fängt <strong>jeden</strong> ein- und ausgehenden
+      Netzwerkverkehr des Pods ab (via <code>iptables</code> oder eBPF).</p>
+    </div>
+    <div class="card data">
+      <h3>Transparent für die App</h3>
+      <p>Die Anwendung spricht wie gewohnt HTTP/gRPC über <code>localhost</code> oder DNS-Namen – vom Sidecar merkt
+      sie im Idealfall nichts.</p>
+    </div>
+  </div>
+
+  <h3>Sidecar Injection – Traffic-Interception im Pod</h3>
+  <div class="legend">
+    <span><i style="background:var(--c-data)"></i> App-Container</span>
+    <span><i style="background:var(--c-security)"></i> Envoy Sidecar</span>
+    <span><i style="background:var(--c-routing)"></i> istiod (Control Plane)</span>
+  </div>
+  <div class="diagram" id="diag-1"></div>
+  <p class="diagram-caption">iptables-Regeln leiten allen In-/Outbound-Traffic des Pods zunächst durch den lokalen Envoy-Sidecar.
+  istiod pusht Konfiguration &amp; Zertifikate per gRPC (xDS-API) an jeden Sidecar.</p>
+</section>
+
+<!-- ═══════════════════ 2. INGRESS GATEWAY ═══════════════════ -->
+<section id="ingress">
+  <h2><span class="num">2</span> Ingress Gateway – der Eintrittspunkt</h2>
+
+  <div class="card ingress">
+    <h3>Was macht das Ingress Gateway?</h3>
+    <p>
+      Ein eigenständiges Envoy-Deployment am <strong>Rand des Mesh</strong> (kein Sidecar!). Es terminiert externen
+      Traffic (TLS-Termination), ist über eine <code>Gateway</code>-Resource konfiguriert (Ports, Hosts, Zertifikate)
+      und benötigt zwingend ein <code>VirtualService</code>, das an dieses Gateway gebunden ist, um Requests
+      tatsächlich weiterzuleiten.
+    </p>
+  </div>
+
+  <h3>Externer Request trifft auf das Mesh</h3>
+  <div class="diagram" id="diag-2"></div>
+
+  <h3>Gateway-Resource (Beispiel)</h3>
+  <pre><code><span class="kw">apiVersion</span>: networking.istio.io/v1
+<span class="kw">kind</span>: Gateway
+<span class="kw">metadata</span>:
+  <span class="key">name</span>: <span class="str">shop-ingress-gw</span>
+<span class="kw">spec</span>:
+  <span class="key">selector</span>:
+    <span class="key">istio</span>: <span class="str">ingressgateway</span>
+  <span class="key">servers</span>:
+    - <span class="key">port</span>:
+        <span class="key">number</span>: <span class="val">443</span>
+        <span class="key">name</span>: <span class="str">https</span>
+        <span class="key">protocol</span>: <span class="str">HTTPS</span>
+      <span class="key">tls</span>:
+        <span class="key">mode</span>: <span class="str">SIMPLE</span>
+        <span class="key">credentialName</span>: <span class="str">shop-tls-cert</span>
+      <span class="key">hosts</span>:
+        - <span class="str">"shop.example.com"</span></code></pre>
+</section>
+
+<!-- ═══════════════════ 3. VIRTUAL SERVICE ═══════════════════ -->
+<section id="vs">
+  <h2><span class="num">3</span> VirtualService – Layer-7-Routing</h2>
+
+  <div class="card routing">
+    <h3>Wofür ist das VirtualService zuständig?</h3>
+    <p>
+      Definiert <strong>wie</strong> ein Request geroutet wird: Matching auf Host, URI-Pfad, Header oder Methode,
+      Aufteilung auf mehrere Ziel-Subsets (z.B. Canary-Releases per Gewichtung), Retries, Timeouts und Fault-Injection.
+      Ein VirtualService kann an ein Gateway (Nord-Süd-Traffic) <em>oder</em> ohne Gateway direkt im Mesh
+      (Ost-West-Traffic zwischen Services) gebunden werden.
+    </p>
+  </div>
+
+  <h3>Routing-Beispiel: Canary-Release per Gewichtung</h3>
+  <div class="diagram" id="diag-3"></div>
+
+  <pre><code><span class="kw">apiVersion</span>: networking.istio.io/v1
+<span class="kw">kind</span>: VirtualService
+<span class="kw">metadata</span>:
+  <span class="key">name</span>: <span class="str">reviews-route</span>
+<span class="kw">spec</span>:
+  <span class="key">hosts</span>:
+    - <span class="str">reviews.prod.svc.cluster.local</span>
+  <span class="key">http</span>:
+    - <span class="key">match</span>:
+        - <span class="key">headers</span>:
+            <span class="key">x-canary</span>:
+              <span class="key">exact</span>: <span class="str">"true"</span>
+      <span class="key">route</span>:
+        - <span class="key">destination</span>:
+            <span class="key">host</span>: <span class="str">reviews.prod.svc.cluster.local</span>
+            <span class="key">subset</span>: <span class="str">v2</span>
+    - <span class="key">route</span>:
+        - <span class="key">destination</span>:
+            <span class="key">host</span>: <span class="str">reviews.prod.svc.cluster.local</span>
+            <span class="key">subset</span>: <span class="str">v1</span>
+          <span class="key">weight</span>: <span class="val">90</span>
+        - <span class="key">destination</span>:
+            <span class="key">host</span>: <span class="str">reviews.prod.svc.cluster.local</span>
+            <span class="key">subset</span>: <span class="str">v2</span>
+          <span class="key">weight</span>: <span class="val">10</span></code></pre>
+</section>
+
+<!-- ═══════════════════ 4. DESTINATION RULE ═══════════════════ -->
+<section id="dr">
+  <h2><span class="num">4</span> DestinationRule – Subsets &amp; Policies</h2>
+
+  <div class="card policy">
+    <h3>Wofür ist die DestinationRule zuständig?</h3>
+    <p>
+      Wird <strong>nach</strong> dem Routing-Entscheid des VirtualService angewendet. Definiert <strong>Subsets</strong>
+      (Pod-Gruppen anhand von Labels, z.B. <code>version: v1</code>), die Load-Balancing-Strategie
+      (Round Robin, Least Request, Consistent Hash), Connection-Pool-Limits, Outlier Detection
+      (Circuit Breaking) sowie den TLS-Modus für die Verbindung zum Ziel (<code>ISTIO_MUTUAL</code> für automatisches mTLS).
+    </p>
+  </div>
+
+  <h3>Subset-Auflösung &amp; Load Balancing</h3>
+  <div class="diagram" id="diag-4"></div>
+
+  <pre><code><span class="kw">apiVersion</span>: networking.istio.io/v1
+<span class="kw">kind</span>: DestinationRule
+<span class="kw">metadata</span>:
+  <span class="key">name</span>: <span class="str">reviews-dr</span>
+<span class="kw">spec</span>:
+  <span class="key">host</span>: <span class="str">reviews.prod.svc.cluster.local</span>
+  <span class="key">trafficPolicy</span>:
+    <span class="key">tls</span>:
+      <span class="key">mode</span>: <span class="str">ISTIO_MUTUAL</span>
+    <span class="key">loadBalancer</span>:
+      <span class="key">simple</span>: <span class="str">LEAST_REQUEST</span>
+    <span class="key">outlierDetection</span>:
+      <span class="key">consecutive5xxErrors</span>: <span class="val">3</span>
+      <span class="key">interval</span>: <span class="str">10s</span>
+      <span class="key">baseEjectionTime</span>: <span class="str">30s</span>
+  <span class="key">subsets</span>:
+    - <span class="key">name</span>: <span class="str">v1</span>
+      <span class="key">labels</span>:
+        <span class="key">version</span>: <span class="str">v1</span>
+    - <span class="key">name</span>: <span class="str">v2</span>
+      <span class="key">labels</span>:
+        <span class="key">version</span>: <span class="str">v2</span></code></pre>
+</section>
+
+<!-- ═══════════════════ 5. SERVICE & SIDECAR ═══════════════════ -->
+<section id="service">
+  <h2><span class="num">5</span> Kubernetes Service &amp; Sidecar (HTTP Client)</h2>
+
+  <div class="grid-2">
+    <div class="card data">
+      <h3>Kubernetes Service</h3>
+      <p>Rein logische Abstraktion: stabiler DNS-Name + ClusterIP. Er ist <strong>kein</strong> zusätzlicher Netzwerk-Hop –
+      er liefert Envoy lediglich die Zieladresse, die tatsächliche Verbindung läuft direkt Pod-zu-Pod.</p>
+    </div>
+    <div class="card security">
+      <h3>HTTP Client = die Anwendung selbst</h3>
+      <p>Der "HTTP Client" ist der ganz normale HTTP-Client im Anwendungscode (z.B. <code>RestTemplate</code>,
+      <code>fetch</code>, <code>requests</code>). Er ruft den Service-DNS-Namen auf – von der Umleitung
+      durch den Sidecar merkt er nichts.</p>
+    </div>
+  </div>
+
+  <h3>Was zwischen Client-Aufruf und Antwort passiert</h3>
+  <div class="diagram" id="diag-5"></div>
+  <ol class="steps">
+    <li>App-Container ruft <code>http://payment.prod.svc.cluster.local</code> auf – ganz normaler HTTP-Client-Code.</li>
+    <li><code>iptables</code> im selben Pod-Netzwerk-Namespace fängt den Outbound-Call ab und leitet ihn transparent an den lokalen Envoy-Sidecar (Port 15001) um.</li>
+    <li>Der Outbound-Sidecar löst den Service-Namen über die von istiod gelieferte Endpoint-Liste auf, wendet VirtualService/DestinationRule an und wählt eine konkrete Ziel-Pod-IP per Load Balancing.</li>
+    <li>Verbindung wird per <strong>mTLS</strong> aufgebaut und direkt zum Inbound-Sidecar des Ziel-Pods gesendet (Service/ClusterIP wird dabei nur für die initiale Namensauflösung benötigt).</li>
+    <li>Inbound-Sidecar terminiert mTLS, prüft AuthorizationPolicies und reicht den Klartext-Request an den lokalen App-Container weiter (<code>localhost</code>).</li>
+  </ol>
+</section>
+
+<!-- ═══════════════════ 6. SERVICE-ZU-SERVICE ═══════════════════ -->
+<section id="east-west">
+  <h2><span class="num">6</span> Service-zu-Service – Ost-West-Traffic im Detail</h2>
+
+  <p>
+    Ruft ein Microservice einen anderen auf, sind <strong>immer zwei Sidecars</strong> beteiligt: der ausgehende
+    Sidecar des Aufrufers und der eingehende Sidecar des Ziels. Dazwischen läuft die Verbindung automatisch
+    mTLS-verschlüsselt und gegenseitig authentifiziert – ganz ohne Code-Änderung an den Microservices.
+  </p>
+
+  <div class="diagram" id="diag-6"></div>
+  <p class="diagram-caption">Microservice A → Sidecar A (outbound) → mTLS → Sidecar B (inbound) → Microservice B.
+  Antwort läuft denselben Weg zurück.</p>
+
+  <div class="card security">
+    <h3>Warum ist das sicher, ohne dass Entwickler etwas tun müssen?</h3>
+    <p>
+      istiod stellt jedem Sidecar ein kurzlebiges X.509-Zertifikat aus (SPIFFE-Identität pro Service-Account).
+      Beim Verbindungsaufbau prüfen sich beide Sidecars gegenseitig – erst danach wird der Klartext-Request
+      an die jeweilige Anwendung weitergereicht. <code>PeerAuthentication</code>-Policies können mTLS
+      pro Namespace verpflichtend machen (<code>STRICT</code>-Modus).
+    </p>
+  </div>
+</section>
+
+<!-- ═══════════════════ 7. EGRESS & EXTERNAL SERVICES ═══════════════════ -->
+<section id="egress">
+  <h2><span class="num">7</span> External Service &amp; Egress Gateway</h2>
+
+  <p>
+    Verlässt ein Aufruf das Mesh – z.B. ein Microservice, der Nachrichten an ein <strong>externes RabbitMQ</strong>
+    außerhalb des Clusters sendet – kennt Istio das Ziel standardmäßig nicht. Es gibt zwei Muster, um das zu lösen:
+  </p>
+
+  <div class="grid-2">
+    <div class="card external">
+      <h3>A) Direkter Egress (ServiceEntry)</h3>
+      <p>Ein <code>ServiceEntry</code> registriert den externen Host im Mesh-Katalog. Der ausgehende Sidecar
+      routet die Verbindung dann direkt an den externen Host. Einfach, aber jeder Pod mit Sidecar
+      braucht Netzwerkroute nach außen.</p>
+    </div>
+    <div class="card policy">
+      <h3>B) Egress Gateway (kontrolliert)</h3>
+      <p>Der Sidecar routet den Traffic stattdessen zu einem dedizierten <strong>Egress Gateway</strong> (Envoy am
+      Mesh-Rand). Nur dieses Gateway benötigt Netzwerkzugriff nach außen – zentrale Stelle für TLS-Origination,
+      Logging und Policy-Durchsetzung (z.B. Compliance-Vorgabe: "nur über Egress Gateway nach draußen").</p>
+    </div>
+  </div>
+
+  <h3>Traffic-Fluss zu einem externen RabbitMQ über das Egress Gateway</h3>
+  <div class="diagram" id="diag-7"></div>
+
+  <pre><code><span class="cm"># 1. Externen Host im Mesh bekannt machen</span>
+<span class="kw">apiVersion</span>: networking.istio.io/v1
+<span class="kw">kind</span>: ServiceEntry
+<span class="kw">metadata</span>:
+  <span class="key">name</span>: <span class="str">external-rabbitmq</span>
+<span class="kw">spec</span>:
+  <span class="key">hosts</span>:
+    - <span class="str">rabbitmq.partner.example.com</span>
+  <span class="key">ports</span>:
+    - <span class="key">number</span>: <span class="val">5671</span>
+      <span class="key">name</span>: <span class="str">amqps</span>
+      <span class="key">protocol</span>: <span class="str">TLS</span>
+  <span class="key">resolution</span>: <span class="str">DNS</span>
+  <span class="key">location</span>: <span class="str">MESH_EXTERNAL</span>
+---
+<span class="cm"># 2. Egress-Gateway-Deployment als Ziel für externen Traffic</span>
+<span class="kw">apiVersion</span>: networking.istio.io/v1
+<span class="kw">kind</span>: Gateway
+<span class="kw">metadata</span>:
+  <span class="key">name</span>: <span class="str">rabbitmq-egress-gw</span>
+<span class="kw">spec</span>:
+  <span class="key">selector</span>:
+    <span class="key">istio</span>: <span class="str">egressgateway</span>
+  <span class="key">servers</span>:
+    - <span class="key">port</span>:
+        <span class="key">number</span>: <span class="val">5671</span>
+        <span class="key">name</span>: <span class="str">tls</span>
+        <span class="key">protocol</span>: <span class="str">TLS</span>
+      <span class="key">tls</span>:
+        <span class="key">mode</span>: <span class="str">PASSTHROUGH</span>
+      <span class="key">hosts</span>:
+        - <span class="str">rabbitmq.partner.example.com</span>
+---
+<span class="cm"># 3. Mesh-internen Traffic explizit über das Egress Gateway leiten</span>
+<span class="kw">apiVersion</span>: networking.istio.io/v1
+<span class="kw">kind</span>: VirtualService
+<span class="kw">metadata</span>:
+  <span class="key">name</span>: <span class="str">rabbitmq-via-egress</span>
+<span class="kw">spec</span>:
+  <span class="key">hosts</span>:
+    - <span class="str">rabbitmq.partner.example.com</span>
+  <span class="key">gateways</span>:
+    - <span class="str">mesh</span>
+    - <span class="str">rabbitmq-egress-gw</span>
+  <span class="key">tls</span>:
+    - <span class="key">match</span>:
+        - <span class="key">gateways</span>: [<span class="str">mesh</span>]
+          <span class="key">port</span>: <span class="val">5671</span>
+          <span class="key">sniHosts</span>: [<span class="str">rabbitmq.partner.example.com</span>]
+      <span class="key">route</span>:
+        - <span class="key">destination</span>:
+            <span class="key">host</span>: <span class="str">rabbitmq-egress-gw.istio-system.svc.cluster.local</span>
+            <span class="key">port</span>:
+              <span class="key">number</span>: <span class="val">5671</span>
+    - <span class="key">match</span>:
+        - <span class="key">gateways</span>: [<span class="str">rabbitmq-egress-gw</span>]
+          <span class="key">port</span>: <span class="val">5671</span>
+          <span class="key">sniHosts</span>: [<span class="str">rabbitmq.partner.example.com</span>]
+      <span class="key">route</span>:
+        - <span class="key">destination</span>:
+            <span class="key">host</span>: <span class="str">rabbitmq.partner.example.com</span>
+            <span class="key">port</span>:
+              <span class="key">number</span>: <span class="val">5671</span></code></pre>
+</section>
+
+<!-- ═══════════════════ 8. GESAMTÜBERBLICK ═══════════════════ -->
+<section id="overview">
+  <h2><span class="num">8</span> Gesamtüberblick – kompletter Traffic-Pfad</h2>
+
+  <p>
+    Alle Bausteine zusammen: ein externer User ruft über das Ingress Gateway einen Microservice auf, der intern
+    einen zweiten Microservice per mTLS anspricht, welcher wiederum über das Egress Gateway Nachrichten an ein
+    externes RabbitMQ sendet.
+  </p>
+
+  <div class="diagram" id="diag-8"></div>
+
+  <h3>Wer macht was? – Kompakt-Übersicht</h3>
+  <table>
+    <thead>
+      <tr><th>Komponente</th><th>Typ</th><th>Zuständigkeit</th><th>Resource</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><span class="badge b-ingress">Ingress Gateway</span></td><td>Envoy (dediziert, Mesh-Rand)</td><td>Empfang &amp; TLS-Termination von externem Traffic</td><td><code>Gateway</code></td></tr>
+      <tr><td><span class="badge b-routing">VirtualService</span></td><td>Konfiguration</td><td>L7-Routing: Host, Pfad, Header, Gewichtung, Retries</td><td><code>VirtualService</code></td></tr>
+      <tr><td><span class="badge b-policy">DestinationRule</span></td><td>Konfiguration</td><td>Subsets, Load Balancing, mTLS-Modus, Circuit Breaking</td><td><code>DestinationRule</code></td></tr>
+      <tr><td><span class="badge b-data">Service</span></td><td>Kubernetes-Objekt</td><td>Stabiler DNS-Name / ClusterIP, kein echter Hop</td><td><code>Service</code></td></tr>
+      <tr><td><span class="badge b-security">Sidecar / HTTP Client</span></td><td>Envoy (injiziert je Pod)</td><td>Transparente Interception, mTLS, Policy-Enforcement</td><td>automatische Injection</td></tr>
+      <tr><td><span class="badge b-policy">Egress Gateway</span></td><td>Envoy (dediziert, Mesh-Rand)</td><td>Kontrollierter, auditierbarer Austritt nach extern</td><td><code>Gateway</code> (egress)</td></tr>
+      <tr><td><span class="badge b-external">External Service</span></td><td>außerhalb des Mesh</td><td>z.B. externes RabbitMQ, Partner-API</td><td><code>ServiceEntry</code></td></tr>
+    </tbody>
+  </table>
+</section>
+
+</main>
+<script src="diagrams.js"></script>
+</body>
+</html>

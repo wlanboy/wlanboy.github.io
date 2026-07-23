@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Knative – Serving &amp; Eventing Traffic Flow Guide</title>
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<nav>
+  <span class="brand">Knative</span>
+  <a href="#basics">Grundlagen</a>
+  <a href="#ksvc">Knative Service</a>
+  <a href="#ingress">Ingress</a>
+  <a href="#route">Route &amp; Traffic Splitting</a>
+  <a href="#autoscaling">Autoscaling</a>
+  <a href="#eventing">Broker &amp; Trigger</a>
+  <a href="#source-sink">Source &amp; Sink</a>
+  <a href="#overview">Gesamtüberblick</a>
+</nav>
+
+<div class="hero">
+  <div class="tag">Serverless · Kubernetes · CloudEvents</div>
+  <h1>Wie Knative Requests und Events<br> durch den Cluster lenkt</h1>
+  <p>Ein Rundgang durch Serving und Eventing – vom externen HTTP-Request über Scale-to-Zero
+     bis zum CloudEvent, das an ein externes System wie RabbitMQ zugestellt wird.</p>
+</div>
+
+<main>
+
+<!-- ═══════════════════ 1. GRUNDLAGEN ═══════════════════ -->
+<section id="basics">
+  <h2><span class="num">1</span> Grundlagen – Serving &amp; Eventing</h2>
+
+  <p>
+    Knative besteht aus zwei unabhängig installierbaren Projekten auf Kubernetes: 
+    <br><strong>Serving</strong>
+    (request-getriebene, automatisch skalierende HTTP/gRPC-Workloads inkl. Scale-to-Zero) und
+    <br><strong>Eventing</strong> (event-getriebene, lose gekoppelte Kommunikation über das CNCF-Standardformat
+    <strong>CloudEvents</strong>). 
+  </p>
+
+  <div class="grid-3">
+    <div class="card ingress">
+      <h3>Knative Serving</h3>
+      <p>Deployt Container als <code>Service</code>, versioniert jede Änderung als unveränderliche
+      <code>Revision</code> und skaliert Pods nach Bedarf – bis auf <strong>0 Instanzen</strong>.</p>
+    </div>
+    <div class="card routing">
+      <h3>Knative Eventing</h3>
+      <p>CloudEvents-Producer und -Consumer werden über <code>Broker</code> und <code>Trigger</code>
+      lose gekoppelt – Producer kennen ihre Consumer nicht.</p>
+    </div>
+    <div class="card data">
+      <h3>Gemeinsames Fundament</h3>
+      <p>Beide Projekte laufen auf normalen Kubernetes-Objekten (Deployment, Pod, Service) und teilen sich
+      die Ingress-Implementierung am Mesh-Rand.</p>
+    </div>
+  </div>
+
+  <h3>Serving vs. Eventing – auf einen Blick</h3>
+  <div class="diagram" id="diag-1"></div>
+</section>
+
+<!-- ═══════════════════ 2. KNATIVE SERVICE ═══════════════════ -->
+<section id="ksvc">
+  <h2><span class="num">2</span> Knative Service – Configuration &amp; Revision</h2>
+
+  <div class="card data">
+    <h3>Wie hängen Service, Configuration und Revision zusammen?</h3>
+    <p>
+      Ein <code>Service</code> (<code>ksvc</code>) ist die einzige Ressource, die Entwickler typischerweise anlegen.
+      Intern verwaltet er eine <strong>Configuration</strong> (gewünschter Zustand: Image, Env, Resources) und eine
+      <strong>Route</strong>. Jede Änderung an der Configuration erzeugt automatisch eine neue, unveränderliche
+      <strong>Revision</strong> – alte Revisions bleiben erhalten und können weiter Traffic empfangen (Rollback,
+      Canary).
+    </p>
+  </div>
+
+  <h3>Vom Service zu mehreren Revisions</h3>
+  <div class="diagram" id="diag-2"></div>
+
+  <pre><code><span class="kw">apiVersion</span>: serving.knative.dev/v1
+<span class="kw">kind</span>: Service
+<span class="kw">metadata</span>:
+  <span class="key">name</span>: <span class="str">shop-frontend</span>
+<span class="kw">spec</span>:
+  <span class="key">template</span>:
+    <span class="key">metadata</span>:
+      <span class="key">name</span>: <span class="str">shop-frontend-v2</span>  <span class="cm"># erzeugt Revision "shop-frontend-v2"</span>
+    <span class="key">spec</span>:
+      <span class="key">containers</span>:
+        - <span class="key">image</span>: <span class="str">registry.example.com/shop-frontend:v2</span>
+  <span class="key">traffic</span>:
+    - <span class="key">revisionName</span>: <span class="str">shop-frontend-v1</span>
+      <span class="key">percent</span>: <span class="val">90</span>
+      <span class="key">tag</span>: <span class="str">current</span>
+    - <span class="key">revisionName</span>: <span class="str">shop-frontend-v2</span>
+      <span class="key">percent</span>: <span class="val">10</span>
+      <span class="key">tag</span>: <span class="str">candidate</span></code></pre>
+</section>
+
+<!-- ═══════════════════ 3. INGRESS ═══════════════════ -->
+<section id="ingress">
+  <h2><span class="num">3</span> Ingress / Networking Layer – der Eintrittspunkt</h2>
+
+  <div class="card ingress">
+    <h3>Was macht die Networking Layer?</h3>
+    <p>
+      Analog zum Istio Ingress Gateway: ein eigenständiges Envoy-Deployment am <strong>Cluster-Rand</strong>
+      (Standardimplementierung <strong>Kourier</strong>, austauschbar gegen Istio- oder Contour-Ingress).
+      Es terminiert externen Traffic (TLS), liest den <strong>Host-Header</strong>
+      (z.B. <code>shop-frontend.default.example.com</code>) und leitet an die passende <code>Route</code> weiter.
+    </p>
+  </div>
+
+  <h3>Externer Request trifft auf den Cluster</h3>
+  <div class="diagram" id="diag-3"></div>
+</section>
+
+<!-- ═══════════════════ 4. ROUTE & TRAFFIC SPLITTING ═══════════════════ -->
+<section id="route">
+  <h2><span class="num">4</span> Route – Traffic Splitting zwischen Revisions</h2>
+
+  <div class="card routing">
+    <h3>Wofür ist die Route zuständig?</h3>
+    <p>
+      Bildet einen <strong>stabilen öffentlichen Hostnamen</strong> auf eine oder mehrere Revisions ab –
+      inklusive prozentualer Aufteilung. Funktional das Knative-Gegenstück zu VirtualService + DestinationRule
+      bei Istio, nur bereits im <code>Service</code>-Manifest über das <code>traffic</code>-Feld konfiguriert.
+      Jede Revision erhält zusätzlich eine eigene, feste URL über <code>tag</code> – ideal, um eine Candidate-Version
+      gezielt anzutesten, bevor sie Prozent-Traffic bekommt.
+    </p>
+  </div>
+
+  <h3>Canary-Release per Traffic-Split</h3>
+  <div class="diagram" id="diag-4"></div>
+</section>
+
+<!-- ═══════════════════ 5. AUTOSCALING ═══════════════════ -->
+<section id="autoscaling">
+  <h2><span class="num">5</span> Autoscaling &amp; queue-proxy – Scale-to-Zero</h2>
+
+  <div class="grid-2">
+    <div class="card security">
+      <h3>queue-proxy – der Sidecar jeder Revision</h3>
+      <p>Jeder Revision-Pod bekommt einen <code>queue-proxy</code>-Sidecar injiziert (Knatives Gegenstück zum
+      Envoy-Sidecar bei Istio). Er misst die aktuelle <strong>Concurrency</strong> (parallele Requests) und meldet
+      sie laufend an den Autoscaler.</p>
+    </div>
+    <div class="card policy">
+      <h3>Autoscaler (KPA) &amp; Activator</h3>
+      <p>Der Autoscaler skaliert Pods anhand der gemeldeten Concurrency – auch auf <strong>0</strong>. Fällt die
+      Pod-Zahl auf 0, übernimmt der <strong>Activator</strong> als Platzhalter: er nimmt Requests entgegen, puffert
+      sie und stößt das Hochskalieren an.</p>
+    </div>
+  </div>
+
+  <h3>Cold Start vs. Warmer Pfad</h3>
+  <div class="diagram" id="diag-5"></div>
+  <ol class="steps">
+    <li><strong>Warmer Pfad (Pods laufen bereits):</strong> Ingress → Route → Revision-Service → queue-proxy → user-container. Der queue-proxy meldet Concurrency, blockiert aber nicht.</li>
+    <li><strong>Cold Path (0 Pods):</strong> Ingress → Route leitet an den <strong>Activator</strong>, da keine gesunden Endpoints existieren.</li>
+    <li>Activator puffert den Request und signalisiert dem Autoscaler Bedarf &gt; 0.</li>
+    <li>Autoscaler skaliert das Deployment der Revision von 0 auf 1+ Pods hoch.</li>
+    <li>Sobald ein Pod (queue-proxy + user-container) bereit ist, leitet der Activator den gepufferten Request dorthin weiter und tritt danach wieder aus dem Datenpfad zurück.</li>
+  </ol>
+</section>
+
+<!-- ═══════════════════ 6. EVENTING – BROKER & TRIGGER ═══════════════════ -->
+<section id="eventing">
+  <h2><span class="num">6</span> Eventing Grundlagen – Broker &amp; Trigger</h2>
+
+  <div class="card routing">
+    <h3>Wofür sind Broker und Trigger zuständig?</h3>
+    <p>
+      Der <strong>Broker</strong> ist der zentrale Event-Eingang: Producer senden CloudEvents per HTTP POST,
+      ohne ihre Consumer zu kennen. Ein <strong>Trigger</strong> ist ein Abonnement auf einem Broker – er definiert
+      einen <strong>Filter</strong> (CloudEvent-Attribute wie <code>type</code> oder <code>source</code>) und einen
+      <strong>Sink</strong> als Ziel (z.B. ein Knative Service).
+    </p>
+    <p style="margin-bottom:0">
+      Für die interne Skalierung eines Brokers (z.B. Kafka-backed, Multi-Tenant-Architekturen) siehe die
+      <a href="../kafka/broker.html" style="color:#60a5fa">vertiefende Seite zur hierarchischen Broker-Architektur</a>.
+    </p>
+  </div>
+
+  <h3>Event-Fluss mit Filterung</h3>
+  <div class="diagram" id="diag-6"></div>
+
+  <pre><code><span class="kw">apiVersion</span>: eventing.knative.dev/v1
+<span class="kw">kind</span>: Broker
+<span class="kw">metadata</span>:
+  <span class="key">name</span>: <span class="str">default</span>
+  <span class="key">namespace</span>: <span class="str">shop</span>
+---
+<span class="kw">apiVersion</span>: eventing.knative.dev/v1
+<span class="kw">kind</span>: Trigger
+<span class="kw">metadata</span>:
+  <span class="key">name</span>: <span class="str">order-created-trigger</span>
+  <span class="key">namespace</span>: <span class="str">shop</span>
+<span class="kw">spec</span>:
+  <span class="key">broker</span>: <span class="str">default</span>
+  <span class="key">filter</span>:
+    <span class="key">attributes</span>:
+      <span class="key">type</span>: <span class="str">com.example.order.created</span>
+  <span class="key">subscriber</span>:
+    <span class="key">ref</span>:
+      <span class="key">apiVersion</span>: serving.knative.dev/v1
+      <span class="key">kind</span>: Service
+      <span class="key">name</span>: <span class="str">order-processor</span></code></pre>
+</section>
+
+<!-- ═══════════════════ 7. SOURCE & SINK ═══════════════════ -->
+<section id="source-sink">
+  <h2><span class="num">7</span> Source &amp; Sink – externe Systeme anbinden</h2>
+
+  <div class="grid-2">
+    <div class="card external">
+      <h3>Source – Events von außen rein</h3>
+      <p>Eine <code>Source</code> (z.B. <code>PingSource</code>, <code>ApiServerSource</code> oder eine
+      <code>RabbitmqSource</code>) holt Events von einem externen System ab und wandelt sie in CloudEvents um,
+      bevor sie an einen Broker gesendet werden.</p>
+    </div>
+    <div class="card policy">
+      <h3>Sink – Events nach außen raus</h3>
+      <p>Ein Sink ist frei wählbar: Knative Service, Channel, Broker – oder direkt eine <strong>externe URI</strong>
+      (z.B. ein Partner-Webhook oder ein externes RabbitMQ). Ein eigenes Egress-Gateway-Konzept kennt Knative
+      dabei nicht: Netzwerkzugriff nach außen wird von der Plattform geregelt (z.B. NetworkPolicy, oder falls
+      Istio parallel installiert ist, dessen Egress Gateway).</p>
+    </div>
+  </div>
+
+  <h3>Externe Quelle rein, externe Senke raus</h3>
+  <div class="diagram" id="diag-7"></div>
+
+  <pre><code><span class="cm"># Externe Quelle: Events von einem RabbitMQ außerhalb des Clusters abholen</span>
+<span class="kw">apiVersion</span>: sources.knative.dev/v1alpha1
+<span class="kw">kind</span>: RabbitmqSource
+<span class="kw">metadata</span>:
+  <span class="key">name</span>: <span class="str">external-rabbitmq-source</span>
+<span class="kw">spec</span>:
+  <span class="key">rabbitmqClusterQueueName</span>: <span class="str">orders-queue</span>
+  <span class="key">rabbitmqClusterHostAndPort</span>: <span class="str">rabbitmq.partner.example.com:5671</span>
+  <span class="key">sink</span>:
+    <span class="key">ref</span>:
+      <span class="key">apiVersion</span>: eventing.knative.dev/v1
+      <span class="key">kind</span>: Broker
+      <span class="key">name</span>: <span class="str">default</span>
+---
+<span class="cm"># Externe Senke: gefilterte Events direkt an eine externe URI zustellen</span>
+<span class="kw">apiVersion</span>: eventing.knative.dev/v1
+<span class="kw">kind</span>: Trigger
+<span class="kw">metadata</span>:
+  <span class="key">name</span>: <span class="str">forward-to-partner</span>
+<span class="kw">spec</span>:
+  <span class="key">broker</span>: <span class="str">default</span>
+  <span class="key">filter</span>:
+    <span class="key">attributes</span>:
+      <span class="key">type</span>: <span class="str">com.example.order.shipped</span>
+  <span class="key">subscriber</span>:
+    <span class="key">uri</span>: <span class="str">https://rabbitmq.partner.example.com/publish</span></code></pre>
+</section>
+
+<!-- ═══════════════════ 8. GESAMTÜBERBLICK ═══════════════════ -->
+<section id="overview">
+  <h2><span class="num">8</span> Gesamtüberblick – kompletter Traffic-Pfad</h2>
+
+  <p>
+    Alle Bausteine zusammen: ein externer User ruft über die Ingress-Layer einen Knative Service auf,
+    der aus dem Stand hochskaliert (Scale-to-Zero) und dabei ein CloudEvent auslöst, das über Broker und
+    Trigger gefiltert und an ein externes RabbitMQ zugestellt wird.
+  </p>
+
+  <div class="diagram" id="diag-8"></div>
+
+  <h3>Wer macht was? – Kompakt-Übersicht</h3>
+  <table>
+    <thead>
+      <tr><th>Komponente</th><th>Typ</th><th>Zuständigkeit</th><th>Resource</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><span class="badge b-ingress">Ingress / Networking</span></td><td>Envoy (Kourier/Istio, dediziert)</td><td>Empfang &amp; TLS-Termination von externem Traffic</td><td>net-* Implementierung</td></tr>
+      <tr><td><span class="badge b-routing">Route</span></td><td>Konfiguration (Teil von ksvc)</td><td>Hostname → Revision(s), Traffic-Splitting</td><td><code>Route</code></td></tr>
+      <tr><td><span class="badge b-policy">Configuration</span></td><td>Konfiguration (Teil von ksvc)</td><td>Gewünschter Zustand, erzeugt neue Revision bei Änderung</td><td><code>Configuration</code></td></tr>
+      <tr><td><span class="badge b-data">Revision</span></td><td>Kubernetes-Objekt (unveränderlich)</td><td>Snapshot aus Code+Config, eigenes Deployment/Pods</td><td><code>Revision</code></td></tr>
+      <tr><td><span class="badge b-security">queue-proxy / Activator</span></td><td>Sidecar / Cluster-Komponente</td><td>Concurrency-Messung, Scale-to-Zero-Pufferung</td><td>automatische Injection</td></tr>
+      <tr><td><span class="badge b-routing">Broker / Trigger</span></td><td>Konfiguration + Backing-Channel</td><td>Zentraler Event-Eingang, Filter + Sink je Abonnement</td><td><code>Broker</code> / <code>Trigger</code></td></tr>
+      <tr><td><span class="badge b-external">Source / Sink</span></td><td>Konfiguration</td><td>Events von außen rein (Source) / nach außen raus (Sink-URI)</td><td>z.B. <code>RabbitmqSource</code></td></tr>
+    </tbody>
+  </table>
+</section>
+
+</main>
+<script src="diagrams.js"></script>
+</body>
+</html>

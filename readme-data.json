@@ -444,18 +444,18 @@
     "name": "gitops",
     "description": "Simple way to create project, repros and apps in argocd",
     "url": "https://github.com/wlanboy/gitops",
-    "pushed_at": "2026-07-19T06:42:34Z",
+    "pushed_at": "2026-07-23T17:25:50Z",
     "default_branch": "main",
     "readmes": [
       {
         "path": "apps-trust/readme.md",
-        "title": "Apps",
+        "title": "Argo CD Apps mit Reflector",
         "description": "Enthält ArgoCD `Application`-Manifeste für alle verwalteten Dienste. Jede Datei definiert eine eigene ArgoCD-Application, die ArgoCD anweist, die jeweilige Anwendung aus dem GitOps-Repository zu synchronisieren und im Cluster zu deployen.",
         "type": "module"
       },
       {
         "path": "apps/readme.md",
-        "title": "Apps",
+        "title": "Argo CD Apps",
         "description": "Enthält ArgoCD `Application`-Manifeste für alle verwalteten Dienste. Jede Datei definiert eine eigene ArgoCD-Application, die ArgoCD anweist, die jeweilige Anwendung aus dem GitOps-Repository zu synchronisieren und im Cluster zu deployen.",
         "type": "module"
       },
@@ -630,13 +630,25 @@
     "name": "helm-for-java-devs",
     "description": "Helm for Java Devs",
     "url": "https://github.com/wlanboy/helm-for-java-devs",
-    "pushed_at": "2026-07-19T06:54:15Z",
+    "pushed_at": "2026-07-23T17:24:20Z",
     "default_branch": "main",
     "readmes": [
+      {
+        "path": "argocd/argocd.md",
+        "title": "ArgoCD",
+        "description": "Dieses Dokument beschreibt das ArgoCD-Setup in diesem Repo: was ArgoCD ist, wie die Ressourcen in `argocd/` zusammenspielen und wie man sie anwendet.",
+        "type": "text"
+      },
       {
         "path": "db-schwenk.md",
         "title": "MySQL aktivieren (Feature Flag)",
         "description": "Die App startet standardmäßig mit einer In-Memory-H2-Datenbank. Der Wechsel auf eine externe MySQL-Instanz erfolgt über das Feature Flag `mysql.external.enabled` in `values.yaml`.",
+        "type": "text"
+      },
+      {
+        "path": "helmchart/helm.md",
+        "title": "Helm Chart",
+        "description": "Dieses Dokument beschreibt den Helm Chart `helloworld` in diesem Repo: welche Kubernetes- und Istio-Ressourcen er erzeugt, wie `values.yaml` aufgebaut ist und wie man den Chart installiert.",
         "type": "text"
       },
       {
@@ -653,8 +665,8 @@
       },
       {
         "path": "tekton/tekton.md",
-        "title": "Tekton",
-        "description": "",
+        "title": "Tekton Pipeline",
+        "description": "Dieses Dokument beschreibt die Tekton-Pipeline in diesem Repo: was Tekton ist, wie die Pipeline aufgebaut ist und wie sich Kaniko gegen Buildah als Build-Backend tauschen lässt.",
         "type": "text"
       }
     ]
@@ -732,7 +744,7 @@
     "name": "istio-crds",
     "description": "Python based istio crd statistics",
     "url": "https://github.com/wlanboy/istio-crds",
-    "pushed_at": "2026-07-23T08:34:36Z",
+    "pushed_at": "2026-07-24T07:29:28Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -740,6 +752,12 @@
         "title": "istio-crds",
         "description": "Kommandozeilen-Tool, das alle in einem Kubernetes-Cluster installierten\n**Istio-CRDs** (Gruppe `*.istio.io`) mit jeder API-Version auflistet.\nZusätzlich werden potenzielle Cluster-Probleme rund um diese CRDs erkannt:\nveraltete API-Versionen, ausstehende Storage-Version-Migrationen sowie\nnicht erreichbare/ungesunde CRDs.",
         "type": "readme"
+      },
+      {
+        "path": "arangodb/arangodb.md",
+        "title": "ArangoDB-Integration",
+        "description": "Dieses Dokument beschreibt den kompletten ArangoDB-Pfad des Projekts: von den\nJSON-Graphen (`istio-graph.py` / `connections-graph.py`) über den Import nach\nArangoDB bis zur Visualisierung im Browser.\n\nZwei unabhängige CLI-Pipelines erzeugen JSON-Graphen (`{\"nodes\": [...],\n\"edges\": [...]}`) direkt aus dem Cluster:\n\n| Quelle | Erzeugt | Beschreibung |\n|---|---|---|\n| [istio-graph.py](../istio-graph.py) | roher Abhängigkeitsgraph | jede aufgelöste Label-Selektor-/Host-/Principal-Beziehung als eigene Kante (Namespace, Service, ServiceAccount, Pod, NetworkPolicy, alle Istio-CRDs, Host, ...) |\n| [connections-graph.py](../connections-graph.py) | Deployment-Verbindungsgraph | kuratierte, Deployment-zentrierte Sicht: welche Deployment-zu-Deployment-Verbindungen sind über Gateway/Service/ServiceEntry/VirtualService möglich, plus explizit per AuthorizationPolicy(DENY) verbotene Verbindungen |\n\nBeide werden über einen jeweils eigenen Importer nach ArangoDB geschrieben:\n\n| Importer | Liest | Ziel-Datenbank (Standard) |\n|---|---|---|\n| [datenimport-arangodb.py](datenimport-arangodb.py) | Ausgabe von `istio-graph.py` | `istio` |\n| [datenimport-connections-arangodb.py](datenimport-connections-arangodb.py) | Ausgabe von `connections-graph.py` | `istio-connections` |\n| [datenimport.py](../datenimport.py) | Ausgabe von `istio-graph.py` | (Neo4j, zum Vergleich, nicht Teil dieses Dokuments) |\n\n**Wichtig:** Die beiden ArangoDB-Importer schreiben absichtlich in **zwei\ngetrennte Datenbanken** (jeweils mit gleich benannten Collections\n`nodes`/`edges`, siehe [Collections](#collections-nodes--edges) unten) —\nnicht in dieselbe. Beide Graphen verwenden zwar dieselbe `id`-\nBildungsvorschrift für Knoten (z. B. `service:default/httpbin` kann in\nbeiden Graphen vorkommen), sollen sich dadurch aber nicht vermischen: der\nrohe Graph bleibt eine vollständige, ungefilterte Sicht auf den Cluster, der\nVerbindungsgraph eine bewusst kuratierte, auf Deployment-Erreichbarkeit\nreduzierte Sicht (siehe Docstring von\n[connections-graph.py](../connections-graph.py)) — beide in derselben\nDatenbank zu vermengen würde z. B. dazu führen, dass ein `service`-Knoten aus\ndem einen Graphen Kanten aus dem jeweils anderen \"erbt\".",
+        "type": "text"
       },
       {
         "path": "syncjob/syncjob.md",
@@ -1446,7 +1464,7 @@
     "name": "wlanboy.github.io",
     "description": "website",
     "url": "https://github.com/wlanboy/wlanboy.github.io",
-    "pushed_at": "2026-07-22T13:58:26Z",
+    "pushed_at": "2026-07-23T17:19:56Z",
     "default_branch": "main",
     "readmes": [
       {

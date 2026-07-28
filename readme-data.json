@@ -876,9 +876,15 @@
     "name": "kubeevent",
     "description": "Python based k8s event listener. Stores events in sqlite db.",
     "url": "https://github.com/wlanboy/kubeevent",
-    "pushed_at": "2026-07-03T11:25:14Z",
+    "pushed_at": "2026-07-27T17:13:39Z",
     "default_branch": "main",
     "readmes": [
+      {
+        "path": "Grafana_Dashboards/dashboards.md",
+        "title": "Grafana Dashboards",
+        "description": "Dieser Ordner enthält vorgefertigte Grafana-Dashboards (als JSON-Export) zur Überwachung von Kubernetes-Events, die von kubeevent eingesammelt werden. Die Dashboards reichen von einer globalen Übersicht über alle Events bis zu Detailansichten für einzelne Ressourcentypen (Pod, Deployment, StatefulSet, DaemonSet, PVC, Node) sowie einer verdichteten Workload-Analyse über mehrere Objekttypen hinweg. Alle Dashboards nutzen Template-Variablen (u. a. `datasource`, `namespace`) zur Filterung und sind so aufgebaut, dass sie sich per Import direkt in Grafana nutzen lassen.",
+        "type": "text"
+      },
       {
         "path": "README.md",
         "title": "📡Kubernetes Event Dashboard",
@@ -886,10 +892,10 @@
         "type": "readme"
       },
       {
-        "path": "kubeevent-chart/readme.md",
-        "title": "Helm install",
-        "description": "This helm script installs the WebShell within a kubernetes cluster.",
-        "type": "module"
+        "path": "kubeevent-chart/kubeevent-chart.md",
+        "title": "kubeevent-chart",
+        "description": "Helm-Chart zum Deployment von kubeevent in einem Kubernetes-Cluster. Das Chart erzeugt Deployment, Service und PVC für die Anwendung, richtet über cert-manager ein TLS-Zertifikat ein und macht den Service via Istio Gateway/VirtualService nach außen erreichbar. Zusätzlich legt es ServiceAccount und RBAC-Rollen an, damit kubeevent Events aus den konfigurierten Namespaces lesen darf, sowie eine ConfigMap mit der `.env`-Konfiguration der Anwendung. Alle Werte werden zentral über `values.yaml` gesteuert.",
+        "type": "text"
       }
     ]
   },
@@ -960,13 +966,25 @@
     "name": "lgtm",
     "description": "Docker compose for LGTM Stack (Loki, Grafana, Tempo, Mimir)",
     "url": "https://github.com/wlanboy/lgtm",
-    "pushed_at": "2026-07-18T05:59:32Z",
+    "pushed_at": "2026-07-27T17:11:05Z",
     "default_branch": "main",
     "readmes": [
+      {
+        "path": "helm/alloy-helm-chart.md",
+        "title": "Alloy Helm Chart",
+        "description": "Helm-Chart-Äquivalent zu den Raw-Manifests unter [kubernetes/](../kubernetes/): deployed Grafana Alloy als DaemonSet in einem Kubernetes-Cluster und macht `<LGTM-HOST>` sowie die optionale Istio-Integration über Werte statt per `sed` konfigurierbar. Der Chart liegt unter [alloy-lgtm/](alloy-lgtm/) mit dem Unterordner [templates/](alloy-lgtm/templates/) für die eigentlichen Kubernetes-Manifest-Templates.\n\n\n---",
+        "type": "text"
+      },
       {
         "path": "kubernetes.md",
         "title": "Kubernetes Logs & Metriken in den LGTM-Stack",
         "description": "Diese Anleitung beschreibt, wie Logs, Metriken und Traces aus einem Kubernetes-Cluster in den lokal laufenden LGTM-Stack (Loki, Grafana, Tempo, Prometheus) gebracht werden. Als Collector-Komponente wird **Grafana Alloy** als DaemonSet eingesetzt — damit läuft ein Alloy-Pod auf jedem Node und sammelt alle Daten lokal ein, bevor sie per Push an den externen Stack gesendet werden.\n\nKein separater Prometheus, kein Promtail, kein Jaeger-Agent — Alloy übernimmt alle drei Rollen in einer einzigen Komponente.",
+        "type": "text"
+      },
+      {
+        "path": "kubernetes/kubernetes-crds.md",
+        "title": "Kubernetes CRDs",
+        "description": "Alle Dateien liegen direkt unter [kubernetes/](.) (keine Unterordner). Die meisten Manifeste definieren native Kubernetes-Ressourcen für das Alloy-DaemonSet-Deployment; [istio.yaml](istio.yaml) und [istio-prometheus-tls.yaml](istio-prometheus-tls.yaml) registrieren zusätzlich echte **Custom Resource Definitions (CRDs)** von Istio (`Telemetry`, `ServiceEntry`, `DestinationRule`) — diese Kinds sind nicht Teil der Kubernetes-Core-API und setzen eine installierte Istio-Control-Plane im Cluster voraus.\n\n---",
         "type": "text"
       },
       {
@@ -1137,7 +1155,7 @@
     "name": "mysqlrouter_metriccollector",
     "description": "Python based mysql router metric collector",
     "url": "https://github.com/wlanboy/mysqlrouter_metriccollector",
-    "pushed_at": "2026-07-03T11:30:50Z",
+    "pushed_at": "2026-07-27T16:25:18Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1464,7 +1482,7 @@
     "name": "wlanboy.github.io",
     "description": "website",
     "url": "https://github.com/wlanboy/wlanboy.github.io",
-    "pushed_at": "2026-07-26T13:25:18Z",
+    "pushed_at": "2026-07-27T14:37:41Z",
     "default_branch": "main",
     "readmes": [
       {

@@ -1152,6 +1152,21 @@
     ]
   },
   {
+    "name": "mysqlrouter-metricsexporter",
+    "description": "Spring based Metrics Exporter",
+    "url": "https://github.com/wlanboy/mysqlrouter-metricsexporter",
+    "pushed_at": "2026-07-29T12:59:47Z",
+    "default_branch": "main",
+    "readmes": [
+      {
+        "path": "README.md",
+        "title": "MySQL Router Metrics Exporter",
+        "description": "Fragt die MySQL Router REST API (HTTPS, Basic Auth) ab und stellt Prometheus-Metriken bereit — entweder per Push an ein Pushgateway oder per Pull über einen eigenen HTTP-Endpunkt. Gebaut mit Spring Boot 4.0 und Java 25.\n\n---",
+        "type": "readme"
+      }
+    ]
+  },
+  {
     "name": "mysqlrouter_metriccollector",
     "description": "Python based mysql router metric collector",
     "url": "https://github.com/wlanboy/mysqlrouter_metriccollector",
@@ -1192,6 +1207,21 @@
         "path": "readme.md",
         "title": "opensearch-analyze",
         "description": "Lokales Setup zum Betrieb und zur Analyse eines [OpenSearch](https://opensearch.org/)-Clusters:\nein Docker-Compose-Stack mit einem 2-Node-Cluster, Log-Shipping über\n[Fluent Bit](https://fluentbit.io/) sowie ein Python-CLI-Tool, das Cluster-, Index- und\nNode-Metriken auswertet und als Text- oder JSON-Report ausgibt.",
+        "type": "readme"
+      }
+    ]
+  },
+  {
+    "name": "prometheus_helper",
+    "description": "Python based Prometheus health helper",
+    "url": "https://github.com/wlanboy/prometheus_helper",
+    "pushed_at": "2026-07-28T17:55:42Z",
+    "default_branch": "main",
+    "readmes": [
+      {
+        "path": "README.md",
+        "title": "Prometheus Helper",
+        "description": "Kommandozeilen-Tool, das den Status eines Prometheus-Servers abfragt und einen Überblick über dessen aktive Scrape-Targets liefert. Die Verbindung erfolgt per HTTP Basic Auth. Für jedes Target werden folgende Werte ermittelt:\n\n- Anzahl der gescrapten Metriken (`scrape_samples_scraped`)\n- Anzahl der Target-Labels\n- Scrape-Dauer (`scrape_duration_seconds`)\n- Anzahl neu hinzugekommener Serien pro Scrape (`scrape_series_added`)\n- letzter Scrape-Fehler (`lastError`)\n\nTargets, deren Metrik- und/oder Labelanzahl über dem Durchschnitt aller Targets liegt, werden in der Ausgabe als auffällig markiert – so lassen sich Targets identifizieren, die besonders viele Metriken oder besonders viele Labels liefern. Targets mit fehlgeschlagenem letzten Scrape werden gesondert aufgelistet.\n\nZusätzlich wird eine globale TSDB-Übersicht (`/api/v1/status/tsdb`) ausgegeben: Serien-/Label-Paar-/Chunk-Anzahl sowie die Top-Metriken und -Labels nach Serienanzahl und Speicherverbrauch – nützlich, um Cardinality-Probleme unabhängig von einzelnen Targets zu erkennen.",
         "type": "readme"
       }
     ]
@@ -1482,7 +1512,7 @@
     "name": "wlanboy.github.io",
     "description": "website",
     "url": "https://github.com/wlanboy/wlanboy.github.io",
-    "pushed_at": "2026-07-27T14:37:41Z",
+    "pushed_at": "2026-07-28T14:09:54Z",
     "default_branch": "main",
     "readmes": [
       {

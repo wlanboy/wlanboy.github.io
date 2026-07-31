@@ -1095,6 +1095,21 @@
     ]
   },
   {
+    "name": "mdwriter",
+    "description": "web based minimal md writer",
+    "url": "https://github.com/wlanboy/mdwriter",
+    "pushed_at": "2026-07-31T13:23:05Z",
+    "default_branch": "main",
+    "readmes": [
+      {
+        "path": "README.md",
+        "title": "MD Writer",
+        "description": "Ein minimaler, browserbasierter Markdown-Editor mit lokalem Backend.",
+        "type": "readme"
+      }
+    ]
+  },
+  {
     "name": "me",
     "description": null,
     "url": "https://github.com/wlanboy/me",
@@ -1120,6 +1135,21 @@
         "path": "README.md",
         "title": "simple minio web manager for minio community edition",
         "description": "* uses mc client for access to the admin api\n* provides management of\n  * users\n  * buckets\n  * ACLs",
+        "type": "readme"
+      }
+    ]
+  },
+  {
+    "name": "mirrorapi",
+    "description": "python based microservice to forward the requst as response. ",
+    "url": "https://github.com/wlanboy/mirrorapi",
+    "pushed_at": "2026-07-31T13:25:45Z",
+    "default_branch": "main",
+    "readmes": [
+      {
+        "path": "README.md",
+        "title": "MirrorAPI",
+        "description": "Eine leichtgewichtige REST-API zum Testen von HTTP-Clients und Microservices. MirrorAPI spiegelt eingehende Requests (Header, Query-Parameter, Body) zurück, simuliert HTTP-Szenarien wie beliebige Status-Codes, Verzögerungen und Fehler und kann Request/Response-Paare dauerhaft als Mocks speichern – ideal für Integrationstests, Contract-Tests und lokale Entwicklung ohne echte Backend-Abhängigkeiten.",
         "type": "readme"
       }
     ]
@@ -1200,13 +1230,13 @@
     "name": "prometheus_helper",
     "description": "Python based Prometheus health helper",
     "url": "https://github.com/wlanboy/prometheus_helper",
-    "pushed_at": "2026-07-28T17:55:42Z",
+    "pushed_at": "2026-07-31T06:03:07Z",
     "default_branch": "main",
     "readmes": [
       {
         "path": "README.md",
         "title": "Prometheus Helper",
-        "description": "Kommandozeilen-Tool, das den Status eines Prometheus-Servers abfragt und einen Überblick über dessen aktive Scrape-Targets liefert. Die Verbindung erfolgt per HTTP Basic Auth. Für jedes Target werden folgende Werte ermittelt:\n\n- Anzahl der gescrapten Metriken (`scrape_samples_scraped`)\n- Anzahl der Target-Labels\n- Scrape-Dauer (`scrape_duration_seconds`)\n- Anzahl neu hinzugekommener Serien pro Scrape (`scrape_series_added`)\n- letzter Scrape-Fehler (`lastError`)\n\nTargets, deren Metrik- und/oder Labelanzahl über dem Durchschnitt aller Targets liegt, werden in der Ausgabe als auffällig markiert – so lassen sich Targets identifizieren, die besonders viele Metriken oder besonders viele Labels liefern. Targets mit fehlgeschlagenem letzten Scrape werden gesondert aufgelistet.\n\nZusätzlich wird eine globale TSDB-Übersicht (`/api/v1/status/tsdb`) ausgegeben: Serien-/Label-Paar-/Chunk-Anzahl sowie die Top-Metriken und -Labels nach Serienanzahl und Speicherverbrauch – nützlich, um Cardinality-Probleme unabhängig von einzelnen Targets zu erkennen.",
+        "description": "Kommandozeilen-Tool, das den Status eines Prometheus-Servers abfragt und einen Überblick über dessen aktive Scrape-Targets liefert. Die Verbindung erfolgt per HTTP Basic Auth. Für jedes Target werden folgende Werte ermittelt:\n\n- Anzahl der gescrapten Metriken (`scrape_samples_scraped`)\n- Anzahl der Target-Labels nach dem Relabeling sowie roh vor dem Relabeling (`discoveredLabels`) – die Differenz zeigt, wie viele Labels durch Relabeling entfernt werden\n- Scrape-Dauer (`scrape_duration_seconds`)\n- Anzahl neu hinzugekommener Serien pro Scrape (`scrape_series_added`)\n- letzter Scrape-Fehler (`lastError`)\n\nTargets, deren Metrik- und/oder Labelanzahl über dem Durchschnitt aller Targets liegt, werden in der Ausgabe als auffällig markiert – so lassen sich Targets identifizieren, die besonders viele Metriken oder besonders viele Labels liefern. Targets mit fehlgeschlagenem letzten Scrape werden gesondert aufgelistet.\n\nZusätzlich wird eine globale TSDB-Übersicht (`/api/v1/status/tsdb`) ausgegeben: Serien-/Label-Paar-/Chunk-Anzahl sowie die Top-Metriken und -Labels nach Serienanzahl und Speicherverbrauch – nützlich, um Cardinality-Probleme unabhängig von einzelnen Targets zu erkennen.\n\nAußerdem wird eine Runtime-Info-Übersicht (`/api/v1/status/runtimeinfo`) ausgegeben: Startzeit, letzter Config-Reload, konfigurierte Storage-Retention sowie erkannte WAL-/Storage-Korruptionen – nützlich, um den Prometheus-Server selbst (nicht nur seine Targets) im Blick zu behalten.",
         "type": "readme"
       }
     ]
@@ -1244,6 +1274,21 @@
         "title": "Helm install for randomfail chart",
         "description": "This helm script installs the randmon fail deployment within a kubernetes cluster.",
         "type": "module"
+      }
+    ]
+  },
+  {
+    "name": "redhat-helpers",
+    "description": "redhat helper scripts",
+    "url": "https://github.com/wlanboy/redhat-helpers",
+    "pushed_at": "2026-07-31T12:59:21Z",
+    "default_branch": "main",
+    "readmes": [
+      {
+        "path": "readme.md",
+        "title": "redhat-helpers",
+        "description": "Sammlung von Bash-Skripten zum Einrichten von RHEL 9 Servern für den Betrieb\nvon Containern via Podman und Kubernetes-Test-Clustern via kind.",
+        "type": "readme"
       }
     ]
   },
@@ -1497,7 +1542,7 @@
     "name": "wlanboy.github.io",
     "description": "website",
     "url": "https://github.com/wlanboy/wlanboy.github.io",
-    "pushed_at": "2026-07-29T15:57:47Z",
+    "pushed_at": "2026-07-30T14:05:34Z",
     "default_branch": "main",
     "readmes": [
       {

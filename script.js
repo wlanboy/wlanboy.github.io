@@ -20,6 +20,15 @@ const modalLink = document.getElementById("modalLink");
 let observer;
 
 // -------------------------------
+// HTML ESCAPING
+// -------------------------------
+function escapeHtml(str) {
+    const div = document.createElement("div");
+    div.textContent = str ?? "";
+    return div.innerHTML;
+}
+
+// -------------------------------
 // THEME HANDLING
 // -------------------------------
 function applyTheme() {
@@ -113,9 +122,9 @@ function loadMore() {
 
         card.innerHTML = `
       <div class="badge ${badgeClass}">${badgeLabel}</div>
-      <div class="repo-name">${item.repo}</div>
-      <div class="card-title">${item.title}</div>
-      <div class="card-desc">${item.description}</div>
+      <div class="repo-name">${escapeHtml(item.repo)}</div>
+      <div class="card-title">${escapeHtml(item.title)}</div>
+      <div class="card-desc">${escapeHtml(item.description)}</div>
     `;
 
         card.addEventListener("click", () => openModal(item));

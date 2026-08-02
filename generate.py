@@ -7,7 +7,9 @@ import requests
 
 GITHUB_USER = "wlanboy"
 TOKEN = os.getenv("GITHUB_TOKEN")
-HEADERS = {"Authorization": f"token {TOKEN}"} if TOKEN else {}
+HEADERS = {"Accept": "application/vnd.github+json"}
+if TOKEN:
+    HEADERS["Authorization"] = f"token {TOKEN}"
 
 DAYS = 300
 CUTOFF_DATE = datetime.now(UTC) - timedelta(days=DAYS)
@@ -26,27 +28,51 @@ def log(msg):
     print(f"[INFO] {msg}")
 
 
-def get_repos(user):
-    url = f"https://api.github.com/users/{user}/repos?per_page=120&type=public"
-    response = requests.get(url, headers=HEADERS)
-
-    log(f"GitHub API Status: {response.status_code}")
-
+def safe_get(url):
     try:
-        data = response.json()
-    except requests.exceptions.JSONDecodeError:
-        log("❌ API‑Antwort ist kein gültiges JSON")
-        return []
+        return requests.get(url, headers=HEADERS, timeout=10)
+    except requests.exceptions.RequestException as e:
+        log(f"❌ Netzwerkfehler bei {url}: {e}")
+        return None
 
-    if isinstance(data, dict) and "message" in data:
-        log(f"❌ GitHub API Fehler: {data['message']}")
-        return []
 
-    if not isinstance(data, list):
-        log("❌ Unerwartetes API‑Format (keine Liste)")
-        return []
+def get_repos(user):
+    repos = []
+    page = 1
 
-    return data
+    while True:
+        url = f"https://api.github.com/users/{user}/repos?per_page=100&type=public&page={page}"
+        response = safe_get(url)
+        if response is None:
+            break
+
+        log(f"GitHub API Status (Seite {page}): {response.status_code}")
+
+        try:
+            data = response.json()
+        except requests.exceptions.JSONDecodeError:
+            log("❌ API‑Antwort ist kein gültiges JSON")
+            break
+
+        if isinstance(data, dict) and "message" in data:
+            log(f"❌ GitHub API Fehler: {data['message']}")
+            break
+
+        if not isinstance(data, list):
+            log("❌ Unerwartetes API‑Format (keine Liste)")
+            break
+
+        if not data:
+            break
+
+        repos.extend(data)
+
+        if len(data) < 100:
+            break
+
+        page += 1
+
+    return repos
 
 
 def repo_recently_updated(repo):
@@ -62,22 +88,46 @@ def repo_recently_updated(repo):
 
 def get_repo_tree(user, repo_name, branch):
     url = f"https://api.github.com/repos/{user}/{repo_name}/git/trees/{branch}?recursive=1"
-    response = requests.get(url, headers=HEADERS)
+    response = safe_get(url)
+
+    if response is None:
+        return []
 
     if response.status_code != 200:
         log(f"⚠️  Konnte Tree für {repo_name} nicht laden (Status {response.status_code})")
         return []
 
-    data = response.json()
+    try:
+        data = response.json()
+    except requests.exceptions.JSONDecodeError:
+        log(f"❌ Tree‑Antwort für {repo_name} ist kein gültiges JSON")
+        return []
+
+    if data.get("truncated"):
+        log(f"⚠️  Tree für {repo_name} wurde von GitHub abgeschnitten (truncated) – evtl. fehlen Dateien")
+
     return data.get("tree", [])
 
 
 def get_file_content(user, repo_name, path):
     url = f"https://api.github.com/repos/{user}/{repo_name}/contents/{path}"
-    response = requests.get(url, headers=HEADERS).json()
+    response = safe_get(url)
 
-    if "content" in response:
-        return base64.b64decode(response["content"]).decode("utf-8", errors="ignore")
+    if response is None:
+        return ""
+
+    if response.status_code != 200:
+        log(f"⚠️  Konnte Datei {path} nicht laden (Status {response.status_code})")
+        return ""
+
+    try:
+        data = response.json()
+    except requests.exceptions.JSONDecodeError:
+        log(f"❌ Datei‑Antwort für {path} ist kein gültiges JSON")
+        return ""
+
+    if "content" in data:
+        return base64.b64decode(data["content"]).decode("utf-8", errors="ignore")
 
     return ""
 

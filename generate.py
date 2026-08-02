@@ -1,15 +1,16 @@
-import os
-import requests
 import base64
 import json
-from datetime import datetime, timedelta, timezone
+import os
+from datetime import UTC, datetime, timedelta
+
+import requests
 
 GITHUB_USER = "wlanboy"
 TOKEN = os.getenv("GITHUB_TOKEN")
 HEADERS = {"Authorization": f"token {TOKEN}"} if TOKEN else {}
 
 DAYS = 300
-CUTOFF_DATE = datetime.now(timezone.utc) - timedelta(days=DAYS)
+CUTOFF_DATE = datetime.now(UTC) - timedelta(days=DAYS)
 
 EXCLUDED_FILENAMES = {
     "changelog", "contributing", "license", "code_of_conduct",
@@ -33,7 +34,7 @@ def get_repos(user):
 
     try:
         data = response.json()
-    except Exception:
+    except requests.exceptions.JSONDecodeError:
         log("❌ API‑Antwort ist kein gültiges JSON")
         return []
 
@@ -55,7 +56,7 @@ def repo_recently_updated(repo):
 
     pushed_date = datetime.strptime(
         pushed_at, "%Y-%m-%dT%H:%M:%SZ"
-    ).replace(tzinfo=timezone.utc)
+    ).replace(tzinfo=UTC)
     return pushed_date >= CUTOFF_DATE
 
 

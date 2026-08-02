@@ -1044,6 +1044,33 @@
     ]
   },
   {
+    "name": "mailserver_mock",
+    "description": "python based mail server mock",
+    "url": "https://github.com/wlanboy/mailserver_mock",
+    "pushed_at": "2026-08-02T12:04:26Z",
+    "default_branch": "main",
+    "readmes": [
+      {
+        "path": "README.md",
+        "title": "mailserver-mock",
+        "description": "Minimaler SMTP- und IMAP-Mock-Server für lokale Tests, in reinem Python\n(nur Standardbibliothek, keine Abhängigkeiten). Angelehnt an\n[gosmtp](https://github.com/wlanboy/gosmtp) — verschickte Mails werden als\n`.eml`-Dateien in einem lokalen `mails/`-Verzeichnis abgelegt.",
+        "type": "readme"
+      },
+      {
+        "path": "src/imap.md",
+        "title": "IMAP-Implementierung",
+        "description": "Dieses Dokument beschreibt, welche Teile von IMAP4rev1 (RFC 3501) der Mock\nin [`src/mailserver_mock/imap_server.py`](src/mailserver_mock/imap_server.py)\nimplementiert, wie sich die Befehle im Detail verhalten und welche Teile des\nRFCs bewusst ausgelassen wurden. Ziel des Mocks ist **nicht** Vollständigkeit,\nsondern ein Server, der reale IMAP-Clients (z. B. `imaplib`, Jakarta Mail,\nThunderbird) für Testzwecke bedienen kann, ohne eine echte Mailbox-Semantik\n(Persistenz über Sessions, mehrere Ordner, Expunge, ...) nachzubilden.",
+        "type": "text"
+      },
+      {
+        "path": "src/smtp.md",
+        "title": "SMTP-Implementierung",
+        "description": "Dieses Dokument beschreibt, welche Teile von SMTP (RFC 5321) und SMTP AUTH\n(RFC 4954) der Mock in\n[`src/mailserver_mock/smtp_server.py`](src/mailserver_mock/smtp_server.py)\nimplementiert, wie sich die Befehle im Detail verhalten und welche Teile des\nRFCs bewusst ausgelassen wurden. Ziel ist ein Server, der reale SMTP-Clients\n(`smtplib`, Jakarta Mail/Spring Boot, swaks, ...) für lokale Tests annehmen\nund die Nachrichten als `.eml`-Dateien ablegen kann — inklusive gezielt\nsimulierbarer Fehlerszenarien (Timeouts, Quota, Auth-Fehler). Kein Relaying,\nkeine echte Zustellung, keine Warteschlange.",
+        "type": "text"
+      }
+    ]
+  },
+  {
     "name": "mcp-dotnet-websearch",
     "description": "MCP Server in dotnet core für websuche",
     "url": "https://github.com/wlanboy/mcp-dotnet-websearch",
@@ -1281,7 +1308,7 @@
     "name": "redhat-helpers",
     "description": "redhat helper scripts",
     "url": "https://github.com/wlanboy/redhat-helpers",
-    "pushed_at": "2026-07-31T12:59:21Z",
+    "pushed_at": "2026-08-02T05:26:07Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1289,6 +1316,12 @@
         "title": "redhat-helpers",
         "description": "Sammlung von Bash-Skripten zum Einrichten von RHEL 9 Servern für den Betrieb\nvon Containern via Podman und Kubernetes-Test-Clustern via kind.",
         "type": "readme"
+      },
+      {
+        "path": "unit/userunits.md",
+        "title": "userunits – Python-Tools für systemd User Units",
+        "description": "Sammlung von Python-Skripten, um systemd User Units (`systemctl --user`)\nfür Java- und Python-Anwendungen zu erzeugen, zu verwalten und auf\nFehler zu prüfen. Laufen im normalen User-Kontext (kein root, kein\nsudo). Kompatibel zu Python 3.9 (kein `match`-Statement, keine\n`X | Y` Type-Hints).",
+        "type": "text"
       }
     ]
   },
@@ -1311,7 +1344,7 @@
     "name": "scan-tools",
     "description": "Python based scan tools for git repros",
     "url": "https://github.com/wlanboy/scan-tools",
-    "pushed_at": "2026-07-03T11:32:57Z",
+    "pushed_at": "2026-08-02T05:55:33Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1500,7 +1533,7 @@
     "name": "vram-model-calculator",
     "description": "Python based calculator for total vram usage of you gguf models",
     "url": "https://github.com/wlanboy/vram-model-calculator",
-    "pushed_at": "2026-07-26T14:07:59Z",
+    "pushed_at": "2026-08-02T12:05:51Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1542,7 +1575,7 @@
     "name": "wlanboy.github.io",
     "description": "website",
     "url": "https://github.com/wlanboy/wlanboy.github.io",
-    "pushed_at": "2026-07-31T14:09:47Z",
+    "pushed_at": "2026-08-01T13:23:43Z",
     "default_branch": "main",
     "readmes": [
       {

@@ -150,7 +150,7 @@
     "name": "debian-cloud-init",
     "description": "Create libvirt  vm of debian 12 and 13 with cloud init - with amd64 and arm64 support",
     "url": "https://github.com/wlanboy/debian-cloud-init",
-    "pushed_at": "2026-07-10T06:41:58Z",
+    "pushed_at": "2026-08-02T12:58:12Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -160,9 +160,15 @@
         "type": "readme"
       },
       {
-        "path": "rec/rec.md",
+        "path": "rec/asciinema.md",
         "title": "record terminal",
         "description": "Dieses Dokument beschreibt, wie Terminal-Sessions mit asciinema aufgezeichnet und anschließend mit agg in animierte GIFs umgewandelt werden. Die erzeugten GIFs eignen sich zur Dokumentation von VM-Setup-Abläufen.",
+        "type": "text"
+      },
+      {
+        "path": "templates/cloud-init-templates.md",
+        "title": "Templates",
+        "description": "Dieser Ordner enthält die Bausteine, aus denen generator.py (lokales KVM/libvirt) und proxmox_generator.py (Proxmox) zur Laufzeit die finale cloud-init.yml zusammensetzen. Keine dieser Dateien wird direkt verwendet – sie werden geladen, kombiniert und als neues YAML geschrieben.",
         "type": "text"
       }
     ]
@@ -726,7 +732,7 @@
     "name": "httptester",
     "description": "http tester servie for kubernets, istio and service mesh connection and dns tests. Local dual kind setup for istio service mesh.",
     "url": "https://github.com/wlanboy/httptester",
-    "pushed_at": "2026-07-11T03:51:51Z",
+    "pushed_at": "2026-08-02T12:57:16Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -819,7 +825,7 @@
     "name": "JavaHttpClient",
     "description": "Spring based rest service to test http call within k8s and istio",
     "url": "https://github.com/wlanboy/JavaHttpClient",
-    "pushed_at": "2026-07-08T17:29:34Z",
+    "pushed_at": "2026-08-02T13:18:39Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1623,7 +1629,7 @@
     "name": "wlanboy.github.io",
     "description": "website",
     "url": "https://github.com/wlanboy/wlanboy.github.io",
-    "pushed_at": "2026-08-02T12:27:41Z",
+    "pushed_at": "2026-08-02T12:38:47Z",
     "default_branch": "main",
     "readmes": [
       {

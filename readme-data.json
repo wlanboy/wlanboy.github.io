@@ -9,13 +9,13 @@
       {
         "path": "README.md",
         "title": "ansiblehook",
-        "description": "HTTP-Webhook-Service zum Auslösen von Ansible-Playbooks über eine gesicherte REST-API.\n\nEin typischer Anwendungsfall ist der kontrollierte Deploy-Zugriff für Entwickler: Statt ihnen direkten SSH-Zugang zum Deployment-Server oder Zugriff auf Ansible-Credentials zu geben, stellt ein Operator vorab einen zeitlich begrenzten One-Time-Token aus.\nDer Entwickler kann damit genau ein Playbook einmalig auslösen — ohne Kenntnisse über Inventories, Vault-Passwörter oder Serverstruktur. Nach der Nutzung ist der Token verbraucht.\nOptional lässt sich mit `not_before` ein Startzeitpunkt festlegen, sodass ein Token bereits im Voraus ausgestellt, aber erst zum geplanten Deployment-Fenster einlösbar ist.\n\nFür automatisierte Pipelines (CI/CD, Monitoring) steht alternativ eine dauerhafte HMAC-SHA256-Signatur zur Verfügung. Läuft ein Playbook bereits, wird ein zweiter Request mit `409 Conflict` abgelehnt. Die vollständigen Ansible-Logs werden als Response-Body zurückgegeben.",
+        "description": "HTTP-Webhook-Service zum Auslösen von Ansible-Playbooks über eine gesicherte REST-API.",
         "type": "readme"
       },
       {
         "path": "ping.md",
         "title": "Webhook: ping",
-        "description": "Löst `playbooks/ping.yml` auf dem Inventory `hosts` mit `--limit gmk` aus.\n\n\nKonfiguration (`application.yml`):\n\n\n---",
+        "description": "Löst playbooks/ping.yml auf dem Inventory hosts mit --limit gmk aus.",
         "type": "text"
       }
     ]
@@ -30,7 +30,7 @@
       {
         "path": "README.md",
         "title": "Ansible UML Visualizer",
-        "description": "A small FastAPI web app that scans an Ansible repository (local path or git URL), finds inventories and playbooks, and generates a Mermaid diagram showing groups, hosts and tasks.\n\nLinks\n- App instance and route handlers: [`main.app`](main.py), [`main.index`](main.py), [`main.scan_repo`](main.py), [`main.generate_diagram`](main.py)\n- Web template: [templates/index.html](templates/index.html)\n- Dependencies: [requirements.txt](requirements.txt) and [pyproject.toml](pyproject.toml)",
+        "description": "A small FastAPI web app that scans an Ansible repository (local path or git URL), finds inventories and playbooks, and generates a Mermaid diagram showing groups, hosts and tasks.",
         "type": "readme"
       }
     ]
@@ -45,7 +45,7 @@
       {
         "path": "README.md",
         "title": "bcrypt",
-        "description": "bcrypt command line tool\n\n# build\n* go mod download\n* go build\n* go test\n\n# hash text\n* ./bcrypt -text \"hello world\"\n\n# hash file\n* ./bcrypt -file .gitignore\n\n# stdin\n* echo \"hello world\" | ./bcrypt\n\n# verify\n* ./bcrypt -text \"hello world\" -verify \"$HASH\"\n* ./bcrypt -file .gitignore -verify \"$HASH\"\n* echo \"hello world\" | ./bcrypt -verify \"$HASH\"\n\n# custom cost (default: 10, range: 4-31)\n* ./bcrypt -text \"hello world\" -cost 12\n\n# flags\n| Flag | Description |\n|------|-------------|\n| `-text` | Text to bcrypt hash |\n| `-file` | File to bcrypt hash (SHA-256 prehash) |\n| `-verify` | Bcrypt hash to verify against |\n| `-cost` | Cost factor, default 10, range 4-31 |\n\n# docker hub\n* https://hub.docker.com/repository/docker/wlanboy/bcrypt\n\n# usage with docker\n* alias bcrypt=\"docker run -i --rm wlanboy/bcrypt\"\n* bcrypt -text \"hello world\"\n* echo \"hello world\" | bcrypt\n\n# multi-arch build (amd64 + arm64)\n* docker buildx create --use\n* docker buildx build --platform linux/amd64,linux/arm64 -t wlanboy/bcrypt:latest -f Dockerfile.multiarch .",
+        "description": "bcrypt command line tool",
         "type": "readme"
       }
     ]
@@ -75,7 +75,7 @@
       {
         "path": "README.md",
         "title": "burll",
-        "description": "A curl-like HTTP client implemented in pure bash using `/dev/tcp` — no curl, no wget, no external tools required for plain HTTP.",
+        "description": "A curl-like HTTP client implemented in pure bash using /dev/tcp — no curl, no wget, no external tools required for plain HTTP.",
         "type": "readme"
       }
     ]
@@ -90,7 +90,7 @@
       {
         "path": "README.md",
         "title": "caweb – Minimal Web UI for a Local Certificate Authority",
-        "description": "caweb is a tiny, self‑contained Certificate Authority (CA) web interface for issuing and managing certificates.\nIt includes a lightweight FastAPI (uvicorn) application and a Dockerfile, allowing you to run it locally or inside a container with minimal setup.\n\nThe goal is to provide a simple, developer‑friendly CA tool without the complexity of full PKI suites — ideal for labs, internal services, development clusters, or automated certificate workflows.",
+        "description": "caweb is a tiny, self‑contained Certificate Authority (CA) web interface for issuing and managing certificates. It includes a lightweight FastAPI (uvicorn) application and a Dockerfile, allowing you to run it locally or inside a container with minimal setup.",
         "type": "readme"
       },
       {
@@ -103,7 +103,7 @@
   },
   {
     "name": "cloudconfig",
-    "description": null,
+    "description": "Example Repro for Spring Cloud Config Server",
     "url": "https://github.com/wlanboy/cloudconfig",
     "pushed_at": "2026-05-01T17:57:09Z",
     "default_branch": "main",
@@ -126,7 +126,22 @@
       {
         "path": "README.md",
         "title": "Spring Cloud Config property file generator",
-        "description": "Spring Boot and Spring Cloud Config based property file generator to migrate from Spring Cloud Config Server.\nLoads profiles from Spring Cloud Config server and generates a Kubernetes Config Map.",
+        "description": "Spring Boot and Spring Cloud Config based property file generator to migrate from Spring Cloud Config Server. Loads profiles from Spring Cloud Config server and generates a Kubernetes Config Map.",
+        "type": "readme"
+      }
+    ]
+  },
+  {
+    "name": "DashButton",
+    "description": null,
+    "url": "https://github.com/wlanboy/DashButton",
+    "pushed_at": "2018-01-07T13:29:37Z",
+    "default_branch": "master",
+    "readmes": [
+      {
+        "path": "README.md",
+        "title": "DashButton",
+        "description": "Python based script to listen on Dash Button events.",
         "type": "readme"
       }
     ]
@@ -141,13 +156,13 @@
       {
         "path": "README.md",
         "title": "debian/ubuntu cloud init installer",
-        "description": "This repository provides a complete workflow for automated installation of Debian 12/13 and Ubuntu 22.04/24.04 using cloud-init.\nIt supports both local KVM/libvirt environments and remote Proxmox servers, making it ideal for homelabs, DevOps automation, and reproducible VM provisioning.\n\nIt explains which cloud images work reliably, which ones should be avoided, and how to configure users, SSH keys, and password hashes.\nThe project also demonstrates how to generate custom disk images from templates for fast and consistent VM deployment.\n\nA key component is the Python-based TUI, which guides you step-by-step through:\n\n- Selecting the distribution\n- Choosing the correct cloud image\n- Adding SSH keys and password hashes\n- Generating cloud-init configuration\n- Creating QCOW2 disk images\n- Deploying to KVM/libvirt or Proxmox\n\nThis makes cloud-init–based VM provisioning accessible even for users without prior experience.",
+        "description": "This repository provides a complete workflow for automated installation of Debian 12/13 and Ubuntu 22.04/24.04 using cloud-init. It supports both local KVM/libvirt environments and remote Proxmox servers, making it ideal for homelabs, DevOps automation, and reproducible VM provisioning.",
         "type": "readme"
       },
       {
         "path": "rec/rec.md",
         "title": "record terminal",
-        "description": "Dieses Dokument beschreibt, wie Terminal-Sessions mit [asciinema](https://asciinema.org/) aufgezeichnet und anschließend mit `agg` in animierte GIFs umgewandelt werden. Die erzeugten GIFs eignen sich zur Dokumentation von VM-Setup-Abläufen.",
+        "description": "Dieses Dokument beschreibt, wie Terminal-Sessions mit asciinema aufgezeichnet und anschließend mit agg in animierte GIFs umgewandelt werden. Die erzeugten GIFs eignen sich zur Dokumentation von VM-Setup-Abläufen.",
         "type": "text"
       }
     ]
@@ -168,13 +183,13 @@
       {
         "path": "docker.md",
         "title": "🐳 Deployment API – Docker Setup",
-        "description": "Diese Anleitung beschreibt, wie du die FastAPI-basierte Deployment-API in einem Docker-Container ausführst, inklusive Ansible-Integration und Zugriff auf SSH-Keys und Playbooks.\n\n---",
+        "description": "Diese Anleitung beschreibt, wie du die FastAPI-basierte Deployment-API in einem Docker-Container ausführst, inklusive Ansible-Integration und Zugriff auf SSH-Keys und Playbooks.",
         "type": "text"
       },
       {
         "path": "prometheus/readme.md",
         "title": "Prometheus + Pushgateway Monitoring Setup",
-        "description": "Dieses Setup stellt eine einfache Monitoring-Infrastruktur bereit, bestehend aus:\n\n- **Prometheus** zur Metrik-Speicherung und Visualisierung\n- **Pushgateway** zur Annahme von Push-Metriken aus Batch-Jobs (z. B. Ansible-Deployments)",
+        "description": "Dieses Setup stellt eine einfache Monitoring-Infrastruktur bereit, bestehend aus:",
         "type": "module"
       }
     ]
@@ -189,7 +204,7 @@
       {
         "path": "Artefactory/Artefactory.md",
         "title": "Artifactory OSS Docker Setup",
-        "description": "Dieses Verzeichnis enthält ein Skript zum Starten von JFrog Artifactory Open Source via Docker. Artifactory ist ein universeller Artefakt-Repository-Manager, der Maven-, Gradle-, npm-, Docker- und weitere Paketformate unterstützt. Er dient als lokaler Spiegel für externe Repositories und als internes Ablagesystem für Build-Artefakte.",
+        "description": "Dieses Verzeichnis enthält ein Skript zum Starten von JFrog Artifactory Open Source via Docker. Artifactory ist ein universeller Artefakt-Repository-Manager, der Maven-, Gradle-, npm-, Docker- und weitere Paketformate unterstützt. Er dient als lokaler Spiegel für externe Repositories und als…",
         "type": "text"
       },
       {
@@ -207,7 +222,7 @@
       {
         "path": "CoreDNS/CoreDNS.md",
         "title": "CoreDNS Docker Setup",
-        "description": "Dieses Verzeichnis enthält Skripte und Konfigurationsdateien für einen CoreDNS-Server via Docker. CoreDNS ist ein leichtgewichtiger, erweiterbarer DNS-Server, der sich besonders für den Einsatz in Heimnetzwerken und als interner Service-Discovery-DNS eignet. Die Konfiguration enthält eine lokale Zone für interne Hostnamen sowie Forwarding für alle anderen Anfragen.",
+        "description": "Dieses Verzeichnis enthält Skripte und Konfigurationsdateien für einen CoreDNS-Server via Docker. CoreDNS ist ein leichtgewichtiger, erweiterbarer DNS-Server, der sich besonders für den Einsatz in Heimnetzwerken und als interner Service-Discovery-DNS eignet. Die Konfiguration enthält eine lokale…",
         "type": "text"
       },
       {
@@ -225,13 +240,13 @@
       {
         "path": "Elk/elk.md",
         "title": "ELK Stack Docker Setup (einzelne Container)",
-        "description": "Dieses Verzeichnis enthält Skripte zum Starten des ELK-Stacks als einzelne Docker-Container (ohne Compose). Die Logstash-Pipeline ist auf das Spring-Boot-Logformat ausgelegt. Für den Compose-basierten Stack siehe [ElkStack](../ElkStack/).",
+        "description": "Dieses Verzeichnis enthält Skripte zum Starten des ELK-Stacks als einzelne Docker-Container (ohne Compose). Die Logstash-Pipeline ist auf das Spring-Boot-Logformat ausgelegt. Für den Compose-basierten Stack siehe ElkStack.",
         "type": "text"
       },
       {
         "path": "ElkStack/ElkStack.md",
         "title": "ELK Stack Docker Compose Setup",
-        "description": "Dieses Verzeichnis enthält eine Docker Compose Konfiguration für den vollständigen ELK-Stack: Elasticsearch, Kibana und Logstash. Der Stack wird im bestehenden Docker-Netzwerk `spring-net` betrieben und dient zur zentralen Log-Aggregation für Spring-Boot-Anwendungen.",
+        "description": "Dieses Verzeichnis enthält eine Docker Compose Konfiguration für den vollständigen ELK-Stack: Elasticsearch, Kibana und Logstash. Der Stack wird im bestehenden Docker-Netzwerk spring-net betrieben und dient zur zentralen Log-Aggregation für Spring-Boot-Anwendungen.",
         "type": "text"
       },
       {
@@ -255,25 +270,25 @@
       {
         "path": "Kafka/Kafka.md",
         "title": "Kafka Docker Setup",
-        "description": "Dieses Verzeichnis enthält Skripte zum Starten eines Apache Kafka Brokers mit Zookeeper via Docker. Kafka ist eine verteilte Event-Streaming-Plattform für hochdurchsatzfähige, fehlertolerante Nachrichtenverarbeitung. Die enthaltene Konfiguration ist als Single-Broker-Setup für Entwicklung und lokale Umgebungen ausgelegt.",
+        "description": "Dieses Verzeichnis enthält Skripte zum Starten eines Apache Kafka Brokers mit Zookeeper via Docker. Kafka ist eine verteilte Event-Streaming-Plattform für hochdurchsatzfähige, fehlertolerante Nachrichtenverarbeitung. Die enthaltene Konfiguration ist als Single-Broker-Setup für Entwicklung und…",
         "type": "text"
       },
       {
         "path": "MariaDB/MariaDB.md",
         "title": "MariaDB Docker Setup",
-        "description": "Dieses Verzeichnis enthält Skripte zum Starten eines MariaDB Containers via Docker. MariaDB ist ein leistungsstarkes, quelloffenes relationales Datenbanksystem und ein vollständig kompatibler Fork von MySQL. Es eignet sich für den Einsatz in Entwicklungsumgebungen, auf Einplatinenrechnern und in Produktionssystemen.",
+        "description": "Dieses Verzeichnis enthält Skripte zum Starten eines MariaDB Containers via Docker. MariaDB ist ein leistungsstarkes, quelloffenes relationales Datenbanksystem und ein vollständig kompatibler Fork von MySQL. Es eignet sich für den Einsatz in Entwicklungsumgebungen, auf Einplatinenrechnern und in…",
         "type": "text"
       },
       {
         "path": "Memcached/Memcached.md",
         "title": "Memcached Docker Setup",
-        "description": "Dieses Verzeichnis enthält ein Skript zum Starten eines Memcached Containers via Docker. Memcached ist ein leistungsstarkes, verteiltes In-Memory-Caching-System, das häufig zur Beschleunigung dynamischer Webanwendungen eingesetzt wird, indem Daten und Objekte im RAM zwischengespeichert werden. Es unterstützt sowohl das klassische Textprotokoll als auch das effizientere Binärprotokoll.",
+        "description": "Dieses Verzeichnis enthält ein Skript zum Starten eines Memcached Containers via Docker. Memcached ist ein leistungsstarkes, verteiltes In-Memory-Caching-System, das häufig zur Beschleunigung dynamischer Webanwendungen eingesetzt wird, indem Daten und Objekte im RAM zwischengespeichert werden. Es…",
         "type": "text"
       },
       {
         "path": "Nextcloud/nextcloud-arm.md",
         "title": "Nextcloud ARM64",
-        "description": "Nextcloud als selbst gehostete Cloud-Lösung auf ARM64-Geräten (Raspberry Pi, Apple Silicon).\nDas `fpm-alpine`-Image nutzt PHP-FPM statt Apache — kleiner, ressourcenschonender, aber ohne eingebauten Webserver.",
+        "description": "Nextcloud als selbst gehostete Cloud-Lösung auf ARM64-Geräten (Raspberry Pi, Apple Silicon). Das fpm-alpine-Image nutzt PHP-FPM statt Apache — kleiner, ressourcenschonender, aber ohne eingebauten Webserver.",
         "type": "text"
       },
       {
@@ -285,7 +300,7 @@
       {
         "path": "PiHole/pihole.md",
         "title": "Pi-hole",
-        "description": "DNS-basierter Werbeblocker der Werbung und Tracker für alle Geräte im Heimnetzwerk blockiert —\nohne Browser-Extensions, direkt auf DNS-Ebene. Web-UI erreichbar unter http://localhost:8080/admin",
+        "description": "DNS-basierter Werbeblocker der Werbung und Tracker für alle Geräte im Heimnetzwerk blockiert — ohne Browser-Extensions, direkt auf DNS-Ebene. Web-UI erreichbar unter http://localhost:8080/admin",
         "type": "text"
       },
       {
@@ -315,7 +330,7 @@
       {
         "path": "Solr/README.md",
         "title": "Solr",
-        "description": "Startet Apache Solr als Docker-Container auf Basis des offiziellen `solr:10-slim`-Images. Der Container ist für den Dauerbetrieb konfiguriert und speichert Cores und Indizes in einem persistenten Host-Verzeichnis.",
+        "description": "Startet Apache Solr als Docker-Container auf Basis des offiziellen solr:10-slim-Images. Der Container ist für den Dauerbetrieb konfiguriert und speichert Cores und Indizes in einem persistenten Host-Verzeichnis.",
         "type": "module"
       },
       {
@@ -339,7 +354,7 @@
       {
         "path": "letsencrypt/letsencrypt.md",
         "title": "Let's Encrypt",
-        "description": "Kostenlose, automatisierte TLS-Zertifikate von der gemeinnützigen Certificate Authority Let's Encrypt.\nZertifikate sind 90 Tage gültig und können vollautomatisch über das ACME-Protokoll ausgestellt und erneuert werden —\nohne manuelle Eingriffe oder Kosten.",
+        "description": "Kostenlose, automatisierte TLS-Zertifikate von der gemeinnützigen Certificate Authority Let's Encrypt. Zertifikate sind 90 Tage gültig und können vollautomatisch über das ACME-Protokoll ausgestellt und erneuert werden — ohne manuelle Eingriffe oder Kosten.",
         "type": "text"
       },
       {
@@ -366,19 +381,19 @@
       {
         "path": "k8s/kubernetes-deployment.md",
         "title": "Kubernetes-Deployment für dotnetrest (Istio-ready)",
-        "description": "Schritt-für-Schritt-Anleitung, um `dotnetrest` in einem Namespace mit\nIstio-Sidecar-Injection und STRICT-mTLS auszurollen.",
+        "description": "Schritt-für-Schritt-Anleitung, um dotnetrest in einem Namespace mit Istio-Sidecar-Injection und STRICT-mTLS auszurollen.",
         "type": "text"
       },
       {
         "path": "readme.md",
         "title": "dotnet-container",
-        "description": "Minimale Todo-REST-API auf Basis von ASP.NET Core Minimal APIs (.NET 10), gebaut als\nschlankes, produktionsnahes Container-Image mit Native AOT.",
+        "description": "Minimale Todo-REST-API auf Basis von ASP.NET Core Minimal APIs (.NET 10), gebaut als schlankes, produktionsnahes Container-Image mit Native AOT.",
         "type": "readme"
       },
       {
         "path": "tekton/tekton.md",
         "title": "Tekton Pipeline für dotnetrest",
-        "description": "CI/CD-Pipeline auf Basis von [Tekton Pipelines](https://tekton.dev/), die den Container-Build\nfür `dotnetrest` (Native AOT) im Cluster ausführt und das Image in die lokale k3s/kind-Registry\npusht.",
+        "description": "CI/CD-Pipeline auf Basis von Tekton Pipelines, die den Container-Build für dotnetrest (Native AOT) im Cluster ausführt und das Image in die lokale k3s/kind-Registry pusht.",
         "type": "text"
       }
     ]
@@ -393,19 +408,19 @@
       {
         "path": "README.md",
         "title": "Eureka service registering all services in services.json",
-        "description": "Goal of this project is a simple and small client to provide a migration path for everyone stuck with Spring Eureka.\nThe microservices that are your own responsibility should be freed from the burden of running a Eureka client that is no longer in use but is still needed for your customers.\nIn a Cloud Native world, the microservices are hidden behind one or more load balancers. Therefore, we need a client that handles the registration of the microservices and uses the load balancer addresses as the destination url.",
+        "description": "Goal of this project is a simple and small client to provide a migration path for everyone stuck with Spring Eureka. The microservices that are your own responsibility should be freed from the burden of running a Eureka client that is no longer in use but is still needed for your customers. In a…",
         "type": "readme"
       },
       {
         "path": "accesslogs/readme.md",
         "title": "Eureka Access Log Server",
-        "description": "Dieses Tool dient als **Dummy-Ersatz für einen abgeschalteten Eureka-Server**, um herauszufinden, welche Clients ihn noch aktiv ansprechen.",
+        "description": "Dieses Tool dient als Dummy-Ersatz für einen abgeschalteten Eureka-Server, um herauszufinden, welche Clients ihn noch aktiv ansprechen.",
         "type": "module"
       },
       {
         "path": "example/readme.md",
         "title": "Eureka REST API – Beispiele",
-        "description": "Dieses Verzeichnis enthält HTTP-Beispielanfragen für die Eureka REST API sowie eine Beispielantwort im XML-Format.\n\nOffizielle API-Dokumentation: <https://github.com/Netflix/eureka/wiki/Eureka-REST-operations>",
+        "description": "Dieses Verzeichnis enthält HTTP-Beispielanfragen für die Eureka REST API sowie eine Beispielantwort im XML-Format.",
         "type": "module"
       }
     ]
@@ -420,7 +435,7 @@
       {
         "path": "README.md",
         "title": "Projektbeschreibung",
-        "description": "Dieses Repository enthält eine kleine Java-Anwendung (Eureka Client) zur Demonstration von Service-Discovery- und Konfigurationsmustern. Die Anwendung ist als Spring Boot–basiertes Microservice-Beispiel aufgebaut, lässt sich lokal mit Maven bauen, in einem Docker-Container betreiben.\n\nWichtige Anwendungsfälle:\n\n- Registrieren/Abfragen von Diensten (Eureka-Client-Verhalten).\n- Lokale Konfiguration über `services.json` und `application.properties`.\n- Container-Deployment mit Volumen-Mounts für Konfiguration.\n\n---",
+        "description": "Dieses Repository enthält eine kleine Java-Anwendung (Eureka Client) zur Demonstration von Service-Discovery- und Konfigurationsmustern. Die Anwendung ist als Spring Boot–basiertes Microservice-Beispiel aufgebaut, lässt sich lokal mit Maven bauen, in einem Docker-Container betreiben.",
         "type": "readme"
       }
     ]
@@ -435,7 +450,7 @@
       {
         "path": "README.md",
         "title": "failoverdns",
-        "description": "Failover DNS for nodeping and cloudflare\n\nIt is easy to run your website on different servers. \nIt is easy to run databases accross different servers. \nBecause virtual servers got quite cheap. \nBut it is not that easy to ensure that your visitors are visiting a server that is still running.\n\nYou can setup more than one A record but a lot of browsers do not support DNS load balancing.\nYou can setup a load balancer but then you just moved the problem to another place. You load balancer is now the single point of failure.\n\nFor me DNS looks like a good solution to point visitors to the right server.\nBut I want to start with a low effort and simple solution.\n\nSo lets start with the first step into DNS failover.",
+        "description": "Failover DNS for nodeping and cloudflare",
         "type": "readme"
       }
     ]
@@ -450,25 +465,25 @@
       {
         "path": "apps-trust/readme.md",
         "title": "Argo CD Apps mit Reflector",
-        "description": "Enthält ArgoCD `Application`-Manifeste für alle verwalteten Dienste. Jede Datei definiert eine eigene ArgoCD-Application, die ArgoCD anweist, die jeweilige Anwendung aus dem GitOps-Repository zu synchronisieren und im Cluster zu deployen.",
+        "description": "Enthält ArgoCD Application-Manifeste für alle verwalteten Dienste. Jede Datei definiert eine eigene ArgoCD-Application, die ArgoCD anweist, die jeweilige Anwendung aus dem GitOps-Repository zu synchronisieren und im Cluster zu deployen.",
         "type": "module"
       },
       {
         "path": "apps/readme.md",
         "title": "Argo CD Apps",
-        "description": "Enthält ArgoCD `Application`-Manifeste für alle verwalteten Dienste. Jede Datei definiert eine eigene ArgoCD-Application, die ArgoCD anweist, die jeweilige Anwendung aus dem GitOps-Repository zu synchronisieren und im Cluster zu deployen.",
+        "description": "Enthält ArgoCD Application-Manifeste für alle verwalteten Dienste. Jede Datei definiert eine eigene ArgoCD-Application, die ArgoCD anweist, die jeweilige Anwendung aus dem GitOps-Repository zu synchronisieren und im Cluster zu deployen.",
         "type": "module"
       },
       {
         "path": "argocd-cheatsheet.md",
         "title": "ArgoCD CLI Cheat Sheet",
-        "description": "Eine Sammlung nützlicher `argocd`-Befehle zur Verwaltung von Applications, Projects und Clustern über die CLI.",
+        "description": "Eine Sammlung nützlicher argocd-Befehle zur Verwaltung von Applications, Projects und Clustern über die CLI.",
         "type": "text"
       },
       {
         "path": "buildah/buildah.md",
         "title": "Buildah Build Jobs",
-        "description": "Minimales Setup für Docker Image Builds mit Buildah in Kubernetes — Alternative zu [../kaniko/kaniko.md](../kaniko/kaniko.md), da Kaniko seit 2025-06-03 archiviert und unmaintained ist. Buildah (containers-Projekt, Red Hat) ist frei nutzbar und aktiv gepflegt.",
+        "description": "Minimales Setup für Docker Image Builds mit Buildah in Kubernetes — Alternative zu ../kaniko/kaniko.md, da Kaniko seit 2025-06-03 archiviert und unmaintained ist. Buildah (containers-Projekt, Red Hat) ist frei nutzbar und aktiv gepflegt.",
         "type": "text"
       },
       {
@@ -480,62 +495,77 @@
       {
         "path": "kaniko/kaniko.md",
         "title": "Kaniko Build Jobs",
-        "description": "Minimales Setup für Docker Image Builds mit Kaniko in Kubernetes.\n\n> ⚠️ **Kaniko ist seit 2025-06-03 archiviert** (GoogleContainerTools/kaniko wird nicht mehr gepflegt, `gcr.io/kaniko-project/executor` bekommt keine Updates/CVE-Fixes mehr). Chainguard pflegt einen Fork, das Image ist aber nur kostenpflichtig über einen eigenen Chainguard-Account (`cgr.dev/ORGANIZATION/kaniko`) verfügbar. Für neue Projekte siehe die Alternative [../buildah/buildah.md](../buildah/buildah.md) (Buildah, frei & aktiv gepflegt). Dieses Verzeichnis dient nur noch als Referenz für Bestandssetups.",
+        "description": "Minimales Setup für Docker Image Builds mit Kaniko in Kubernetes.",
         "type": "text"
       },
       {
         "path": "kubectl-cheatsheet.md",
         "title": "Kubernetes Cheat Sheet zur Node-Überwachung",
-        "description": "Eine Sammlung nützlicher `kubectl`-Befehle zur Überwachung und Untersuchung von Node-Ressourcen, Kapazitäten und der Verteilung von Workloads über Namespaces hinweg.",
+        "description": "Eine Sammlung nützlicher kubectl-Befehle zur Überwachung und Untersuchung von Node-Ressourcen, Kapazitäten und der Verteilung von Workloads über Namespaces hinweg.",
         "type": "text"
       },
       {
         "path": "projects/projects.md",
         "title": "ArgoCD AppProject — wlanboy",
-        "description": "Ein ArgoCD `AppProject` bündelt mehrere Anwendungen unter einem gemeinsamen Sicherheits- und Zugriffsdach: Es legt fest, welche Git-Repositories als Quellen erlaubt sind, auf welche Cluster und Namespaces deployed werden darf, und welche Kubernetes-Ressourcentypen zulässig sind.",
+        "description": "Ein ArgoCD AppProject bündelt mehrere Anwendungen unter einem gemeinsamen Sicherheits- und Zugriffsdach: Es legt fest, welche Git-Repositories als Quellen erlaubt sind, auf welche Cluster und Namespaces deployed werden darf, und welche Kubernetes-Ressourcentypen zulässig sind.",
         "type": "text"
       },
       {
         "path": "readme.md",
         "title": "📘 ArgoCD Deployment – Erweiterte Dokumentation",
-        "description": "Dieses Dokument beschreibt die Initialisierung und Verwaltung verschiedener ArgoCD‑Applikationen innerhalb eines Kubernetes‑Clusters. \nEs führt Schritt für Schritt durch die Einrichtung der benötigten Projekte, Namespaces und Applikationen sowie die Nutzung der ArgoCD‑CLI.",
+        "description": "Dieses Dokument beschreibt die Initialisierung und Verwaltung verschiedener ArgoCD‑Applikationen innerhalb eines Kubernetes‑Clusters. Es führt Schritt für Schritt durch die Einrichtung der benötigten Projekte, Namespaces und Applikationen sowie die Nutzung der ArgoCD‑CLI.",
         "type": "readme"
       },
       {
         "path": "reflector/chart-update.md",
         "title": "Plan: Helm Chart um extraVolumes / extraEnv erweitern",
-        "description": "Beschreibt die nötigen Änderungen, um ein bestehendes Helm Chart flexibel um zusätzliche Volumes, VolumeMounts und Umgebungsvariablen erweiterbar zu machen — ohne das Chart selbst zu forken. Die Werte werden über `values.yaml` übergeben und im Deployment-Template per `{{- with }}` eingebunden.",
+        "description": "Beschreibt die nötigen Änderungen, um ein bestehendes Helm Chart flexibel um zusätzliche Volumes, VolumeMounts und Umgebungsvariablen erweiterbar zu machen — ohne das Chart selbst zu forken. Die Werte werden über values.yaml übergeben und im Deployment-Template per {{- with }} eingebunden.",
         "type": "text"
       },
       {
         "path": "reflector/reflector.md",
         "title": "Reflector — Kubernetes Secret & ConfigMap Spiegelung",
-        "description": "> Reflector synchronisiert Secrets und ConfigMaps automatisch zwischen Namespaces — einmal anlegen, überall verfügbar. Besonders nützlich für TLS-Zertifikate und Truststores, die von mehreren Services genutzt werden.",
+        "description": "Reflector synchronisiert Secrets und ConfigMaps automatisch zwischen Namespaces — einmal anlegen, überall verfügbar. Besonders nützlich für TLS-Zertifikate und Truststores, die von mehreren Services genutzt werden.",
         "type": "text"
       },
       {
         "path": "remotecluster.md",
         "title": "Add remote cluster",
-        "description": "Dieses Dokument beschreibt, wie ein entfernter Kubernetes-Cluster zu ArgoCD hinzugefügt wird. ArgoCD verwaltet Ziel-Cluster nicht über eine eigene Anmeldung, sondern über ein Kubernetes-Secret im `argocd`-Namespace, das die Zugangsdaten eines ServiceAccounts auf dem Ziel-Cluster enthält (Bearer-Token + CA-Zertifikat des API-Servers).\n\nDer Ablauf läuft über zwei verschiedene Cluster-Kontexte – vorher mit `kubectl config get-contexts` prüfen, welcher Kontext gerade aktiv ist, und bei Bedarf mit `kubectl config use-context <name>` wechseln:\n\n1. Auf dem **Ziel-Cluster**: ServiceAccount + Berechtigungen anlegen, Token und CA extrahieren.\n2. Auf dem **ArgoCD-Cluster**: Aus diesen Daten ein Cluster-Secret bauen und anwenden.",
+        "description": "Dieses Dokument beschreibt, wie ein entfernter Kubernetes-Cluster zu ArgoCD hinzugefügt wird. ArgoCD verwaltet Ziel-Cluster nicht über eine eigene Anmeldung, sondern über ein Kubernetes-Secret im argocd-Namespace, das die Zugangsdaten eines ServiceAccounts auf dem Ziel-Cluster enthält (Bearer-Token…",
         "type": "text"
       },
       {
         "path": "tekton-cheatsheet.md",
         "title": "Tekton CLI (tkn) Cheat Sheet",
-        "description": "Eine Sammlung nützlicher `tkn`-Befehle zur Verwaltung von Pipelines, Tasks und Runs über die CLI.",
+        "description": "Eine Sammlung nützlicher tkn-Befehle zur Verwaltung von Pipelines, Tasks und Runs über die CLI.",
         "type": "text"
       },
       {
         "path": "tekton/argocd/argocd.md",
         "title": "Tekton Scripts für ArgoCD App Definitionen",
-        "description": "Dieses Verzeichnis enthält Shell-Skripte, um Tekton-Pipelines für ArgoCD-verwaltete Anwendungen aufzusetzen und zu bauen. Das `setup.sh`-Skript konfiguriert einmalig die Docker-Credentials, während `build.sh` das Bauen einzelner oder aller Apps übernimmt.",
+        "description": "Dieses Verzeichnis enthält Shell-Skripte, um Tekton-Pipelines für ArgoCD-verwaltete Anwendungen aufzusetzen und zu bauen. Das setup.sh-Skript konfiguriert einmalig die Docker-Credentials, während build.sh das Bauen einzelner oder aller Apps übernimmt.",
         "type": "text"
       },
       {
         "path": "tekton/tekton.md",
         "title": "Tekton Builds",
-        "description": "Tekton Pipelines für deine GitHub-Projekte und ArgoCD Apps einrichten.\n\n**Voraussetzungen:** K3s Cluster, Istio, Cert-Manager und ArgoCD müssen laufen.\n\n> ⚠️ **Kaniko ist seit 2025-06-03 archiviert** (GoogleContainerTools/kaniko wird nicht mehr gepflegt, `gcr.io/kaniko-project/executor` bekommt keine Updates/CVE-Fixes mehr). Die Kaniko-Task in Abschnitt 3 funktioniert weiterhin und dient als Referenz für Bestandssetups. Für neue Pipelines siehe die `buildah-build`-Task (Abschnitt 3, Alternative) — Buildah (containers-Projekt, Red Hat) ist frei nutzbar und aktiv gepflegt. Siehe auch [../kaniko/kaniko.md](../kaniko/kaniko.md) und [../buildah/buildah.md](../buildah/buildah.md) für die Job-basierten (Nicht-Tekton) Varianten desselben Vergleichs.\n\n---",
+        "description": "Tekton Pipelines für deine GitHub-Projekte und ArgoCD Apps einrichten.",
         "type": "text"
+      }
+    ]
+  },
+  {
+    "name": "gokafkaclient",
+    "description": "golang command line kafka client",
+    "url": "https://github.com/wlanboy/gokafkaclient",
+    "pushed_at": "2020-01-08T15:10:29Z",
+    "default_branch": "master",
+    "readmes": [
+      {
+        "path": "README.md",
+        "title": "gokafkaclient",
+        "description": "golang command line kafka client",
+        "type": "readme"
       }
     ]
   },
@@ -549,7 +579,7 @@
       {
         "path": "README.md",
         "title": "gosmtp",
-        "description": "Golang mock SMTP and IMAP server for local testing — writes sent mails to a local `mails/` directory.",
+        "description": "Golang mock SMTP and IMAP server for local testing — writes sent mails to a local mails/ directory.",
         "type": "readme"
       }
     ]
@@ -564,7 +594,7 @@
       {
         "path": "README.md",
         "title": "gowebarduino",
-        "description": "HTTP remote console for Arduino. Exposes a REST API to send commands to and read responses from an Arduino connected via serial port (`/dev/ttyACM0`, 9600 baud).",
+        "description": "HTTP remote console for Arduino. Exposes a REST API to send commands to and read responses from an Arduino connected via serial port (/dev/ttyACM0, 9600 baud).",
         "type": "readme"
       }
     ]
@@ -579,7 +609,7 @@
       {
         "path": "readme.md",
         "title": "hadoop_exporter – Offline-Bundle ohne Docker",
-        "description": "Baut [hadoop_exporter](https://github.com/vqcuong/hadoop_exporter) (Prometheus-Exporter\nfuer HDFS/YARN/Hive-Metriken via JMX) so zusammen, dass er auf einem\n**offline Red Hat Server** laeuft, der nur `python3` hat – kein `pip`, kein\nPaketmanager, kein Internetzugang.",
+        "description": "Baut hadoop_exporter (Prometheus-Exporter fuer HDFS/YARN/Hive-Metriken via JMX) so zusammen, dass er auf einem offline Red Hat Server laeuft, der nur python3 hat – kein pip, kein Paketmanager, kein Internetzugang.",
         "type": "readme"
       }
     ]
@@ -609,13 +639,13 @@
       {
         "path": "README.md",
         "title": "HAProxy Monitoring Stack",
-        "description": "Vollständiger Monitoring-Stack für HAProxy mit Prometheus, Grafana und Blackbox Exporter. Das Setup simuliert eine Microservice-Landschaft mit 22 HAProxy-Backends, die alle über einen internen nginx-Container bedient werden. Drei Grafana-Dashboards zeigen HAProxy-Metriken, Backend-Erreichbarkeit per Blackbox-Probing sowie eine Backend-Registry.",
+        "description": "Vollständiger Monitoring-Stack für HAProxy mit Prometheus, Grafana und Blackbox Exporter. Das Setup simuliert eine Microservice-Landschaft mit 22 HAProxy-Backends, die alle über einen internen nginx-Container bedient werden. Drei Grafana-Dashboards zeigen HAProxy-Metriken, Backend-Erreichbarkeit…",
         "type": "readme"
       },
       {
         "path": "config-generator/README.md",
         "title": "generate_targets.py",
-        "description": "Dieses Script fragt den HAProxy Stats-Endpoint (CSV-Export) ab, ermittelt daraus\n**jeden einzelnen Server jedes konfigurierten Backends** samt Adresse und schreibt\nsie als Prometheus `file_sd`-Target-Datei heraus. Diese Datei wird vom\n`blackbox-exporter` als Service-Discovery-Quelle für den HTTP-Probe-Job genutzt –\nso wird nicht nur ein Backend stellvertretend, sondern jeder Server dahinter\neinzeln per HTTP-Probe überwacht.\n\nEs läuft als Init-Container (siehe [Dockerfile](Dockerfile), Base-Image `python:3.13-alpine`)\nvor dem eigentlichen Blackbox-Exporter und generiert die Zieldatei einmalig beim Start.",
+        "description": "Dieses Script fragt den HAProxy Stats-Endpoint (CSV-Export) ab, ermittelt daraus jeden einzelnen Server jedes konfigurierten Backends samt Adresse und schreibt sie als Prometheus file_sd-Target-Datei heraus. Diese Datei wird vom blackbox-exporter als Service-Discovery-Quelle für den HTTP-Probe-Job…",
         "type": "module"
       },
       {
@@ -636,31 +666,31 @@
       {
         "path": "argocd/argocd.md",
         "title": "ArgoCD",
-        "description": "Dieses Dokument beschreibt das ArgoCD-Setup in diesem Repo: was ArgoCD ist, wie die Ressourcen in `argocd/` zusammenspielen und wie man sie anwendet.",
+        "description": "Dieses Dokument beschreibt das ArgoCD-Setup in diesem Repo: was ArgoCD ist, wie die Ressourcen in argocd/ zusammenspielen und wie man sie anwendet.",
         "type": "text"
       },
       {
         "path": "db-schwenk.md",
         "title": "MySQL aktivieren (Feature Flag)",
-        "description": "Die App startet standardmäßig mit einer In-Memory-H2-Datenbank. Der Wechsel auf eine externe MySQL-Instanz erfolgt über das Feature Flag `mysql.external.enabled` in `values.yaml`.",
+        "description": "Die App startet standardmäßig mit einer In-Memory-H2-Datenbank. Der Wechsel auf eine externe MySQL-Instanz erfolgt über das Feature Flag mysql.external.enabled in values.yaml.",
         "type": "text"
       },
       {
         "path": "helmchart/helm.md",
         "title": "Helm Chart",
-        "description": "Dieses Dokument beschreibt den Helm Chart `helloworld` in diesem Repo: welche Kubernetes- und Istio-Ressourcen er erzeugt, wie `values.yaml` aufgebaut ist und wie man den Chart installiert.",
+        "description": "Dieses Dokument beschreibt den Helm Chart helloworld in diesem Repo: welche Kubernetes- und Istio-Ressourcen er erzeugt, wie values.yaml aufgebaut ist und wie man den Chart installiert.",
         "type": "text"
       },
       {
         "path": "kunden-traffic.md",
         "title": "Zwei Versionen: intern/extern (Source-Namespace-Routing)",
-        "description": "Der Chart deployt **zwei Versionen** derselben App parallel (`values.yaml` → `versions`), um Istio Source-Namespace-Routing zu demonstrieren.\n\n| Version | `sourceNamespace` | ConfigMap | `app.version-label` |\n|---|---|---|---|\n| `extern` | `testclientextern` | `helloworld-config-extern` | `extern` |\n| `intern` | `testclientintern` | `helloworld-config-intern` | `intern` |\n\nJede Version bekommt ein eigenes Deployment, eine eigene ConfigMap (`config/application-<name>.properties`)\nund ein eigenes DestinationRule-Subset. Der VirtualService routet Sidecar-zu-Sidecar-Traffic\n(Gateway `mesh`) anhand des **Namespace, aus dem der Call kommt**: Ruft ein Pod aus `testclientextern`\nauf, landet er beim `extern`-Subset; aus `testclientintern` beim `intern`-Subset. Traffic über den\nexternen Istio-Ingress (`https://helloworld.tp.lan`) hat kein Source-Workload in einem dieser\nNamespaces und landet immer auf der Default-Route (`extern`).\n\n> Das Source-Namespace-Matching wird vom **Envoy-Sidecar des aufrufenden Pods** ausgewertet — die\n> Testclient-Namespaces brauchen deshalb selbst Istio Sidecar-Injection, sonst greift die Regel nicht.\n\nDas gilt unabhängig vom Client: die busybox-Pods unten dienen nur zum schnellen Testen mit `wget`.\nDer [JavaHttpClient](../JavaHttpClient/javahttpclient-chart) — ein generischer HTTP-Client, der\nbeliebige Ziel-URLs per `POST /client` weiterleitet — läuft aber in seinem eigenen Namespace\n`javahttpclient`, nicht in `testclientextern` oder `testclientintern`. Ruft er von dort\n`http://helloworld.helloworld.svc.cluster.local:8080/version` auf, kommt **gemischt** `extern` und\n`intern` zurück — nicht deterministisch wie beim busybox-Test.\n\nDer Grund liegt in `exportTo`: Sowohl DestinationRule als auch VirtualService von `helloworld`\nexportieren ihre Konfiguration nur nach `.`, `istio-ingress`, `istio-system`, `testclientextern`,\n`testclientintern`. Der Namespace `javahttpclient` steht **nicht** in dieser Liste — istiod schickt\ndessen Envoy-Sidecar die Routing-Regeln für den Host `helloworld` also gar nicht erst zu. Ohne\nsichtbares VirtualService/DestinationRule kennt der Sidecar auch keine Subsets; er behandelt den\nAufruf wie plain Kubernetes-Service-Traffic und lastverteilt stur über **alle** Endpoints hinter dem\nService `helloworld` — dessen Selector (`app: helloworld`) matcht ja sowohl `extern`- als auch\n`intern`-Pods gleichermaßen (siehe [service.yaml](helmchart/templates/service.yaml)). Daher der\nZufallsmix.",
+        "description": "Der Chart deployt zwei Versionen derselben App parallel (values.yaml → versions), um Istio Source-Namespace-Routing zu demonstrieren.",
         "type": "text"
       },
       {
         "path": "readme.md",
         "title": "Helm for Java Devs — Schritt-für-Schritt-Anleitung",
-        "description": "Eine vollständige Kubernetes Pipeline für eine Spring Boot App in einem Container.\nSpring Boot Helloworld App → Tekton baut das Image → lokale k3s-Registry → ArgoCD deployt per Helm.\n\nVerwendet ConfigMap, Secrets, SSL Certificate, Istio Gateway, VirtualService, HealthChecks, Readness Checks.\nServiceEntry und DestinationRule für eine externe Datenbankabhängigkeit.\nHat ein Feature Flag für den Wechsel von h2 auf MySQL.\n\n---",
+        "description": "Eine vollständige Kubernetes Pipeline für eine Spring Boot App in einem Container. Spring Boot Helloworld App → Tekton baut das Image → lokale k3s-Registry → ArgoCD deployt per Helm.",
         "type": "readme"
       },
       {
@@ -681,13 +711,13 @@
       {
         "path": "README.md",
         "title": "Hermes Local – Lokale KI‑Assistenten‑Umgebung (offline)",
-        "description": "Hermes Local ist eine vollständig offline laufende KI‑Assistenten‑Umgebung auf Basis von Hermes und Ollama.\nKeine Cloud‑Dienste, keine externen Abhängigkeiten — alle Daten bleiben lokal auf dem Rechner.\n\nDas Setup kombiniert einen lokalen LLM‑Server, ein Web‑Dashboard und eine OpenAI‑kompatible API, sodass sich KI‑Modelle wie in der Cloud nutzen lassen, aber komplett lokal betrieben werden.",
+        "description": "Hermes Local ist eine vollständig offline laufende KI‑Assistenten‑Umgebung auf Basis von Hermes und Ollama. Keine Cloud‑Dienste, keine externen Abhängigkeiten — alle Daten bleiben lokal auf dem Rechner.",
         "type": "readme"
       },
       {
         "path": "config/SOUL.md",
         "title": "Persona",
-        "description": "- Name: Hermes\n- Tone: direct, concise, and practical — no unnecessary filler\n- Language: respond in the same language the user writes in",
+        "description": "Name: Hermes Tone: direct, concise, and practical — no unnecessary filler Language: respond in the same language the user writes in",
         "type": "text"
       }
     ]
@@ -702,13 +732,13 @@
       {
         "path": "readme.md",
         "title": "http tester for service mesh",
-        "description": "A simple web ui to run http get und nslookup request inside of the cluster.\nPerfect to check availability of services, dns entries and hostnames from a pod point of view.\n\nDer `http-tester` läuft als eigener Pod im Mesh und bietet drei Kernfunktionen:\n\n* **GET-Requests absetzen** – beliebige URL vom Pod aus aufrufen und Response-Body sowie -Header sehen. Damit lässt sich prüfen, ob ein Service über Ingress-Gateway, Egress-Gateway oder East-West-Gateway erreichbar ist, ob mTLS/AuthorizationPolicies greifen und wie mesh-interne Antworten aussehen.\n* **DNS-Auflösung** – Hostnamen per `nslookup`-Äquivalent aus Pod-Sicht auflösen, um Kubernetes-DNS, ServiceEntries und externe Namensauflösung (z. B. für Egress) zu verifizieren.\n* **JSON-Echo** (`/postbody`) – zum Testen von Payload-Weiterleitung, Content-Type-Handling und Proxy-Verhalten (z. B. Header-Manipulation durch EnvoyFilter).\n\nDa alles über eine einfache Web-UI und Swagger (`/docs`) bedienbar ist, braucht man\nkeinen eigenen `curl`/`dig` im Debug-Container – der Pod selbst ist das Werkzeug.\nTypische Einsatzszenarien: Erreichbarkeit von Services vor/nach einem Rollout prüfen,\nIstio Ingress-/Egress-/East-West-Gateways verifizieren, oder schnell aus einem\nbestimmten Namespace heraus testen, ob eine Zielresource überhaupt sichtbar ist.",
+        "description": "A simple web ui to run http get und nslookup request inside of the cluster. Perfect to check availability of services, dns entries and hostnames from a pod point of view.",
         "type": "readme"
       },
       {
         "path": "tester-chart/httptester-helmchart.md",
         "title": "Helm Chart: tester",
-        "description": "Helm Chart für das Deployment des `http-tester`-Services in Kubernetes mit Istio Service Mesh.",
+        "description": "Helm Chart für das Deployment des http-tester-Services in Kubernetes mit Istio Service Mesh.",
         "type": "text"
       }
     ]
@@ -723,19 +753,19 @@
       {
         "path": "intel-arc-noble.md",
         "title": "Intel Arc Pro B60 – Einrichtung unter Ubuntu 24.04 (Noble)",
-        "description": "Diese Anleitung beschreibt die vollständige Einrichtung einer Intel Arc Pro B60 GPU\n(Battlemage / Xe2-Architektur) unter Ubuntu 24.04 LTS, inklusive OpenCL/Level-Zero-Treiber,\nGPU-Monitoring und Steam-Gaming-Setup.\n\n---",
+        "description": "Diese Anleitung beschreibt die vollständige Einrichtung einer Intel Arc Pro B60 GPU (Battlemage / Xe2-Architektur) unter Ubuntu 24.04 LTS, inklusive OpenCL/Level-Zero-Treiber, GPU-Monitoring und Steam-Gaming-Setup.",
         "type": "text"
       },
       {
         "path": "intel-arc-resolute-raccoon.md",
         "title": "Intel Arc Pro B60 – Einrichtung unter Ubuntu 26.04 (Resolute Raccoon)",
-        "description": "Diese Anleitung beschreibt die vollständige Einrichtung einer Intel Arc Pro B60 GPU\n(Battlemage / Xe2-Architektur) unter Ubuntu 26.04 LTS, inklusive OpenCL/Level-Zero-Treiber,\nGPU-Monitoring und Steam-Gaming-Setup.\n\n---",
+        "description": "Diese Anleitung beschreibt die vollständige Einrichtung einer Intel Arc Pro B60 GPU (Battlemage / Xe2-Architektur) unter Ubuntu 26.04 LTS, inklusive OpenCL/Level-Zero-Treiber, GPU-Monitoring und Steam-Gaming-Setup.",
         "type": "text"
       },
       {
         "path": "readme.md",
         "title": "Intel Arc Pro B60 – Setup für Ubuntu",
-        "description": "Dieses Repository enthält Skripte und Anleitungen zur vollständigen Einrichtung einer\n**Intel Arc Pro B60** GPU (Battlemage / Xe2-Architektur) unter Ubuntu.",
+        "description": "Dieses Repository enthält Skripte und Anleitungen zur vollständigen Einrichtung einer Intel Arc Pro B60 GPU (Battlemage / Xe2-Architektur) unter Ubuntu.",
         "type": "readme"
       }
     ]
@@ -750,19 +780,19 @@
       {
         "path": "README.md",
         "title": "istio-crds",
-        "description": "Kommandozeilen-Tool, das alle in einem Kubernetes-Cluster installierten\n**Istio-CRDs** (Gruppe `*.istio.io`) mit jeder API-Version auflistet.\nZusätzlich werden potenzielle Cluster-Probleme rund um diese CRDs erkannt:\nveraltete API-Versionen, ausstehende Storage-Version-Migrationen sowie\nnicht erreichbare/ungesunde CRDs.",
+        "description": "Kommandozeilen-Tool, das alle in einem Kubernetes-Cluster installierten Istio-CRDs (Gruppe *.istio.io) mit jeder API-Version auflistet. Zusätzlich werden potenzielle Cluster-Probleme rund um diese CRDs erkannt: veraltete API-Versionen, ausstehende Storage-Version-Migrationen sowie nicht…",
         "type": "readme"
       },
       {
         "path": "arangodb/arangodb.md",
         "title": "ArangoDB-Integration",
-        "description": "Dieses Dokument beschreibt den kompletten ArangoDB-Pfad des Projekts: von den\nJSON-Graphen (`istio-graph.py` / `connections-graph.py`) über den Import nach\nArangoDB bis zur Visualisierung im Browser.\n\nZwei unabhängige CLI-Pipelines erzeugen JSON-Graphen (`{\"nodes\": [...],\n\"edges\": [...]}`) direkt aus dem Cluster:\n\n| Quelle | Erzeugt | Beschreibung |\n|---|---|---|\n| [istio-graph.py](../istio-graph.py) | roher Abhängigkeitsgraph | jede aufgelöste Label-Selektor-/Host-/Principal-Beziehung als eigene Kante (Namespace, Service, ServiceAccount, Pod, NetworkPolicy, alle Istio-CRDs, Host, ...) |\n| [connections-graph.py](../connections-graph.py) | Deployment-Verbindungsgraph | kuratierte, Deployment-zentrierte Sicht: welche Deployment-zu-Deployment-Verbindungen sind über Gateway/Service/ServiceEntry/VirtualService möglich, plus explizit per AuthorizationPolicy(DENY) verbotene Verbindungen |\n\nBeide werden über einen jeweils eigenen Importer nach ArangoDB geschrieben:\n\n| Importer | Liest | Ziel-Datenbank (Standard) |\n|---|---|---|\n| [datenimport-arangodb.py](datenimport-arangodb.py) | Ausgabe von `istio-graph.py` | `istio` |\n| [datenimport-connections-arangodb.py](datenimport-connections-arangodb.py) | Ausgabe von `connections-graph.py` | `istio-connections` |\n| [datenimport.py](../datenimport.py) | Ausgabe von `istio-graph.py` | (Neo4j, zum Vergleich, nicht Teil dieses Dokuments) |\n\n**Wichtig:** Die beiden ArangoDB-Importer schreiben absichtlich in **zwei\ngetrennte Datenbanken** (jeweils mit gleich benannten Collections\n`nodes`/`edges`, siehe [Collections](#collections-nodes--edges) unten) —\nnicht in dieselbe. Beide Graphen verwenden zwar dieselbe `id`-\nBildungsvorschrift für Knoten (z. B. `service:default/httpbin` kann in\nbeiden Graphen vorkommen), sollen sich dadurch aber nicht vermischen: der\nrohe Graph bleibt eine vollständige, ungefilterte Sicht auf den Cluster, der\nVerbindungsgraph eine bewusst kuratierte, auf Deployment-Erreichbarkeit\nreduzierte Sicht (siehe Docstring von\n[connections-graph.py](../connections-graph.py)) — beide in derselben\nDatenbank zu vermengen würde z. B. dazu führen, dass ein `service`-Knoten aus\ndem einen Graphen Kanten aus dem jeweils anderen \"erbt\".",
+        "description": "Dieses Dokument beschreibt den kompletten ArangoDB-Pfad des Projekts: von den JSON-Graphen (istio-graph.py / connections-graph.py) über den Import nach ArangoDB bis zur Visualisierung im Browser.",
         "type": "text"
       },
       {
         "path": "syncjob/syncjob.md",
         "title": "sync-job.py",
-        "description": "Führt [`istio-graph.py`](../istio-graph.py) und [`datenimport.py`](../datenimport.py)\neinmalig hintereinander aus (Graph erzeugen → nach Neo4j importieren) und\nbeendet sich danach. Gedacht für den Betrieb als Kubernetes CronJob — die\nWiederholung übernimmt dabei der CronJob, dieses Skript macht pro Aufruf\ngenau einen Durchlauf.\n\nKonfiguration kommt aus Umgebungsvariablen bzw. einer `.env`-Datei im\naktuellen Verzeichnis:\n\n| Variable | Beschreibung |\n|---|---|\n| `NEO4J_URI`, `NEO4J_USER`, `NEO4J_PASSWORD`, `NEO4J_DATABASE` | Wie bei `datenimport.py` — werden unverändert durchgereicht. |\n| `GRAPH_OUTPUT` | Zieldatei für den erzeugten Graphen (Standard: `data/graph.json`). |\n| `ISTIO_NAMESPACE` | Nur diesen Namespace erfassen (Standard: alle). |\n| `ISTIO_INSECURE_SKIP_TLS_VERIFY` | `true`/`1`, um die TLS-Prüfung gegenüber dem API-Server zu deaktivieren. |\n| `DATENIMPORT_CLEAR` | `true`/`1`, um vor jedem Import alle vorhandenen Knoten/Kanten in Neo4j zu löschen statt sie nur per MERGE zu aktualisieren (ohne diese Option bleiben Knoten für inzwischen gelöschte Cluster-Ressourcen bestehen). |\n| `VERBOSE` | `true`/`1` für Debug-Logging. |",
+        "description": "Führt istio-graph.py und datenimport.py einmalig hintereinander aus (Graph erzeugen → nach Neo4j importieren) und beendet sich danach. Gedacht für den Betrieb als Kubernetes CronJob — die Wiederholung übernimmt dabei der CronJob, dieses Skript macht pro Aufruf genau einen Durchlauf.",
         "type": "text"
       }
     ]
@@ -777,25 +807,25 @@
       {
         "path": "README.md",
         "title": "JavaHttpClient",
-        "description": "A Spring Boot REST service for testing and diagnosing HTTP routes in Kubernetes clusters with Istio service mesh. It acts as a configurable HTTP proxy that forwards requests to any target URL and returns the response along with timing, status and header information. Additionally it exposes Kubernetes and Istio diagnostic endpoints to inspect the service mesh configuration from within the cluster.",
+        "description": "A Spring Boot REST service for testing and diagnosing HTTP routes in Kubernetes clusters with Istio service mesh. It acts as a configurable HTTP proxy that forwards requests to any target URL and returns the response along with timing, status and header information. Additionally it exposes…",
         "type": "readme"
       },
       {
         "path": "dokumentation.md",
         "title": "JavaHttpClient – Projektdokumentation",
-        "description": "Diagnose-Tool für HTTP-Konnektivitätsprobleme in Kubernetes-Clustern mit Istio Service Mesh.\nLäuft als Pod im Cluster und ermöglicht:\n\n- HTTP-Requests über einen Java-HTTP-Client an beliebige Ziel-URLs zu senden\n- Istio-Sidecar (Envoy) Konfiguration und Fehler-Metriken auszuwerten\n- VirtualService/DestinationRule/ServiceEntry-Konfiguration mit einer Ziel-URL zu korrelieren\n- TLS-Zertifikatsketten und mTLS/SPIFFE-Identitäten zu inspizieren\n- Redirect-Chains, Protokollversionen und DNS-Auflösungen sichtbar zu machen\n\n---",
+        "description": "Diagnose-Tool für HTTP-Konnektivitätsprobleme in Kubernetes-Clustern mit Istio Service Mesh. Läuft als Pod im Cluster und ermöglicht:",
         "type": "text"
       },
       {
         "path": "javahttpclient-chart/helm-chart.md",
         "title": "Helm chart description",
-        "description": "Dieses Helm Chart deployt den JavaHttpClient in einem Kubernetes-Cluster mit Istio-Integration.\nEs erstellt den Namespace `clients`, konfiguriert ein Istio Gateway mit TLS-Terminierung und\nrichtet einen VirtualService für das Routing ein.",
+        "description": "Dieses Helm Chart deployt den JavaHttpClient in einem Kubernetes-Cluster mit Istio-Integration. Es erstellt den Namespace clients, konfiguriert ein Istio Gateway mit TLS-Terminierung und richtet einen VirtualService für das Routing ein.",
         "type": "text"
       },
       {
         "path": "layers.md",
         "title": "Spring Boot Layered JAR – Strategie & Anwendungsanleitung",
-        "description": "Diese Anleitung erklärt, wie ein Spring Boot JAR in optimierte Docker-Layer aufgeteilt wird.\nZiel ist es, Build-Zeiten und Netzwerk-Traffic zu reduzieren, indem stabile Abhängigkeiten\ngecacht werden und nur der eigentliche Anwendungscode bei jedem Deployment neu übertragen wird.\nDie Anleitung deckt alle vier Schritte ab: `layers.xml`, `pom.xml`, Dockerfile sowie Sonderfälle\nfür jlink und AppCDS.",
+        "description": "Diese Anleitung erklärt, wie ein Spring Boot JAR in optimierte Docker-Layer aufgeteilt wird. Ziel ist es, Build-Zeiten und Netzwerk-Traffic zu reduzieren, indem stabile Abhängigkeiten gecacht werden und nur der eigentliche Anwendungscode bei jedem Deployment neu übertragen wird. Die Anleitung deckt…",
         "type": "text"
       }
     ]
@@ -810,7 +840,7 @@
       {
         "path": "README.md",
         "title": "KanbanTabs TUI",
-        "description": "Ein leichtgewichtiges, dateibasiertes Kanban-Board für das Terminal — vollständig in Python geschrieben mit [Textual](https://github.com/Textualize/textual).\n\n\n\n---",
+        "description": "Ein leichtgewichtiges, dateibasiertes Kanban-Board für das Terminal — vollständig in Python geschrieben mit Textual.",
         "type": "readme"
       }
     ]
@@ -825,7 +855,7 @@
       {
         "path": "README.md",
         "title": "kanbantabs",
-        "description": "golang based console kanban board with local storage\n\nExmaple:",
+        "description": "golang based console kanban board with local storage",
         "type": "readme"
       }
     ]
@@ -840,13 +870,13 @@
       {
         "path": "README.md",
         "title": "kubecontext",
-        "description": "Ein interaktives TUI-Tool (Terminal User Interface) zur effizienten und sicheren Verwaltung von Kubernetes-Kontexten in der lokalen ~/.kube/config.\n\nkubecontext vereinfacht das Handling mehrerer Cluster, indem es das manuelle Editieren von Kubeconfigs überflüssig macht. Es kombiniert nahtlosen Remote-Import per SSH, integriertes Tunnel-Management und schnelle Kontext-Wechsel in einer intuitiven Terminal-Oberfläche.",
+        "description": "Ein interaktives TUI-Tool (Terminal User Interface) zur effizienten und sicheren Verwaltung von Kubernetes-Kontexten in der lokalen ~/.kube/config.",
         "type": "readme"
       },
       {
         "path": "old/old.md",
         "title": "kubecontext",
-        "description": "TUI zum Zusammenführen von kubectl-Contexts aus SSH-Hosts in die lokale `~/.kube/config`.",
+        "description": "TUI zum Zusammenführen von kubectl-Contexts aus SSH-Hosts in die lokale ~/.kube/config.",
         "type": "text"
       }
     ]
@@ -861,7 +891,7 @@
       {
         "path": "README.md",
         "title": "kubectl analytics",
-        "description": "kubectl_analytics is a lightweight tool that analyzes Kubernetes logs, events, and resource states to provide actionable insights into cluster behavior.\nIt helps identify patterns, anomalies, and potential issues by aggregating and interpreting data directly from the Kubernetes API.\n\nThe tool focuses on fast, local analytics without requiring external services or complex observability stacks.\nIt is ideal for debugging, troubleshooting, and gaining a deeper understanding of what is happening inside your cluster.\n\nKey capabilities include:\n\n- Collecting and analyzing pod logs\n- Highlighting anomalies or repeating error messages\n- Inspecting Kubernetes events to detect warnings and failure patterns\n- Summarizing resource states across namespaces\n- Providing human‑readable diagnostics for faster troubleshooting\n\nThis makes kubectl_analytics a practical companion for:\n\n- Developers debugging workloads\n- Platform engineers analyzing cluster health\n- SREs investigating incidents\n\nAnyone who wants quick insights without deploying a full observability stack.\n\n---",
+        "description": "kubectl_analytics is a lightweight tool that analyzes Kubernetes logs, events, and resource states to provide actionable insights into cluster behavior. It helps identify patterns, anomalies, and potential issues by aggregating and interpreting data directly from the Kubernetes API.",
         "type": "readme"
       },
       {
@@ -882,19 +912,19 @@
       {
         "path": "Grafana_Dashboards/dashboards.md",
         "title": "Grafana Dashboards",
-        "description": "Dieser Ordner enthält vorgefertigte Grafana-Dashboards (als JSON-Export) zur Überwachung von Kubernetes-Events, die von kubeevent eingesammelt werden. Die Dashboards reichen von einer globalen Übersicht über alle Events bis zu Detailansichten für einzelne Ressourcentypen (Pod, Deployment, StatefulSet, DaemonSet, PVC, Node) sowie einer verdichteten Workload-Analyse über mehrere Objekttypen hinweg. Alle Dashboards nutzen Template-Variablen (u. a. `datasource`, `namespace`) zur Filterung und sind so aufgebaut, dass sie sich per Import direkt in Grafana nutzen lassen.",
+        "description": "Dieser Ordner enthält vorgefertigte Grafana-Dashboards (als JSON-Export) zur Überwachung von Kubernetes-Events, die von kubeevent eingesammelt werden. Die Dashboards reichen von einer globalen Übersicht über alle Events bis zu Detailansichten für einzelne Ressourcentypen (Pod, Deployment…",
         "type": "text"
       },
       {
         "path": "README.md",
         "title": "📡Kubernetes Event Dashboard",
-        "description": "A lightweight, real‑time dashboard for collecting, storing, searching, and visualizing Kubernetes Events.\nThis project provides:\n- A FastAPI backend that watches Kubernetes events, stores them in a database, and exposes REST + SSE endpoints\n- A minimal frontend for live event streaming, searching, filtering, and pagination\n- Prometheus metrics for monitoring event activity\n- A clean, self‑contained solution for debugging clusters and understanding workload behavior\n\n![K8s Events](screenshots/kubeevents.png)",
+        "description": "A lightweight, real‑time dashboard for collecting, storing, searching, and visualizing Kubernetes Events. This project provides: A FastAPI backend that watches Kubernetes events, stores them in a database, and exposes REST + SSE endpoints A minimal frontend for live event streaming, searching…",
         "type": "readme"
       },
       {
         "path": "kubeevent-chart/kubeevent-chart.md",
         "title": "kubeevent-chart",
-        "description": "Helm-Chart zum Deployment von kubeevent in einem Kubernetes-Cluster. Das Chart erzeugt Deployment, Service und PVC für die Anwendung, richtet über cert-manager ein TLS-Zertifikat ein und macht den Service via Istio Gateway/VirtualService nach außen erreichbar. Zusätzlich legt es ServiceAccount und RBAC-Rollen an, damit kubeevent Events aus den konfigurierten Namespaces lesen darf, sowie eine ConfigMap mit der `.env`-Konfiguration der Anwendung. Alle Werte werden zentral über `values.yaml` gesteuert.",
+        "description": "Helm-Chart zum Deployment von kubeevent in einem Kubernetes-Cluster. Das Chart erzeugt Deployment, Service und PVC für die Anwendung, richtet über cert-manager ein TLS-Zertifikat ein und macht den Service via Istio Gateway/VirtualService nach außen erreichbar. Zusätzlich legt es ServiceAccount und…",
         "type": "text"
       }
     ]
@@ -909,13 +939,13 @@
       {
         "path": "Grafana_Dashboards/readme.md",
         "title": "Grafana Dashboards – Kubernetes Event Monitoring",
-        "description": "Alle Dashboards nutzen Prometheus als Datenquelle und basieren auf der `kubeevents_*`-Metrikfamilie, die vom kubeeventjava-Exporter bereitgestellt wird.\n\n---",
+        "description": "Alle Dashboards nutzen Prometheus als Datenquelle und basieren auf der kubeevents_*-Metrikfamilie, die vom kubeeventjava-Exporter bereitgestellt wird.",
         "type": "module"
       },
       {
         "path": "README.md",
         "title": "Kubernetes Event Dashboard",
-        "description": "A lightweight, real‑time dashboard for collecting, storing, searching, and visualizing Kubernetes Events. This project provides:\n\n- A **Spring Boot** backend that watches Kubernetes events, stores them in a database, and exposes REST + SSE endpoints\n- A minimal frontend for live event streaming, searching, filtering, and pagination\n- Prometheus metrics for monitoring event activity\n- A clean, self‑contained solution for debugging clusters and understanding workload behavior\n\n![K8s Events](screenshots/kubeevents.png)\n\nJava version of https://github.com/wlanboy/kubeevent",
+        "description": "A lightweight, real‑time dashboard for collecting, storing, searching, and visualizing Kubernetes Events. This project provides:",
         "type": "readme"
       },
       {
@@ -927,7 +957,7 @@
       {
         "path": "tekton/tekton-pipeline.md",
         "title": "kubeeventjava – Tekton Pipeline",
-        "description": "Dieses Dokument beschreibt die Tekton-Pipeline für das Projekt **kubeeventjava**.\nDie Pipeline ersetzt die bestehenden GitHub Actions Workflows und führt in drei\nSchritten – Repository-Clone, Maven-Build (mit Spring Boot AOT) und\nKaniko-Image-Build/Push – ein vollständiges CI/CD aus, das innerhalb eines\nlokalen kind-Clusters läuft.",
+        "description": "Dieses Dokument beschreibt die Tekton-Pipeline für das Projekt kubeeventjava. Die Pipeline ersetzt die bestehenden GitHub Actions Workflows und führt in drei Schritten – Repository-Clone, Maven-Build (mit Spring Boot AOT) und Kaniko-Image-Build/Push – ein vollständiges CI/CD aus, das innerhalb…",
         "type": "text"
       }
     ]
@@ -942,7 +972,7 @@
       {
         "path": "README.md",
         "title": "kubernetes-crds",
-        "description": "Dieses Tool dient dazu, die CustomResourceDefinitions (CRDs) eines Kubernetes-Clusters zu erfassen und auszuwerten. Es listet alle CRDs samt ihrer API-Versionen auf.\nIn einer Tabelle wird gezeigt, welche Version jeweils \"served\" bzw. \"storage\" ist, ob die CRD eine `Webhook`-Konversionsstrategie verwendet (`spec.conversion.strategy`), und ermittelt die Anzahl der tatsächlich existierenden Instanzen je Namespace (bzw. clusterweit bei cluster-scoped CRDs). \nDadurch lässt sich nicht nur nachvollziehen, welche CRDs im Cluster installiert sind und wie sie genutzt werden, sondern auch, welche CRDs keine oder kaum Instanzen besitzen – also ungenutzte oder veraltete CRDs, die Kandidaten für eine Bereinigung sind.",
+        "description": "Dieses Tool dient dazu, die CustomResourceDefinitions (CRDs) eines Kubernetes-Clusters zu erfassen und auszuwerten. Es listet alle CRDs samt ihrer API-Versionen auf. In einer Tabelle wird gezeigt, welche Version jeweils \"served\" bzw. \"storage\" ist, ob die CRD eine Webhook-Konversionsstrategie…",
         "type": "readme"
       }
     ]
@@ -957,7 +987,7 @@
       {
         "path": "README.md",
         "title": "kubernetes-volumes",
-        "description": "CLI, die PersistentVolumeClaims (und die zugehörigen gebundenen\nPersistentVolumes) für einen Namespace anzeigt — oder für alle Namespaces, auf\ndie Zugriff besteht — und dabei auffällige/ungesunde Ressourcen markiert.",
+        "description": "CLI, die PersistentVolumeClaims (und die zugehörigen gebundenen PersistentVolumes) für einen Namespace anzeigt — oder für alle Namespaces, auf die Zugriff besteht — und dabei auffällige/ungesunde Ressourcen markiert.",
         "type": "readme"
       }
     ]
@@ -972,43 +1002,43 @@
       {
         "path": "helm/alloy-helm-chart.md",
         "title": "Alloy Helm Chart",
-        "description": "Helm-Chart-Äquivalent zu den Raw-Manifests unter [kubernetes/](../kubernetes/): deployed Grafana Alloy als DaemonSet in einem Kubernetes-Cluster und macht `<LGTM-HOST>` sowie die optionale Istio-Integration über Werte statt per `sed` konfigurierbar. Der Chart liegt unter [alloy-lgtm/](alloy-lgtm/) mit dem Unterordner [templates/](alloy-lgtm/templates/) für die eigentlichen Kubernetes-Manifest-Templates.\n\n\n---",
+        "description": "Helm-Chart-Äquivalent zu den Raw-Manifests unter kubernetes/: deployed Grafana Alloy als DaemonSet in einem Kubernetes-Cluster und macht sowie die optionale Istio-Integration über Werte statt per sed konfigurierbar. Der Chart liegt unter alloy-lgtm/ mit dem Unterordner templates/ für die…",
         "type": "text"
       },
       {
         "path": "kubernetes.md",
         "title": "Kubernetes Logs & Metriken in den LGTM-Stack",
-        "description": "Diese Anleitung beschreibt, wie Logs, Metriken und Traces aus einem Kubernetes-Cluster in den lokal laufenden LGTM-Stack (Loki, Grafana, Tempo, Prometheus) gebracht werden. Als Collector-Komponente wird **Grafana Alloy** als DaemonSet eingesetzt — damit läuft ein Alloy-Pod auf jedem Node und sammelt alle Daten lokal ein, bevor sie per Push an den externen Stack gesendet werden.\n\nKein separater Prometheus, kein Promtail, kein Jaeger-Agent — Alloy übernimmt alle drei Rollen in einer einzigen Komponente.",
+        "description": "Diese Anleitung beschreibt, wie Logs, Metriken und Traces aus einem Kubernetes-Cluster in den lokal laufenden LGTM-Stack (Loki, Grafana, Tempo, Prometheus) gebracht werden. Als Collector-Komponente wird Grafana Alloy als DaemonSet eingesetzt — damit läuft ein Alloy-Pod auf jedem Node und sammelt…",
         "type": "text"
       },
       {
         "path": "kubernetes/kubernetes-crds.md",
         "title": "Kubernetes CRDs",
-        "description": "Alle Dateien liegen direkt unter [kubernetes/](.) (keine Unterordner). Die meisten Manifeste definieren native Kubernetes-Ressourcen für das Alloy-DaemonSet-Deployment; [istio.yaml](istio.yaml) und [istio-prometheus-tls.yaml](istio-prometheus-tls.yaml) registrieren zusätzlich echte **Custom Resource Definitions (CRDs)** von Istio (`Telemetry`, `ServiceEntry`, `DestinationRule`) — diese Kinds sind nicht Teil der Kubernetes-Core-API und setzen eine installierte Istio-Control-Plane im Cluster voraus.\n\n---",
+        "description": "Alle Dateien liegen direkt unter kubernetes/ (keine Unterordner). Die meisten Manifeste definieren native Kubernetes-Ressourcen für das Alloy-DaemonSet-Deployment; istio.yaml und istio-prometheus-tls.yaml registrieren zusätzlich echte Custom Resource Definitions (CRDs) von Istio (Telemetry…",
         "type": "text"
       },
       {
         "path": "readme.md",
         "title": "LGTM Observability Stack",
-        "description": "Lokales Observability-Setup auf Basis des Grafana-Stacks. Kombiniert Metriken, Logs und Traces in einer einzigen Grafana-Oberfläche — vollständig mit Docker Compose betreibbar, ohne Cloud-Abhängigkeiten.\n\n---",
+        "description": "Lokales Observability-Setup auf Basis des Grafana-Stacks. Kombiniert Metriken, Logs und Traces in einer einzigen Grafana-Oberfläche — vollständig mit Docker Compose betreibbar, ohne Cloud-Abhängigkeiten.",
         "type": "readme"
       },
       {
         "path": "troubleshooting-loki.md",
         "title": "Troubleshooting: Loki (Log-Aggregation)",
-        "description": "Incident-Runbook für Grafana Loki `3.7.1` in diesem Stack. Ergänzt die Kurzsektion in [readme.md](readme.md#troubleshooting) um eine tiefergehende Analyse für Produktionsprobleme.\n\nRelevante Endpunkte in diesem Setup:\n\n| Zweck | URL/Port |\n|---|---|\n| Loki HTTP API | http://localhost:3100 |\n| Ready-Check | http://localhost:3100/ready |\n| Interne Metriken | http://localhost:3100/metrics |\n| Push-API (von Alloy genutzt) | http://loki:3100/loki/api/v1/push |\n\nKonfiguration: `config/loki-config.yaml` (via `./config:/mnt/config` gemountet). Log-Quelle: Alloy liest `/var/log/*log` vom Host (siehe [shared/config.alloy](shared/config.alloy)).\n\n---",
+        "description": "Incident-Runbook für Grafana Loki 3.7.1 in diesem Stack. Ergänzt die Kurzsektion in readme.md um eine tiefergehende Analyse für Produktionsprobleme.",
         "type": "text"
       },
       {
         "path": "troubleshooting-prometheus.md",
         "title": "Troubleshooting: Prometheus (Metriken)",
-        "description": "Incident-Runbook für Prometheus `v3.10.0` in diesem Stack. Ergänzt die Kurzsektion in [readme.md](readme.md#troubleshooting) um eine tiefergehende Analyse für Produktionsprobleme.\n\nRelevante Endpunkte in diesem Setup:\n\n| Zweck | URL/Port |\n|---|---|\n| Web-UI / PromQL | http://localhost:9090 |\n| Health-Check | http://localhost:9090/-/healthy |\n| Ready-Check | http://localhost:9090/-/ready |\n| Targets-Status | http://localhost:9090/targets |\n| Aktive Alerts | http://localhost:9090/alerts |\n| Remote-Write-Empfang (von Tempo Metrics-Generator) | http://localhost:9090/api/v1/write |\n\nBesonderheiten dieses Stacks: gestartet mit `--web.enable-remote-write-receiver` (Tempo schreibt Service-Graph-/Span-Metriken direkt hinein) und `--enable-feature=exemplar-storage,native-histograms`. Konfiguration: [shared/prometheus.yaml](shared/prometheus.yaml).\n\n---",
+        "description": "Incident-Runbook für Prometheus v3.10.0 in diesem Stack. Ergänzt die Kurzsektion in readme.md um eine tiefergehende Analyse für Produktionsprobleme.",
         "type": "text"
       },
       {
         "path": "troubleshooting-tempo.md",
         "title": "Troubleshooting: Tempo (Distributed Tracing)",
-        "description": "Incident-Runbook für Grafana Tempo `2.10.4` in diesem Stack. Ergänzt die Kurzsektion in [readme.md](readme.md#troubleshooting) um eine tiefergehende Analyse für Produktionsprobleme.\n\nRelevante Endpunkte in diesem Setup:\n\n| Zweck | URL/Port |\n|---|---|\n| Tempo HTTP API / Ready | http://localhost:3200 |\n| Tempo gRPC | localhost:9095 |\n| OTLP gRPC Ingest | localhost:4317 |\n| OTLP HTTP Ingest | localhost:4318 |\n| Jaeger Ingest | localhost:14268 |\n| Zipkin Ingest | localhost:9411 |\n| Alloy Pipeline UI | http://localhost:12345 |\n| Memcached (Search-Frontend-Cache) | localhost:11211 |\n\nKonfiguration: [config/tempo.yaml](config/tempo.yaml) — Beachte: `block_retention: 24h` und `max_block_duration: 5m` sind bewusst niedrig für den Demo-/Dev-Betrieb gesetzt. In Produktion deutlich höher konfigurieren.\n\nDieser Stack läuft als **Tempo-Monolith** (`storage.trace.backend: local`, keine separaten Microservices, kein Kafka-basiertes Ingestion). Teile der offiziellen Tempo-Doku beziehen sich auf die Microservices-Architektur (`live-store`, `block-builder`, Kafka-Konsumenten) ab Tempo 3.x — diese Hinweise sind für dieses Setup **nicht relevant** und wurden unten bewusst weggelassen.\n\n---",
+        "description": "Incident-Runbook für Grafana Tempo 2.10.4 in diesem Stack. Ergänzt die Kurzsektion in readme.md um eine tiefergehende Analyse für Produktionsprobleme.",
         "type": "text"
       }
     ]
@@ -1023,7 +1053,7 @@
       {
         "path": "README.md",
         "title": "lm-studio-remote",
-        "description": "Eine Python-basierte Terminal-UI (gebaut mit [Textual](https://textual.textualize.io/)), um eine oder mehrere [LM Studio](https://lmstudio.ai/)-Instanzen im lokalen Netzwerk fernzusteuern, ohne die LM Studio Desktop-App selbst zu öffnen. Die App scannt das lokale /24-Subnetz nach erreichbaren LM-Studio-REST-API-Servern, merkt sich gefundene Server samt optionalem API-Token in einer JSON-Datei (`lmstudioserver.json`, unverschlüsselt) und erlaubt es, sich per Dropdown mit einem Server zu verbinden. Ein Hintergrund-Healthcheck prüft alle bekannten Server periodisch und zeigt den Status als Ampel-Symbol im Dropdown sowie neben dem verbundenen Server an. Nach dem Verbinden zeigt eine Tabelle alle verfügbaren Modelle inklusive Typ, Publisher, Parametergröße, Dateigröße, Format und Ladezustand an. Modelle können direkt aus der TUI geladen (mit Optionen wie Context Length, Flash Attention, Eval Batch Size) und wieder entladen werden; ein Log-Tab protokolliert alle Aktionen und Fehler.",
+        "description": "Eine Python-basierte Terminal-UI (gebaut mit Textual), um eine oder mehrere LM Studio-Instanzen im lokalen Netzwerk fernzusteuern, ohne die LM Studio Desktop-App selbst zu öffnen. Die App scannt das lokale /24-Subnetz nach erreichbaren LM-Studio-REST-API-Servern, merkt sich gefundene Server samt…",
         "type": "readme"
       }
     ]
@@ -1053,19 +1083,19 @@
       {
         "path": "README.md",
         "title": "mailserver-mock",
-        "description": "Minimaler SMTP- und IMAP-Mock-Server für lokale Tests, in reinem Python\n(nur Standardbibliothek, keine Abhängigkeiten). Angelehnt an\n[gosmtp](https://github.com/wlanboy/gosmtp) — verschickte Mails werden als\n`.eml`-Dateien in einem lokalen `mails/`-Verzeichnis abgelegt.",
+        "description": "Minimaler SMTP- und IMAP-Mock-Server für lokale Tests, in reinem Python (nur Standardbibliothek, keine Abhängigkeiten). Angelehnt an gosmtp — verschickte Mails werden als .eml-Dateien in einem lokalen mails/-Verzeichnis abgelegt.",
         "type": "readme"
       },
       {
         "path": "src/imap.md",
         "title": "IMAP-Implementierung",
-        "description": "Dieses Dokument beschreibt, welche Teile von IMAP4rev1 (RFC 3501) der Mock\nin [`src/mailserver_mock/imap_server.py`](src/mailserver_mock/imap_server.py)\nimplementiert, wie sich die Befehle im Detail verhalten und welche Teile des\nRFCs bewusst ausgelassen wurden. Ziel des Mocks ist **nicht** Vollständigkeit,\nsondern ein Server, der reale IMAP-Clients (z. B. `imaplib`, Jakarta Mail,\nThunderbird) für Testzwecke bedienen kann, ohne eine echte Mailbox-Semantik\n(Persistenz über Sessions, mehrere Ordner, Expunge, ...) nachzubilden.",
+        "description": "Dieses Dokument beschreibt, welche Teile von IMAP4rev1 (RFC 3501) der Mock in src/mailserver_mock/imap_server.py implementiert, wie sich die Befehle im Detail verhalten und welche Teile des RFCs bewusst ausgelassen wurden. Ziel des Mocks ist nicht Vollständigkeit, sondern ein Server, der reale…",
         "type": "text"
       },
       {
         "path": "src/smtp.md",
         "title": "SMTP-Implementierung",
-        "description": "Dieses Dokument beschreibt, welche Teile von SMTP (RFC 5321) und SMTP AUTH\n(RFC 4954) der Mock in\n[`src/mailserver_mock/smtp_server.py`](src/mailserver_mock/smtp_server.py)\nimplementiert, wie sich die Befehle im Detail verhalten und welche Teile des\nRFCs bewusst ausgelassen wurden. Ziel ist ein Server, der reale SMTP-Clients\n(`smtplib`, Jakarta Mail/Spring Boot, swaks, ...) für lokale Tests annehmen\nund die Nachrichten als `.eml`-Dateien ablegen kann — inklusive gezielt\nsimulierbarer Fehlerszenarien (Timeouts, Quota, Auth-Fehler). Kein Relaying,\nkeine echte Zustellung, keine Warteschlange.",
+        "description": "Dieses Dokument beschreibt, welche Teile von SMTP (RFC 5321) und SMTP AUTH (RFC 4954) der Mock in src/mailserver_mock/smtp_server.py implementiert, wie sich die Befehle im Detail verhalten und welche Teile des RFCs bewusst ausgelassen wurden. Ziel ist ein Server, der reale SMTP-Clients (smtplib…",
         "type": "text"
       }
     ]
@@ -1086,7 +1116,7 @@
       {
         "path": "first-steps.md",
         "title": "MCP Server mit ASP.NET Core (HTTP) – Schritt fuer Schritt",
-        "description": "Diese Anleitung beschreibt, wie der `mcp-dotnet-server` erstellt wurde.",
+        "description": "Diese Anleitung beschreibt, wie der mcp-dotnet-server erstellt wurde.",
         "type": "text"
       }
     ]
@@ -1101,7 +1131,7 @@
       {
         "path": "README.md",
         "title": "MCP Duck Search",
-        "description": "Ein MCP-Server (Model Context Protocol) auf Basis von [FastMCP](https://gofastmcp.com), der LLM-Modellen die Internetsuche ermöglicht — optimiert fuer Code-, Fehler- und Dokumentationssuche.\n\nAls Such-Backend wird automatisch **SearXNG** verwendet, wenn die Umgebungsvariable `SEARXNG_URL` gesetzt ist, andernfalls **DuckDuckGo**.",
+        "description": "Ein MCP-Server (Model Context Protocol) auf Basis von FastMCP, der LLM-Modellen die Internetsuche ermöglicht — optimiert fuer Code-, Fehler- und Dokumentationssuche.",
         "type": "readme"
       }
     ]
@@ -1161,7 +1191,7 @@
       {
         "path": "README.md",
         "title": "simple minio web manager for minio community edition",
-        "description": "* uses mc client for access to the admin api\n* provides management of\n  * users\n  * buckets\n  * ACLs",
+        "description": "uses mc client for access to the admin api provides management of users buckets ACLs",
         "type": "readme"
       }
     ]
@@ -1176,7 +1206,7 @@
       {
         "path": "README.md",
         "title": "MirrorAPI",
-        "description": "Eine leichtgewichtige REST-API zum Testen von HTTP-Clients und Microservices. MirrorAPI spiegelt eingehende Requests (Header, Query-Parameter, Body) zurück, simuliert HTTP-Szenarien wie beliebige Status-Codes, Verzögerungen und Fehler und kann Request/Response-Paare dauerhaft als Mocks speichern – ideal für Integrationstests, Contract-Tests und lokale Entwicklung ohne echte Backend-Abhängigkeiten.",
+        "description": "Eine leichtgewichtige REST-API zum Testen von HTTP-Clients und Microservices. MirrorAPI spiegelt eingehende Requests (Header, Query-Parameter, Body) zurück, simuliert HTTP-Szenarien wie beliebige Status-Codes, Verzögerungen und Fehler und kann Request/Response-Paare dauerhaft als Mocks speichern –…",
         "type": "readme"
       }
     ]
@@ -1197,13 +1227,13 @@
       {
         "path": "docker.md",
         "title": "MirrorService – Docker Build Varianten",
-        "description": "Drei Dockerfiles stehen zur Verfügung, die sich in Komplexität, Image-Größe und Startverhalten\nunterscheiden. Alle nutzen Java 25 und ein Multi-Stage-Build.\n\n---",
+        "description": "Drei Dockerfiles stehen zur Verfügung, die sich in Komplexität, Image-Größe und Startverhalten unterscheiden. Alle nutzen Java 25 und ein Multi-Stage-Build.",
         "type": "text"
       },
       {
         "path": "tekton/tekton-pipeline.md",
         "title": "MirrorService – Tekton Pipeline",
-        "description": "Dieses Dokument beschreibt den Aufbau und Betrieb der Tekton CI/CD-Pipeline für den MirrorService.\nDie Pipeline ersetzt die GitHub Actions Workflows durch eine lokale, Kubernetes-native Lösung auf Basis eines kind-Clusters.\nSie umfasst alle Schritte von Repository-Clone über Maven-Build mit Spring Boot AOT bis zum Docker-Image-Push nach Docker Hub.",
+        "description": "Dieses Dokument beschreibt den Aufbau und Betrieb der Tekton CI/CD-Pipeline für den MirrorService. Die Pipeline ersetzt die GitHub Actions Workflows durch eine lokale, Kubernetes-native Lösung auf Basis eines kind-Clusters. Sie umfasst alle Schritte von Repository-Clone über Maven-Build mit Spring…",
         "type": "text"
       }
     ]
@@ -1218,7 +1248,7 @@
       {
         "path": "README.md",
         "title": "MySQL Router Prometheus Exporter",
-        "description": "Liest alle Metriken aus der MySQL Router REST API und schickt sie per HTTP PUT an ein Prometheus Pushgateway. Implementiert in reinem Python (stdlib only, keine pip-Abhängigkeiten).\n\nLäuft standardmäßig als Daemon-Loop (60-Sekunden-Intervall) oder optional als One-Shot.\n\n---",
+        "description": "Liest alle Metriken aus der MySQL Router REST API und schickt sie per HTTP PUT an ein Prometheus Pushgateway. Implementiert in reinem Python (stdlib only, keine pip-Abhängigkeiten).",
         "type": "readme"
       }
     ]
@@ -1233,7 +1263,7 @@
       {
         "path": "README.md",
         "title": "OpenClaw Local – Lokale KI-Assistenten-Umgebung (offline)",
-        "description": "OpenClaw Local ist eine vollständig offline laufende KI-Assistenten-Umgebung auf Basis von [OpenClaw](https://openclaw.ai) und Ollama.\nKeine Cloud-Dienste, keine externen Abhängigkeiten — alle Daten bleiben lokal auf dem Rechner.\n\nDas Setup kombiniert einen lokalen LLM-Server (Ollama) mit dem OpenClaw Gateway, das ein Web-Dashboard und eine API bereitstellt.",
+        "description": "OpenClaw Local ist eine vollständig offline laufende KI-Assistenten-Umgebung auf Basis von OpenClaw und Ollama. Keine Cloud-Dienste, keine externen Abhängigkeiten — alle Daten bleiben lokal auf dem Rechner.",
         "type": "readme"
       }
     ]
@@ -1248,7 +1278,7 @@
       {
         "path": "readme.md",
         "title": "opensearch-analyze",
-        "description": "Lokales Setup zum Betrieb und zur Analyse eines [OpenSearch](https://opensearch.org/)-Clusters:\nein Docker-Compose-Stack mit einem 2-Node-Cluster, Log-Shipping über\n[Fluent Bit](https://fluentbit.io/) sowie ein Python-CLI-Tool, das Cluster-, Index- und\nNode-Metriken auswertet und als Text- oder JSON-Report ausgibt.",
+        "description": "Lokales Setup zum Betrieb und zur Analyse eines OpenSearch-Clusters: ein Docker-Compose-Stack mit einem 2-Node-Cluster, Log-Shipping über Fluent Bit sowie ein Python-CLI-Tool, das Cluster-, Index- und Node-Metriken auswertet und als Text- oder JSON-Report ausgibt.",
         "type": "readme"
       }
     ]
@@ -1263,7 +1293,7 @@
       {
         "path": "README.md",
         "title": "Prometheus Helper",
-        "description": "Kommandozeilen-Tool, das den Status eines Prometheus-Servers abfragt und einen Überblick über dessen aktive Scrape-Targets liefert. Die Verbindung erfolgt per HTTP Basic Auth. Für jedes Target werden folgende Werte ermittelt:\n\n- Anzahl der gescrapten Metriken (`scrape_samples_scraped`)\n- Anzahl der Target-Labels nach dem Relabeling sowie roh vor dem Relabeling (`discoveredLabels`) – die Differenz zeigt, wie viele Labels durch Relabeling entfernt werden\n- Scrape-Dauer (`scrape_duration_seconds`)\n- Anzahl neu hinzugekommener Serien pro Scrape (`scrape_series_added`)\n- letzter Scrape-Fehler (`lastError`)\n\nTargets, deren Metrik- und/oder Labelanzahl über dem Durchschnitt aller Targets liegt, werden in der Ausgabe als auffällig markiert – so lassen sich Targets identifizieren, die besonders viele Metriken oder besonders viele Labels liefern. Targets mit fehlgeschlagenem letzten Scrape werden gesondert aufgelistet.\n\nZusätzlich wird eine globale TSDB-Übersicht (`/api/v1/status/tsdb`) ausgegeben: Serien-/Label-Paar-/Chunk-Anzahl sowie die Top-Metriken und -Labels nach Serienanzahl und Speicherverbrauch – nützlich, um Cardinality-Probleme unabhängig von einzelnen Targets zu erkennen.\n\nAußerdem wird eine Runtime-Info-Übersicht (`/api/v1/status/runtimeinfo`) ausgegeben: Startzeit, letzter Config-Reload, konfigurierte Storage-Retention sowie erkannte WAL-/Storage-Korruptionen – nützlich, um den Prometheus-Server selbst (nicht nur seine Targets) im Blick zu behalten.",
+        "description": "Kommandozeilen-Tool, das den Status eines Prometheus-Servers abfragt und einen Überblick über dessen aktive Scrape-Targets liefert. Die Verbindung erfolgt per HTTP Basic Auth. Für jedes Target werden folgende Werte ermittelt:",
         "type": "readme"
       }
     ]
@@ -1278,7 +1308,7 @@
       {
         "path": "README.md",
         "title": "sqlplus-checker",
-        "description": "Statische Analyse von Oracle SQL-Skripten auf SQLPlus-Kompatibilität.\n\nViele Skripte funktionieren problemlos in SQL Developer oder Toad, scheitern aber beim Deployment über SQLPlus auf dem Linux-Server. Dieses Tool prüft Skripte **rein statisch** (ohne Datenbankverbindung) auf die häufigsten Fehlerquellen.\n\n---",
+        "description": "Statische Analyse von Oracle SQL-Skripten auf SQLPlus-Kompatibilität.",
         "type": "readme"
       }
     ]
@@ -1293,7 +1323,7 @@
       {
         "path": "README.md",
         "title": "Kubernetes Chaos Simulator – randomfail",
-        "description": "randomfail ist ein absichtlich instabiler FastAPI‑Service zur Simulation realer Ausfallszenarien in Kubernetes‑Clustern.\nDer Dienst erzeugt automatisch oder manuell verschiedene Fehlerzustände und ermöglicht so das gezielte Testen von:\n\n- Liveness‑ und Readiness‑Probes\n- Self‑Healing‑Mechanismen\n- HPA‑Reaktionen unter Last\n- PVC‑Limits und Storage‑Fehlern\n- Graceful‑Shutdown‑Verhalten\n\nDer integrierte Chaos‑Zyklus wechselt in frei konfigurierbaren Intervallen automatisch zwischen verschiedenen Fehlerszenarien.\nZusätzlich lassen sich alle Szenarien jederzeit manuell über HTTP‑Endpoints auslösen — ideal für reproduzierbare Tests, Demos oder Chaos‑Engineering‑Workshops.\n\n---",
+        "description": "randomfail ist ein absichtlich instabiler FastAPI‑Service zur Simulation realer Ausfallszenarien in Kubernetes‑Clustern. Der Dienst erzeugt automatisch oder manuell verschiedene Fehlerzustände und ermöglicht so das gezielte Testen von:",
         "type": "readme"
       },
       {
@@ -1314,13 +1344,13 @@
       {
         "path": "readme.md",
         "title": "redhat-helpers",
-        "description": "Sammlung von Bash-Skripten zum Einrichten von RHEL 9 Servern für den Betrieb\nvon Containern via Podman und Kubernetes-Test-Clustern via kind.",
+        "description": "Sammlung von Bash-Skripten zum Einrichten von RHEL 9 Servern für den Betrieb von Containern via Podman und Kubernetes-Test-Clustern via kind.",
         "type": "readme"
       },
       {
         "path": "unit/userunits.md",
         "title": "userunits – Python-Tools für systemd User Units",
-        "description": "Sammlung von Python-Skripten, um systemd User Units (`systemctl --user`)\nfür Java- und Python-Anwendungen zu erzeugen, zu verwalten und auf\nFehler zu prüfen. Laufen im normalen User-Kontext (kein root, kein\nsudo). Kompatibel zu Python 3.9 (kein `match`-Statement, keine\n`X | Y` Type-Hints).",
+        "description": "Sammlung von Python-Skripten, um systemd User Units (systemctl --user) für Java- und Python-Anwendungen zu erzeugen, zu verwalten und auf Fehler zu prüfen. Laufen im normalen User-Kontext (kein root, kein sudo). Kompatibel zu Python 3.9 (kein match-Statement, keine X | Y Type-Hints).",
         "type": "text"
       }
     ]
@@ -1350,7 +1380,7 @@
       {
         "path": "README.MD",
         "title": "scan-tools",
-        "description": "Eine Sammlung einfacher Security-Scanner für Git-Repositories, Node.js-Projekte und Linux-Systeme. Alle Tools sind eigenständige Python-Skripte ohne externe Abhängigkeiten (Standardbibliothek genügt) und liefern strukturierte Berichte als Text oder JSON.\n\n**Zielgruppe:** Entwickler, DevSecOps-Teams und Security-Analysten, die externe Endpunkte, Supply-Chain-Risiken und Proxy-Konfigurationen automatisiert prüfen möchten.\n\n**Sprache / Laufzeit:** Python 3.11+  \n**Paketmanager:** [uv](https://github.com/astral-sh/uv) (`pyproject.toml` vorhanden)\n\n---",
+        "description": "Eine Sammlung einfacher Security-Scanner für Git-Repositories, Node.js-Projekte und Linux-Systeme. Alle Tools sind eigenständige Python-Skripte ohne externe Abhängigkeiten (Standardbibliothek genügt) und liefern strukturierte Berichte als Text oder JSON.",
         "type": "readme"
       }
     ]
@@ -1365,13 +1395,13 @@
       {
         "path": "Metrics.md",
         "title": "Metrics",
-        "description": "Dieser Config-Server exponiert Micrometer-Metriken über `/actuator/prometheus`\n(siehe `management.endpoints.web.exposure.include` in `bootstrap.properties`).",
+        "description": "Dieser Config-Server exponiert Micrometer-Metriken über /actuator/prometheus (siehe management.endpoints.web.exposure.include in bootstrap.properties).",
         "type": "text"
       },
       {
         "path": "README.md",
         "title": "ServiceConfig",
-        "description": "Spring Framework based Service Configuration Server\n\nBased on https://projects.spring.io/spring-cloud/ and https://github.com/spring-cloud-samples/configserver.",
+        "description": "Spring Framework based Service Configuration Server",
         "type": "readme"
       }
     ]
@@ -1386,7 +1416,7 @@
       {
         "path": "README.md",
         "title": "ServiceRegistry [DEPRECATED]",
-        "description": "Spring Framework based Service Registry - DO NOT USE THIS ANY LONGER\n\nBased on https://projects.spring.io/spring-cloud/ and https://github.com/spring-cloud-samples/eureka.",
+        "description": "Spring Framework based Service Registry - DO NOT USE THIS ANY LONGER",
         "type": "readme"
       }
     ]
@@ -1431,7 +1461,7 @@
       {
         "path": "readme.md",
         "title": "Spring AI based MCP Hello World Server",
-        "description": "Ein minimaler MCP-Server (Model Context Protocol) auf Basis von Spring Boot 4 und Spring AI 2.0.\n\nDas **Model Context Protocol** ist ein offener Standard, mit dem KI-Modelle (z. B. Claude, GPT)\nstrukturiert auf externe Tools und Dienste zugreifen können — ohne Prompt-Engineering für\njeden Anwendungsfall neu schreiben zu müssen.\n\nDieses Projekt zeigt den kleinstmöglichen Aufbau:\n\n| Schicht | Technologie |\n|---|---|\n| HTTP-Transport | Spring WebMVC oder WebFlux (SSE) |\n| MCP-Protokollstack | `spring-ai-starter-mcp-server-webmvc` / `-webflux` |\n| Tool-Definition | `@Tool`-Annotation auf einfachen Spring-Beans |\n| Build | Maven mit AOT-Processing für schnellen Start |\n\nDie enthaltenen Beispiel-Tools (`greet`, `serverTime`) demonstrieren das Grundprinzip\nund lassen sich als Vorlage für eigene Integrationen verwenden.",
+        "description": "Ein minimaler MCP-Server (Model Context Protocol) auf Basis von Spring Boot 4 und Spring AI 2.0.",
         "type": "readme"
       }
     ]
@@ -1446,7 +1476,7 @@
       {
         "path": "README.md",
         "title": "testing",
-        "description": "github page for using A record and CAA record\n\n# content\nMy private place to test things (most locally) :-)",
+        "description": "github page for using A record and CAA record",
         "type": "readme"
       }
     ]
@@ -1476,7 +1506,7 @@
       {
         "path": "README.md",
         "title": "usbview – Browser‑basierter Live‑Viewer für USB‑HDMI‑Capture‑Cards",
-        "description": "usbview ist ein browserbasierter Live‑Viewer für USB‑HDMI‑Capture‑Cards unter Linux.\nDer Dienst stellt einen HTTP‑Stream bereit, über den das angeschlossene HDMI‑Gerät direkt im Browser betrachtet werden kann — ganz ohne zusätzliche Software.\n\nDas Tool eignet sich besonders für Server‑Hardware ohne KVM‑Switch:\nCapture‑Card einstecken, Server einschalten, Browser öffnen — und schon lassen sich BIOS‑ oder UEFI‑Einstellungen bequem aus der Ferne betrachten.",
+        "description": "usbview ist ein browserbasierter Live‑Viewer für USB‑HDMI‑Capture‑Cards unter Linux. Der Dienst stellt einen HTTP‑Stream bereit, über den das angeschlossene HDMI‑Gerät direkt im Browser betrachtet werden kann — ganz ohne zusätzliche Software.",
         "type": "readme"
       }
     ]
@@ -1491,7 +1521,7 @@
       {
         "path": "README.md",
         "title": "uv",
-        "description": "Nexus Python Cache Filler – installiert eine breite Menge gängiger\nPython-Pakete über [uv](https://docs.astral.sh/uv/), um den Nexus-PyPI-Proxy\nvorzuwärmen (Cache-Füllung), statt eine eigenständige Anwendung\nbereitzustellen.",
+        "description": "Nexus Python Cache Filler – installiert eine breite Menge gängiger Python-Pakete über uv, um den Nexus-PyPI-Proxy vorzuwärmen (Cache-Füllung), statt eine eigenständige Anwendung bereitzustellen.",
         "type": "readme"
       }
     ]
@@ -1506,13 +1536,13 @@
       {
         "path": "README.md",
         "title": "virtualbox-kubernets",
-        "description": "Virtualbox based, vagrant provisioned Kubernets Homelab from skratch\n\n> looking for a simpler way? use the kind version: https://github.com/wlanboy/vagrantkind\n\n> Don't use minikube if you want to understand Kubernetes.\nThis is not for developers searching for an easy way to k8s.\n\n# Content\n- directory debian-k3s\n  * Single minimal Debian based VM\n  * Using k3s\n  * Installing Calico, Metallb and Istio\n  * Ideal minimal starting place for Kubernetes\n- directory homelab\n  * Single VM with k8 including network, storage, ingress provider\n  * Using kubeadm for setup\n  * Good start for beginners\n- directory homelabrancher\n  * Single VM with k3 including network provider\n  * Using Arkade, k3sup for setup\n- directory homelabstepbystep\n  * Single VM with all dependencies, java build tools and kubectl\n  * Good start to setup your k8 step by step\n- directory homelabwithnodes\n  * Multy VM k8 cluster including network, storage, ingress provider\n  * You can add VMs by alterting the vagrant var NODE_COUNT \n  * Increase NODE_COUNT and run vagrat up again to add more VMs\n- mattermost\n  * Kubernets files for a mattermost instance\n- postgresqlservice\n  * Kubernets files for a PostgreSQL instance\n\n# Key points\n1. This is a tutorial \n2. This is a playground to get in touch with k3 and k8\n3. Normally you have to choose your own network provider, see: https://kubernetes.io/docs/concepts/cluster-administration/networking/\n4. Normally you have to choose your own storage provider, see: https://kubernetes.io/docs/concepts/storage/storage-classes/\n5. Normally you have to choose your own ingress provider, see: https://kubernetes.io/docs/concepts/services-networking/ingress-controllers/\n6. You need an external load balancer provider too, the one from your cloud provider\n8. Kubernetes is a framework, not a toolset, see: https://kubernetes.io/docs/concepts/overview/what-is-kubernetes/#what-kubernetes-is-not\n9. Consider to use a local apt cache server to minimize traffic\n10. We have to patch Flannel to use the second iface. First Interface in Virtualbox is natted. See: https://github.com/flannel-io/flannel/blob/master/Documentation/configuration.md\n\n# Install Virtualbox on Windows or OS X\n* https://www.virtualbox.org/wiki/Downloads\n* OSX:\n* Windows: (asuming you are using gitbash: https://gitforwindows.org/)\n\n# Install a package manager\n* OS X: homebrew\n* Windows: chocolatey ( with powershell)\n\n# Install needed tools \n* OS X:\n* Windows:\n\n# Setup VM\n> Please look at the Vagrant file first and adjust the values!\n* at least we can now have ONE documentation\n\n# Destroy VM (if you made something wrong)\n\n# Start over again\n\n# Configure your local kubectl\n# Configure your local kubectl with nodes\n# Access kubernetes dashboard\n* use your browser: http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/\n\n# Access longhorn frontend\n* use your browser: http://192.168.56.100:31294/\n\n# Get cluster info\n\n# Check running pods (single node)\n\n# Check running pods (with nodes)\n\n# Get node port of ingress controller\n\n# Deploy a Spring Boot Microservice\n* see: https://github.com/wlanboy/virtualbox-kubernets/blob/main/deploy-a-service.md\n\n# Shutdown VM\n# Setup Multinode cluster\n* change folder to 'homelabwithnodes'\n* use 'vagrant ssh kubecontrol' instead of 'vagrant ssh'\n* change NODE_COUNT var in Vagrant file to add additional hosts\n* run 'vagrant up' after changing the NODE_COUNT, it will only add new vms\n\n# Setup kubernetes on your own\n* change folder to 'homelabsteps'\n* everything is prepared. Call each command from https://github.com/wlanboy/virtualbox-kubernets/blob/main/homelab/setup-kubernets-controlnode.sh \n\n# Setup k3s\n* change folder to 'homelabrancher'\n* this will install a k3s kubernets server\n\n# Key takeaways\n* don't install vms by hand\n* vms are containers too\n* play around and test things, break things early and often\n* automate everything to be able to rebuild anything, anytime\n* think in roles not in serverboxes\n\n# Current deprication warings\n* policy/v1beta1 PodSecurityPolicy is deprecated in v1.21+, unavailable in v1.25+, see: https://kubernetes.io/docs/reference/using-api/deprecation-guide/#psp-v125",
+        "description": "Virtualbox based, vagrant provisioned Kubernets Homelab from skratch",
         "type": "readme"
       },
       {
         "path": "deploy-a-service.md",
         "title": "Deploy a selfcontained Spring Boot Microservice",
-        "description": "We will use my Crudservice: https://github.com/wlanboy/CrudService\n\nIt is published on Docker Hub: https://hub.docker.com/repository/docker/wlanboy/crudservice\n\n# Prepare\n\n# check you local kubectl\n\n# deploy service on new namespace\n\n# check deployment and service\n\n# expose service and get node port\nResult:\n\n#  call crudservice\n* curl http://192.168.56.100:30411/actuator/health\n* Result",
+        "description": "We will use my Crudservice: https://github.com/wlanboy/CrudService",
         "type": "text"
       },
       {
@@ -1539,13 +1569,13 @@
       {
         "path": "README.md",
         "title": "VRAM Model Calculator",
-        "description": "Beantwortet eine einfache Frage: **Passt dieses GGUF-Modell in meine GPU?**\n\nDas Tool scannt lokale GGUF-Dateien, liest deren Metadaten aus und berechnet den VRAM-Bedarf für verschiedene Kontextlängen — vom kurzen Chat-Einsatz bis hin zu langen Coding-Agent-Läufen. Das Ergebnis lässt sich sowohl im Terminal als auch als interaktive Webseite anzeigen.\n\nhttps://wlanboy.github.io/vram-model-calculator/\n\n---",
+        "description": "Beantwortet eine einfache Frage: Passt dieses GGUF-Modell in meine GPU?",
         "type": "readme"
       },
       {
         "path": "gguf-format.md",
         "title": "GGUF-Format – Technische Übersicht",
-        "description": "GGUF (GGML Universal Format) ist das binäre Dateiformat für KI-Modelle, das von llama.cpp verwendet wird. Es löste das ältere GGML- und GGJT-Format ab und wurde so konzipiert, dass Metadaten, Tokenizer und Tensor-Gewichte in einer einzigen Datei gespeichert werden können.\n\n---",
+        "description": "GGUF (GGML Universal Format) ist das binäre Dateiformat für KI-Modelle, das von llama.cpp verwendet wird. Es löste das ältere GGML- und GGJT-Format ab und wurde so konzipiert, dass Metadaten, Tokenizer und Tensor-Gewichte in einer einzigen Datei gespeichert werden können.",
         "type": "text"
       }
     ]
@@ -1560,7 +1590,7 @@
       {
         "path": "README.md",
         "title": "WebShell",
-        "description": "WebShell is a browser-based terminal frontend for executing shell commands on a remote host.\nIt provides a TUI-like interface directly in the browser — no SSH client, no VPN, no additional tooling required.\nUseful for quick access to a containerized environment, a dev machine, or any host that is reachable via HTTP.\n\n**Features**\n- Full-screen terminal UI with macOS-style titlebar\n- Command history navigation via `↑` / `↓` arrow keys\n- Inline output — commands and results appear in sequence, like a real shell session\n- Built-in commands: `clear`, `help`\n- Commands with a non-zero exit code are highlighted as errors\n- 30-second execution timeout with forced process termination\n- Form-based login with BCrypt-hashed passwords (Spring Security)\n- Runs as a single self-contained JAR or Docker container\n\n![WebShell TUI](screenshots/tui.png)",
+        "description": "WebShell is a browser-based terminal frontend for executing shell commands on a remote host. It provides a TUI-like interface directly in the browser — no SSH client, no VPN, no additional tooling required. Useful for quick access to a containerized environment, a dev machine, or any host that is…",
         "type": "readme"
       },
       {
@@ -1575,7 +1605,7 @@
     "name": "wlanboy.github.io",
     "description": "website",
     "url": "https://github.com/wlanboy/wlanboy.github.io",
-    "pushed_at": "2026-08-01T13:23:43Z",
+    "pushed_at": "2026-08-02T12:17:05Z",
     "default_branch": "main",
     "readmes": [
       {

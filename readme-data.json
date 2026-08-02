@@ -747,26 +747,44 @@
     "name": "intel-arc-for-ubuntu",
     "description": "All drivers and Openvino, nvtop scripts for Ubuntu",
     "url": "https://github.com/wlanboy/intel-arc-for-ubuntu",
-    "pushed_at": "2026-06-27T08:11:31Z",
+    "pushed_at": "2026-08-02T12:37:10Z",
     "default_branch": "main",
     "readmes": [
       {
-        "path": "intel-arc-noble.md",
+        "path": "drivers/intel-arc-noble.md",
         "title": "Intel Arc Pro B60 – Einrichtung unter Ubuntu 24.04 (Noble)",
         "description": "Diese Anleitung beschreibt die vollständige Einrichtung einer Intel Arc Pro B60 GPU (Battlemage / Xe2-Architektur) unter Ubuntu 24.04 LTS, inklusive OpenCL/Level-Zero-Treiber, GPU-Monitoring und Steam-Gaming-Setup.",
         "type": "text"
       },
       {
-        "path": "intel-arc-resolute-raccoon.md",
+        "path": "drivers/intel-arc-resolute-raccoon.md",
         "title": "Intel Arc Pro B60 – Einrichtung unter Ubuntu 26.04 (Resolute Raccoon)",
         "description": "Diese Anleitung beschreibt die vollständige Einrichtung einer Intel Arc Pro B60 GPU (Battlemage / Xe2-Architektur) unter Ubuntu 26.04 LTS, inklusive OpenCL/Level-Zero-Treiber, GPU-Monitoring und Steam-Gaming-Setup.",
         "type": "text"
+      },
+      {
+        "path": "nvtop/nvtop.md",
+        "title": "nvtop – GPU-Monitoring für Intel Arc",
+        "description": "nvtop ist ein interaktiver GPU-Monitor ähnlich htop, der Auslastung, Speicherbelegung, Temperatur und laufende Prozesse der GPU in Echtzeit im Terminal anzeigt. Da die vorgebaute Paketversion oft ohne Intel-Unterstützung kompiliert ist, baut das Script nvtop.sh nvtop aus dem Quellcode mit…",
+        "type": "text"
+      },
+      {
+        "path": "oneapi/openapi.md",
+        "title": "NEO – Intel Compute-Runtime manuell installieren",
+        "description": "Die Intel Compute-Runtime (NEO) stellt OpenCL- und Level-Zero-Unterstützung für Intel GPUs bereit. Bei neuen GPU-Generationen wie Battlemage (Arc Pro B60) dauert es oft, bis aktuelle Treiberversionen in den Ubuntu-Repositories ankommen. Das Script neo.sh installiert Compute-Runtime und Graphics…",
+        "type": "api"
       },
       {
         "path": "readme.md",
         "title": "Intel Arc Pro B60 – Setup für Ubuntu",
         "description": "Dieses Repository enthält Skripte und Anleitungen zur vollständigen Einrichtung einer Intel Arc Pro B60 GPU (Battlemage / Xe2-Architektur) unter Ubuntu.",
         "type": "readme"
+      },
+      {
+        "path": "steam/steam.md",
+        "title": "Steam via Flatpak einrichten",
+        "description": "Installiert Steam als Flatpak-Anwendung mit einem eigenen Spieleverzeichnis, das getrennt vom Standard-Flatpak-Datenordner liegt (z.B. auf einer separaten SSD/HDD). Das Script steam.sh automatisiert Verzeichnis, Installation und Berechtigungen.",
+        "type": "text"
       }
     ]
   },
@@ -1605,7 +1623,7 @@
     "name": "wlanboy.github.io",
     "description": "website",
     "url": "https://github.com/wlanboy/wlanboy.github.io",
-    "pushed_at": "2026-08-02T12:17:05Z",
+    "pushed_at": "2026-08-02T12:27:41Z",
     "default_branch": "main",
     "readmes": [
       {

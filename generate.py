@@ -1,7 +1,8 @@
 import base64
 import json
 import os
-from datetime import UTC, datetime, timedelta
+import re
+import time
 
 import requests
 
@@ -10,9 +11,6 @@ TOKEN = os.getenv("GITHUB_TOKEN")
 HEADERS = {"Accept": "application/vnd.github+json"}
 if TOKEN:
     HEADERS["Authorization"] = f"token {TOKEN}"
-
-DAYS = 300
-CUTOFF_DATE = datetime.now(UTC) - timedelta(days=DAYS)
 
 EXCLUDED_FILENAMES = {
     "changelog", "contributing", "license", "code_of_conduct",
@@ -23,17 +21,44 @@ EXCLUDED_FILENAMES = {
 API_KEYWORDS = {"api", "api-reference", "openapi", "swagger"}
 GUIDE_KEYWORDS = {"guide", "tutorial", "howto", "how-to", "getting-started"}
 
+MAX_DESCRIPTION_LENGTH = 300
+MAX_TITLE_LENGTH = 150
+MAX_RETRIES = 2
+RETRY_BACKOFF_SECONDS = 2
+MAX_RATE_LIMIT_WAIT_SECONDS = 300
+
 
 def log(msg):
     print(f"[INFO] {msg}")
 
 
 def safe_get(url):
-    try:
-        return requests.get(url, headers=HEADERS, timeout=10)
-    except requests.exceptions.RequestException as e:
-        log(f"❌ Netzwerkfehler bei {url}: {e}")
-        return None
+    for attempt in range(MAX_RETRIES + 1):
+        try:
+            response = requests.get(url, headers=HEADERS, timeout=10)
+        except requests.exceptions.RequestException as e:
+            log(f"❌ Netzwerkfehler bei {url}: {e}")
+            if attempt < MAX_RETRIES:
+                time.sleep(RETRY_BACKOFF_SECONDS * (attempt + 1))
+                continue
+            return None
+
+        if response.status_code == 403 and response.headers.get("X-RateLimit-Remaining") == "0":
+            reset = response.headers.get("X-RateLimit-Reset")
+            wait = int(reset) - int(time.time()) if reset else 60
+            wait = min(max(wait, 1), MAX_RATE_LIMIT_WAIT_SECONDS)
+            log(f"⏳ Rate-Limit erreicht, warte {wait}s: {url}")
+            time.sleep(wait)
+            continue
+
+        if response.status_code >= 500 and attempt < MAX_RETRIES:
+            log(f"⚠️  Serverfehler {response.status_code} bei {url}, retry...")
+            time.sleep(RETRY_BACKOFF_SECONDS * (attempt + 1))
+            continue
+
+        return response
+
+    return None
 
 
 def get_repos(user):
@@ -73,17 +98,6 @@ def get_repos(user):
         page += 1
 
     return repos
-
-
-def repo_recently_updated(repo):
-    pushed_at = repo.get("pushed_at")
-    if not pushed_at:
-        return False
-
-    pushed_date = datetime.strptime(
-        pushed_at, "%Y-%m-%dT%H:%M:%SZ"
-    ).replace(tzinfo=UTC)
-    return pushed_date >= CUTOFF_DATE
 
 
 def get_repo_tree(user, repo_name, branch):
@@ -132,6 +146,76 @@ def get_file_content(user, repo_name, path):
     return ""
 
 
+HEADING_RE = re.compile(r"^#{1,6}(\s|$)")
+TABLE_OR_RULE_RE = re.compile(r"^[|\-:\s]+$")
+LIST_MARKER_RE = re.compile(r"^([-*+]|\d+\.)\s+")
+
+
+def _strip_markdown(text: str) -> str:
+    text = re.sub(r"!\[[^\]]*]\([^)]*\)", "", text)  # Bilder/Badges entfernen
+    text = re.sub(r"\[([^\]]*)]\([^)]*\)", r"\1", text)  # Links -> Linktext
+    text = re.sub(r"<[^>]+>", "", text)  # rohes HTML entfernen
+    text = re.sub(r"`([^`]*)`", r"\1", text)  # Inline-Code
+    text = re.sub(r"\*\*([^*]+)\*\*", r"\1", text)  # Fett
+    text = re.sub(r"__([^_]+)__", r"\1", text)
+    text = re.sub(r"\*([^*]+)\*", r"\1", text)  # Kursiv
+    text = re.sub(r"\s+", " ", text).strip()
+    return text
+
+
+def _truncate(text: str, max_length: int) -> str:
+    if len(text) <= max_length:
+        return text
+    truncated = text[:max_length].rsplit(" ", 1)[0]
+    return truncated.rstrip(".,;:- ") + "…"
+
+
+def _is_skippable_line(stripped: str) -> bool:
+    # Badge/Bild-Zeilen, Tabellenzeilen und horizontale Linien enthalten
+    # keinen Fließtext und sollen keinen Absatz beginnen/fortsetzen.
+    if TABLE_OR_RULE_RE.match(stripped):
+        return True
+    if stripped.startswith("|") and stripped.endswith("|"):
+        return True
+    only_images = re.fullmatch(r"(\[!\[[^\]]*]\([^)]*\)]\([^)]*\)|!\[[^\]]*]\([^)]*\)|\s)+", stripped)
+    return bool(only_images)
+
+
+def _first_paragraph(lines):
+    in_code_block = False
+    current = []
+
+    for line in lines:
+        stripped = line.strip()
+
+        if stripped.startswith("```"):
+            in_code_block = not in_code_block
+            continue
+        if in_code_block:
+            continue
+        if HEADING_RE.match(stripped):
+            break
+        if not stripped:
+            if current:
+                break  # Ende des ersten Absatzes
+            continue  # führende Leerzeilen überspringen
+        if _is_skippable_line(stripped):
+            if current:
+                break
+            continue
+
+        stripped = re.sub(r"^>\s?", "", stripped)  # Blockquote-Marker
+        stripped = LIST_MARKER_RE.sub("", stripped)  # Listen-Marker
+        current.append(stripped)
+
+    if not current:
+        return None
+
+    text = _strip_markdown(" ".join(current))
+    text = _truncate(text, MAX_DESCRIPTION_LENGTH)
+    return text or None
+
+
 def extract_title_and_paragraph(content: str):
     lines = content.splitlines()
 
@@ -141,38 +225,16 @@ def extract_title_and_paragraph(content: str):
     for idx, line in enumerate(lines):
         stripped = line.strip()
         if stripped.startswith("#"):
-            candidate = stripped.lstrip("#").strip()
+            candidate = _strip_markdown(stripped.lstrip("#").strip())
             if candidate:
-                title = candidate
+                title = _truncate(candidate, MAX_TITLE_LENGTH)
                 title_idx = idx
                 break
 
     if title is None or title_idx is None:
         return None, None
 
-    # Alles zwischen dem ersten # und dem nächsten ## / ### sammeln
-    paragraph_lines = []
-    in_code_block = False
-
-    for line in lines[title_idx + 1:]:
-        stripped = line.strip()
-
-        if stripped.startswith("```"):
-            in_code_block = not in_code_block
-            continue
-
-        if in_code_block:
-            continue
-
-        # Abbruch beim nächsten ## oder tiefer
-        if stripped.startswith("##"):
-            break
-
-        paragraph_lines.append(line)
-
-    description = None
-    if paragraph_lines:
-        description = "\n".join(paragraph_lines).strip() or None
+    description = _first_paragraph(lines[title_idx + 1:])
 
     return title, description
 
@@ -195,8 +257,12 @@ def main():
             log("❌ Repo ohne Namen übersprungen")
             continue
 
-        if not repo_recently_updated(repo):
-            log(f"⏭️  Repo übersprungen (nicht aktualisiert in {DAYS} Tagen): {repo_name}")
+        if repo.get("fork"):
+            log(f"⏭️  Repo übersprungen (Fork): {repo_name}")
+            continue
+
+        if repo.get("archived"):
+            log(f"⏭️  Repo übersprungen (archiviert): {repo_name}")
             continue
 
         log(f"🔍 Analysiere Repo: {repo_name}")

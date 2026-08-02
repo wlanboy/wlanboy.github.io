@@ -6,19 +6,7 @@ Private homepage hosted by GitHub Pages — a portfolio explorer that automatica
 
 - https://wlanboy.github.io
 
-## Pages
-
-| Page | Description |
-|------|-------------|
-| `index.html` | Main project explorer with search, filtering, and inline README viewer |
-| `fokus/index.html` | Topic Constellation Map — alternative topic visualization |
-| `focus.html` | Focus view — simplified topic graph variant |
-| `minipcs.html` | Mini PC comparison — performance, power consumption & efficiency overview |
-| `hadoop/index.html` | Hadoop Constellation Map — Hadoop ecosystem component graph |
-comparison of storage alternatives |
-| `history/mailserver.html` | Mailserver history page |
-
-## Architecture
+## Generator flow
 
 This is a static site with automated data generation — no Jekyll or Hugo involved.
 
@@ -54,6 +42,9 @@ uv sync
 uv run pyright
 uv run ruff check
 uv run generate.py
+
+# with gh
+GITHUB_TOKEN=$(gh auth token) uv run generate.py
 ```
 
 For higher GitHub API rate limits, set a `GITHUB_TOKEN` environment variable before running.

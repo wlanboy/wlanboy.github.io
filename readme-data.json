@@ -621,6 +621,21 @@
     ]
   },
   {
+    "name": "hadoop-lasttest",
+    "description": "Übersicht über Map&Reduce Tools",
+    "url": "https://github.com/wlanboy/hadoop-lasttest",
+    "pushed_at": "2026-08-05T11:51:34Z",
+    "default_branch": "main",
+    "readmes": [
+      {
+        "path": "readme.md",
+        "title": "hadoop-lasttest",
+        "description": "Sammlung von Skripten, um einen bestehenden Hadoop-Cluster (HDFS + YARN/MapReduce) mit Lasttests, Benchmarks und Funktionstests zu prüfen. Die Skripte rufen dazu die mitgelieferten Beispiel- und Test-Jars der Hadoop-Distribution auf (hadoop-mapreduce-examples und…",
+        "type": "readme"
+      }
+    ]
+  },
+  {
     "name": "hadoop-metrics-exporter",
     "description": "Spring based metrics exporter",
     "url": "https://github.com/wlanboy/hadoop-metrics-exporter",
@@ -818,6 +833,45 @@
         "title": "sync-job.py",
         "description": "Führt istio-graph.py und datenimport.py einmalig hintereinander aus (Graph erzeugen → nach Neo4j importieren) und beendet sich danach. Gedacht für den Betrieb als Kubernetes CronJob — die Wiederholung übernimmt dabei der CronJob, dieses Skript macht pro Aufruf genau einen Durchlauf.",
         "type": "text"
+      }
+    ]
+  },
+  {
+    "name": "istio-usecases",
+    "description": "Simple Istio usecases",
+    "url": "https://github.com/wlanboy/istio-usecases",
+    "pushed_at": "2026-08-05T11:53:48Z",
+    "default_branch": "main",
+    "readmes": [
+      {
+        "path": "faultInjection/readme.md",
+        "title": "Fault Injection Usecase",
+        "description": "Demonstriert Istio HTTP Fault Injection: ein VirtualService injiziert gezielt Fehler (Delay bzw. HTTP 500 Abort) in Requests an ein nginx-Deployment (2 Replicas) — gesteuert über den Request-Header x-fault, sodass sich normales, verzögertes und fehlschlagendes Verhalten gegen denselben Service…",
+        "type": "module"
+      },
+      {
+        "path": "namespaceRouting/readme.md",
+        "title": "Namespace Routing Usecase",
+        "description": "Demonstriert Istio Traffic Routing basierend auf dem Source Namespace: zwei Clients aus unterschiedlichen Kubernetes-Namespaces (extern / intern) rufen denselben Service (backend) unter demselben Hostnamen auf, werden aber vom Mesh transparent auf unterschiedliche Pods verteilt — je nachdem, aus…",
+        "type": "module"
+      },
+      {
+        "path": "ratelimitService/readme.md",
+        "title": "Ratelimit Full (Global Rate Limiting) Usecase",
+        "description": "Demonstriert Istio Global Rate Limiting im Gegensatz zum ratelimits-Usecase (Local Rate Limiting):",
+        "type": "module"
+      },
+      {
+        "path": "ratelimits/readme.md",
+        "title": "Ratelimit Usecase",
+        "description": "Demonstriert Istio Local Rate Limiting: ein nginx-Deployment (2 Replicas) in einem eigenen Namespace, abgesichert durch einen EnvoyFilter, der pro Sidecar nur eine begrenzte Anzahl Requests pro Zeitfenster zulässt. Ein Lasttest-Pod zeigt anschließend die resultierenden HTTP-Returncodes (200 vs…",
+        "type": "module"
+      },
+      {
+        "path": "readme.md",
+        "title": "Istio Usecases",
+        "description": "Sammlung praktischer Istio-Beispiele, jeweils als eigenständiges Verzeichnis mit Manifesten, Install-/Test-Skripten und eigener readme.md.",
+        "type": "readme"
       }
     ]
   },
@@ -1629,7 +1683,7 @@
     "name": "wlanboy.github.io",
     "description": "website",
     "url": "https://github.com/wlanboy/wlanboy.github.io",
-    "pushed_at": "2026-08-03T14:42:00Z",
+    "pushed_at": "2026-08-04T14:15:22Z",
     "default_branch": "main",
     "readmes": [
       {

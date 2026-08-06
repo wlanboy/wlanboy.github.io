@@ -840,9 +840,15 @@
     "name": "istio-usecases",
     "description": "Simple Istio usecases",
     "url": "https://github.com/wlanboy/istio-usecases",
-    "pushed_at": "2026-08-05T11:53:48Z",
+    "pushed_at": "2026-08-05T16:25:40Z",
     "default_branch": "main",
     "readmes": [
+      {
+        "path": "externalServiceTls/readme.md",
+        "title": "External Service TLS Origination Usecase",
+        "description": "Demonstriert Istio TLS Origination für Egress-Traffic: eine ServiceEntry registriert den externen Dienst api.github.com im Service-Mesh, eine DestinationRule weist Istio an, Verbindungen zu Port 443 selbst per TLS aufzubauen, und ein VirtualService schreibt Requests des App-Containers von Port 80…",
+        "type": "module"
+      },
       {
         "path": "faultInjection/readme.md",
         "title": "Fault Injection Usecase",
@@ -871,6 +877,21 @@
         "path": "readme.md",
         "title": "Istio Usecases",
         "description": "Sammlung praktischer Istio-Beispiele, jeweils als eigenständiges Verzeichnis mit Manifesten, Install-/Test-Skripten und eigener readme.md.",
+        "type": "readme"
+      }
+    ]
+  },
+  {
+    "name": "Java-within-kubernetes",
+    "description": "Erfahrungen einer JVM in Kubernetesland",
+    "url": "https://github.com/wlanboy/Java-within-kubernetes",
+    "pushed_at": "2026-08-06T10:23:50Z",
+    "default_branch": "main",
+    "readmes": [
+      {
+        "path": "readme.md",
+        "title": "Java within Kubernetes – Hello World (Java 25 Runtime)",
+        "description": "Beispiel-Deployment für einen Spring-Boot-hello-world.jar auf Java 25, inklusive AOT-Build, JVM-Tuning für geringen CPU und RAM Verbrauch. Kubernetes-Manifesten (gedacht für Betrieb hinter einem Istio-Sidecar, funktioniert aber genauso lokal).",
         "type": "readme"
       }
     ]
@@ -1641,7 +1662,7 @@
     "name": "vram-model-calculator",
     "description": "Python based calculator for total vram usage of you gguf models",
     "url": "https://github.com/wlanboy/vram-model-calculator",
-    "pushed_at": "2026-08-02T12:05:51Z",
+    "pushed_at": "2026-08-06T05:09:33Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1683,7 +1704,7 @@
     "name": "wlanboy.github.io",
     "description": "website",
     "url": "https://github.com/wlanboy/wlanboy.github.io",
-    "pushed_at": "2026-08-04T14:15:22Z",
+    "pushed_at": "2026-08-05T14:11:22Z",
     "default_branch": "main",
     "readmes": [
       {

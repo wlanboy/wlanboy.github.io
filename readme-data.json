@@ -84,7 +84,7 @@
     "name": "caweb",
     "description": "Python based web frontend to create ssl certs for hostname on a given ca",
     "url": "https://github.com/wlanboy/caweb",
-    "pushed_at": "2026-07-11T03:42:56Z",
+    "pushed_at": "2026-08-08T06:21:55Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -120,7 +120,7 @@
     "name": "CloudConfigPropertyGenerator",
     "description": "Spring based property generator - generated k8s ConfigMap from Spring Cloud Config Server",
     "url": "https://github.com/wlanboy/CloudConfigPropertyGenerator",
-    "pushed_at": "2026-06-28T12:59:39Z",
+    "pushed_at": "2026-08-08T05:59:56Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -150,7 +150,7 @@
     "name": "debian-cloud-init",
     "description": "Create libvirt  vm of debian 12 and 13 with cloud init - with amd64 and arm64 support",
     "url": "https://github.com/wlanboy/debian-cloud-init",
-    "pushed_at": "2026-08-02T12:58:12Z",
+    "pushed_at": "2026-08-08T06:21:45Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -177,7 +177,7 @@
     "name": "deployment_monitor",
     "description": "python based ansible deployment monitor, using sqlite as storage and pushing results to prometheus",
     "url": "https://github.com/wlanboy/deployment_monitor",
-    "pushed_at": "2026-07-10T06:39:48Z",
+    "pushed_at": "2026-08-08T06:37:29Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -381,7 +381,7 @@
     "name": "dotnet-container",
     "description": "Best practices dotnet core container",
     "url": "https://github.com/wlanboy/dotnet-container",
-    "pushed_at": "2026-07-18T10:46:40Z",
+    "pushed_at": "2026-08-08T06:01:47Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -435,7 +435,7 @@
     "name": "eurekaclientjava",
     "description": "Java based service to create several eureka clients entries without having to use the eureka lib",
     "url": "https://github.com/wlanboy/eurekaclientjava",
-    "pushed_at": "2026-06-28T12:26:59Z",
+    "pushed_at": "2026-08-08T06:00:31Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -579,7 +579,7 @@
     "name": "gosmtp",
     "description": "golang mock smtp server for local testing - writes sent mail to local directory",
     "url": "https://github.com/wlanboy/gosmtp",
-    "pushed_at": "2026-06-03T11:29:25Z",
+    "pushed_at": "2026-08-08T06:03:55Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -639,7 +639,7 @@
     "name": "hadoop-metrics-exporter",
     "description": "Spring based metrics exporter",
     "url": "https://github.com/wlanboy/hadoop-metrics-exporter",
-    "pushed_at": "2026-07-03T06:28:12Z",
+    "pushed_at": "2026-08-08T06:00:37Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -681,7 +681,7 @@
     "name": "helm-for-java-devs",
     "description": "Helm for Java Devs",
     "url": "https://github.com/wlanboy/helm-for-java-devs",
-    "pushed_at": "2026-07-23T17:24:20Z",
+    "pushed_at": "2026-08-08T06:00:41Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -747,7 +747,7 @@
     "name": "httptester",
     "description": "http tester servie for kubernets, istio and service mesh connection and dns tests. Local dual kind setup for istio service mesh.",
     "url": "https://github.com/wlanboy/httptester",
-    "pushed_at": "2026-08-02T12:57:16Z",
+    "pushed_at": "2026-08-08T06:22:13Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -840,7 +840,7 @@
     "name": "istio-usecases",
     "description": "Simple Istio usecases",
     "url": "https://github.com/wlanboy/istio-usecases",
-    "pushed_at": "2026-08-05T16:25:40Z",
+    "pushed_at": "2026-08-08T08:52:48Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -853,6 +853,12 @@
         "path": "faultInjection/readme.md",
         "title": "Fault Injection Usecase",
         "description": "Demonstriert Istio HTTP Fault Injection: ein VirtualService injiziert gezielt Fehler (Delay bzw. HTTP 500 Abort) in Requests an ein nginx-Deployment (2 Replicas) — gesteuert über den Request-Header x-fault, sodass sich normales, verzögertes und fehlschlagendes Verhalten gegen denselben Service…",
+        "type": "module"
+      },
+      {
+        "path": "mirrorLogging/readme.md",
+        "title": "Mirror Logging Usecase",
+        "description": "Demonstriert Istio Traffic Mirroring (Shadow-Traffic): ein VirtualService schickt jeden Request an nginx zusätzlich als 1:1-Kopie (fire-and-forget) an einen zweiten Service logger. Der Client bekommt ausschließlich die Antwort von nginx (PRIMARY) zu sehen — der Mirror läuft asynchron im Hintergrund…",
         "type": "module"
       },
       {
@@ -885,7 +891,7 @@
     "name": "Java-within-kubernetes",
     "description": "Erfahrungen einer JVM in Kubernetesland",
     "url": "https://github.com/wlanboy/Java-within-kubernetes",
-    "pushed_at": "2026-08-07T12:51:30Z",
+    "pushed_at": "2026-08-08T05:59:58Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -900,7 +906,7 @@
     "name": "JavaHttpClient",
     "description": "Spring based rest service to test http call within k8s and istio",
     "url": "https://github.com/wlanboy/JavaHttpClient",
-    "pushed_at": "2026-08-02T14:09:02Z",
+    "pushed_at": "2026-08-08T06:00:00Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -963,7 +969,7 @@
     "name": "kubecontext",
     "description": "Python tool to get and manage kube config files.",
     "url": "https://github.com/wlanboy/kubecontext",
-    "pushed_at": "2026-07-11T11:47:46Z",
+    "pushed_at": "2026-08-08T06:21:47Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -984,7 +990,7 @@
     "name": "kubectl_analytics",
     "description": "A command-line tool for gathering and visualizing statistics about Kubernetes cluster resources",
     "url": "https://github.com/wlanboy/kubectl_analytics",
-    "pushed_at": "2026-07-04T12:23:21Z",
+    "pushed_at": "2026-08-08T06:22:05Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1005,7 +1011,7 @@
     "name": "kubeevent",
     "description": "Python based k8s event listener. Stores events in sqlite db.",
     "url": "https://github.com/wlanboy/kubeevent",
-    "pushed_at": "2026-07-27T17:13:39Z",
+    "pushed_at": "2026-08-08T06:22:30Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1032,7 +1038,7 @@
     "name": "kubeeventjava",
     "description": "Spring Boot Kubernetes Eventlistener for namespaces to export metrics on kubernetes events",
     "url": "https://github.com/wlanboy/kubeeventjava",
-    "pushed_at": "2026-07-11T04:07:30Z",
+    "pushed_at": "2026-08-08T06:00:56Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1065,7 +1071,7 @@
     "name": "kubernetes-crds",
     "description": "Python based kubernetes crd statistics",
     "url": "https://github.com/wlanboy/kubernetes-crds",
-    "pushed_at": "2026-07-16T11:40:04Z",
+    "pushed_at": "2026-08-08T06:22:28Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1146,7 +1152,7 @@
     "name": "lm-studio-remote",
     "description": "Python based remote for LM Studio",
     "url": "https://github.com/wlanboy/lm-studio-remote",
-    "pushed_at": "2026-07-29T18:48:53Z",
+    "pushed_at": "2026-08-08T06:22:04Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1176,7 +1182,7 @@
     "name": "mailserver_mock",
     "description": "python based mail server mock",
     "url": "https://github.com/wlanboy/mailserver_mock",
-    "pushed_at": "2026-08-03T15:43:14Z",
+    "pushed_at": "2026-08-08T06:22:07Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1203,7 +1209,7 @@
     "name": "mcp-dotnet-websearch",
     "description": "MCP Server in dotnet core für websuche",
     "url": "https://github.com/wlanboy/mcp-dotnet-websearch",
-    "pushed_at": "2026-07-18T16:59:51Z",
+    "pushed_at": "2026-08-08T06:01:52Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1224,7 +1230,7 @@
     "name": "mcp-duck-search",
     "description": "Python based mcp server für duckduckgo search",
     "url": "https://github.com/wlanboy/mcp-duck-search",
-    "pushed_at": "2026-07-18T14:18:53Z",
+    "pushed_at": "2026-08-08T06:21:59Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1299,7 +1305,7 @@
     "name": "mirrorapi",
     "description": "python based microservice to forward the requst as response. ",
     "url": "https://github.com/wlanboy/mirrorapi",
-    "pushed_at": "2026-07-31T13:25:45Z",
+    "pushed_at": "2026-08-08T06:21:49Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1314,7 +1320,7 @@
     "name": "MirrorService",
     "description": "Spring Framework based service mirroring requests with parameterized wait time and http response codes",
     "url": "https://github.com/wlanboy/MirrorService",
-    "pushed_at": "2026-07-02T06:56:02Z",
+    "pushed_at": "2026-08-08T06:00:03Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1341,7 +1347,7 @@
     "name": "mysqlrouter_metriccollector",
     "description": "Python based mysql router metric collector",
     "url": "https://github.com/wlanboy/mysqlrouter_metriccollector",
-    "pushed_at": "2026-07-27T16:25:18Z",
+    "pushed_at": "2026-08-08T06:22:15Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1416,7 +1422,7 @@
     "name": "randomfail",
     "description": "Ein absichtlich instabiler FastAPI-Service zur Simulation realer Ausfallszenarien in Kubernetes-Clustern.",
     "url": "https://github.com/wlanboy/randomfail",
-    "pushed_at": "2026-07-26T08:25:39Z",
+    "pushed_at": "2026-08-08T06:21:27Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1473,7 +1479,7 @@
     "name": "scan-tools",
     "description": "Python based scan tools for git repros",
     "url": "https://github.com/wlanboy/scan-tools",
-    "pushed_at": "2026-08-02T05:55:33Z",
+    "pushed_at": "2026-08-08T06:21:29Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1509,7 +1515,7 @@
     "name": "ServiceRegistry",
     "description": "Spring Framework based Service Registry",
     "url": "https://github.com/wlanboy/ServiceRegistry",
-    "pushed_at": "2026-07-02T11:55:52Z",
+    "pushed_at": "2026-08-08T06:00:05Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1524,7 +1530,7 @@
     "name": "SimpleService",
     "description": "Simple Spring Rest Service playing Blockchain",
     "url": "https://github.com/wlanboy/SimpleService",
-    "pushed_at": "2026-07-01T15:24:22Z",
+    "pushed_at": "2026-08-08T06:00:07Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1599,7 +1605,7 @@
     "name": "usbview",
     "description": "Python opencv based webserver for streaming usb capture card streams",
     "url": "https://github.com/wlanboy/usbview",
-    "pushed_at": "2026-07-10T06:42:37Z",
+    "pushed_at": "2026-08-08T06:21:39Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1662,7 +1668,7 @@
     "name": "vram-model-calculator",
     "description": "Python based calculator for total vram usage of you gguf models",
     "url": "https://github.com/wlanboy/vram-model-calculator",
-    "pushed_at": "2026-08-06T05:09:33Z",
+    "pushed_at": "2026-08-08T12:00:00Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1683,7 +1689,7 @@
     "name": "WebShell",
     "description": "Spring Boot Web Shell",
     "url": "https://github.com/wlanboy/WebShell",
-    "pushed_at": "2026-06-13T12:18:30Z",
+    "pushed_at": "2026-08-08T06:00:09Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1704,7 +1710,7 @@
     "name": "wlanboy.github.io",
     "description": "website",
     "url": "https://github.com/wlanboy/wlanboy.github.io",
-    "pushed_at": "2026-08-06T14:12:30Z",
+    "pushed_at": "2026-08-08T06:03:57Z",
     "default_branch": "main",
     "readmes": [
       {

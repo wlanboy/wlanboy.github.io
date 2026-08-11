@@ -3,7 +3,7 @@
     "name": "ansiblehook",
     "description": "Spring Boot based webhook for ansible playbooks",
     "url": "https://github.com/wlanboy/ansiblehook",
-    "pushed_at": "2026-06-28T16:50:38Z",
+    "pushed_at": "2026-08-11T11:40:30Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -39,7 +39,7 @@
     "name": "bcrypt",
     "description": "bcrypt command line tool",
     "url": "https://github.com/wlanboy/bcrypt",
-    "pushed_at": "2026-06-05T18:22:21Z",
+    "pushed_at": "2026-08-11T11:50:39Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -408,7 +408,7 @@
     "name": "eurekaclient",
     "description": "Python based fake eureka client to register services in legacy eureka server instance",
     "url": "https://github.com/wlanboy/eurekaclient",
-    "pushed_at": "2026-05-24T06:52:58Z",
+    "pushed_at": "2026-08-11T11:50:43Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -594,7 +594,7 @@
     "name": "gowebarduino",
     "description": "Web remote console for arduino",
     "url": "https://github.com/wlanboy/gowebarduino",
-    "pushed_at": "2026-05-24T07:30:03Z",
+    "pushed_at": "2026-08-11T11:50:45Z",
     "default_branch": "master",
     "readmes": [
       {
@@ -624,9 +624,15 @@
     "name": "hadoop-lasttest",
     "description": "Übersicht über Map&Reduce Tools",
     "url": "https://github.com/wlanboy/hadoop-lasttest",
-    "pushed_at": "2026-08-05T11:51:34Z",
+    "pushed_at": "2026-08-11T13:06:09Z",
     "default_branch": "main",
     "readmes": [
+      {
+        "path": "metadaten/analyse.md",
+        "title": "xattr-Analyse: Anleitung",
+        "description": "Ermittelt, wie viele Extended Attributes (xattrs, gesetzt via hdfs dfs -setfattr) maximal bzw. durchschnittlich an einer Datei im Cluster haengen – ohne jede Datei einzeln per RPC abzufragen.",
+        "type": "text"
+      },
       {
         "path": "readme.md",
         "title": "hadoop-lasttest",
@@ -939,7 +945,7 @@
     "name": "kanban",
     "description": "Python based tui for a kanban board",
     "url": "https://github.com/wlanboy/kanban",
-    "pushed_at": "2026-06-20T10:03:45Z",
+    "pushed_at": "2026-08-11T11:50:47Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -954,7 +960,7 @@
     "name": "kanbantabs",
     "description": "golang based console kanban board",
     "url": "https://github.com/wlanboy/kanbantabs",
-    "pushed_at": "2026-06-20T10:04:17Z",
+    "pushed_at": "2026-08-11T11:50:49Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1290,7 +1296,7 @@
     "name": "minioaccess",
     "description": "Minimal minio admin webpage to replace removed features of open source web frontend",
     "url": "https://github.com/wlanboy/minioaccess",
-    "pushed_at": "2026-05-22T14:27:10Z",
+    "pushed_at": "2026-08-11T11:50:51Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1494,7 +1500,7 @@
     "name": "ServiceConfig",
     "description": "Spring Framework based configuration service",
     "url": "https://github.com/wlanboy/ServiceConfig",
-    "pushed_at": "2026-07-15T05:55:27Z",
+    "pushed_at": "2026-08-11T11:40:28Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1710,7 +1716,7 @@
     "name": "wlanboy.github.io",
     "description": "website",
     "url": "https://github.com/wlanboy/wlanboy.github.io",
-    "pushed_at": "2026-08-10T13:53:29Z",
+    "pushed_at": "2026-08-10T13:55:15Z",
     "default_branch": "main",
     "readmes": [
       {

@@ -33,7 +33,7 @@ jobs:
 
       - name: Commit changes if needed
         run: |
-          if [[ `git status --porcelain` ]]; then
+          if ! git diff --quiet -- readme-data.json; then
             git config user.name "GitHub Action"
             git config user.email "actions@github.com"
             git add readme-data.json

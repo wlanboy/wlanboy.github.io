@@ -1,26 +1,5 @@
 [
   {
-    "name": "ansiblehook",
-    "description": "Spring Boot based webhook for ansible playbooks",
-    "url": "https://github.com/wlanboy/ansiblehook",
-    "pushed_at": "2026-08-11T11:40:30Z",
-    "default_branch": "main",
-    "readmes": [
-      {
-        "path": "README.md",
-        "title": "ansiblehook",
-        "description": "HTTP-Webhook-Service zum Auslösen von Ansible-Playbooks über eine gesicherte REST-API.",
-        "type": "readme"
-      },
-      {
-        "path": "ping.md",
-        "title": "Webhook: ping",
-        "description": "Löst playbooks/ping.yml auf dem Inventory hosts mit --limit gmk aus.",
-        "type": "text"
-      }
-    ]
-  },
-  {
     "name": "ansible_uml",
     "description": "UML generator for ansible playbooks and inventories",
     "url": "https://github.com/wlanboy/ansible_uml",
@@ -31,6 +10,27 @@
         "path": "README.md",
         "title": "Ansible UML Visualizer",
         "description": "A small FastAPI web app that scans an Ansible repository (local path or git URL), finds inventories and playbooks, and generates a Mermaid diagram showing groups, hosts and tasks.",
+        "type": "readme"
+      }
+    ]
+  },
+  {
+    "name": "ansiblehook",
+    "description": "Spring Boot based webhook for ansible playbooks",
+    "url": "https://github.com/wlanboy/ansiblehook",
+    "pushed_at": "2026-08-11T11:40:30Z",
+    "default_branch": "main",
+    "readmes": [
+      {
+        "path": "ping.md",
+        "title": "Webhook: ping",
+        "description": "Löst playbooks/ping.yml auf dem Inventory hosts mit --limit gmk aus.",
+        "type": "text"
+      },
+      {
+        "path": "README.md",
+        "title": "ansiblehook",
+        "description": "HTTP-Webhook-Service zum Auslösen von Ansible-Playbooks über eine gesicherte REST-API.",
         "type": "readme"
       }
     ]
@@ -69,13 +69,13 @@
     "name": "burll",
     "description": "bash based curl light",
     "url": "https://github.com/wlanboy/burll",
-    "pushed_at": "2026-08-09T07:14:28Z",
+    "pushed_at": "2026-08-14T07:34:49Z",
     "default_branch": "main",
     "readmes": [
       {
         "path": "README.md",
         "title": "burll",
-        "description": "A curl-like HTTP client implemented in pure bash using /dev/tcp — no curl, no wget, no external tools required for plain HTTP.",
+        "description": "A curl-like HTTP client implemented in pure bash using /dev/tcp. It supports common curl flags (-v, -k, -i, -X, -H, -d, -o, -m), making it a drop-in fallback for scripts and minimal container images (e.g. distroless or slim base images) where curl or wget aren't installed but bash is. HTTPS is…",
         "type": "readme"
       }
     ]
@@ -88,16 +88,16 @@
     "default_branch": "main",
     "readmes": [
       {
-        "path": "README.md",
-        "title": "caweb – Minimal Web UI for a Local Certificate Authority",
-        "description": "caweb is a tiny, self‑contained Certificate Authority (CA) web interface for issuing and managing certificates. It includes a lightweight FastAPI (uvicorn) application and a Dockerfile, allowing you to run it locally or inside a container with minimal setup.",
-        "type": "readme"
-      },
-      {
         "path": "caweb-chart/readme.md",
         "title": "helm chart to deploy caweb",
         "description": "Needs a secret for the ca. Create secret befor deploying the helm chart.",
         "type": "module"
+      },
+      {
+        "path": "README.md",
+        "title": "caweb – Minimal Web UI for a Local Certificate Authority",
+        "description": "caweb is a tiny, self‑contained Certificate Authority (CA) web interface for issuing and managing certificates. It includes a lightweight FastAPI (uvicorn) application and a Dockerfile, allowing you to run it locally or inside a container with minimal setup.",
+        "type": "readme"
       }
     ]
   },
@@ -181,12 +181,6 @@
     "default_branch": "main",
     "readmes": [
       {
-        "path": "README.md",
-        "title": "Ansible Deployment Monitor",
-        "description": "Dieses Tool führt mehrere Ansible-Playbooks aus, misst deren Laufzeit und Status, speichert Metriken in SQLite und pusht sie an Prometheus Pushgateway.",
-        "type": "readme"
-      },
-      {
         "path": "docker.md",
         "title": "🐳 Deployment API – Docker Setup",
         "description": "Diese Anleitung beschreibt, wie du die FastAPI-basierte Deployment-API in einem Docker-Container ausführst, inklusive Ansible-Integration und Zugriff auf SSH-Keys und Playbooks.",
@@ -197,6 +191,12 @@
         "title": "Prometheus + Pushgateway Monitoring Setup",
         "description": "Dieses Setup stellt eine einfache Monitoring-Infrastruktur bereit, bestehend aus:",
         "type": "module"
+      },
+      {
+        "path": "README.md",
+        "title": "Ansible Deployment Monitor",
+        "description": "Dieses Tool führt mehrere Ansible-Playbooks aus, misst deren Laufzeit und Status, speichert Metriken in SQLite und pusht sie an Prometheus Pushgateway.",
+        "type": "readme"
       }
     ]
   },
@@ -211,6 +211,12 @@
         "path": "Artefactory/Artefactory.md",
         "title": "Artifactory OSS Docker Setup",
         "description": "Dieses Verzeichnis enthält ein Skript zum Starten von JFrog Artifactory Open Source via Docker. Artifactory ist ein universeller Artefakt-Repository-Manager, der Maven-, Gradle-, npm-, Docker- und weitere Paketformate unterstützt. Er dient als lokaler Spiegel für externe Repositories und als…",
+        "type": "text"
+      },
+      {
+        "path": "clean-history.md",
+        "title": "clean git repro",
+        "description": "Anleitung um alte/große Dateien aus der Git-Historie zu entfernen ohne den aktuellen Stand zu verlieren.",
         "type": "text"
       },
       {
@@ -235,6 +241,12 @@
         "path": "Couchbase/Couchbase.md",
         "title": "Couchbase Docker Setup (Zwei-Knoten-Cluster)",
         "description": "Dieses Verzeichnis enthält ein Skript zum Starten eines Zwei-Knoten-Couchbase-Clusters via Docker. Couchbase ist eine verteilte NoSQL-Dokumentendatenbank mit integriertem Caching, N1QL-Abfragesprache und Web-UI.",
+        "type": "text"
+      },
+      {
+        "path": "docker-on-windows.md",
+        "title": "Docker on Windows",
+        "description": "Docker ohne Docker Desktop auf Windows betreiben — via WSL2 und Debian.",
         "type": "text"
       },
       {
@@ -280,6 +292,12 @@
         "type": "text"
       },
       {
+        "path": "letsencrypt/letsencrypt.md",
+        "title": "Let's Encrypt",
+        "description": "Kostenlose, automatisierte TLS-Zertifikate von der gemeinnützigen Certificate Authority Let's Encrypt. Zertifikate sind 90 Tage gültig und können vollautomatisch über das ACME-Protokoll ausgestellt und erneuert werden — ohne manuelle Eingriffe oder Kosten.",
+        "type": "text"
+      },
+      {
         "path": "MariaDB/MariaDB.md",
         "title": "MariaDB Docker Setup",
         "description": "Dieses Verzeichnis enthält Skripte zum Starten eines MariaDB Containers via Docker. MariaDB ist ein leistungsstarkes, quelloffenes relationales Datenbanksystem und ein vollständig kompatibler Fork von MySQL. Es eignet sich für den Einsatz in Entwicklungsumgebungen, auf Einplatinenrechnern und in…",
@@ -322,16 +340,16 @@
         "type": "text"
       },
       {
-        "path": "README.md",
-        "title": "Dockerfiles",
-        "description": "Repository for Docker run scripts, compose files, and infrastructure configs.",
-        "type": "readme"
-      },
-      {
         "path": "RabbitMQ/RabbitMQ.md",
         "title": "RabbitMQ Docker Setup",
         "description": "Dieses Verzeichnis enthält Skripte zum Starten eines RabbitMQ 3.8.2 Containers via Docker – wahlweise für amd64- oder ARM64-Systeme. RabbitMQ wird mit aktiviertem Management-Plugin gestartet und stellt AMQP- sowie Management-Ports bereit.",
         "type": "text"
+      },
+      {
+        "path": "README.md",
+        "title": "Dockerfiles",
+        "description": "Repository for Docker run scripts, compose files, and infrastructure configs.",
+        "type": "readme"
       },
       {
         "path": "Solr/README.md",
@@ -340,33 +358,15 @@
         "type": "module"
       },
       {
-        "path": "Valkey/Valkey.md",
-        "title": "Valkey Docker Setup",
-        "description": "Dieses Verzeichnis enthält ein Skript zum Starten eines Valkey Containers via Docker. Valkey ist ein quelloffener Fork von Redis, der unter der BSD-3-Clause-Lizenz weiterentwickelt wird und vollständig kompatibel mit Redis-Clients ist.",
-        "type": "text"
-      },
-      {
-        "path": "clean-history.md",
-        "title": "clean git repro",
-        "description": "Anleitung um alte/große Dateien aus der Git-Historie zu entfernen ohne den aktuellen Stand zu verlieren.",
-        "type": "text"
-      },
-      {
-        "path": "docker-on-windows.md",
-        "title": "Docker on Windows",
-        "description": "Docker ohne Docker Desktop auf Windows betreiben — via WSL2 und Debian.",
-        "type": "text"
-      },
-      {
-        "path": "letsencrypt/letsencrypt.md",
-        "title": "Let's Encrypt",
-        "description": "Kostenlose, automatisierte TLS-Zertifikate von der gemeinnützigen Certificate Authority Let's Encrypt. Zertifikate sind 90 Tage gültig und können vollautomatisch über das ACME-Protokoll ausgestellt und erneuert werden — ohne manuelle Eingriffe oder Kosten.",
-        "type": "text"
-      },
-      {
         "path": "start-webtop.md",
         "title": "Start webtop instance",
         "description": "Ubuntu-Desktop im Browser — kein VNC-Client nötig, Zugriff direkt über http://127.0.0.1:3000",
+        "type": "text"
+      },
+      {
+        "path": "Valkey/Valkey.md",
+        "title": "Valkey Docker Setup",
+        "description": "Dieses Verzeichnis enthält ein Skript zum Starten eines Valkey Containers via Docker. Valkey ist ein quelloffener Fork von Redis, der unter der BSD-3-Clause-Lizenz weiterentwickelt wird und vollständig kompatibel mit Redis-Clients ist.",
         "type": "text"
       },
       {
@@ -412,12 +412,6 @@
     "default_branch": "main",
     "readmes": [
       {
-        "path": "README.md",
-        "title": "Eureka service registering all services in services.json",
-        "description": "Goal of this project is a simple and small client to provide a migration path for everyone stuck with Spring Eureka. The microservices that are your own responsibility should be freed from the burden of running a Eureka client that is no longer in use but is still needed for your customers. In a…",
-        "type": "readme"
-      },
-      {
         "path": "accesslogs/readme.md",
         "title": "Eureka Access Log Server",
         "description": "Dieses Tool dient als Dummy-Ersatz für einen abgeschalteten Eureka-Server, um herauszufinden, welche Clients ihn noch aktiv ansprechen.",
@@ -428,6 +422,12 @@
         "title": "Eureka REST API – Beispiele",
         "description": "Dieses Verzeichnis enthält HTTP-Beispielanfragen für die Eureka REST API sowie eine Beispielantwort im XML-Format.",
         "type": "module"
+      },
+      {
+        "path": "README.md",
+        "title": "Eureka service registering all services in services.json",
+        "description": "Goal of this project is a simple and small client to provide a migration path for everyone stuck with Spring Eureka. The microservices that are your own responsibility should be freed from the burden of running a Eureka client that is no longer in use but is still needed for your customers. In a…",
+        "type": "readme"
       }
     ]
   },
@@ -664,12 +664,6 @@
     "default_branch": "main",
     "readmes": [
       {
-        "path": "README.md",
-        "title": "HAProxy Monitoring Stack",
-        "description": "Vollständiger Monitoring-Stack für HAProxy mit Prometheus, Grafana und Blackbox Exporter. Das Setup simuliert eine Microservice-Landschaft mit 22 HAProxy-Backends, die alle über einen internen nginx-Container bedient werden. Drei Grafana-Dashboards zeigen HAProxy-Metriken, Backend-Erreichbarkeit…",
-        "type": "readme"
-      },
-      {
         "path": "config-generator/README.md",
         "title": "generate_targets.py",
         "description": "Dieses Script fragt den HAProxy Stats-Endpoint (CSV-Export) ab, ermittelt daraus jeden einzelnen Server jedes konfigurierten Backends samt Adresse und schreibt sie als Prometheus file_sd-Target-Datei heraus. Diese Datei wird vom blackbox-exporter als Service-Discovery-Quelle für den HTTP-Probe-Job…",
@@ -680,6 +674,12 @@
         "title": "prometheus.yml",
         "description": "Konfiguration des Prometheus-Servers für diesen Stack. Definiert zwei Scrape-Jobs.",
         "type": "text"
+      },
+      {
+        "path": "README.md",
+        "title": "HAProxy Monitoring Stack",
+        "description": "Vollständiger Monitoring-Stack für HAProxy mit Prometheus, Grafana und Blackbox Exporter. Das Setup simuliert eine Microservice-Landschaft mit 22 HAProxy-Backends, die alle über einen internen nginx-Container bedient werden. Drei Grafana-Dashboards zeigen HAProxy-Metriken, Backend-Erreichbarkeit…",
+        "type": "readme"
       }
     ]
   },
@@ -736,16 +736,16 @@
     "default_branch": "main",
     "readmes": [
       {
-        "path": "README.md",
-        "title": "Hermes Local – Lokale KI‑Assistenten‑Umgebung (offline)",
-        "description": "Hermes Local ist eine vollständig offline laufende KI‑Assistenten‑Umgebung auf Basis von Hermes und Ollama. Keine Cloud‑Dienste, keine externen Abhängigkeiten — alle Daten bleiben lokal auf dem Rechner.",
-        "type": "readme"
-      },
-      {
         "path": "config/SOUL.md",
         "title": "Persona",
         "description": "Name: Hermes Tone: direct, concise, and practical — no unnecessary filler Language: respond in the same language the user writes in",
         "type": "text"
+      },
+      {
+        "path": "README.md",
+        "title": "Hermes Local – Lokale KI‑Assistenten‑Umgebung (offline)",
+        "description": "Hermes Local ist eine vollständig offline laufende KI‑Assistenten‑Umgebung auf Basis von Hermes und Ollama. Keine Cloud‑Dienste, keine externen Abhängigkeiten — alle Daten bleiben lokal auf dem Rechner.",
+        "type": "readme"
       }
     ]
   },
@@ -753,7 +753,7 @@
     "name": "httptester",
     "description": "http tester servie for kubernets, istio and service mesh connection and dns tests. Local dual kind setup for istio service mesh.",
     "url": "https://github.com/wlanboy/httptester",
-    "pushed_at": "2026-08-09T12:44:41Z",
+    "pushed_at": "2026-08-13T18:05:44Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -823,16 +823,16 @@
     "default_branch": "main",
     "readmes": [
       {
-        "path": "README.md",
-        "title": "istio-crds",
-        "description": "Kommandozeilen-Tool, das alle in einem Kubernetes-Cluster installierten Istio-CRDs (Gruppe *.istio.io) mit jeder API-Version auflistet. Zusätzlich werden potenzielle Cluster-Probleme rund um diese CRDs erkannt: veraltete API-Versionen, ausstehende Storage-Version-Migrationen sowie nicht…",
-        "type": "readme"
-      },
-      {
         "path": "arangodb/arangodb.md",
         "title": "ArangoDB-Integration",
         "description": "Dieses Dokument beschreibt den kompletten ArangoDB-Pfad des Projekts: von den JSON-Graphen (istio-graph.py / connections-graph.py) über den Import nach ArangoDB bis zur Visualisierung im Browser.",
         "type": "text"
+      },
+      {
+        "path": "README.md",
+        "title": "istio-crds",
+        "description": "Kommandozeilen-Tool, das alle in einem Kubernetes-Cluster installierten Istio-CRDs (Gruppe *.istio.io) mit jeder API-Version auflistet. Zusätzlich werden potenzielle Cluster-Probleme rund um diese CRDs erkannt: veraltete API-Versionen, ausstehende Storage-Version-Migrationen sowie nicht…",
+        "type": "readme"
       },
       {
         "path": "syncjob/syncjob.md",
@@ -874,15 +874,15 @@
         "type": "module"
       },
       {
-        "path": "ratelimitService/readme.md",
-        "title": "Ratelimit Full (Global Rate Limiting) Usecase",
-        "description": "Demonstriert Istio Global Rate Limiting im Gegensatz zum ratelimits-Usecase (Local Rate Limiting):",
-        "type": "module"
-      },
-      {
         "path": "ratelimits/readme.md",
         "title": "Ratelimit Usecase",
         "description": "Demonstriert Istio Local Rate Limiting: ein nginx-Deployment (2 Replicas) in einem eigenen Namespace, abgesichert durch einen EnvoyFilter, der pro Sidecar nur eine begrenzte Anzahl Requests pro Zeitfenster zulässt. Ein Lasttest-Pod zeigt anschließend die resultierenden HTTP-Returncodes (200 vs…",
+        "type": "module"
+      },
+      {
+        "path": "ratelimitService/readme.md",
+        "title": "Ratelimit Full (Global Rate Limiting) Usecase",
+        "description": "Demonstriert Istio Global Rate Limiting im Gegensatz zum ratelimits-Usecase (Local Rate Limiting):",
         "type": "module"
       },
       {
@@ -897,7 +897,7 @@
     "name": "Java-within-kubernetes",
     "description": "Erfahrungen einer JVM in Kubernetesland",
     "url": "https://github.com/wlanboy/Java-within-kubernetes",
-    "pushed_at": "2026-08-10T12:52:12Z",
+    "pushed_at": "2026-08-13T14:25:52Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -916,12 +916,6 @@
     "default_branch": "main",
     "readmes": [
       {
-        "path": "README.md",
-        "title": "JavaHttpClient",
-        "description": "A Spring Boot REST service for testing and diagnosing HTTP routes in Kubernetes clusters with Istio service mesh. It acts as a configurable HTTP proxy that forwards requests to any target URL and returns the response along with timing, status and header information. Additionally it exposes…",
-        "type": "readme"
-      },
-      {
         "path": "dokumentation.md",
         "title": "JavaHttpClient – Projektdokumentation",
         "description": "Diagnose-Tool für HTTP-Konnektivitätsprobleme in Kubernetes-Clustern mit Istio Service Mesh. Läuft als Pod im Cluster und ermöglicht:",
@@ -938,6 +932,12 @@
         "title": "Spring Boot Layered JAR – Strategie & Anwendungsanleitung",
         "description": "Diese Anleitung erklärt, wie ein Spring Boot JAR in optimierte Docker-Layer aufgeteilt wird. Ziel ist es, Build-Zeiten und Netzwerk-Traffic zu reduzieren, indem stabile Abhängigkeiten gecacht werden und nur der eigentliche Anwendungscode bei jedem Deployment neu übertragen wird. Die Anleitung deckt…",
         "type": "text"
+      },
+      {
+        "path": "README.md",
+        "title": "JavaHttpClient",
+        "description": "A Spring Boot REST service for testing and diagnosing HTTP routes in Kubernetes clusters with Istio service mesh. It acts as a configurable HTTP proxy that forwards requests to any target URL and returns the response along with timing, status and header information. Additionally it exposes…",
+        "type": "readme"
       }
     ]
   },
@@ -975,20 +975,20 @@
     "name": "kubecontext",
     "description": "Python tool to get and manage kube config files.",
     "url": "https://github.com/wlanboy/kubecontext",
-    "pushed_at": "2026-08-09T06:59:30Z",
+    "pushed_at": "2026-08-13T14:17:20Z",
     "default_branch": "main",
     "readmes": [
-      {
-        "path": "README.md",
-        "title": "kubecontext",
-        "description": "Ein interaktives TUI-Tool (Terminal User Interface) zur effizienten und sicheren Verwaltung von Kubernetes-Kontexten in der lokalen ~/.kube/config.",
-        "type": "readme"
-      },
       {
         "path": "old/old.md",
         "title": "kubecontext",
         "description": "TUI zum Zusammenführen von kubectl-Contexts aus SSH-Hosts in die lokale ~/.kube/config.",
         "type": "text"
+      },
+      {
+        "path": "README.md",
+        "title": "kubecontext",
+        "description": "Ein interaktives TUI-Tool (Terminal User Interface) zur effizienten und sicheren Verwaltung von Kubernetes-Kontexten in der lokalen ~/.kube/config.",
+        "type": "readme"
       }
     ]
   },
@@ -1000,16 +1000,16 @@
     "default_branch": "main",
     "readmes": [
       {
-        "path": "README.md",
-        "title": "kubectl analytics",
-        "description": "kubectl_analytics is a lightweight tool that analyzes Kubernetes logs, events, and resource states to provide actionable insights into cluster behavior. It helps identify patterns, anomalies, and potential issues by aggregating and interpreting data directly from the Kubernetes API.",
-        "type": "readme"
-      },
-      {
         "path": "docker.md",
         "title": "Docker build für kubectl analytics",
         "description": "kubectl analytics als container local ausführen.",
         "type": "text"
+      },
+      {
+        "path": "README.md",
+        "title": "kubectl analytics",
+        "description": "kubectl_analytics is a lightweight tool that analyzes Kubernetes logs, events, and resource states to provide actionable insights into cluster behavior. It helps identify patterns, anomalies, and potential issues by aggregating and interpreting data directly from the Kubernetes API.",
+        "type": "readme"
       }
     ]
   },
@@ -1027,16 +1027,16 @@
         "type": "text"
       },
       {
-        "path": "README.md",
-        "title": "📡Kubernetes Event Dashboard",
-        "description": "A lightweight, real‑time dashboard for collecting, storing, searching, and visualizing Kubernetes Events. This project provides: A FastAPI backend that watches Kubernetes events, stores them in a database, and exposes REST + SSE endpoints A minimal frontend for live event streaming, searching…",
-        "type": "readme"
-      },
-      {
         "path": "kubeevent-chart/kubeevent-chart.md",
         "title": "kubeevent-chart",
         "description": "Helm-Chart zum Deployment von kubeevent in einem Kubernetes-Cluster. Das Chart erzeugt Deployment, Service und PVC für die Anwendung, richtet über cert-manager ein TLS-Zertifikat ein und macht den Service via Istio Gateway/VirtualService nach außen erreichbar. Zusätzlich legt es ServiceAccount und…",
         "type": "text"
+      },
+      {
+        "path": "README.md",
+        "title": "📡Kubernetes Event Dashboard",
+        "description": "A lightweight, real‑time dashboard for collecting, storing, searching, and visualizing Kubernetes Events. This project provides: A FastAPI backend that watches Kubernetes events, stores them in a database, and exposes REST + SSE endpoints A minimal frontend for live event streaming, searching…",
+        "type": "readme"
       }
     ]
   },
@@ -1054,16 +1054,16 @@
         "type": "module"
       },
       {
-        "path": "README.md",
-        "title": "Kubernetes Event Dashboard",
-        "description": "A lightweight, real‑time dashboard for collecting, storing, searching, and visualizing Kubernetes Events. This project provides:",
-        "type": "readme"
-      },
-      {
         "path": "kubeeventjava-chart/readme.md",
         "title": "Helm install for kubeeventjava",
         "description": "This helm script installs the Kubeevent Java App within a kubernetes cluster.",
         "type": "module"
+      },
+      {
+        "path": "README.md",
+        "title": "Kubernetes Event Dashboard",
+        "description": "A lightweight, real‑time dashboard for collecting, storing, searching, and visualizing Kubernetes Events. This project provides:",
+        "type": "readme"
       },
       {
         "path": "tekton/tekton-pipeline.md",
@@ -1092,7 +1092,7 @@
     "name": "kubernetes-volumes",
     "description": "Python based check for volume issues",
     "url": "https://github.com/wlanboy/kubernetes-volumes",
-    "pushed_at": "2026-07-18T16:53:35Z",
+    "pushed_at": "2026-08-13T14:19:06Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1158,7 +1158,7 @@
     "name": "lm-studio-remote",
     "description": "Python based remote for LM Studio",
     "url": "https://github.com/wlanboy/lm-studio-remote",
-    "pushed_at": "2026-08-09T07:00:31Z",
+    "pushed_at": "2026-08-13T14:02:50Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1188,7 +1188,7 @@
     "name": "mailserver_mock",
     "description": "python based mail server mock",
     "url": "https://github.com/wlanboy/mailserver_mock",
-    "pushed_at": "2026-08-09T07:00:46Z",
+    "pushed_at": "2026-08-13T14:29:24Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1219,16 +1219,16 @@
     "default_branch": "main",
     "readmes": [
       {
-        "path": "README.md",
-        "title": "mcp-dotnet-server",
-        "description": "Ein MCP-Server (Model Context Protocol) auf Basis von ASP.NET Core mit HTTP-Transport. Der Server stellt AI-Clients verschiedene Tools zur Verfuegung.",
-        "type": "readme"
-      },
-      {
         "path": "first-steps.md",
         "title": "MCP Server mit ASP.NET Core (HTTP) – Schritt fuer Schritt",
         "description": "Diese Anleitung beschreibt, wie der mcp-dotnet-server erstellt wurde.",
         "type": "text"
+      },
+      {
+        "path": "README.md",
+        "title": "mcp-dotnet-server",
+        "description": "Ein MCP-Server (Model Context Protocol) auf Basis von ASP.NET Core mit HTTP-Transport. Der Server stellt AI-Clients verschiedene Tools zur Verfuegung.",
+        "type": "readme"
       }
     ]
   },
@@ -1326,20 +1326,20 @@
     "name": "MirrorService",
     "description": "Spring Framework based service mirroring requests with parameterized wait time and http response codes",
     "url": "https://github.com/wlanboy/MirrorService",
-    "pushed_at": "2026-08-09T07:29:52Z",
+    "pushed_at": "2026-08-14T07:21:23Z",
     "default_branch": "main",
     "readmes": [
-      {
-        "path": "README.md",
-        "title": "MirrorService",
-        "description": "Spring Framework based Service which is mirroring requests with the option to delay requests and alter http response codes",
-        "type": "readme"
-      },
       {
         "path": "docker.md",
         "title": "MirrorService – Docker Build Varianten",
         "description": "Drei Dockerfiles stehen zur Verfügung, die sich in Komplexität, Image-Größe und Startverhalten unterscheiden. Alle nutzen Java 25 und ein Multi-Stage-Build.",
         "type": "text"
+      },
+      {
+        "path": "README.md",
+        "title": "MirrorService",
+        "description": "Spring Framework based Service which is mirroring requests with the option to delay requests and alter http response codes",
+        "type": "readme"
       },
       {
         "path": "tekton/tekton-pipeline.md",
@@ -1398,7 +1398,7 @@
     "name": "prometheus_helper",
     "description": "Python based Prometheus health helper",
     "url": "https://github.com/wlanboy/prometheus_helper",
-    "pushed_at": "2026-07-31T06:03:07Z",
+    "pushed_at": "2026-08-13T14:19:56Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1428,20 +1428,20 @@
     "name": "randomfail",
     "description": "Ein absichtlich instabiler FastAPI-Service zur Simulation realer Ausfallszenarien in Kubernetes-Clustern.",
     "url": "https://github.com/wlanboy/randomfail",
-    "pushed_at": "2026-08-09T07:02:50Z",
+    "pushed_at": "2026-08-14T06:39:48Z",
     "default_branch": "main",
     "readmes": [
-      {
-        "path": "README.md",
-        "title": "Kubernetes Chaos Simulator – randomfail",
-        "description": "randomfail ist ein absichtlich instabiler FastAPI‑Service zur Simulation realer Ausfallszenarien in Kubernetes‑Clustern. Der Dienst erzeugt automatisch oder manuell verschiedene Fehlerzustände und ermöglicht so das gezielte Testen von:",
-        "type": "readme"
-      },
       {
         "path": "randomfail-chart/readme.md",
         "title": "Helm install for randomfail chart",
         "description": "This helm script installs the randmon fail deployment within a kubernetes cluster.",
         "type": "module"
+      },
+      {
+        "path": "README.md",
+        "title": "Kubernetes Chaos Simulator – randomfail",
+        "description": "randomfail ist ein absichtlich instabiler FastAPI‑Service zur Simulation realer Ausfallszenarien in Kubernetes‑Clustern. Der Dienst erzeugt automatisch oder manuell verschiedene Fehlerzustände und ermöglicht so das gezielte Testen von:",
+        "type": "readme"
       }
     ]
   },
@@ -1566,7 +1566,7 @@
     "name": "spring-ai-mcp",
     "description": "Spring Based MCP Server",
     "url": "https://github.com/wlanboy/spring-ai-mcp",
-    "pushed_at": "2026-06-30T17:04:33Z",
+    "pushed_at": "2026-08-14T07:06:08Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1645,12 +1645,6 @@
     "default_branch": "main",
     "readmes": [
       {
-        "path": "README.md",
-        "title": "virtualbox-kubernets",
-        "description": "Virtualbox based, vagrant provisioned Kubernets Homelab from skratch",
-        "type": "readme"
-      },
-      {
         "path": "deploy-a-service.md",
         "title": "Deploy a selfcontained Spring Boot Microservice",
         "description": "We will use my Crudservice: https://github.com/wlanboy/CrudService",
@@ -1667,6 +1661,12 @@
         "title": "Install PostgreSQL on Kubernetes",
         "description": "",
         "type": "module"
+      },
+      {
+        "path": "README.md",
+        "title": "virtualbox-kubernets",
+        "description": "Virtualbox based, vagrant provisioned Kubernets Homelab from skratch",
+        "type": "readme"
       }
     ]
   },
@@ -1674,20 +1674,20 @@
     "name": "vram-model-calculator",
     "description": "Python based calculator for total vram usage of you gguf models",
     "url": "https://github.com/wlanboy/vram-model-calculator",
-    "pushed_at": "2026-08-08T12:00:00Z",
+    "pushed_at": "2026-08-13T17:46:17Z",
     "default_branch": "main",
     "readmes": [
-      {
-        "path": "README.md",
-        "title": "VRAM Model Calculator",
-        "description": "Beantwortet eine einfache Frage: Passt dieses GGUF-Modell in meine GPU?",
-        "type": "readme"
-      },
       {
         "path": "gguf-format.md",
         "title": "GGUF-Format – Technische Übersicht",
         "description": "GGUF (GGML Universal Format) ist das binäre Dateiformat für KI-Modelle, das von llama.cpp verwendet wird. Es löste das ältere GGML- und GGJT-Format ab und wurde so konzipiert, dass Metadaten, Tokenizer und Tensor-Gewichte in einer einzigen Datei gespeichert werden können.",
         "type": "text"
+      },
+      {
+        "path": "README.md",
+        "title": "VRAM Model Calculator",
+        "description": "Beantwortet eine einfache Frage: Passt dieses GGUF-Modell in meine GPU?",
+        "type": "readme"
       }
     ]
   },
@@ -1716,7 +1716,7 @@
     "name": "wlanboy.github.io",
     "description": "website",
     "url": "https://github.com/wlanboy/wlanboy.github.io",
-    "pushed_at": "2026-08-12T13:12:02Z",
+    "pushed_at": "2026-08-14T04:05:39Z",
     "default_branch": "main",
     "readmes": [
       {

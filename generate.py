@@ -320,6 +320,8 @@ def main():
                     "type": filetype
                 })
 
+        readme_entries.sort(key=lambda entry: entry["path"].lower())
+
         result.append({
             "name": repo_name,
             "description": repo.get("description"),
@@ -328,6 +330,8 @@ def main():
             "default_branch": branch,
             "readmes": readme_entries
         })
+
+    result.sort(key=lambda repo: repo["name"].lower())
 
     with open("readme-data.json", "w", encoding="utf-8") as f:
         json.dump(result, f, indent=2, ensure_ascii=False)

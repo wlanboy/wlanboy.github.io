@@ -150,7 +150,7 @@
     "name": "debian-cloud-init",
     "description": "Create libvirt  vm of debian 12 and 13 with cloud init - with amd64 and arm64 support",
     "url": "https://github.com/wlanboy/debian-cloud-init",
-    "pushed_at": "2026-08-09T06:57:39Z",
+    "pushed_at": "2026-08-14T14:32:50Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -168,7 +168,7 @@
       {
         "path": "templates/cloud-init-templates.md",
         "title": "Templates",
-        "description": "Dieser Ordner enthält die Bausteine, aus denen generator.py (lokales KVM/libvirt) und proxmox_generator.py (Proxmox) zur Laufzeit die finale cloud-init.yml zusammensetzen. Keine dieser Dateien wird direkt verwendet – sie werden geladen, kombiniert und als neues YAML geschrieben.",
+        "description": "Dieser Ordner enthält die Bausteine, aus denen debian_cloud_init/generator.py (lokales KVM/libvirt) und proxmox_cloud_init/generator.py (Proxmox) zur Laufzeit die finale cloud-init.yml zusammensetzen. Keine dieser Dateien wird direkt verwendet – sie werden geladen, kombiniert und als neues YAML…",
         "type": "text"
       }
     ]
@@ -846,9 +846,15 @@
     "name": "istio-usecases",
     "description": "Simple Istio usecases",
     "url": "https://github.com/wlanboy/istio-usecases",
-    "pushed_at": "2026-08-08T08:52:48Z",
+    "pushed_at": "2026-08-14T14:46:31Z",
     "default_branch": "main",
     "readmes": [
+      {
+        "path": "authorizationPolicy/readme.md",
+        "title": "Authorization Policy Usecase",
+        "description": "Demonstriert Istio AuthorizationPolicy mit Allow/Deny anhand der Source-Workload-Identity: zwei Clients (client-a, client-b), jeder mit eigenem ServiceAccount, rufen denselben Service (backend) auf. Per Default dürfen beide zugreifen. incident.yaml simuliert einen Sicherheitsvorfall — angewendet…",
+        "type": "module"
+      },
       {
         "path": "externalServiceTls/readme.md",
         "title": "External Service TLS Origination Usecase",
@@ -1099,6 +1105,21 @@
         "path": "README.md",
         "title": "kubernetes-volumes",
         "description": "CLI, die PersistentVolumeClaims (und die zugehörigen gebundenen PersistentVolumes) für einen Namespace anzeigt — oder für alle Namespaces, auf die Zugriff besteht — und dabei auffällige/ungesunde Ressourcen markiert.",
+        "type": "readme"
+      }
+    ]
+  },
+  {
+    "name": "kubestats",
+    "description": "Python based kubectl crd statistic tool",
+    "url": "https://github.com/wlanboy/kubestats",
+    "pushed_at": "2026-08-09T07:00:23Z",
+    "default_branch": "main",
+    "readmes": [
+      {
+        "path": "README.md",
+        "title": "kubestats",
+        "description": "A command-line tool for gathering and visualizing statistics about Kubernetes and OpenShift cluster resources — focused on adoption rates, operator usage, and service mesh coverage, always broken down per namespace.",
         "type": "readme"
       }
     ]
@@ -1428,7 +1449,7 @@
     "name": "randomfail",
     "description": "Ein absichtlich instabiler FastAPI-Service zur Simulation realer Ausfallszenarien in Kubernetes-Clustern.",
     "url": "https://github.com/wlanboy/randomfail",
-    "pushed_at": "2026-08-14T06:39:48Z",
+    "pushed_at": "2026-08-14T15:02:31Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1716,7 +1737,7 @@
     "name": "wlanboy.github.io",
     "description": "website",
     "url": "https://github.com/wlanboy/wlanboy.github.io",
-    "pushed_at": "2026-08-14T04:05:39Z",
+    "pushed_at": "2026-08-14T13:09:12Z",
     "default_branch": "main",
     "readmes": [
       {

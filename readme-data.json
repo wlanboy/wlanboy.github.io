@@ -816,33 +816,6 @@
     ]
   },
   {
-    "name": "istio-crds",
-    "description": "Python based istio crd statistics",
-    "url": "https://github.com/wlanboy/istio-crds",
-    "pushed_at": "2026-07-30T07:41:06Z",
-    "default_branch": "main",
-    "readmes": [
-      {
-        "path": "arangodb/arangodb.md",
-        "title": "ArangoDB-Integration",
-        "description": "Dieses Dokument beschreibt den kompletten ArangoDB-Pfad des Projekts: von den JSON-Graphen (istio-graph.py / connections-graph.py) über den Import nach ArangoDB bis zur Visualisierung im Browser.",
-        "type": "text"
-      },
-      {
-        "path": "README.md",
-        "title": "istio-crds",
-        "description": "Kommandozeilen-Tool, das alle in einem Kubernetes-Cluster installierten Istio-CRDs (Gruppe *.istio.io) mit jeder API-Version auflistet. Zusätzlich werden potenzielle Cluster-Probleme rund um diese CRDs erkannt: veraltete API-Versionen, ausstehende Storage-Version-Migrationen sowie nicht…",
-        "type": "readme"
-      },
-      {
-        "path": "syncjob/syncjob.md",
-        "title": "sync-job.py",
-        "description": "Führt istio-graph.py und datenimport.py einmalig hintereinander aus (Graph erzeugen → nach Neo4j importieren) und beendet sich danach. Gedacht für den Betrieb als Kubernetes CronJob — die Wiederholung übernimmt dabei der CronJob, dieses Skript macht pro Aufruf genau einen Durchlauf.",
-        "type": "text"
-      }
-    ]
-  },
-  {
     "name": "istio-usecases",
     "description": "Simple Istio usecases",
     "url": "https://github.com/wlanboy/istio-usecases",
@@ -1083,7 +1056,7 @@
     "name": "kubernetes-crds",
     "description": "Python based kubernetes crd statistics",
     "url": "https://github.com/wlanboy/kubernetes-crds",
-    "pushed_at": "2026-08-09T07:00:08Z",
+    "pushed_at": "2026-08-16T11:05:49Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1128,7 +1101,7 @@
     "name": "lgtm",
     "description": "Docker compose for LGTM Stack (Loki, Grafana, Tempo, Mimir)",
     "url": "https://github.com/wlanboy/lgtm",
-    "pushed_at": "2026-07-27T17:11:05Z",
+    "pushed_at": "2026-08-16T11:35:02Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1695,7 +1668,7 @@
     "name": "vram-model-calculator",
     "description": "Python based calculator for total vram usage of you gguf models",
     "url": "https://github.com/wlanboy/vram-model-calculator",
-    "pushed_at": "2026-08-13T17:46:17Z",
+    "pushed_at": "2026-08-16T08:04:30Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1737,7 +1710,7 @@
     "name": "wlanboy.github.io",
     "description": "website",
     "url": "https://github.com/wlanboy/wlanboy.github.io",
-    "pushed_at": "2026-08-14T13:09:12Z",
+    "pushed_at": "2026-08-15T12:39:12Z",
     "default_branch": "main",
     "readmes": [
       {

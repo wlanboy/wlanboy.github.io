@@ -774,7 +774,7 @@
     "name": "intel-arc-for-ubuntu",
     "description": "All drivers and Openvino, nvtop scripts for Ubuntu",
     "url": "https://github.com/wlanboy/intel-arc-for-ubuntu",
-    "pushed_at": "2026-08-02T12:37:10Z",
+    "pushed_at": "2026-08-17T11:30:37Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -811,6 +811,12 @@
         "path": "steam/steam.md",
         "title": "Steam via Flatpak einrichten",
         "description": "Installiert Steam als Flatpak-Anwendung mit einem eigenen Spieleverzeichnis, das getrennt vom Standard-Flatpak-Datenordner liegt (z.B. auf einer separaten SSD/HDD). Das Script steam.sh automatisiert Verzeichnis, Installation und Berechtigungen.",
+        "type": "text"
+      },
+      {
+        "path": "unsloth/fix-unsloth-studio.md",
+        "title": "Fix: Unsloth Studio erkennt Intel Arc Pro B60 nicht (rechnet auf CPU)",
+        "description": "",
         "type": "text"
       }
     ]
@@ -1710,7 +1716,7 @@
     "name": "wlanboy.github.io",
     "description": "website",
     "url": "https://github.com/wlanboy/wlanboy.github.io",
-    "pushed_at": "2026-08-15T12:39:12Z",
+    "pushed_at": "2026-08-16T12:41:17Z",
     "default_branch": "main",
     "readmes": [
       {

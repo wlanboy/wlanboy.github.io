@@ -1674,7 +1674,7 @@
     "name": "vram-model-calculator",
     "description": "Python based calculator for total vram usage of you gguf models",
     "url": "https://github.com/wlanboy/vram-model-calculator",
-    "pushed_at": "2026-08-16T08:04:30Z",
+    "pushed_at": "2026-08-17T22:28:25Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1716,7 +1716,7 @@
     "name": "wlanboy.github.io",
     "description": "website",
     "url": "https://github.com/wlanboy/wlanboy.github.io",
-    "pushed_at": "2026-08-16T12:41:17Z",
+    "pushed_at": "2026-08-17T12:45:48Z",
     "default_branch": "main",
     "readmes": [
       {

@@ -132,6 +132,21 @@
     ]
   },
   {
+    "name": "create-closed-namespace",
+    "description": "Script to create closed namespace with istio or traefik",
+    "url": "https://github.com/wlanboy/create-closed-namespace",
+    "pushed_at": "2026-08-21T07:17:14Z",
+    "default_branch": "main",
+    "readmes": [
+      {
+        "path": "readme.md",
+        "title": "create-closed-namespace",
+        "description": "Legt einen vollständig isolierten Kubernetes-Namespace an: Default-Deny-NetworkPolicies, Pod Security Admission \"restricted\", ResourceQuota/LimitRange und ein eigener ServiceAccount (statt der default-SA) samt kubeconfig. Je nach Cluster kommt zusätzlich Istio-Mesh-Isolation (mTLS STRICT…",
+        "type": "readme"
+      }
+    ]
+  },
+  {
     "name": "DashButton",
     "description": null,
     "url": "https://github.com/wlanboy/DashButton",
@@ -753,7 +768,7 @@
     "name": "httptester",
     "description": "http tester servie for kubernets, istio and service mesh connection and dns tests. Local dual kind setup for istio service mesh.",
     "url": "https://github.com/wlanboy/httptester",
-    "pushed_at": "2026-08-13T18:05:44Z",
+    "pushed_at": "2026-08-20T13:45:27Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1188,7 +1203,7 @@
     "name": "mailserver_mock",
     "description": "python based mail server mock",
     "url": "https://github.com/wlanboy/mailserver_mock",
-    "pushed_at": "2026-08-13T14:29:24Z",
+    "pushed_at": "2026-08-20T13:46:58Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1716,7 +1731,7 @@
     "name": "wlanboy.github.io",
     "description": "website",
     "url": "https://github.com/wlanboy/wlanboy.github.io",
-    "pushed_at": "2026-08-19T12:49:31Z",
+    "pushed_at": "2026-08-20T12:52:21Z",
     "default_branch": "main",
     "readmes": [
       {

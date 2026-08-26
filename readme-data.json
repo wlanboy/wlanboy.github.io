@@ -36,6 +36,21 @@
     ]
   },
   {
+    "name": "ArduinoSketches",
+    "description": "Collection of Arduino Sketches",
+    "url": "https://github.com/wlanboy/ArduinoSketches",
+    "pushed_at": "2026-08-26T11:36:52Z",
+    "default_branch": "master",
+    "readmes": [
+      {
+        "path": "README.md",
+        "title": "ArduinoSketches",
+        "description": "Sammlung von Arduino Sketches (überwiegend für Arduino Uno), gesammelt für verschiedene Sensoren, Displays und Funkmodule.",
+        "type": "readme"
+      }
+    ]
+  },
+  {
     "name": "bcrypt",
     "description": "bcrypt command line tool",
     "url": "https://github.com/wlanboy/bcrypt",
@@ -192,7 +207,7 @@
     "name": "deployment_monitor",
     "description": "python based ansible deployment monitor, using sqlite as storage and pushing results to prometheus",
     "url": "https://github.com/wlanboy/deployment_monitor",
-    "pushed_at": "2026-08-09T07:19:59Z",
+    "pushed_at": "2026-08-26T08:49:56Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -609,7 +624,7 @@
     "name": "gowebarduino",
     "description": "Web remote console for arduino",
     "url": "https://github.com/wlanboy/gowebarduino",
-    "pushed_at": "2026-08-11T11:50:45Z",
+    "pushed_at": "2026-08-26T11:24:11Z",
     "default_branch": "master",
     "readmes": [
       {
@@ -840,7 +855,7 @@
     "name": "istio-usecases",
     "description": "Simple Istio usecases",
     "url": "https://github.com/wlanboy/istio-usecases",
-    "pushed_at": "2026-08-14T14:46:31Z",
+    "pushed_at": "2026-08-26T12:18:53Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -960,7 +975,7 @@
     "name": "kanbantabs",
     "description": "golang based console kanban board",
     "url": "https://github.com/wlanboy/kanbantabs",
-    "pushed_at": "2026-08-11T11:50:49Z",
+    "pushed_at": "2026-08-26T11:12:12Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1410,6 +1425,21 @@
     ]
   },
   {
+    "name": "privatesync",
+    "description": "privatesync",
+    "url": "https://github.com/wlanboy/privatesync",
+    "pushed_at": "2026-08-26T11:21:10Z",
+    "default_branch": "main",
+    "readmes": [
+      {
+        "path": "README.md",
+        "title": "privatesync",
+        "description": "Verschlüsselt Dateien aus einem Arbeitsverzeichnis in ein Sync-Verzeichnis (z.B. Dropbox, Nextcloud) und entschlüsselt sie zurück. Dateien werden mit AES-GCM verschlüsselt, der Schlüssel wird per bcrypt-Hash gesichert und in einer lokalen JSON-Datei gespeichert.",
+        "type": "readme"
+      }
+    ]
+  },
+  {
     "name": "prometheus_helper",
     "description": "Python based Prometheus health helper",
     "url": "https://github.com/wlanboy/prometheus_helper",
@@ -1608,6 +1638,21 @@
     ]
   },
   {
+    "name": "tlsscan",
+    "description": "Golang based tls socket scanner",
+    "url": "https://github.com/wlanboy/tlsscan",
+    "pushed_at": "2026-08-26T12:15:47Z",
+    "default_branch": "main",
+    "readmes": [
+      {
+        "path": "readme.md",
+        "title": "tlsscan",
+        "description": "Tools zur Erkennung lauschender TCP-Sockets und zur Prüfung von TLS-Endpunkten auf einem Host, mit JSON-Ausgabe zur einfachen Weiterverarbeitung (z. B. durch Ansible-Rollen).",
+        "type": "readme"
+      }
+    ]
+  },
+  {
     "name": "uhren",
     "description": "my watch collection",
     "url": "https://github.com/wlanboy/uhren",
@@ -1731,7 +1776,7 @@
     "name": "wlanboy.github.io",
     "description": "website",
     "url": "https://github.com/wlanboy/wlanboy.github.io",
-    "pushed_at": "2026-08-24T12:53:23Z",
+    "pushed_at": "2026-08-25T12:50:05Z",
     "default_branch": "main",
     "readmes": [
       {

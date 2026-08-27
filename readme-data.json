@@ -18,7 +18,7 @@
     "name": "ansiblehook",
     "description": "Spring Boot based webhook for ansible playbooks",
     "url": "https://github.com/wlanboy/ansiblehook",
-    "pushed_at": "2026-08-11T11:40:30Z",
+    "pushed_at": "2026-08-27T09:51:27Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -408,6 +408,21 @@
     ]
   },
   {
+    "name": "dos-ascii",
+    "description": "Python based dos web ascii editor",
+    "url": "https://github.com/wlanboy/dos-ascii",
+    "pushed_at": "2026-08-27T08:46:25Z",
+    "default_branch": "main",
+    "readmes": [
+      {
+        "path": "README.md",
+        "title": "dos-ascii",
+        "description": "ASCII-Art-Generator im MS-DOS-Stil. Text eingeben, ASCII-Art generieren – im Look eines echten DOS 6.22-Fensters mit CRT-Scanlines, klassischer Menüleiste und 80er-Farbpalette.",
+        "type": "readme"
+      }
+    ]
+  },
+  {
     "name": "dotnet-container",
     "description": "Best practices dotnet core container",
     "url": "https://github.com/wlanboy/dotnet-container",
@@ -675,7 +690,7 @@
     "name": "hadoop-metrics-exporter",
     "description": "Spring based metrics exporter",
     "url": "https://github.com/wlanboy/hadoop-metrics-exporter",
-    "pushed_at": "2026-08-09T06:58:19Z",
+    "pushed_at": "2026-08-27T11:41:44Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -783,7 +798,7 @@
     "name": "httptester",
     "description": "http tester servie for kubernets, istio and service mesh connection and dns tests. Local dual kind setup for istio service mesh.",
     "url": "https://github.com/wlanboy/httptester",
-    "pushed_at": "2026-08-20T13:45:27Z",
+    "pushed_at": "2026-08-27T15:41:25Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -957,6 +972,21 @@
     ]
   },
   {
+    "name": "kafka-config",
+    "description": "Ansible Kafka config repro",
+    "url": "https://github.com/wlanboy/kafka-config",
+    "pushed_at": "2026-08-07T12:49:09Z",
+    "default_branch": "main",
+    "readmes": [
+      {
+        "path": "README.md",
+        "title": "kafka-config",
+        "description": "Ansible-Playbook zum gezielten Überschreiben einzelner Konfigurationswerte in der bereits auf den Kafka-VMs vorhandenen /etc/kafka/server.properties, je nach Environment (entw, test, atu, prod).",
+        "type": "readme"
+      }
+    ]
+  },
+  {
     "name": "kanban",
     "description": "Python based tui for a kanban board",
     "url": "https://github.com/wlanboy/kanban",
@@ -1059,7 +1089,7 @@
     "name": "kubeeventjava",
     "description": "Spring Boot Kubernetes Eventlistener for namespaces to export metrics on kubernetes events",
     "url": "https://github.com/wlanboy/kubeeventjava",
-    "pushed_at": "2026-08-09T07:00:01Z",
+    "pushed_at": "2026-08-27T10:27:35Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1278,6 +1308,21 @@
     ]
   },
   {
+    "name": "mcp-spring-ai-java",
+    "description": "Spring AI based MCP Server",
+    "url": "https://github.com/wlanboy/mcp-spring-ai-java",
+    "pushed_at": "2026-08-27T09:01:04Z",
+    "default_branch": "main",
+    "readmes": [
+      {
+        "path": "README.md",
+        "title": "MCP System-Monitoring Server — Spring AI / Java 25",
+        "description": "Ein MCP-Server (Model Context Protocol) auf Basis von Spring Boot 4 und Spring AI 2.0. Neben einem Hello-World-Beispiel stellt er reale System-Monitoring-Tools bereit: laufende Java-Prozesse, Host-Metriken über den Prometheus node_exporter sowie eine aggregierte Health-Check-Auswertung mit…",
+        "type": "readme"
+      }
+    ]
+  },
+  {
     "name": "md",
     "description": null,
     "url": "https://github.com/wlanboy/md",
@@ -1356,7 +1401,7 @@
     "name": "MirrorService",
     "description": "Spring Framework based service mirroring requests with parameterized wait time and http response codes",
     "url": "https://github.com/wlanboy/MirrorService",
-    "pushed_at": "2026-08-14T07:21:23Z",
+    "pushed_at": "2026-08-27T10:36:44Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1473,7 +1518,7 @@
     "name": "randomfail",
     "description": "Ein absichtlich instabiler FastAPI-Service zur Simulation realer Ausfallszenarien in Kubernetes-Clustern.",
     "url": "https://github.com/wlanboy/randomfail",
-    "pushed_at": "2026-08-14T15:02:31Z",
+    "pushed_at": "2026-08-27T10:24:26Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1486,6 +1531,27 @@
         "path": "README.md",
         "title": "Kubernetes Chaos Simulator – randomfail",
         "description": "randomfail ist ein absichtlich instabiler FastAPI‑Service zur Simulation realer Ausfallszenarien in Kubernetes‑Clustern. Der Dienst erzeugt automatisch oder manuell verschiedene Fehlerzustände und ermöglicht so das gezielte Testen von:",
+        "type": "readme"
+      }
+    ]
+  },
+  {
+    "name": "randomfail-golang",
+    "description": "Golang based service with random fail states for testing monitoring in kubernetes",
+    "url": "https://github.com/wlanboy/randomfail-golang",
+    "pushed_at": "2026-08-27T08:55:05Z",
+    "default_branch": "main",
+    "readmes": [
+      {
+        "path": "fail-chart/readme.md",
+        "title": "Helm install for randomfail chart",
+        "description": "This helm script installs the randmon fail deployment within a kubernetes cluster.",
+        "type": "module"
+      },
+      {
+        "path": "readme.md",
+        "title": "Kubernetes Chaos Simulator – randomfail",
+        "description": "randomfail ist ein absichtlich instabiler Golang‑Service zur Simulation realer Ausfallszenarien in Kubernetes‑Clustern. Der Dienst erzeugt automatisch oder manuell verschiedene Fehlerzustände und ermöglicht so das gezielte Testen von:",
         "type": "readme"
       }
     ]
@@ -1776,7 +1842,7 @@
     "name": "wlanboy.github.io",
     "description": "website",
     "url": "https://github.com/wlanboy/wlanboy.github.io",
-    "pushed_at": "2026-08-25T12:50:05Z",
+    "pushed_at": "2026-08-26T12:53:53Z",
     "default_branch": "main",
     "readmes": [
       {

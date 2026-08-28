@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Knative – Serving &amp; Eventing Traffic Flow Guide</title>
+<title>Knative: Serving &amp; Eventing Traffic Flow Guide</title>
 <link rel="icon" type="image/svg+xml" href="../favicon.svg">
 <link rel="stylesheet" href="style.css" />
 </head>
@@ -24,7 +24,7 @@
 <div class="hero">
   <div class="tag">Serverless · Kubernetes · CloudEvents</div>
   <h1>Wie Knative Requests und Events<br> durch den Cluster lenkt</h1>
-  <p>Ein Rundgang durch Serving und Eventing – vom externen HTTP-Request über Scale-to-Zero
+  <p>Ein Rundgang durch Serving und Eventing: vom externen HTTP-Request über Scale-to-Zero
      bis zum CloudEvent, das an ein externes System wie RabbitMQ zugestellt wird.</p>
 </div>
 
@@ -32,7 +32,7 @@
 
 <!-- ═══════════════════ 1. GRUNDLAGEN ═══════════════════ -->
 <section id="basics">
-  <h2><span class="num">1</span> Grundlagen – Serving &amp; Eventing</h2>
+  <h2><span class="num">1</span> Grundlagen: Serving &amp; Eventing</h2>
 
   <p>
     Knative besteht aus zwei unabhängig installierbaren Projekten auf Kubernetes: 
@@ -46,12 +46,12 @@
     <div class="card ingress">
       <h3>Knative Serving</h3>
       <p>Deployt Container als <code>Service</code>, versioniert jede Änderung als unveränderliche
-      <code>Revision</code> und skaliert Pods nach Bedarf – bis auf <strong>0 Instanzen</strong>.</p>
+      <code>Revision</code> und skaliert Pods nach Bedarf, bis auf <strong>0 Instanzen</strong>.</p>
     </div>
     <div class="card routing">
       <h3>Knative Eventing</h3>
       <p>CloudEvents-Producer und -Consumer werden über <code>Broker</code> und <code>Trigger</code>
-      lose gekoppelt – Producer kennen ihre Consumer nicht.</p>
+      lose gekoppelt. Producer kennen ihre Consumer nicht.</p>
     </div>
     <div class="card data">
       <h3>Gemeinsames Fundament</h3>
@@ -60,13 +60,13 @@
     </div>
   </div>
 
-  <h3>Serving vs. Eventing – auf einen Blick</h3>
+  <h3>Serving vs. Eventing: auf einen Blick</h3>
   <div class="diagram" id="diag-1"></div>
 </section>
 
 <!-- ═══════════════════ 2. KNATIVE SERVICE ═══════════════════ -->
 <section id="ksvc">
-  <h2><span class="num">2</span> Knative Service – Configuration &amp; Revision</h2>
+  <h2><span class="num">2</span> Knative Service: Configuration &amp; Revision</h2>
 
   <div class="card data">
     <h3>Wie hängen Service, Configuration und Revision zusammen?</h3>
@@ -74,7 +74,7 @@
       Ein <code>Service</code> (<code>ksvc</code>) ist die einzige Ressource, die Entwickler typischerweise anlegen.
       Intern verwaltet er eine <strong>Configuration</strong> (gewünschter Zustand: Image, Env, Resources) und eine
       <strong>Route</strong>. Jede Änderung an der Configuration erzeugt automatisch eine neue, unveränderliche
-      <strong>Revision</strong> – alte Revisions bleiben erhalten und können weiter Traffic empfangen (Rollback,
+      <strong>Revision</strong>. Alte Revisions bleiben erhalten und können weiter Traffic empfangen (Rollback,
       Canary).
     </p>
   </div>
@@ -104,7 +104,7 @@
 
 <!-- ═══════════════════ 3. INGRESS ═══════════════════ -->
 <section id="ingress">
-  <h2><span class="num">3</span> Ingress / Networking Layer – der Eintrittspunkt</h2>
+  <h2><span class="num">3</span> Ingress / Networking Layer: der Eintrittspunkt</h2>
 
   <div class="card ingress">
     <h3>Was macht die Networking Layer?</h3>
@@ -122,15 +122,15 @@
 
 <!-- ═══════════════════ 4. ROUTE & TRAFFIC SPLITTING ═══════════════════ -->
 <section id="route">
-  <h2><span class="num">4</span> Route – Traffic Splitting zwischen Revisions</h2>
+  <h2><span class="num">4</span> Route: Traffic Splitting zwischen Revisions</h2>
 
   <div class="card routing">
     <h3>Wofür ist die Route zuständig?</h3>
     <p>
-      Bildet einen <strong>stabilen öffentlichen Hostnamen</strong> auf eine oder mehrere Revisions ab –
+      Bildet einen <strong>stabilen öffentlichen Hostnamen</strong> auf eine oder mehrere Revisions ab,
       inklusive prozentualer Aufteilung. Funktional das Knative-Gegenstück zu VirtualService + DestinationRule
       bei Istio, nur bereits im <code>Service</code>-Manifest über das <code>traffic</code>-Feld konfiguriert.
-      Jede Revision erhält zusätzlich eine eigene, feste URL über <code>tag</code> – ideal, um eine Candidate-Version
+      Jede Revision erhält zusätzlich eine eigene, feste URL über <code>tag</code>, ideal, um eine Candidate-Version
       gezielt anzutesten, bevor sie Prozent-Traffic bekommt.
     </p>
   </div>
@@ -141,18 +141,18 @@
 
 <!-- ═══════════════════ 5. AUTOSCALING ═══════════════════ -->
 <section id="autoscaling">
-  <h2><span class="num">5</span> Autoscaling &amp; queue-proxy – Scale-to-Zero</h2>
+  <h2><span class="num">5</span> Autoscaling &amp; queue-proxy: Scale-to-Zero</h2>
 
   <div class="grid-2">
     <div class="card security">
-      <h3>queue-proxy – der Sidecar jeder Revision</h3>
+      <h3>queue-proxy: der Sidecar jeder Revision</h3>
       <p>Jeder Revision-Pod bekommt einen <code>queue-proxy</code>-Sidecar injiziert (Knatives Gegenstück zum
       Envoy-Sidecar bei Istio). Er misst die aktuelle <strong>Concurrency</strong> (parallele Requests) und meldet
       sie laufend an den Autoscaler.</p>
     </div>
     <div class="card policy">
       <h3>Autoscaler (KPA) &amp; Activator</h3>
-      <p>Der Autoscaler skaliert Pods anhand der gemeldeten Concurrency – auch auf <strong>0</strong>. Fällt die
+      <p>Der Autoscaler skaliert Pods anhand der gemeldeten Concurrency, auch auf <strong>0</strong>. Fällt die
       Pod-Zahl auf 0, übernimmt der <strong>Activator</strong> als Platzhalter: er nimmt Requests entgegen, puffert
       sie und stößt das Hochskalieren an.</p>
     </div>
@@ -169,15 +169,15 @@
   </ol>
 </section>
 
-<!-- ═══════════════════ 6. EVENTING – BROKER & TRIGGER ═══════════════════ -->
+<!-- ═══════════════════ 6. EVENTING: BROKER & TRIGGER ═══════════════════ -->
 <section id="eventing">
-  <h2><span class="num">6</span> Eventing Grundlagen – Broker &amp; Trigger</h2>
+  <h2><span class="num">6</span> Eventing Grundlagen: Broker &amp; Trigger</h2>
 
   <div class="card routing">
     <h3>Wofür sind Broker und Trigger zuständig?</h3>
     <p>
       Der <strong>Broker</strong> ist der zentrale Event-Eingang: Producer senden CloudEvents per HTTP POST,
-      ohne ihre Consumer zu kennen. Ein <strong>Trigger</strong> ist ein Abonnement auf einem Broker – er definiert
+      ohne ihre Consumer zu kennen. Ein <strong>Trigger</strong> ist ein Abonnement auf einem Broker. Er definiert
       einen <strong>Filter</strong> (CloudEvent-Attribute wie <code>type</code> oder <code>source</code>) und einen
       <strong>Sink</strong> als Ziel (z.B. ein Knative Service).
     </p>
@@ -187,7 +187,27 @@
     </p>
   </div>
 
-  <h3>Event-Fluss mit Filterung</h3>
+  <div class="grid-2">
+    <div class="card data">
+      <h3>Channel und Subscription: das Fundament unter dem Broker</h3>
+      <p>Der Broker ist keine eigene Event-Pipeline. Je nach Installation baut er auf einem
+      <strong>Channel</strong> auf, zum Beispiel <code>InMemoryChannel</code> für Tests oder
+      <code>KafkaChannel</code> für den produktiven Betrieb. Der Channel puffert CloudEvents und verteilt sie an
+      <strong>Subscriptions</strong>, dem Low-Level-Gegenstück zum Trigger. Broker und Trigger sind die
+      komfortable Schicht darüber. Wer volle Kontrolle über Fan-out und Reply-Routing braucht, arbeitet direkt
+      mit Channel und Subscription.</p>
+    </div>
+    <div class="card security">
+      <h3>Dead Letter Sink: was passiert bei Zustellfehlern</h3>
+      <p>Schlägt die Zustellung an den Subscriber fehl, etwa durch Timeout oder einen 5xx-Status, greift die
+      <code>delivery</code>-Policy von Trigger oder Broker. Sie regelt die Anzahl der Retries und den Backoff,
+      linear oder exponentiell. Sind die Retries erschöpft, landet das Event im konfigurierten
+      <strong>Dead Letter Sink</strong> statt verloren zu gehen. Ohne Dead Letter Sink wird es nach dem letzten
+      Retry verworfen.</p>
+    </div>
+  </div>
+
+  <h3>Event-Fluss: Filterung, Fan-out und Dead Letter Sink</h3>
   <div class="diagram" id="diag-6"></div>
 
   <pre><code><span class="kw">apiVersion</span>: eventing.knative.dev/v1
@@ -210,23 +230,32 @@
     <span class="key">ref</span>:
       <span class="key">apiVersion</span>: serving.knative.dev/v1
       <span class="key">kind</span>: Service
-      <span class="key">name</span>: <span class="str">order-processor</span></code></pre>
+      <span class="key">name</span>: <span class="str">order-processor</span>
+  <span class="key">delivery</span>:
+    <span class="key">retry</span>: <span class="val">5</span>
+    <span class="key">backoffPolicy</span>: <span class="str">exponential</span>
+    <span class="key">backoffDelay</span>: <span class="str">PT0.5S</span>
+    <span class="key">deadLetterSink</span>:
+      <span class="key">ref</span>:
+        <span class="key">apiVersion</span>: serving.knative.dev/v1
+        <span class="key">kind</span>: Service
+        <span class="key">name</span>: <span class="str">order-dlq-handler</span></code></pre>
 </section>
 
 <!-- ═══════════════════ 7. SOURCE & SINK ═══════════════════ -->
 <section id="source-sink">
-  <h2><span class="num">7</span> Source &amp; Sink – externe Systeme anbinden</h2>
+  <h2><span class="num">7</span> Source &amp; Sink: externe Systeme anbinden</h2>
 
   <div class="grid-2">
     <div class="card external">
-      <h3>Source – Events von außen rein</h3>
+      <h3>Source: Events von außen rein</h3>
       <p>Eine <code>Source</code> (z.B. <code>PingSource</code>, <code>ApiServerSource</code> oder eine
       <code>RabbitmqSource</code>) holt Events von einem externen System ab und wandelt sie in CloudEvents um,
       bevor sie an einen Broker gesendet werden.</p>
     </div>
     <div class="card policy">
-      <h3>Sink – Events nach außen raus</h3>
-      <p>Ein Sink ist frei wählbar: Knative Service, Channel, Broker – oder direkt eine <strong>externe URI</strong>
+      <h3>Sink: Events nach außen raus</h3>
+      <p>Ein Sink ist frei wählbar: Knative Service, Channel, Broker, oder direkt eine <strong>externe URI</strong>
       (z.B. ein Partner-Webhook oder ein externes RabbitMQ). Ein eigenes Egress-Gateway-Konzept kennt Knative
       dabei nicht: Netzwerkzugriff nach außen wird von der Plattform geregelt (z.B. NetworkPolicy, oder falls
       Istio parallel installiert ist, dessen Egress Gateway).</p>
@@ -266,7 +295,7 @@
 
 <!-- ═══════════════════ 8. GESAMTÜBERBLICK ═══════════════════ -->
 <section id="overview">
-  <h2><span class="num">8</span> Gesamtüberblick – kompletter Traffic-Pfad</h2>
+  <h2><span class="num">8</span> Gesamtüberblick: kompletter Traffic-Pfad</h2>
 
   <p>
     Alle Bausteine zusammen: ein externer User ruft über die Ingress-Layer einen Knative Service auf,
@@ -276,7 +305,7 @@
 
   <div class="diagram" id="diag-8"></div>
 
-  <h3>Wer macht was? – Kompakt-Übersicht</h3>
+  <h3>Wer macht was? Kompakt-Übersicht</h3>
   <table>
     <thead>
       <tr><th>Komponente</th><th>Typ</th><th>Zuständigkeit</th><th>Resource</th></tr>
@@ -287,13 +316,14 @@
       <tr><td><span class="badge b-policy">Configuration</span></td><td>Konfiguration (Teil von ksvc)</td><td>Gewünschter Zustand, erzeugt neue Revision bei Änderung</td><td><code>Configuration</code></td></tr>
       <tr><td><span class="badge b-data">Revision</span></td><td>Kubernetes-Objekt (unveränderlich)</td><td>Snapshot aus Code+Config, eigenes Deployment/Pods</td><td><code>Revision</code></td></tr>
       <tr><td><span class="badge b-security">queue-proxy / Activator</span></td><td>Sidecar / Cluster-Komponente</td><td>Concurrency-Messung, Scale-to-Zero-Pufferung</td><td>automatische Injection</td></tr>
-      <tr><td><span class="badge b-routing">Broker / Trigger</span></td><td>Konfiguration + Backing-Channel</td><td>Zentraler Event-Eingang, Filter + Sink je Abonnement</td><td><code>Broker</code> / <code>Trigger</code></td></tr>
+      <tr><td><span class="badge b-routing">Broker / Trigger</span></td><td>Konfiguration + Backing-Channel</td><td>Zentraler Event-Eingang, Filter + Sink je Abonnement, Retry + Dead Letter Sink bei Zustellfehlern</td><td><code>Broker</code> / <code>Trigger</code></td></tr>
       <tr><td><span class="badge b-external">Source / Sink</span></td><td>Konfiguration</td><td>Events von außen rein (Source) / nach außen raus (Sink-URI)</td><td>z.B. <code>RabbitmqSource</code></td></tr>
     </tbody>
   </table>
 </section>
 
 </main>
+<script src="../shared/diagram-kit.js"></script>
 <script src="diagrams.js"></script>
 </body>
 </html>

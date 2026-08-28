@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Istio Service Mesh – Traffic Flow Guide</title>
+<title>Istio Service Mesh: Traffic Flow Guide</title>
 <link rel="icon" type="image/svg+xml" href="../favicon.svg">
 <link rel="stylesheet" href="style.css" />
 </head>
@@ -15,8 +15,7 @@
   <a href="#ingress">Ingress Gateway</a>
   <a href="#vs">Virtual Service</a>
   <a href="#dr">Destination Rule</a>
-  <a href="#service">Service &amp; Sidecar</a>
-  <a href="#east-west">Service-zu-Service</a>
+  <a href="#service">Service, Sidecar &amp; Zugriffskontrolle</a>
   <a href="#egress">Egress &amp; External Services</a>
   <a href="#overview">Gesamtüberblick</a>
 </nav>
@@ -24,7 +23,7 @@
 <div class="hero">
   <div class="tag">Service Mesh · Kubernetes · Envoy</div>
   <h1>Wie Istio den Traffic durch euren Cluster lenkt</h1>
-  <p>Ein Rundgang durch die wichtigsten Bausteine – vom externen Request bis zur Antwort eines internen Microservice,
+  <p>Ein Rundgang durch die wichtigsten Bausteine: vom externen Request bis zur Antwort eines internen Microservice,
      inklusive kontrolliertem Zugriff auf externe Systeme wie RabbitMQ.</p>
 </div>
 
@@ -32,34 +31,34 @@
 
 <!-- ═══════════════════ 1. GRUNDLAGEN ═══════════════════ -->
 <section id="basics">
-  <h2><span class="num">1</span> Grundlagen – Data Plane &amp; Control Plane</h2>
+  <h2><span class="num">1</span> Grundlagen: Data Plane &amp; Control Plane</h2>
 
   <p>
     Istio besteht aus zwei getrennten Ebenen: der <strong>Data Plane</strong>, die den eigentlichen Netzwerkverkehr
     transportiert, und der <strong>Control Plane</strong> (<code>istiod</code>), die Konfiguration verteilt und Zertifikate
-    ausstellt. Kein Anwendungscode wird verändert – der gesamte Netzwerkverkehr eines Pods wird transparent über einen
+    ausstellt. Kein Anwendungscode wird verändert. Der gesamte Netzwerkverkehr eines Pods wird transparent über einen
     injizierten <strong>Envoy-Sidecar</strong> umgeleitet.
   </p>
 
   <div class="grid-3">
     <div class="card routing">
-      <h3>Control Plane – istiod</h3>
+      <h3>Control Plane: istiod</h3>
       <p>Verteilt Routing-Regeln, TLS-Zertifikate (mTLS) und Sicherheitsrichtlinien an alle Envoy-Proxys im Mesh.
       Selbst kein Teil des Datenpfads.</p>
     </div>
     <div class="card security">
-      <h3>Data Plane – Envoy Sidecar</h3>
+      <h3>Data Plane: Envoy Sidecar</h3>
       <p>Ein Envoy-Proxy pro Pod, injiziert als zweiter Container. Fängt <strong>jeden</strong> ein- und ausgehenden
       Netzwerkverkehr des Pods ab (via <code>iptables</code> oder eBPF).</p>
     </div>
     <div class="card data">
       <h3>Transparent für die App</h3>
-      <p>Die Anwendung spricht wie gewohnt HTTP/gRPC über <code>localhost</code> oder DNS-Namen – vom Sidecar merkt
+      <p>Die Anwendung spricht wie gewohnt HTTP/gRPC über <code>localhost</code> oder DNS-Namen. Vom Sidecar merkt
       sie im Idealfall nichts.</p>
     </div>
   </div>
 
-  <h3>Sidecar Injection – Traffic-Interception im Pod</h3>
+  <h3>Sidecar Injection: Traffic-Interception im Pod</h3>
   <div class="legend">
     <span><i style="background:var(--c-data)"></i> App-Container</span>
     <span><i style="background:var(--c-security)"></i> Envoy Sidecar</span>
@@ -72,7 +71,7 @@
 
 <!-- ═══════════════════ 2. INGRESS GATEWAY ═══════════════════ -->
 <section id="ingress">
-  <h2><span class="num">2</span> Ingress Gateway – der Eintrittspunkt</h2>
+  <h2><span class="num">2</span> Ingress Gateway: der Eintrittspunkt</h2>
 
   <div class="card ingress">
     <h3>Was macht das Ingress Gateway?</h3>
@@ -109,7 +108,7 @@
 
 <!-- ═══════════════════ 3. VIRTUAL SERVICE ═══════════════════ -->
 <section id="vs">
-  <h2><span class="num">3</span> VirtualService – Layer-7-Routing</h2>
+  <h2><span class="num">3</span> VirtualService: Layer-7-Routing</h2>
 
   <div class="card routing">
     <h3>Wofür ist das VirtualService zuständig?</h3>
@@ -153,7 +152,7 @@
 
 <!-- ═══════════════════ 4. DESTINATION RULE ═══════════════════ -->
 <section id="dr">
-  <h2><span class="num">4</span> DestinationRule – Subsets &amp; Policies</h2>
+  <h2><span class="num">4</span> DestinationRule: Subsets &amp; Policies</h2>
 
   <div class="card policy">
     <h3>Wofür ist die DestinationRule zuständig?</h3>
@@ -192,20 +191,20 @@
         <span class="key">version</span>: <span class="str">v2</span></code></pre>
 </section>
 
-<!-- ═══════════════════ 5. SERVICE & SIDECAR ═══════════════════ -->
+<!-- ═══════════════════ 5. SERVICE, SIDECAR & ZUGRIFFSKONTROLLE ═══════════════════ -->
 <section id="service">
-  <h2><span class="num">5</span> Kubernetes Service &amp; Sidecar (HTTP Client)</h2>
+  <h2><span class="num">5</span> Service, Sidecar &amp; Zugriffskontrolle: Ost-West-Traffic im Detail</h2>
 
   <div class="grid-2">
     <div class="card data">
       <h3>Kubernetes Service</h3>
-      <p>Rein logische Abstraktion: stabiler DNS-Name + ClusterIP. Er ist <strong>kein</strong> zusätzlicher Netzwerk-Hop –
-      er liefert Envoy lediglich die Zieladresse, die tatsächliche Verbindung läuft direkt Pod-zu-Pod.</p>
+      <p>Rein logische Abstraktion: stabiler DNS-Name + ClusterIP. Er ist <strong>kein</strong> zusätzlicher Netzwerk-Hop.
+      Er liefert Envoy lediglich die Zieladresse, die tatsächliche Verbindung läuft direkt Pod-zu-Pod.</p>
     </div>
     <div class="card security">
       <h3>HTTP Client = die Anwendung selbst</h3>
       <p>Der "HTTP Client" ist der ganz normale HTTP-Client im Anwendungscode (z.B. <code>RestTemplate</code>,
-      <code>fetch</code>, <code>requests</code>). Er ruft den Service-DNS-Namen auf – von der Umleitung
+      <code>fetch</code>, <code>requests</code>). Er ruft den Service-DNS-Namen auf. Von der Umleitung
       durch den Sidecar merkt er nichts.</p>
     </div>
   </div>
@@ -213,22 +212,17 @@
   <h3>Was zwischen Client-Aufruf und Antwort passiert</h3>
   <div class="diagram" id="diag-5"></div>
   <ol class="steps">
-    <li>App-Container ruft <code>http://payment.prod.svc.cluster.local</code> auf – ganz normaler HTTP-Client-Code.</li>
+    <li>App-Container ruft <code>http://payment.prod.svc.cluster.local</code> auf, ganz normaler HTTP-Client-Code.</li>
     <li><code>iptables</code> im selben Pod-Netzwerk-Namespace fängt den Outbound-Call ab und leitet ihn transparent an den lokalen Envoy-Sidecar (Port 15001) um.</li>
     <li>Der Outbound-Sidecar löst den Service-Namen über die von istiod gelieferte Endpoint-Liste auf, wendet VirtualService/DestinationRule an und wählt eine konkrete Ziel-Pod-IP per Load Balancing.</li>
     <li>Verbindung wird per <strong>mTLS</strong> aufgebaut und direkt zum Inbound-Sidecar des Ziel-Pods gesendet (Service/ClusterIP wird dabei nur für die initiale Namensauflösung benötigt).</li>
-    <li>Inbound-Sidecar terminiert mTLS, prüft AuthorizationPolicies und reicht den Klartext-Request an den lokalen App-Container weiter (<code>localhost</code>).</li>
+    <li>Inbound-Sidecar terminiert mTLS, prüft <strong>AuthorizationPolicies</strong> und reicht den Klartext-Request an den lokalen App-Container weiter (<code>localhost</code>).</li>
   </ol>
-</section>
-
-<!-- ═══════════════════ 6. SERVICE-ZU-SERVICE ═══════════════════ -->
-<section id="east-west">
-  <h2><span class="num">6</span> Service-zu-Service – Ost-West-Traffic im Detail</h2>
 
   <p>
-    Ruft ein Microservice einen anderen auf, sind <strong>immer zwei Sidecars</strong> beteiligt: der ausgehende
+    Ruft ein Microservice einen anderen auf, sind also <strong>immer zwei Sidecars</strong> beteiligt: der ausgehende
     Sidecar des Aufrufers und der eingehende Sidecar des Ziels. Dazwischen läuft die Verbindung automatisch
-    mTLS-verschlüsselt und gegenseitig authentifiziert – ganz ohne Code-Änderung an den Microservices.
+    mTLS-verschlüsselt und gegenseitig authentifiziert, ganz ohne Code-Änderung an den Microservices.
   </p>
 
   <div class="diagram" id="diag-6"></div>
@@ -239,20 +233,51 @@
     <h3>Warum ist das sicher, ohne dass Entwickler etwas tun müssen?</h3>
     <p>
       istiod stellt jedem Sidecar ein kurzlebiges X.509-Zertifikat aus (SPIFFE-Identität pro Service-Account).
-      Beim Verbindungsaufbau prüfen sich beide Sidecars gegenseitig – erst danach wird der Klartext-Request
+      Beim Verbindungsaufbau prüfen sich beide Sidecars gegenseitig. Erst danach wird der Klartext-Request
       an die jeweilige Anwendung weitergereicht. <code>PeerAuthentication</code>-Policies können mTLS
       pro Namespace verpflichtend machen (<code>STRICT</code>-Modus).
     </p>
   </div>
+
+  <h3>AuthorizationPolicy: wer darf wen aufrufen?</h3>
+  <div class="card security">
+    <h3>Zugriffskontrolle auf Basis der mTLS-Identität</h3>
+    <p>
+      Die per SPIFFE-Zertifikat bewiesene Identität des Aufrufers (<code>principal</code>) ist die Grundlage für
+      Layer-7-Zugriffskontrolle. Der Inbound-Sidecar wertet <code>AuthorizationPolicy</code>-Regeln aus,
+      <strong>bevor</strong> der Request an die Anwendung weitergereicht wird, ohne dass die App selbst
+      Auth-Logik implementieren muss. Ohne passende <code>ALLOW</code>-Regel wird der Request mit <code>403</code>
+      abgelehnt, sobald für den Namespace/Workload mindestens eine <code>AuthorizationPolicy</code> existiert.
+    </p>
+  </div>
+
+  <pre><code><span class="kw">apiVersion</span>: security.istio.io/v1
+<span class="kw">kind</span>: AuthorizationPolicy
+<span class="kw">metadata</span>:
+  <span class="key">name</span>: <span class="str">payment-allow-frontend</span>
+  <span class="key">namespace</span>: <span class="str">prod</span>
+<span class="kw">spec</span>:
+  <span class="key">selector</span>:
+    <span class="key">matchLabels</span>:
+      <span class="key">app</span>: <span class="str">payment</span>
+  <span class="key">action</span>: <span class="str">ALLOW</span>
+  <span class="key">rules</span>:
+    - <span class="key">from</span>:
+        - <span class="key">source</span>:
+            <span class="key">principals</span>: [<span class="str">"cluster.local/ns/prod/sa/frontend"</span>]
+      <span class="key">to</span>:
+        - <span class="key">operation</span>:
+            <span class="key">methods</span>: [<span class="str">"POST"</span>]
+            <span class="key">paths</span>: [<span class="str">"/api/orders/*"</span>]</code></pre>
 </section>
 
-<!-- ═══════════════════ 7. EGRESS & EXTERNAL SERVICES ═══════════════════ -->
+<!-- ═══════════════════ 6. EGRESS & EXTERNAL SERVICES ═══════════════════ -->
 <section id="egress">
-  <h2><span class="num">7</span> External Service &amp; Egress Gateway</h2>
+  <h2><span class="num">6</span> External Service &amp; Egress Gateway</h2>
 
   <p>
-    Verlässt ein Aufruf das Mesh – z.B. ein Microservice, der Nachrichten an ein <strong>externes RabbitMQ</strong>
-    außerhalb des Clusters sendet – kennt Istio das Ziel standardmäßig nicht. Es gibt zwei Muster, um das zu lösen:
+    Verlässt ein Aufruf das Mesh, z.B. ein Microservice, der Nachrichten an ein <strong>externes RabbitMQ</strong>
+    außerhalb des Clusters sendet, kennt Istio das Ziel standardmäßig nicht. Es gibt zwei Muster, um das zu lösen:
   </p>
 
   <div class="grid-2">
@@ -265,8 +290,8 @@
     <div class="card policy">
       <h3>B) Egress Gateway (kontrolliert)</h3>
       <p>Der Sidecar routet den Traffic stattdessen zu einem dedizierten <strong>Egress Gateway</strong> (Envoy am
-      Mesh-Rand). Nur dieses Gateway benötigt Netzwerkzugriff nach außen – zentrale Stelle für TLS-Origination,
-      Logging und Policy-Durchsetzung (z.B. Compliance-Vorgabe: "nur über Egress Gateway nach draußen").</p>
+      Mesh-Rand). Nur dieses Gateway benötigt Netzwerkzugriff nach außen. Das macht es zur zentralen Stelle für
+      TLS-Origination, Logging und Policy-Durchsetzung (z.B. Compliance-Vorgabe: "nur über Egress Gateway nach draußen").</p>
     </div>
   </div>
 
@@ -338,9 +363,9 @@
               <span class="key">number</span>: <span class="val">5671</span></code></pre>
 </section>
 
-<!-- ═══════════════════ 8. GESAMTÜBERBLICK ═══════════════════ -->
+<!-- ═══════════════════ 7. GESAMTÜBERBLICK ═══════════════════ -->
 <section id="overview">
-  <h2><span class="num">8</span> Gesamtüberblick – kompletter Traffic-Pfad</h2>
+  <h2><span class="num">7</span> Gesamtüberblick: kompletter Traffic-Pfad</h2>
 
   <p>
     Alle Bausteine zusammen: ein externer User ruft über das Ingress Gateway einen Microservice auf, der intern
@@ -350,7 +375,7 @@
 
   <div class="diagram" id="diag-8"></div>
 
-  <h3>Wer macht was? – Kompakt-Übersicht</h3>
+  <h3>Wer macht was? Kompakt-Übersicht</h3>
   <table>
     <thead>
       <tr><th>Komponente</th><th>Typ</th><th>Zuständigkeit</th><th>Resource</th></tr>
@@ -361,6 +386,7 @@
       <tr><td><span class="badge b-policy">DestinationRule</span></td><td>Konfiguration</td><td>Subsets, Load Balancing, mTLS-Modus, Circuit Breaking</td><td><code>DestinationRule</code></td></tr>
       <tr><td><span class="badge b-data">Service</span></td><td>Kubernetes-Objekt</td><td>Stabiler DNS-Name / ClusterIP, kein echter Hop</td><td><code>Service</code></td></tr>
       <tr><td><span class="badge b-security">Sidecar / HTTP Client</span></td><td>Envoy (injiziert je Pod)</td><td>Transparente Interception, mTLS, Policy-Enforcement</td><td>automatische Injection</td></tr>
+      <tr><td><span class="badge b-security">AuthorizationPolicy</span></td><td>Konfiguration</td><td>L7-Zugriffskontrolle auf Basis der mTLS-Identität (principal)</td><td><code>AuthorizationPolicy</code></td></tr>
       <tr><td><span class="badge b-policy">Egress Gateway</span></td><td>Envoy (dediziert, Mesh-Rand)</td><td>Kontrollierter, auditierbarer Austritt nach extern</td><td><code>Gateway</code> (egress)</td></tr>
       <tr><td><span class="badge b-external">External Service</span></td><td>außerhalb des Mesh</td><td>z.B. externes RabbitMQ, Partner-API</td><td><code>ServiceEntry</code></td></tr>
     </tbody>
@@ -368,6 +394,7 @@
 </section>
 
 </main>
+<script src="../shared/diagram-kit.js"></script>
 <script src="diagrams.js"></script>
 </body>
 </html>

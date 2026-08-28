@@ -3,7 +3,7 @@
     "name": "ansible_uml",
     "description": "UML generator for ansible playbooks and inventories",
     "url": "https://github.com/wlanboy/ansible_uml",
-    "pushed_at": "2026-08-09T07:13:40Z",
+    "pushed_at": "2026-08-28T05:58:35Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -54,7 +54,7 @@
     "name": "bcrypt",
     "description": "bcrypt command line tool",
     "url": "https://github.com/wlanboy/bcrypt",
-    "pushed_at": "2026-08-11T11:50:39Z",
+    "pushed_at": "2026-08-28T19:16:08Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -927,13 +927,13 @@
     "name": "Java-within-kubernetes",
     "description": "Erfahrungen einer JVM in Kubernetesland",
     "url": "https://github.com/wlanboy/Java-within-kubernetes",
-    "pushed_at": "2026-08-13T14:25:52Z",
+    "pushed_at": "2026-08-28T17:58:54Z",
     "default_branch": "main",
     "readmes": [
       {
         "path": "readme.md",
-        "title": "Java within Kubernetes – Hello World (Java 25 Runtime)",
-        "description": "Beispiel-Deployment für einen Spring-Boot-hello-world.jar auf Java 25, inklusive AOT-Build, JVM-Tuning für geringen CPU und RAM Verbrauch. Kubernetes-Manifesten (gedacht für Betrieb hinter einem Istio-Sidecar, funktioniert aber genauso lokal).",
+        "title": "Java 25 Hello World in Kubernetes",
+        "description": "Beispiel-Deployment für einen Spring-Boot-hello-world.jar auf Java 25, inklusive AOT-Build, JVM-Tuning für geringen CPU- und RAM-Verbrauch sowie Kubernetes-Manifesten (gedacht für Betrieb hinter einem Istio-Sidecar, funktioniert aber genauso lokal).",
         "type": "readme"
       }
     ]
@@ -1020,7 +1020,7 @@
     "name": "kubecontext",
     "description": "Python tool to get and manage kube config files.",
     "url": "https://github.com/wlanboy/kubecontext",
-    "pushed_at": "2026-08-13T14:17:20Z",
+    "pushed_at": "2026-08-28T19:10:12Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1218,7 +1218,7 @@
     "name": "lm-studio-remote",
     "description": "Python based remote for LM Studio",
     "url": "https://github.com/wlanboy/lm-studio-remote",
-    "pushed_at": "2026-08-13T14:02:50Z",
+    "pushed_at": "2026-08-28T05:12:58Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1842,7 +1842,7 @@
     "name": "wlanboy.github.io",
     "description": "website",
     "url": "https://github.com/wlanboy/wlanboy.github.io",
-    "pushed_at": "2026-08-26T12:53:53Z",
+    "pushed_at": "2026-08-28T18:52:36Z",
     "default_branch": "main",
     "readmes": [
       {

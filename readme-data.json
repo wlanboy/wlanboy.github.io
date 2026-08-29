@@ -99,7 +99,7 @@
     "name": "caweb",
     "description": "Python based web frontend to create ssl certs for hostname on a given ca",
     "url": "https://github.com/wlanboy/caweb",
-    "pushed_at": "2026-08-09T06:57:01Z",
+    "pushed_at": "2026-08-29T07:34:37Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -925,7 +925,7 @@
   },
   {
     "name": "Java-within-kubernetes",
-    "description": "Erfahrungen einer JVM in Kubernetesland",
+    "description": "Optimiertes Deployment einer JVM in Kubernetes",
     "url": "https://github.com/wlanboy/Java-within-kubernetes",
     "pushed_at": "2026-08-28T17:58:54Z",
     "default_branch": "main",
@@ -1041,7 +1041,7 @@
     "name": "kubectl_analytics",
     "description": "A command-line tool for gathering and visualizing statistics about Kubernetes cluster resources",
     "url": "https://github.com/wlanboy/kubectl_analytics",
-    "pushed_at": "2026-08-09T06:59:37Z",
+    "pushed_at": "2026-08-29T07:32:30Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1152,7 +1152,7 @@
     "name": "kubestats",
     "description": "Python based kubectl crd statistic tool",
     "url": "https://github.com/wlanboy/kubestats",
-    "pushed_at": "2026-08-09T07:00:23Z",
+    "pushed_at": "2026-08-29T07:36:16Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1596,7 +1596,7 @@
     "name": "scan-tools",
     "description": "Python based scan tools for git repros",
     "url": "https://github.com/wlanboy/scan-tools",
-    "pushed_at": "2026-08-09T07:03:03Z",
+    "pushed_at": "2026-08-29T07:17:28Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1647,13 +1647,13 @@
     "name": "SimpleService",
     "description": "Simple Spring Rest Service playing Blockchain",
     "url": "https://github.com/wlanboy/SimpleService",
-    "pushed_at": "2026-08-09T06:56:34Z",
+    "pushed_at": "2026-08-29T07:47:06Z",
     "default_branch": "main",
     "readmes": [
       {
         "path": "README.md",
         "title": "SimpleService",
-        "description": "Simple Spring Rest Service using Cloud Config, Spring Data, H2, Hateos to show how simple Blockchains are.",
+        "description": "SimpleService ist ein Spring-Boot-REST-Dienst, der ein einfaches Blockchain-basiertes Audit-Log implementiert. Jeder neue Eintrag wird kryptografisch mit seinem Vorgänger verknüpft: Der SHA-256-Hash eines Eintrags wird aus target, status, counter und dem Hash des vorherigen Eintrags (previousHash)…",
         "type": "readme"
       }
     ]
@@ -1800,7 +1800,7 @@
     "name": "vram-model-calculator",
     "description": "Python based calculator for total vram usage of you gguf models",
     "url": "https://github.com/wlanboy/vram-model-calculator",
-    "pushed_at": "2026-08-17T22:28:25Z",
+    "pushed_at": "2026-08-29T08:00:44Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1812,7 +1812,7 @@
       {
         "path": "README.md",
         "title": "VRAM Model Calculator",
-        "description": "Beantwortet eine einfache Frage: Passt dieses GGUF-Modell in meine GPU?",
+        "description": "Beantwortet die kurze aber komplexe Frage: Passt dieses GGUF-Modell in meine GPU?",
         "type": "readme"
       }
     ]
@@ -1842,7 +1842,7 @@
     "name": "wlanboy.github.io",
     "description": "website",
     "url": "https://github.com/wlanboy/wlanboy.github.io",
-    "pushed_at": "2026-08-28T18:52:36Z",
+    "pushed_at": "2026-08-28T21:47:50Z",
     "default_branch": "main",
     "readmes": [
       {

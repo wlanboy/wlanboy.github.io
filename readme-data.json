@@ -732,7 +732,7 @@
     "name": "helm-for-java-devs",
     "description": "Helm for Java Devs",
     "url": "https://github.com/wlanboy/helm-for-java-devs",
-    "pushed_at": "2026-08-09T06:58:40Z",
+    "pushed_at": "2026-08-30T08:45:36Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -798,7 +798,7 @@
     "name": "httptester",
     "description": "http tester servie for kubernets, istio and service mesh connection and dns tests. Local dual kind setup for istio service mesh.",
     "url": "https://github.com/wlanboy/httptester",
-    "pushed_at": "2026-08-27T15:41:25Z",
+    "pushed_at": "2026-08-30T15:31:42Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -810,7 +810,7 @@
       {
         "path": "tester-chart/httptester-helmchart.md",
         "title": "Helm Chart: tester",
-        "description": "Helm Chart für das Deployment des http-tester-Services in Kubernetes mit Istio Service Mesh.",
+        "description": "Helm Chart für das Deployment des http-tester-Services in Kubernetes. Der Chart unterstützt wahlweise Istio (Standard) oder Traefik als Ingress-Weg, gesteuert über den Schalter ingress.controller.",
         "type": "text"
       }
     ]
@@ -1122,7 +1122,7 @@
     "name": "kubernetes-crds",
     "description": "Python based kubernetes crd statistics",
     "url": "https://github.com/wlanboy/kubernetes-crds",
-    "pushed_at": "2026-08-16T11:05:49Z",
+    "pushed_at": "2026-08-30T08:32:31Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1137,7 +1137,7 @@
     "name": "kubernetes-volumes",
     "description": "Python based check for volume issues",
     "url": "https://github.com/wlanboy/kubernetes-volumes",
-    "pushed_at": "2026-08-13T14:19:06Z",
+    "pushed_at": "2026-08-30T08:45:10Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1401,13 +1401,19 @@
     "name": "MirrorService",
     "description": "Spring Framework based service mirroring requests with parameterized wait time and http response codes",
     "url": "https://github.com/wlanboy/MirrorService",
-    "pushed_at": "2026-08-27T10:36:44Z",
+    "pushed_at": "2026-08-30T15:40:45Z",
     "default_branch": "main",
     "readmes": [
       {
         "path": "docker.md",
         "title": "MirrorService – Docker Build Varianten",
         "description": "Drei Dockerfiles stehen zur Verfügung, die sich in Komplexität, Image-Größe und Startverhalten unterscheiden. Alle nutzen Java 25 und ein Multi-Stage-Build.",
+        "type": "text"
+      },
+      {
+        "path": "mirror-chart/mirror-chart.md",
+        "title": "Helm Chart: mirror",
+        "description": "Helm Chart für das Deployment des MirrorService in Kubernetes. Der Chart unterstützt wahlweise Istio (Standard), Traefik oder gar keinen Ingress-Weg, gesteuert über den Schalter ingress.controller.",
         "type": "text"
       },
       {
@@ -1428,13 +1434,28 @@
     "name": "mysqlrouter_metriccollector",
     "description": "Python based mysql router metric collector",
     "url": "https://github.com/wlanboy/mysqlrouter_metriccollector",
-    "pushed_at": "2026-08-09T07:02:31Z",
+    "pushed_at": "2026-08-30T08:57:02Z",
     "default_branch": "main",
     "readmes": [
       {
         "path": "README.md",
         "title": "MySQL Router Prometheus Exporter",
         "description": "Liest alle Metriken aus der MySQL Router REST API und schickt sie per HTTP PUT an ein Prometheus Pushgateway. Implementiert in reinem Python (stdlib only, keine pip-Abhängigkeiten).",
+        "type": "readme"
+      }
+    ]
+  },
+  {
+    "name": "mysqlrouter_metriccollector_golang",
+    "description": "Golang mysqlrouter metric exporter",
+    "url": "https://github.com/wlanboy/mysqlrouter_metriccollector_golang",
+    "pushed_at": "2026-08-30T09:15:15Z",
+    "default_branch": "main",
+    "readmes": [
+      {
+        "path": "readme.md",
+        "title": "mysqlrouter_metriccollector_golang",
+        "description": "Go port of the Python mysqlrouter_metriccollector exporter. It polls the MySQL Router REST API, converts the results into Prometheus metrics, and pushes them to a Prometheus Pushgateway.",
         "type": "readme"
       }
     ]
@@ -1488,7 +1509,7 @@
     "name": "prometheus_helper",
     "description": "Python based Prometheus health helper",
     "url": "https://github.com/wlanboy/prometheus_helper",
-    "pushed_at": "2026-08-13T14:19:56Z",
+    "pushed_at": "2026-08-30T08:27:14Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1518,14 +1539,14 @@
     "name": "randomfail",
     "description": "Ein absichtlich instabiler FastAPI-Service zur Simulation realer Ausfallszenarien in Kubernetes-Clustern.",
     "url": "https://github.com/wlanboy/randomfail",
-    "pushed_at": "2026-08-27T10:24:26Z",
+    "pushed_at": "2026-08-30T15:42:31Z",
     "default_branch": "main",
     "readmes": [
       {
-        "path": "randomfail-chart/readme.md",
-        "title": "Helm install for randomfail chart",
-        "description": "This helm script installs the randmon fail deployment within a kubernetes cluster.",
-        "type": "module"
+        "path": "randomfail-chart/randomfail-chart.md",
+        "title": "Helm Chart: randomfail",
+        "description": "Helm Chart für das Deployment des randomfail-Chaos-Containers in Kubernetes. Der Chart unterstützt wahlweise Istio (Standard) oder Traefik als Ingress-Weg, gesteuert über den Schalter ingress.controller.",
+        "type": "text"
       },
       {
         "path": "README.md",
@@ -1737,7 +1758,7 @@
     "name": "usbview",
     "description": "Python opencv based webserver for streaming usb capture card streams",
     "url": "https://github.com/wlanboy/usbview",
-    "pushed_at": "2026-08-09T07:04:57Z",
+    "pushed_at": "2026-08-30T08:25:22Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1842,7 +1863,7 @@
     "name": "wlanboy.github.io",
     "description": "website",
     "url": "https://github.com/wlanboy/wlanboy.github.io",
-    "pushed_at": "2026-08-28T21:47:50Z",
+    "pushed_at": "2026-08-29T16:21:40Z",
     "default_branch": "main",
     "readmes": [
       {

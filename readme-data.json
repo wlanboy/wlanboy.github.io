@@ -1089,7 +1089,7 @@
     "name": "kubeeventjava",
     "description": "Spring Boot Kubernetes Eventlistener for namespaces to export metrics on kubernetes events",
     "url": "https://github.com/wlanboy/kubeeventjava",
-    "pushed_at": "2026-08-27T10:27:35Z",
+    "pushed_at": "2026-08-30T18:05:29Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1401,7 +1401,7 @@
     "name": "MirrorService",
     "description": "Spring Framework based service mirroring requests with parameterized wait time and http response codes",
     "url": "https://github.com/wlanboy/MirrorService",
-    "pushed_at": "2026-08-30T15:40:45Z",
+    "pushed_at": "2026-08-30T18:01:48Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1668,7 +1668,7 @@
     "name": "SimpleService",
     "description": "Simple Spring Rest Service playing Blockchain",
     "url": "https://github.com/wlanboy/SimpleService",
-    "pushed_at": "2026-08-29T07:47:06Z",
+    "pushed_at": "2026-08-30T18:00:05Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1676,6 +1676,12 @@
         "title": "SimpleService",
         "description": "SimpleService ist ein Spring-Boot-REST-Dienst, der ein einfaches Blockchain-basiertes Audit-Log implementiert. Jeder neue Eintrag wird kryptografisch mit seinem Vorgänger verknüpft: Der SHA-256-Hash eines Eintrags wird aus target, status, counter und dem Hash des vorherigen Eintrags (previousHash)…",
         "type": "readme"
+      },
+      {
+        "path": "simple-chart/simple-chart.md",
+        "title": "simple-chart",
+        "description": "Helm-Chart für den Betrieb von SimpleService in Kubernetes. Es deployt die Anwendung mit einer PVC für Persistenz und unterstützt wahlweise Istio, Traefik oder keinen Ingress-Controller für die Anbindung nach außen.",
+        "type": "text"
       }
     ]
   },
@@ -1863,7 +1869,7 @@
     "name": "wlanboy.github.io",
     "description": "website",
     "url": "https://github.com/wlanboy/wlanboy.github.io",
-    "pushed_at": "2026-08-29T16:21:40Z",
+    "pushed_at": "2026-08-30T16:14:59Z",
     "default_branch": "main",
     "readmes": [
       {

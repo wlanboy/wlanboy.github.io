@@ -1248,9 +1248,15 @@
     "name": "mailserver_mock",
     "description": "python based mail server mock",
     "url": "https://github.com/wlanboy/mailserver_mock",
-    "pushed_at": "2026-08-20T13:46:58Z",
+    "pushed_at": "2026-09-04T09:07:32Z",
     "default_branch": "main",
     "readmes": [
+      {
+        "path": "mailserver-mock-chart/mailserver-mock-chart.md",
+        "title": "Helm Chart: mailserver-mock",
+        "description": "Helm Chart für das Deployment des mailserver-mock-Services (SMTP/IMAP-Mock-Server für Tests) in Kubernetes. Externer Zugriff läuft über ein Istio Ingress-Gateway mit reinen TCP-Routen (kein HTTP/HTTPS), da SMTP und IMAP keine HTTP-Protokolle sind.",
+        "type": "text"
+      },
       {
         "path": "README.md",
         "title": "mailserver-mock",
@@ -1869,7 +1875,7 @@
     "name": "wlanboy.github.io",
     "description": "website",
     "url": "https://github.com/wlanboy/wlanboy.github.io",
-    "pushed_at": "2026-09-02T16:09:19Z",
+    "pushed_at": "2026-09-03T15:57:54Z",
     "default_branch": "main",
     "readmes": [
       {

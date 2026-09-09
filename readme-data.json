@@ -927,9 +927,15 @@
     "name": "Java-within-kubernetes",
     "description": "Optimiertes Deployment einer JVM in Kubernetes",
     "url": "https://github.com/wlanboy/Java-within-kubernetes",
-    "pushed_at": "2026-08-28T17:58:54Z",
+    "pushed_at": "2026-09-09T15:41:39Z",
     "default_branch": "main",
     "readmes": [
+      {
+        "path": "chart-hpa/chart-hpa.md",
+        "title": "chart-hpa – Helm-Befehle",
+        "description": "Kommando-Referenz für das Chart chart-hpa/ (hello-world-hpa mit HorizontalPodAutoscaler). Alle Beispiele nehmen Release-Name hello-world und Namespace default an – bei Bedarf anpassen.",
+        "type": "text"
+      },
       {
         "path": "readme.md",
         "title": "Java 25 Hello World in Kubernetes",
@@ -1875,7 +1881,7 @@
     "name": "wlanboy.github.io",
     "description": "website",
     "url": "https://github.com/wlanboy/wlanboy.github.io",
-    "pushed_at": "2026-09-07T17:27:11Z",
+    "pushed_at": "2026-09-08T16:12:03Z",
     "default_branch": "main",
     "readmes": [
       {

@@ -296,12 +296,12 @@ const modalCapital = document.getElementById('modal-capital');
 const modalInfo = document.getElementById('modal-info');
 const modalToggle = document.getElementById('modal-toggle');
 
-function openModal(c) {
+function openModal(c, startHidden = false) {
   modalFlag.textContent = flagEmoji(c.code);
   modalName.textContent = c.name;
   modalCapital.textContent = '🏛 ' + c.capital;
-  modalInfo.classList.remove('hidden-info');
-  modalToggle.textContent = 'Verstecken';
+  modalInfo.classList.toggle('hidden-info', startHidden);
+  modalToggle.textContent = startHidden ? 'Anzeigen' : 'Verstecken';
   modal.classList.add('open');
 }
 
@@ -316,6 +316,14 @@ document.getElementById('country-grid').addEventListener('click', e => {
 modalToggle.addEventListener('click', () => {
   const hidden = modalInfo.classList.toggle('hidden-info');
   modalToggle.textContent = hidden ? 'Anzeigen' : 'Verstecken';
+});
+
+document.getElementById('guessBtn').addEventListener('click', () => {
+  const continent = document.getElementById('continentFilter').value;
+  const pool = continent ? countries.filter(c => c.continent === continent) : countries;
+  if (!pool.length) return;
+  const pick = pool[Math.floor(Math.random() * pool.length)];
+  openModal(pick, true);
 });
 
 document.getElementById('modal-close').addEventListener('click', closeModal);

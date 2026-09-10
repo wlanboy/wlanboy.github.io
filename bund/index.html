@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bundesländer Explorer</title>
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+  <link rel="stylesheet" href="../style-neu.css">
+  <link rel="stylesheet" href="bund.css">
+</head>
+<body>
+
+<div id="flag-modal" role="dialog" aria-modal="true">
+  <div class="modal-box">
+    <button class="modal-close" id="modal-close" aria-label="Schließen">✕</button>
+    <div class="modal-flag" id="modal-flag"></div>
+    <div class="modal-info" id="modal-info">
+      <div class="modal-name" id="modal-name"></div>
+      <div class="modal-capital" id="modal-capital"></div>
+    </div>
+    <div class="modal-actions">
+      <button class="modal-btn" id="modal-toggle">Verstecken</button>
+      <button class="modal-btn" id="modal-close-btn">Schließen</button>
+    </div>
+  </div>
+</div>
+
+<header>
+  <div class="header-title">Bundesländer Explorer</div>
+  <div class="header-sub">Alle 16 Bundesländer Deutschlands mit Kürzel und Landeshauptstadt</div>
+</header>
+
+<div id="controls">
+  <div id="search-wrapper">
+    <input type="text" id="search" placeholder="Bundesland oder Hauptstadt suchen…" autocomplete="off">
+  </div>
+  <select id="regionFilter">
+    <option value="">Alle Regionen</option>
+    <option value="Nord">Norden</option>
+    <option value="Ost">Osten</option>
+    <option value="Sued">Süden</option>
+    <option value="West">Westen</option>
+    <option value="Mitte">Mitte</option>
+  </select>
+  <button class="ctrl-btn" id="guessBtn" title="Zufälliges Bundesland raten">🎲 Raten</button>
+  <button class="ctrl-btn" id="toggleTheme" title="Theme wechseln">🌙</button>
+  <a href="../index.html" class="ctrl-btn">← Projekte</a>
+</div>
+
+<div id="result-info"></div>
+<div id="country-grid"></div>
+
+<script src="bund.js"></script>
+</body>
+</html>

@@ -1,11 +1,11 @@
 const countries = [
   // Norden
   { name: "Bremen",                     capital: "Bremen",       region: "Nord", code: "HB",
-    flag: "repeating-linear-gradient(to right, #C8102E 0 12.5%, #ffffff 12.5% 25%)" },
+    flag: "repeating-linear-gradient(to bottom, #C8102E 0 12.5%, #ffffff 12.5% 25%)" },
   { name: "Hamburg",                    capital: "Hamburg",      region: "Nord", code: "HH",
     flag: "#ffffff", emblem: "🏰" },
   { name: "Mecklenburg-Vorpommern",     capital: "Schwerin",     region: "Nord", code: "MV",
-    flag: "linear-gradient(to bottom, #003399 0 20%, #ffffff 20% 40%, #FFCC00 40% 60%, #ffffff 60% 80%, #C8102E 80% 100%)" },
+    flag: "linear-gradient(to bottom, #003399 0 26.67%, #ffffff 26.67% 46.67%, #FFCC00 46.67% 53.33%, #ffffff 53.33% 73.33%, #C8102E 73.33% 100%)" },
   { name: "Niedersachsen",              capital: "Hannover",     region: "Nord", code: "NI",
     flag: "linear-gradient(to bottom, #000000 0 33.33%, #C8102E 33.33% 66.66%, #FFCC00 66.66% 100%)", emblem: "🐎" },
   { name: "Schleswig-Holstein",         capital: "Kiel",         region: "Nord", code: "SH",
@@ -13,15 +13,15 @@ const countries = [
 
   // Osten
   { name: "Berlin",                     capital: "Berlin",       region: "Ost",  code: "BE",
-    flag: "linear-gradient(to bottom, #E30017 0 12%, #ffffff 12% 88%, #E30017 88% 100%)", emblem: "🐻" },
+    flag: "linear-gradient(to right, #E30017 0 20%, #ffffff 20% 80%, #E30017 80% 100%)", emblem: "🐻" },
   { name: "Brandenburg",                capital: "Potsdam",      region: "Ost",  code: "BB",
-    flag: "#C8102E", emblem: "🦅" },
+    flag: "linear-gradient(to bottom, #C8102E 50%, #ffffff 50%)", emblem: "🦅" },
   { name: "Sachsen",                    capital: "Dresden",      region: "Ost",  code: "SN",
     flag: "linear-gradient(to bottom, #ffffff 50%, #0C8B44 50%)" },
   { name: "Sachsen-Anhalt",             capital: "Magdeburg",    region: "Ost",  code: "ST",
     flag: "linear-gradient(to bottom, #FFCC00 50%, #000000 50%)" },
   { name: "Thüringen",                  capital: "Erfurt",       region: "Ost",  code: "TH",
-    flag: "linear-gradient(to bottom, #ffffff 0 25%, #C8102E 25% 75%, #ffffff 75% 100%)" },
+    flag: "linear-gradient(to bottom, #ffffff 50%, #C8102E 50%)" },
 
   // Süden
   { name: "Baden-Württemberg",          capital: "Stuttgart",    region: "Sued", code: "BW",
@@ -35,11 +35,11 @@ const countries = [
   { name: "Rheinland-Pfalz",            capital: "Mainz",        region: "West", code: "RP",
     flag: "linear-gradient(to bottom, #000000 0 33.33%, #C8102E 33.33% 66.66%, #FFCC00 66.66% 100%)" },
   { name: "Saarland",                   capital: "Saarbrücken",  region: "West", code: "SL",
-    flag: "#003DA5", emblem: "🛡️" },
+    flag: "linear-gradient(to bottom, #000000 0 33.33%, #C8102E 33.33% 66.66%, #FFCC00 66.66% 100%)", emblem: "🛡️" },
 
   // Mitte
   { name: "Hessen",                     capital: "Wiesbaden",    region: "Mitte", code: "HE",
-    flag: "linear-gradient(to bottom, #ffffff 50%, #C8102E 50%)" },
+    flag: "linear-gradient(to bottom, #C8102E 50%, #ffffff 50%)" },
 ];
 
 const continentLabel = {

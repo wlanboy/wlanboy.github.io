@@ -99,7 +99,7 @@
     "name": "caweb",
     "description": "Python based web frontend to create ssl certs for hostname on a given ca",
     "url": "https://github.com/wlanboy/caweb",
-    "pushed_at": "2026-08-29T07:34:37Z",
+    "pushed_at": "2026-09-13T17:53:47Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -954,7 +954,7 @@
     "name": "JavaHttpClient",
     "description": "Spring based rest service to test http call within k8s and istio",
     "url": "https://github.com/wlanboy/JavaHttpClient",
-    "pushed_at": "2026-08-09T06:55:48Z",
+    "pushed_at": "2026-09-13T17:46:46Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -966,7 +966,7 @@
       {
         "path": "javahttpclient-chart/helm-chart.md",
         "title": "Helm chart description",
-        "description": "Dieses Helm Chart deployt den JavaHttpClient in einem Kubernetes-Cluster mit Istio-Integration. Es erstellt den Namespace clients, konfiguriert ein Istio Gateway mit TLS-Terminierung und richtet einen VirtualService für das Routing ein.",
+        "description": "Dieses Helm Chart deployt den JavaHttpClient in einem Kubernetes-Cluster mit Istio-Integration. Es wird in den Namespace clients installiert, konfiguriert ein Istio Gateway mit TLS-Terminierung und richtet einen VirtualService für das Routing ein.",
         "type": "text"
       },
       {
@@ -1887,7 +1887,7 @@
     "name": "wlanboy.github.io",
     "description": "website",
     "url": "https://github.com/wlanboy/wlanboy.github.io",
-    "pushed_at": "2026-09-12T15:11:11Z",
+    "pushed_at": "2026-09-13T15:46:30Z",
     "default_branch": "main",
     "readmes": [
       {

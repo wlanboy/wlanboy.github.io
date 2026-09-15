@@ -870,13 +870,19 @@
     "name": "istio-usecases",
     "description": "Simple Istio usecases",
     "url": "https://github.com/wlanboy/istio-usecases",
-    "pushed_at": "2026-09-12T16:02:06Z",
+    "pushed_at": "2026-09-15T14:33:46Z",
     "default_branch": "main",
     "readmes": [
       {
         "path": "authorizationPolicy/readme.md",
         "title": "Authorization Policy Usecase",
         "description": "Demonstriert Istio AuthorizationPolicy mit Allow/Deny anhand der Source-Workload-Identity: zwei Clients (client-a, client-b), jeder mit eigenem ServiceAccount, rufen denselben Service (backend) auf. Per Default dürfen beide zugreifen. incident.yaml simuliert einen Sicherheitsvorfall — angewendet…",
+        "type": "module"
+      },
+      {
+        "path": "egressLockdown/readme.md",
+        "title": "Egress Lockdown Usecase",
+        "description": "Demonstriert, wie man einen Namespace per Istio so absperrt, dass Workloads darin keine einzige Ressource außerhalb des Clusters mehr aufrufen können — unabhängig davon, welche Domain, IP oder welches Protokoll die Anwendung anspricht. Kommunikation innerhalb des Clusters (andere…",
         "type": "module"
       },
       {
@@ -1887,7 +1893,7 @@
     "name": "wlanboy.github.io",
     "description": "website",
     "url": "https://github.com/wlanboy/wlanboy.github.io",
-    "pushed_at": "2026-09-13T15:46:30Z",
+    "pushed_at": "2026-09-14T17:52:44Z",
     "default_branch": "main",
     "readmes": [
       {

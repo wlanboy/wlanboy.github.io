@@ -945,7 +945,7 @@
     "name": "Java-within-kubernetes",
     "description": "Optimiertes Deployment einer JVM in Kubernetes",
     "url": "https://github.com/wlanboy/Java-within-kubernetes",
-    "pushed_at": "2026-09-18T08:22:27Z",
+    "pushed_at": "2026-09-19T15:30:24Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1491,6 +1491,21 @@
     ]
   },
   {
+    "name": "Nodejs-within-kubernetes-",
+    "description": "Optimiertes Deployment in Kubernetes",
+    "url": "https://github.com/wlanboy/Nodejs-within-kubernetes-",
+    "pushed_at": "2026-09-19T12:20:26Z",
+    "default_branch": "main",
+    "readmes": [
+      {
+        "path": "readme.md",
+        "title": "Node.js Hello World in Kubernetes",
+        "description": "Minimaler Node.js-REST-Service (GET /hello, GET /cpu?key=...) mit separatem Management-Port fuer Liveness/Readiness/Prometheus-Metriken, optimiert fuer geringen Speicher-/CPU-Verbrauch und schnellen Start in Kubernetes (Betrieb hinter einem Istio-Sidecar moeglich, funktioniert aber genauso lokal).",
+        "type": "readme"
+      }
+    ]
+  },
+  {
     "name": "openclaw-local",
     "description": "Container based local openclaw instance",
     "url": "https://github.com/wlanboy/openclaw-local",
@@ -1899,7 +1914,7 @@
     "name": "wlanboy.github.io",
     "description": "website",
     "url": "https://github.com/wlanboy/wlanboy.github.io",
-    "pushed_at": "2026-09-17T16:28:02Z",
+    "pushed_at": "2026-09-18T16:00:36Z",
     "default_branch": "main",
     "readmes": [
       {

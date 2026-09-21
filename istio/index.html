@@ -240,16 +240,6 @@
   </div>
 
   <h3>AuthorizationPolicy: wer darf wen aufrufen?</h3>
-  <div class="card security">
-    <h3>Zugriffskontrolle auf Basis der mTLS-Identität</h3>
-    <p>
-      Die per SPIFFE-Zertifikat bewiesene Identität des Aufrufers (<code>principal</code>) ist die Grundlage für
-      Layer-7-Zugriffskontrolle. Der Inbound-Sidecar wertet <code>AuthorizationPolicy</code>-Regeln aus,
-      <strong>bevor</strong> der Request an die Anwendung weitergereicht wird, ohne dass die App selbst
-      Auth-Logik implementieren muss. Ohne passende <code>ALLOW</code>-Regel wird der Request mit <code>403</code>
-      abgelehnt, sobald für den Namespace/Workload mindestens eine <code>AuthorizationPolicy</code> existiert.
-    </p>
-  </div>
 
   <pre><code><span class="kw">apiVersion</span>: security.istio.io/v1
 <span class="kw">kind</span>: AuthorizationPolicy
@@ -269,6 +259,18 @@
         - <span class="key">operation</span>:
             <span class="key">methods</span>: [<span class="str">"POST"</span>]
             <span class="key">paths</span>: [<span class="str">"/api/orders/*"</span>]</code></pre>
+
+  <div class="card security">
+    <h3>Zugriffskontrolle auf Basis der mTLS-Identität</h3>
+    <p>
+      Die per SPIFFE-Zertifikat bewiesene Identität des Aufrufers (<code>principal</code>) ist die Grundlage für
+      Layer-7-Zugriffskontrolle. Der Inbound-Sidecar wertet <code>AuthorizationPolicy</code>-Regeln aus,
+      <strong>bevor</strong> der Request an die Anwendung weitergereicht wird, ohne dass die App selbst
+      Auth-Logik implementieren muss. Ohne passende <code>ALLOW</code>-Regel wird der Request mit <code>403</code>
+      abgelehnt, sobald für den Namespace/Workload mindestens eine <code>AuthorizationPolicy</code> existiert.
+    </p>
+  </div>
+              
 </section>
 
 <!-- ═══════════════════ 6. EGRESS & EXTERNAL SERVICES ═══════════════════ -->

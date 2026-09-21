@@ -213,6 +213,9 @@
         </div>
       </div>
     `;
+    const sysRect = systemEl.getBoundingClientRect();
+    const isRightHalf = sysRect.left + sysRect.width / 2 > window.innerWidth / 2;
+    detail.classList.toggle('detail-left', isRightHalf);
     detail.classList.add('open');
 
     detailBody.querySelectorAll('.xlist li').forEach(li => {

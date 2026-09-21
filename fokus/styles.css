@@ -140,6 +140,13 @@ main { position: relative; z-index: 1; max-width: 1180px; margin: 0 auto; paddin
   z-index: 100; transform: translateX(100%); transition: transform 0.28s ease;
 }
 .detail.open { transform: translateX(0); }
+@media (min-width: 721px) {
+  .detail.detail-left {
+    left: 0; right: auto; border-left: none; border-right: 1px solid var(--line);
+    transform: translateX(-100%);
+  }
+  .detail.detail-left.open { transform: translateX(0); }
+}
 .detail .close {
   position: absolute; top: 16px; right: 16px; background: none; border: 1px solid var(--line);
   color: var(--text-dim); width: 30px; height: 30px; cursor: pointer; font-size: 15px;

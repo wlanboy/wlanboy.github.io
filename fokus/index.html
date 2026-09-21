@@ -2,21 +2,33 @@
 <html lang="de">
 <head>
   <meta charset="utf-8" />
-  <title>Topic Constellation Map</title>
+  <title>Topic Orbit Systems</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
-<link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <div id="stage" class="stage">
-    <div id="topbar" class="topbar"></div>
-    <svg id="chart" class="chart" preserveAspectRatio="xMidYMid meet"></svg>
-    <div id="statusbar" class="statusbar mono"></div>
+  <svg id="dust"></svg>
+  <svg id="beamLayer" class="beam-layer"></svg>
+
+  <div class="topbar">
+    <div class="tb-left"><span class="dot"></span><span>orbit://topics.system</span></div>
+    <div class="tb-mid">TOPIC ORBIT SYSTEMS</div>
+    <div class="tb-right" id="stats"></div>
   </div>
-  <div id="detail-container"></div>
-  <div id="tweaks-container"></div>
+
+  <main>
+    <div class="intro">
+      <h1>Fokusthemen</h1>
+    </div>
+    <div class="grid" id="grid"></div>
+  </main>
+
+  <div class="detail" id="detail">
+    <button class="close" id="closeDetail">✕</button>
+    <div id="detailBody"></div>
+  </div>
 
   <script src="data.js"></script>
-  <script src="../shared/auto-layout.js"></script>
-  <script src="../shared/constellation-app.js"></script>
+  <script src="orbit-app.js"></script>
 </body>
 </html>

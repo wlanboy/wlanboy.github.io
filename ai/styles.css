@@ -35,6 +35,16 @@ body {
   font-size: 11px; letter-spacing: 0.5px; color: var(--text-dim);
 }
 .tb-left { display: flex; align-items: center; gap: 10px; }
+.back-link {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 4px 9px;
+  border: 1px solid var(--line);
+  color: var(--text-dim);
+  text-decoration: none;
+  font-size: 11px; letter-spacing: 0.5px;
+  transition: color 0.15s ease, border-color 0.15s ease, background 0.15s ease;
+}
+.back-link:hover { color: var(--text); border-color: var(--text-dim); background: oklch(0.15 0.03 260); }
 .tb-left .dot {
   width: 7px; height: 7px; border-radius: 50%;
   background: var(--accent);

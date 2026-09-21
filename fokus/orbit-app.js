@@ -220,7 +220,12 @@
         const targetId = li.dataset.target;
         const targetEl = document.querySelector(`.planet[data-id="${targetId}"] .planet-core`);
         const sourceEl = selectedPlanetEl?.querySelector('.planet-core');
-        if (targetEl && sourceEl) fireBeam(sourceEl, targetEl, cluster.hue);
+        if (!targetEl || !sourceEl) return;
+        const targetSystemEl = targetEl.closest('.system');
+        const targetSys = systems.find(s => s.el === targetSystemEl);
+        fireBeam(sourceEl, targetEl, cluster.hue, () => {
+          if (targetSys) selectStar(targetId, targetSystemEl, targetSys);
+        });
       });
     });
   }
@@ -233,7 +238,7 @@
     if (selectedPlanetEl) { selectedPlanetEl.classList.remove('selected'); selectedPlanetEl = null; }
   }
 
-  function fireBeam(fromEl, toEl, hue) {
+  function fireBeam(fromEl, toEl, hue, onDone) {
     beamLayer.setAttribute('viewBox', `0 0 ${window.innerWidth} ${window.innerHeight}`);
     const path = document.createElementNS(NS, 'path');
     path.setAttribute('class', 'beam-path');
@@ -273,7 +278,7 @@
       const fadeOut = elapsed > dur ? Math.max(0, 1 - (elapsed - dur) / 500) : 1;
       path.style.opacity = fadeOut; dot.style.opacity = fadeOut;
       if (elapsed < dur + 500) requestAnimationFrame(frame);
-      else { path.remove(); dot.remove(); }
+      else { path.remove(); dot.remove(); onDone && onDone(); }
     }
     requestAnimationFrame(frame);
   }

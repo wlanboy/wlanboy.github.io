@@ -870,7 +870,7 @@
     "name": "istio-usecases",
     "description": "Simple Istio usecases",
     "url": "https://github.com/wlanboy/istio-usecases",
-    "pushed_at": "2026-09-20T13:14:53Z",
+    "pushed_at": "2026-09-22T13:55:19Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -898,12 +898,6 @@
         "type": "module"
       },
       {
-        "path": "istio-multi-cloud.md",
-        "title": "Multi-Cloud Mesh: lokalen Cluster mit Google Cloud (GKE) verbinden",
-        "description": "Dieses Dokument beschreibt, wie zwei komplett getrennte Kubernetes-Cluster verbunden werden: ein lokaler Cluster (z. B. zuhause/on-prem, hinter einem gewöhnlichen Internet-Router) und ein GKE-Cluster in der Google Cloud. Ziel ist, dass gezielt ausgewählte Dienste wechselseitig erreichbar sind…",
-        "type": "text"
-      },
-      {
         "path": "mirrorLogging/readme.md",
         "title": "Mirror Logging Usecase",
         "description": "Demonstriert Istio Traffic Mirroring (Shadow-Traffic): ein VirtualService schickt jeden Request an nginx zusätzlich als 1:1-Kopie (fire-and-forget) an einen zweiten Service logger. Der Client bekommt ausschließlich die Antwort von nginx (PRIMARY) zu sehen — der Mirror läuft asynchron im Hintergrund…",
@@ -925,6 +919,30 @@
         "path": "ovintegration/custom-ca-tls.md",
         "title": "Eigene Sub-CA fuer das externe TLS-Zertifikat: Terminierung am Envoy",
         "description": "Die Basis-Installation (readme.md) terminiert TLS am OpenShift-Router (22-route.yaml, termination: edge). Der Router entschluesselt, der Weg Router -> istio-ingressgateway ist danach Klartext-HTTP. Dieses Dokument beschreibt die Alternative: TLS wird bis zu Envoy (dem Istio Ingress Gateway)…",
+        "type": "text"
+      },
+      {
+        "path": "ovintegration/federation.md",
+        "title": "Mesh Federation zwischen OpenShift und Google Cloud (GKE)",
+        "description": "Dieses Dokument baut auf zwei bereits laufenden, unabhaengigen Istio-Installationen auf: readme.md (Open-Source-Istio auf OpenShift/OVN-Kubernetes) und readme-googlecloud.md (dieselbe Istio-Version auf GKE Standard). Es verbindet beide zu zwei eigenstaendigen Meshes mit Mesh Federation: jede Seite…",
+        "type": "text"
+      },
+      {
+        "path": "ovintegration/istio-multi-cloud.md",
+        "title": "Multi-Cloud Mesh: OpenShift-Cluster mit Google Cloud (GKE) verbinden",
+        "description": "Dieses Dokument beschreibt, wie zwei komplett getrennte Kubernetes-Cluster verbunden werden: ein OpenShift-Cluster mit Open-Source-Istio (siehe ovintegration/readme.md, nicht der Red-Hat-Operator \"OpenShift Service Mesh\") und ein GKE-Cluster in der Google Cloud. Ziel ist, dass gezielt ausgewählte…",
+        "type": "text"
+      },
+      {
+        "path": "ovintegration/primary.md",
+        "title": "Primary-Primary Service Mesh zwischen OpenShift und Google Cloud (GKE) auf unterschiedlichen Netzwerken",
+        "description": "Dieses Dokument baut wie federation.md auf zwei bereits laufenden, unabhaengigen Istio-Installationen auf: readme.md (Open-Source-Istio auf OpenShift/OVN-Kubernetes) und readme-googlecloud.md (dieselbe Istio-Version auf GKE Standard). Anders als dort werden beide Seiten hier aber nicht zu zwei…",
+        "type": "text"
+      },
+      {
+        "path": "ovintegration/readme-googlecloud.md",
+        "title": "Google-Cloud-Besonderheiten (GKE) fuer diesen Usecase",
+        "description": "Dieses Dokument ist das GKE-Pendant zu readme.md: dort geht es um Open-Source-Istio auf OpenShift mit OVN-Kubernetes als SDN (SCC-Rechte, istio-cni ueber Multus, Route statt LoadBalancer). Hier geht es um dieselbe Kernfrage, \"wie kommt Open-Source-Istio ohne privilegierte App-Pods auf die jeweilige…",
         "type": "text"
       },
       {
@@ -1031,6 +1049,27 @@
         "title": "kafka-config",
         "description": "Ansible-Playbook zum gezielten Überschreiben einzelner Konfigurationswerte in der bereits auf den Kafka-VMs vorhandenen /etc/kafka/server.properties, je nach Environment (entw, test, atu, prod).",
         "type": "readme"
+      }
+    ]
+  },
+  {
+    "name": "kafka-install",
+    "description": "Ansible Kafka Install",
+    "url": "https://github.com/wlanboy/kafka-install",
+    "pushed_at": "2026-09-22T15:32:46Z",
+    "default_branch": "main",
+    "readmes": [
+      {
+        "path": "README.md",
+        "title": "kafka-install",
+        "description": "Ansible-Playbooks für die Neuinstallation von Apache Kafka und Apache ZooKeeper auf RedHat-VMs, als Binary-Download vom internen Nexus/Artifactory-Mirror (kein Docker-Container), gestartet jeweils als systemd User-Unit (systemctl --user) des ansible_user bzw. eines dedizierten Service-Users. TLS…",
+        "type": "readme"
+      },
+      {
+        "path": "vault.md",
+        "title": "Passwörter mit Ansible Vault verwalten",
+        "description": "Alle Passwort-Variablen in inventory//group_vars/all.yml (aktuell mit \"CHANGE-ME\" befüllt) dürfen nie im Klartext committet werden. Dieses Dokument beschreibt, wie sie stattdessen per ansible-vault verschlüsselt werden und wie die Playbooks anschließend damit aufgerufen werden.",
+        "type": "text"
       }
     ]
   },
@@ -1938,7 +1977,7 @@
     "name": "wlanboy.github.io",
     "description": "website",
     "url": "https://github.com/wlanboy/wlanboy.github.io",
-    "pushed_at": "2026-09-21T17:42:25Z",
+    "pushed_at": "2026-09-21T17:59:14Z",
     "default_branch": "main",
     "readmes": [
       {

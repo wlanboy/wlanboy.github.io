@@ -870,7 +870,7 @@
     "name": "istio-usecases",
     "description": "Simple Istio usecases",
     "url": "https://github.com/wlanboy/istio-usecases",
-    "pushed_at": "2026-09-22T13:55:19Z",
+    "pushed_at": "2026-09-24T14:51:25Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -974,6 +974,12 @@
         "title": "Istio Usecases",
         "description": "Sammlung praktischer Istio-Beispiele, jeweils als eigenständiges Verzeichnis mit Manifesten, Install-/Test-Skripten und eigener readme.md.",
         "type": "readme"
+      },
+      {
+        "path": "vs/readme.md",
+        "title": "VirtualService / DestinationRule Konfliktprüfung",
+        "description": "virtualservice.py listet für einen Namespace alle VirtualServices und DestinationRules, die sich überlagern oder widersprechen. Istio nimmt solche Konfigurationen meist ohne Fehler an und wendet dann nur einen Teil davon an. Der Validierungs-Webhook warnt nur bei einfachen Fällen innerhalb eines…",
+        "type": "module"
       },
       {
         "path": "xForwardedFor/readme.md",
@@ -1977,7 +1983,7 @@
     "name": "wlanboy.github.io",
     "description": "website",
     "url": "https://github.com/wlanboy/wlanboy.github.io",
-    "pushed_at": "2026-09-22T16:29:36Z",
+    "pushed_at": "2026-09-23T16:19:47Z",
     "default_branch": "main",
     "readmes": [
       {

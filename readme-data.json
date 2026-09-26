@@ -1695,9 +1695,33 @@
     "name": "redhat-helpers",
     "description": "redhat helper scripts",
     "url": "https://github.com/wlanboy/redhat-helpers",
-    "pushed_at": "2026-08-02T05:26:07Z",
+    "pushed_at": "2026-09-26T09:30:16Z",
     "default_branch": "main",
     "readmes": [
+      {
+        "path": "postgres/readme.md",
+        "title": "postgres – PostgreSQL als non-root betreiben (RHEL 9, offline)",
+        "description": "PostgreSQL wird nicht compiliert und nicht per dnf installiert. Genutzt werden die fertigen RPMs aus dem offiziellen PostgreSQL-Yum-Repo (PGDG). Die Build-VM prüft einmal pro Version deren Signatur, entpackt sie mit rpm2archive und legt das Ergebnis als Tarball in Nexus ab. Die Runtime-VMs laden…",
+        "type": "module"
+      },
+      {
+        "path": "rabbitmq/readme.md",
+        "title": "rabbitmq – Erlang bauen und RabbitMQ als non-root betreiben (RHEL 9, offline)",
+        "description": "Eine Build-VM übersetzt Erlang/OTP einmal pro Version und legt das Ergebnis als Tarball in Nexus ab. Die Runtime-VMs laden diesen Tarball plus den offiziellen RabbitMQ Generic-Unix-Tarball und betreiben RabbitMQ als systemd User Unit. Welche Repos Nexus dafür bereitstellen muss, steht in…",
+        "type": "module"
+      },
+      {
+        "path": "rabbitmq/requirements.md",
+        "title": "Nexus-Anforderungen für Erlang/RabbitMQ auf RHEL 9 (offline)",
+        "description": "Build-VM und Runtime-VMs haben keinen Internetzugang. Alles, was sie brauchen, kommt über Nexus. Dieses Dokument beschreibt, welche Repositories Nexus dafür bereitstellen muss.",
+        "type": "text"
+      },
+      {
+        "path": "rabbitmq/test.md",
+        "title": "Test im Docker-Container (UBI 9)",
+        "description": "Beschreibt, wie build-erlang.sh und der Betrieb von RabbitMQ mit dem gebauten Erlang lokal in einem registry.access.redhat.com/ubi9/ubi Container getestet wurden, ohne Build-VM, Runtime-VM oder Nexus.",
+        "type": "text"
+      },
       {
         "path": "readme.md",
         "title": "redhat-helpers",
@@ -1705,10 +1729,28 @@
         "type": "readme"
       },
       {
+        "path": "tekton/readme.md",
+        "title": "tekton – Build- und Publish-Pipelines auf UBI 9",
+        "description": "Tekton-Pipelines, die die Build-VM ersetzen: Sie führen die vorhandenen Build-Skripte unverändert in einem registry.access.redhat.com/ubi9/ubi-Container aus und laden den Tarball ins Nexus Raw-Hosted-Repo hoch.",
+        "type": "module"
+      },
+      {
         "path": "unit/userunits.md",
         "title": "userunits – Python-Tools für systemd User Units",
         "description": "Sammlung von Python-Skripten, um systemd User Units (systemctl --user) für Java- und Python-Anwendungen zu erzeugen, zu verwalten und auf Fehler zu prüfen. Laufen im normalen User-Kontext (kein root, kein sudo). Kompatibel zu Python 3.9 (kein match-Statement, keine X | Y Type-Hints).",
         "type": "text"
+      },
+      {
+        "path": "valkey/readme.md",
+        "title": "valkey – Valkey als non-root betreiben (RHEL 9, offline)",
+        "description": "Valkey wird nicht gebaut. Genutzt wird der fertige Ubuntu-22.04-Build (jammy) von download.valkey.io. Er läuft auf RHEL 9, weil er nur glibc 2.34, OpenSSL 3 und libsystemd braucht (dazu zlib und libzstd, auf RHEL 9 Standard). jemalloc ist statisch gelinkt. install-valkey.sh prüft die Bibliotheken…",
+        "type": "module"
+      },
+      {
+        "path": "valkeycluster/readme.md",
+        "title": "valkeycluster – Valkey Cluster mit mehreren Instanzen pro VM (RHEL 9, offline)",
+        "description": "Valkey im Cluster-Modus: Daten werden über 16384 Slots auf mehrere Primaries verteilt, jede Primary hat Replicas auf anderen VMs. Fällt eine Primary aus, übernimmt ihre Replica automatisch. Pro VM laufen mehrere Instanzen als systemd User Units valkey-cluster@.service.",
+        "type": "module"
       }
     ]
   },
@@ -1956,7 +1998,7 @@
     "name": "vram-model-calculator",
     "description": "Python based calculator for total vram usage of you gguf models",
     "url": "https://github.com/wlanboy/vram-model-calculator",
-    "pushed_at": "2026-09-21T17:11:42Z",
+    "pushed_at": "2026-09-26T12:53:43Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1998,7 +2040,7 @@
     "name": "wlanboy.github.io",
     "description": "website",
     "url": "https://github.com/wlanboy/wlanboy.github.io",
-    "pushed_at": "2026-09-24T16:41:01Z",
+    "pushed_at": "2026-09-25T16:47:15Z",
     "default_branch": "main",
     "readmes": [
       {

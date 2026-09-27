@@ -411,7 +411,7 @@
     "name": "dos-ascii",
     "description": "Python based dos web ascii editor",
     "url": "https://github.com/wlanboy/dos-ascii",
-    "pushed_at": "2026-08-27T08:46:25Z",
+    "pushed_at": "2026-09-27T12:03:23Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -732,7 +732,7 @@
     "name": "helm-for-java-devs",
     "description": "Helm for Java Devs",
     "url": "https://github.com/wlanboy/helm-for-java-devs",
-    "pushed_at": "2026-08-30T08:45:36Z",
+    "pushed_at": "2026-09-27T13:11:12Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -750,13 +750,13 @@
       {
         "path": "helmchart/helm.md",
         "title": "Helm Chart",
-        "description": "Dieses Dokument beschreibt den Helm Chart helloworld in diesem Repo: welche Kubernetes- und Istio-Ressourcen er erzeugt, wie values.yaml aufgebaut ist und wie man den Chart installiert.",
+        "description": "Dieses Dokument beschreibt den Helm Chart helloworld in diesem Repo. Es zeigt, welche Kubernetes- und Istio-Ressourcen der Chart erzeugt, wie values.yaml aufgebaut ist und wie man ihn installiert.",
         "type": "text"
       },
       {
         "path": "kunden-traffic.md",
         "title": "Zwei Versionen: intern/extern (Source-Namespace-Routing)",
-        "description": "Der Chart deployt zwei Versionen derselben App parallel (values.yaml → versions), um Istio Source-Namespace-Routing zu demonstrieren.",
+        "description": "Der Chart deployt zwei Versionen derselben App parallel, konfiguriert in values.yaml unter versions. Damit lässt sich Istio Source-Namespace-Routing vorführen.",
         "type": "text"
       },
       {
@@ -798,7 +798,7 @@
     "name": "httptester",
     "description": "http tester servie for kubernets, istio and service mesh connection and dns tests. Local dual kind setup for istio service mesh.",
     "url": "https://github.com/wlanboy/httptester",
-    "pushed_at": "2026-09-06T13:05:34Z",
+    "pushed_at": "2026-09-27T12:24:35Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -870,7 +870,7 @@
     "name": "istio-usecases",
     "description": "Simple Istio usecases",
     "url": "https://github.com/wlanboy/istio-usecases",
-    "pushed_at": "2026-09-25T03:00:33Z",
+    "pushed_at": "2026-09-27T06:10:13Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -895,6 +895,12 @@
         "path": "faultInjection/readme.md",
         "title": "Fault Injection Usecase",
         "description": "Demonstriert Istio HTTP Fault Injection: ein VirtualService injiziert gezielt Fehler (Delay bzw. HTTP 500 Abort) in Requests an ein nginx-Deployment (2 Replicas) — gesteuert über den Request-Header x-fault, sodass sich normales, verzögertes und fehlschlagendes Verhalten gegen denselben Service…",
+        "type": "module"
+      },
+      {
+        "path": "holdConnection/readme.md",
+        "title": "Hold Connection Usecase (Umsetzungsplan)",
+        "description": "Status: Planung. Manifeste und Skripte sind noch nicht umgesetzt. Diese Datei beschreibt Zielbild, Aufbau und Testfälle; nach der Umsetzung wird sie zur regulären readme.md im Stil der anderen Usecases.",
         "type": "module"
       },
       {
@@ -978,7 +984,7 @@
       {
         "path": "vs/readme.md",
         "title": "VirtualService / DestinationRule Konfliktprüfung",
-        "description": "virtualservice.py listet für einen Namespace alle VirtualServices und DestinationRules, die sich überlagern oder widersprechen. Istio nimmt solche Konfigurationen meist ohne Fehler an und wendet dann nur einen Teil davon an. Der Validierungs-Webhook warnt nur bei einfachen Fällen innerhalb eines…",
+        "description": "virtualservice.py listet für einen Namespace alle VirtualServices und DestinationRules, die sich überlagern oder widersprechen oder auf etwas verweisen, das es nicht gibt (Service, Port, Gateway, Pods eines Subsets). Istio nimmt solche Konfigurationen meist ohne Fehler an und wendet dann nur einen…",
         "type": "module"
       },
       {
@@ -993,9 +999,15 @@
     "name": "Java-within-kubernetes",
     "description": "Optimiertes Deployment einer JVM in Kubernetes",
     "url": "https://github.com/wlanboy/Java-within-kubernetes",
-    "pushed_at": "2026-09-19T15:30:24Z",
+    "pushed_at": "2026-09-27T13:49:21Z",
     "default_branch": "main",
     "readmes": [
+      {
+        "path": "change.md",
+        "title": "Änderungen",
+        "description": "",
+        "type": "text"
+      },
       {
         "path": "chart-hpa/chart-hpa.md",
         "title": "chart-hpa – Helm-Befehle",
@@ -1410,7 +1422,7 @@
     "name": "mcp-spring-ai-java",
     "description": "Spring AI based MCP Server",
     "url": "https://github.com/wlanboy/mcp-spring-ai-java",
-    "pushed_at": "2026-09-12T16:02:19Z",
+    "pushed_at": "2026-09-27T12:03:23Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1593,7 +1605,7 @@
     "name": "opensearch-analyze",
     "description": "Python based opensearch analyze tool",
     "url": "https://github.com/wlanboy/opensearch-analyze",
-    "pushed_at": "2026-09-02T07:23:03Z",
+    "pushed_at": "2026-09-27T12:47:11Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1623,7 +1635,7 @@
     "name": "prometheus_helper",
     "description": "Python based Prometheus health helper",
     "url": "https://github.com/wlanboy/prometheus_helper",
-    "pushed_at": "2026-08-30T08:27:14Z",
+    "pushed_at": "2026-09-26T18:17:57Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1653,7 +1665,7 @@
     "name": "randomfail",
     "description": "Ein absichtlich instabiler FastAPI-Service zur Simulation realer Ausfallszenarien in Kubernetes-Clustern.",
     "url": "https://github.com/wlanboy/randomfail",
-    "pushed_at": "2026-08-30T15:42:31Z",
+    "pushed_at": "2026-09-26T18:40:47Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1674,7 +1686,7 @@
     "name": "randomfail-golang",
     "description": "Golang based service with random fail states for testing monitoring in kubernetes",
     "url": "https://github.com/wlanboy/randomfail-golang",
-    "pushed_at": "2026-09-13T07:00:29Z",
+    "pushed_at": "2026-09-27T06:54:54Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1695,7 +1707,7 @@
     "name": "redhat-helpers",
     "description": "redhat helper scripts",
     "url": "https://github.com/wlanboy/redhat-helpers",
-    "pushed_at": "2026-09-26T09:30:16Z",
+    "pushed_at": "2026-09-27T12:00:45Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -2040,7 +2052,7 @@
     "name": "wlanboy.github.io",
     "description": "website",
     "url": "https://github.com/wlanboy/wlanboy.github.io",
-    "pushed_at": "2026-09-25T16:47:15Z",
+    "pushed_at": "2026-09-26T15:58:55Z",
     "default_branch": "main",
     "readmes": [
       {

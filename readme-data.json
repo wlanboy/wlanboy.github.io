@@ -1575,13 +1575,13 @@
     "name": "Nodejs-within-kubernetes-",
     "description": "Optimiertes Deployment in Kubernetes",
     "url": "https://github.com/wlanboy/Nodejs-within-kubernetes-",
-    "pushed_at": "2026-09-19T12:20:26Z",
+    "pushed_at": "2026-09-29T17:20:18Z",
     "default_branch": "main",
     "readmes": [
       {
         "path": "readme.md",
         "title": "Node.js Hello World in Kubernetes",
-        "description": "Minimaler Node.js-REST-Service (GET /hello, GET /cpu?key=...) mit separatem Management-Port fuer Liveness/Readiness/Prometheus-Metriken, optimiert fuer geringen Speicher-/CPU-Verbrauch und schnellen Start in Kubernetes (Betrieb hinter einem Istio-Sidecar moeglich, funktioniert aber genauso lokal).",
+        "description": "Minimaler Node.js-REST-Service mit GET /hello und GET /cpu?key=.... Liveness, Readiness und Prometheus-Metriken laufen auf einem eigenen Management-Port. Ziel sind wenig Speicher, wenig CPU und ein schneller Start in Kubernetes. Der Service laeuft hinter einem Istio-Sidecar, aber genauso lokal.",
         "type": "readme"
       }
     ]
@@ -2052,7 +2052,7 @@
     "name": "wlanboy.github.io",
     "description": "website",
     "url": "https://github.com/wlanboy/wlanboy.github.io",
-    "pushed_at": "2026-09-27T16:34:54Z",
+    "pushed_at": "2026-09-28T19:23:27Z",
     "default_branch": "main",
     "readmes": [
       {

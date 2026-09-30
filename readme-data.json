@@ -705,7 +705,7 @@
     "name": "haproxy-monitoring",
     "description": "HA Proxy Monitoring",
     "url": "https://github.com/wlanboy/haproxy-monitoring",
-    "pushed_at": "2026-07-23T10:34:37Z",
+    "pushed_at": "2026-09-30T10:47:33Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -725,6 +725,12 @@
         "title": "HAProxy Monitoring Stack",
         "description": "Vollständiger Monitoring-Stack für HAProxy mit Prometheus, Grafana und Blackbox Exporter. Das Setup simuliert eine Microservice-Landschaft mit 22 HAProxy-Backends, die alle über einen internen nginx-Container bedient werden. Drei Grafana-Dashboards zeigen HAProxy-Metriken, Backend-Erreichbarkeit…",
         "type": "readme"
+      },
+      {
+        "path": "stats/README.md",
+        "title": "stats.py – Hat ein Dienst gerade Traffic?",
+        "description": "stats.py fragt die Stats-Seite einer oder mehrerer HAProxy-Instanzen ab und zeigt die Zahlen für alle Backends, deren Name auf ein Suchmuster passt. Damit lässt sich schnell prüfen, ob bei einem Dienst Anfragen ankommen und ob seine Server sie beantworten.",
+        "type": "module"
       }
     ]
   },
@@ -2052,7 +2058,7 @@
     "name": "wlanboy.github.io",
     "description": "website",
     "url": "https://github.com/wlanboy/wlanboy.github.io",
-    "pushed_at": "2026-09-28T19:23:27Z",
+    "pushed_at": "2026-09-29T17:49:11Z",
     "default_branch": "main",
     "readmes": [
       {

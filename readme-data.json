@@ -1611,7 +1611,7 @@
     "name": "opensearch-analyze",
     "description": "Python based opensearch analyze tool",
     "url": "https://github.com/wlanboy/opensearch-analyze",
-    "pushed_at": "2026-09-27T12:47:11Z",
+    "pushed_at": "2026-10-02T12:39:49Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1619,6 +1619,18 @@
         "title": "opensearch-analyze",
         "description": "Lokales Setup zum Betrieb und zur Analyse eines OpenSearch-Clusters: ein Docker-Compose-Stack mit einem 2-Node-Cluster, Log-Shipping über Fluent Bit sowie ein Python-CLI-Tool, das Cluster-, Index- und Node-Metriken auswertet und als Text- oder JSON-Report ausgibt.",
         "type": "readme"
+      },
+      {
+        "path": "vector/manual.md",
+        "title": "Anleitung: OpenSearch + k-NN auf einer RHEL-9-VM",
+        "description": "Diese Anleitung führt Schritt für Schritt von einer frischen RHEL-9-VM bis zu einem laufenden OpenSearch 2.19.5 mit k-NN-Plugin (faiss, nmslib, lucene). Grundlage ist install.sh. Hintergründe und alle Optionen stehen in README.md.",
+        "type": "text"
+      },
+      {
+        "path": "vector/README.md",
+        "title": "OpenSearch + k-NN auf RHEL installieren",
+        "description": "install.sh installiert OpenSearch (min-Distribution mit gebündeltem JDK) und das k-NN-Plugin auf RHEL 8/9 (oder Rocky/Alma). Das Skript lädt selbst nichts herunter. Es sucht die vorher heruntergeladenen Dateien im Home-Verzeichnis des aktuellen Users, entpackt sie nach /opt/local/opensearch und…",
+        "type": "module"
       }
     ]
   },
@@ -2058,7 +2070,7 @@
     "name": "wlanboy.github.io",
     "description": "website",
     "url": "https://github.com/wlanboy/wlanboy.github.io",
-    "pushed_at": "2026-09-30T17:45:23Z",
+    "pushed_at": "2026-10-01T18:10:49Z",
     "default_branch": "main",
     "readmes": [
       {

@@ -804,7 +804,7 @@
     "name": "httptester",
     "description": "http tester servie for kubernets, istio and service mesh connection and dns tests. Local dual kind setup for istio service mesh.",
     "url": "https://github.com/wlanboy/httptester",
-    "pushed_at": "2026-09-27T12:24:35Z",
+    "pushed_at": "2026-10-03T11:06:53Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1005,7 +1005,7 @@
     "name": "Java-within-kubernetes",
     "description": "Optimiertes Deployment einer JVM in Kubernetes",
     "url": "https://github.com/wlanboy/Java-within-kubernetes",
-    "pushed_at": "2026-10-01T07:54:55Z",
+    "pushed_at": "2026-10-03T10:21:25Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1025,6 +1025,12 @@
         "title": "Java 25 Hello World in Kubernetes",
         "description": "Beispiel-Deployment für einen Spring-Boot-hello-world.jar auf Java 25, inklusive AOT-Build, JVM-Tuning für geringen CPU- und RAM-Verbrauch sowie Kubernetes-Manifesten (gedacht für Betrieb hinter einem Istio-Sidecar, funktioniert aber genauso lokal).",
         "type": "readme"
+      },
+      {
+        "path": "tekton/readme.md",
+        "title": "Tekton-Pipeline",
+        "description": "Baut das Image aus service/Dockerfile im Cluster und pusht es in eine Registry, das Gegenstück zu docker build --build-context git=.git -t wlanboy/helloworld:latest service/.",
+        "type": "module"
       }
     ]
   },
@@ -1032,7 +1038,7 @@
     "name": "JavaHttpClient",
     "description": "Spring based rest service to test http call within k8s and istio",
     "url": "https://github.com/wlanboy/JavaHttpClient",
-    "pushed_at": "2026-09-13T17:46:46Z",
+    "pushed_at": "2026-10-03T08:24:01Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1518,7 +1524,7 @@
     "name": "MirrorService",
     "description": "Spring Framework based service mirroring requests with parameterized wait time and http response codes",
     "url": "https://github.com/wlanboy/MirrorService",
-    "pushed_at": "2026-09-01T13:07:32Z",
+    "pushed_at": "2026-10-03T08:24:27Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1611,7 +1617,7 @@
     "name": "opensearch-analyze",
     "description": "Python based opensearch analyze tool",
     "url": "https://github.com/wlanboy/opensearch-analyze",
-    "pushed_at": "2026-10-02T12:39:49Z",
+    "pushed_at": "2026-10-03T07:41:50Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1623,7 +1629,13 @@
       {
         "path": "vector/manual.md",
         "title": "Anleitung: OpenSearch + k-NN auf einer RHEL-9-VM",
-        "description": "Diese Anleitung führt Schritt für Schritt von einer frischen RHEL-9-VM bis zu einem laufenden OpenSearch 2.19.5 mit k-NN-Plugin (faiss, nmslib, lucene). Grundlage ist install.sh. Hintergründe und alle Optionen stehen in README.md.",
+        "description": "Diese Anleitung führt Schritt für Schritt von einer frischen RHEL-9-VM bis zu einem laufenden OpenSearch 3.9.0 mit k-NN-Plugin (faiss, lucene). Grundlage ist install.sh. Hintergründe und alle Optionen stehen in README.md.",
+        "type": "text"
+      },
+      {
+        "path": "vector/pipeline.md",
+        "title": "Handbücher für Agents durchsuchbar machen",
+        "description": "Dieses Dokument beschreibt, wie aus Handbüchern (PDF, HTML) Vektoren in OpenSearch werden und wie Agents darin suchen. Die Installation selbst steht in README.md.",
         "type": "text"
       },
       {
@@ -1631,6 +1643,12 @@
         "title": "OpenSearch + k-NN auf RHEL installieren",
         "description": "install.sh installiert OpenSearch (min-Distribution mit gebündeltem JDK) und das k-NN-Plugin auf RHEL 8/9 (oder Rocky/Alma). Das Skript lädt selbst nichts herunter. Es sucht die vorher heruntergeladenen Dateien im Home-Verzeichnis des aktuellen Users, entpackt sie nach /opt/local/opensearch und…",
         "type": "module"
+      },
+      {
+        "path": "vector/workspace.md",
+        "title": "Anleitung: Handbücher in einem Dashboards-Workspace durchsuchen",
+        "description": "Diese Anleitung richtet in OpenSearch Dashboards einen Workspace ein, in dem man die Handbuch-Chunks aus manuals-* per Volltext durchsuchen kann. Grundlage sind dashboards.sh und der Index aus index.sh bzw. pipeline.md.",
+        "type": "text"
       }
     ]
   },
@@ -1725,9 +1743,15 @@
     "name": "redhat-helpers",
     "description": "redhat helper scripts",
     "url": "https://github.com/wlanboy/redhat-helpers",
-    "pushed_at": "2026-09-27T12:00:45Z",
+    "pushed_at": "2026-10-03T07:54:08Z",
     "default_branch": "main",
     "readmes": [
+      {
+        "path": "inventory/readme.md",
+        "title": "inventory",
+        "description": "Ansible-Playbook, das auf allen Hosts die Java-Prozesse mit ihren TCP-Listen-Ports einsammelt und daraus Prometheus-Scrape-Targets erzeugt.",
+        "type": "module"
+      },
       {
         "path": "postgres/readme.md",
         "title": "postgres – PostgreSQL als non-root betreiben (RHEL 9, offline)",
@@ -1854,7 +1878,7 @@
     "name": "SimpleService",
     "description": "Simple Spring Rest Service playing Blockchain",
     "url": "https://github.com/wlanboy/SimpleService",
-    "pushed_at": "2026-08-30T18:00:05Z",
+    "pushed_at": "2026-10-03T08:24:21Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -2070,7 +2094,7 @@
     "name": "wlanboy.github.io",
     "description": "website",
     "url": "https://github.com/wlanboy/wlanboy.github.io",
-    "pushed_at": "2026-10-01T18:10:49Z",
+    "pushed_at": "2026-10-02T17:36:03Z",
     "default_branch": "main",
     "readmes": [
       {

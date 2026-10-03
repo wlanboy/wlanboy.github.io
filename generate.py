@@ -184,6 +184,11 @@ def _is_skippable_line(stripped: str) -> bool:
 def _first_paragraph(lines):
     in_code_block = False
     current = []
+    # Endet der Absatz mit ":", folgt meist eine Aufzählung, die zur
+    # Beschreibung gehört und mit übernommen wird.
+    in_list = False
+    list_items = []
+    headings_seen = 0
 
     for line in lines:
         stripped = line.strip()
@@ -194,9 +199,17 @@ def _first_paragraph(lines):
         if in_code_block:
             continue
         if HEADING_RE.match(stripped):
-            break
+            headings_seen += 1
+            if current or headings_seen > 1:
+                break
+            continue  # Kein Text vor der ersten Unterüberschrift: dort weitersuchen
         if not stripped:
+            if in_list:
+                continue  # Leerzeilen zwischen Listenpunkten erlauben
             if current:
+                if current[-1].endswith(":"):
+                    in_list = True
+                    continue
                 break  # Ende des ersten Absatzes
             continue  # führende Leerzeilen überspringen
         if _is_skippable_line(stripped):
@@ -205,11 +218,29 @@ def _first_paragraph(lines):
             continue
 
         stripped = re.sub(r"^>\s?", "", stripped)  # Blockquote-Marker
+
+        if current and not in_list and current[-1].endswith(":") and LIST_MARKER_RE.match(stripped):
+            in_list = True
+        if in_list:
+            if LIST_MARKER_RE.match(stripped):
+                list_items.append(LIST_MARKER_RE.sub("", stripped))
+            elif list_items and line[:1].isspace():
+                list_items[-1] += " " + stripped  # eingerückte Fortsetzungszeile
+            else:
+                break  # Liste zu Ende
+            continue
+
         stripped = LIST_MARKER_RE.sub("", stripped)  # Listen-Marker
         current.append(stripped)
 
     if not current:
         return None
+
+    if list_items:
+        items = [_strip_markdown(item).rstrip(".,;") for item in list_items]
+        current.append("; ".join(item for item in items if item) + ".")
+    elif current[-1].endswith(":"):
+        current[-1] = current[-1].rstrip(":") + "."
 
     text = _strip_markdown(" ".join(current))
     text = _truncate(text, MAX_DESCRIPTION_LENGTH)

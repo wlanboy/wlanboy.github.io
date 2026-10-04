@@ -207,7 +207,7 @@
     "name": "deployment_monitor",
     "description": "python based ansible deployment monitor, using sqlite as storage and pushing results to prometheus",
     "url": "https://github.com/wlanboy/deployment_monitor",
-    "pushed_at": "2026-08-26T08:49:56Z",
+    "pushed_at": "2026-10-03T18:15:38Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -217,10 +217,10 @@
         "type": "text"
       },
       {
-        "path": "prometheus/readme.md",
+        "path": "prometheus/prometheus.md",
         "title": "Prometheus + Pushgateway Monitoring Setup",
-        "description": "Dieses Setup stellt eine einfache Monitoring-Infrastruktur bereit, bestehend aus:",
-        "type": "module"
+        "description": "Dieses Setup stellt eine einfache Monitoring-Infrastruktur bereit, bestehend aus: Prometheus zur Metrik-Speicherung und Visualisierung; Pushgateway zur Annahme von Push-Metriken aus Batch-Jobs (z. B. Ansible-Deployments).",
+        "type": "text"
       },
       {
         "path": "README.md",
@@ -825,7 +825,7 @@
     "name": "intel-arc-for-ubuntu",
     "description": "All drivers and Openvino, nvtop scripts for Ubuntu",
     "url": "https://github.com/wlanboy/intel-arc-for-ubuntu",
-    "pushed_at": "2026-08-17T11:30:37Z",
+    "pushed_at": "2026-10-03T18:14:35Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -867,7 +867,7 @@
       {
         "path": "unsloth/fix-unsloth-studio.md",
         "title": "Fix: Unsloth Studio erkennt Intel Arc Pro B60 nicht (rechnet auf CPU)",
-        "description": "",
+        "description": "Kurzfassung: Unsloth Studio installiert standardmäßig eine reine CPU-Version von PyTorch, weil Intel-GPUs nicht automatisch erkannt werden. Außerdem fehlte auf OS-Ebene der Level-Zero-Loader libze1, ohne den PyTorch die XPU nicht findet. Gelöst wird das mit sudo apt install libze1 (plus Intel…",
         "type": "text"
       }
     ]
@@ -978,7 +978,7 @@
       {
         "path": "ratelimitService/readme.md",
         "title": "Ratelimit Full (Global Rate Limiting) Usecase",
-        "description": "Demonstriert Istio Global Rate Limiting im Gegensatz zum ratelimits-Usecase (Local Rate Limiting):",
+        "description": "Demonstriert Istio Global Rate Limiting im Gegensatz zum ratelimits-Usecase (Local Rate Limiting): Beim Local Rate Limiting hat jeder Envoy-Sidecar seinen eigenen, unabhängigen Token-Bucket — das effektive Gesamtlimit skaliert also mit der Anzahl der Replicas; Beim Global Rate Limiting fragen alle…",
         "type": "module"
       },
       {
@@ -1005,13 +1005,13 @@
     "name": "Java-within-kubernetes",
     "description": "Optimiertes Deployment einer JVM in Kubernetes",
     "url": "https://github.com/wlanboy/Java-within-kubernetes",
-    "pushed_at": "2026-10-03T10:21:25Z",
+    "pushed_at": "2026-10-03T18:11:03Z",
     "default_branch": "main",
     "readmes": [
       {
         "path": "change.md",
         "title": "Änderungen",
-        "description": "",
+        "description": "Startzeit: Der JDK-AOT-Cache halbiert den Start von rund 1,8 s auf rund 0,9 s. Dafür startet die App jetzt per -jar statt über den JarLauncher. Speicher: Compact Object Headers verkleinern den Heap. NMT ist vorübergehend aktiv, um resources.memory auf Messwerte statt Schätzungen zu stützen…",
         "type": "text"
       },
       {
@@ -1044,7 +1044,7 @@
       {
         "path": "dokumentation.md",
         "title": "JavaHttpClient – Projektdokumentation",
-        "description": "Diagnose-Tool für HTTP-Konnektivitätsprobleme in Kubernetes-Clustern mit Istio Service Mesh. Läuft als Pod im Cluster und ermöglicht:",
+        "description": "Diagnose-Tool für HTTP-Konnektivitätsprobleme in Kubernetes-Clustern mit Istio Service Mesh. Läuft als Pod im Cluster und ermöglicht: HTTP-Requests über einen Java-HTTP-Client an beliebige Ziel-URLs zu senden; Istio-Sidecar (Envoy) Konfiguration und Fehler-Metriken auszuwerten…",
         "type": "text"
       },
       {
@@ -1197,7 +1197,7 @@
       {
         "path": "README.md",
         "title": "📡Kubernetes Event Dashboard",
-        "description": "A lightweight, real‑time dashboard for collecting, storing, searching, and visualizing Kubernetes Events. This project provides: A FastAPI backend that watches Kubernetes events, stores them in a database, and exposes REST + SSE endpoints A minimal frontend for live event streaming, searching…",
+        "description": "A lightweight, real‑time dashboard for collecting, storing, searching, and visualizing Kubernetes Events. This project provides: A FastAPI backend that watches Kubernetes events, stores them in a database, and exposes REST + SSE endpoints; A minimal frontend for live event streaming, searching…",
         "type": "readme"
       }
     ]
@@ -1224,7 +1224,7 @@
       {
         "path": "README.md",
         "title": "Kubernetes Event Dashboard",
-        "description": "A lightweight, real‑time dashboard for collecting, storing, searching, and visualizing Kubernetes Events. This project provides:",
+        "description": "A lightweight, real‑time dashboard for collecting, storing, searching, and visualizing Kubernetes Events. This project provides: A Spring Boot backend that watches Kubernetes events, stores them in a database, and exposes REST + SSE endpoints; A minimal frontend for live event streaming, searching…",
         "type": "readme"
       },
       {
@@ -1617,7 +1617,7 @@
     "name": "opensearch-analyze",
     "description": "Python based opensearch analyze tool",
     "url": "https://github.com/wlanboy/opensearch-analyze",
-    "pushed_at": "2026-10-03T07:41:50Z",
+    "pushed_at": "2026-10-04T07:04:52Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1625,6 +1625,12 @@
         "title": "opensearch-analyze",
         "description": "Lokales Setup zum Betrieb und zur Analyse eines OpenSearch-Clusters: ein Docker-Compose-Stack mit einem 2-Node-Cluster, Log-Shipping über Fluent Bit sowie ein Python-CLI-Tool, das Cluster-, Index- und Node-Metriken auswertet und als Text- oder JSON-Report ausgibt.",
         "type": "readme"
+      },
+      {
+        "path": "vector/features.md",
+        "title": "Plugins und native Libraries",
+        "description": "Dieses Dokument erklärt, welche Plugins das Setup unter vector/ installiert, wofür wir sie brauchen und warum das k-NN-Plugin C++-Libraries mitbringt.",
+        "type": "text"
       },
       {
         "path": "vector/manual.md",
@@ -1677,7 +1683,7 @@
       {
         "path": "README.md",
         "title": "Prometheus Helper",
-        "description": "Kommandozeilen-Tool, das den Status eines Prometheus-Servers abfragt und einen Überblick über dessen aktive Scrape-Targets liefert. Die Verbindung erfolgt per HTTP Basic Auth. Für jedes Target werden folgende Werte ermittelt:",
+        "description": "Kommandozeilen-Tool, das den Status eines Prometheus-Servers abfragt und einen Überblick über dessen aktive Scrape-Targets liefert. Die Verbindung erfolgt per HTTP Basic Auth. Für jedes Target werden folgende Werte ermittelt: Anzahl der gescrapten Metriken (scrape_samples_scraped) sowie der davon…",
         "type": "readme"
       }
     ]
@@ -1713,7 +1719,7 @@
       {
         "path": "README.md",
         "title": "Kubernetes Chaos Simulator – randomfail",
-        "description": "randomfail ist ein absichtlich instabiler FastAPI‑Service zur Simulation realer Ausfallszenarien in Kubernetes‑Clustern. Der Dienst erzeugt automatisch oder manuell verschiedene Fehlerzustände und ermöglicht so das gezielte Testen von:",
+        "description": "randomfail ist ein absichtlich instabiler FastAPI‑Service zur Simulation realer Ausfallszenarien in Kubernetes‑Clustern. Der Dienst erzeugt automatisch oder manuell verschiedene Fehlerzustände und ermöglicht so das gezielte Testen von: Liveness‑ und Readiness‑Probes; Self‑Healing‑Mechanismen…",
         "type": "readme"
       }
     ]
@@ -1734,7 +1740,7 @@
       {
         "path": "readme.md",
         "title": "Kubernetes Chaos Simulator – randomfail",
-        "description": "randomfail ist ein absichtlich instabiler Golang‑Service zur Simulation realer Ausfallszenarien in Kubernetes‑Clustern. Der Dienst erzeugt automatisch oder manuell verschiedene Fehlerzustände und ermöglicht so das gezielte Testen von:",
+        "description": "randomfail ist ein absichtlich instabiler Golang‑Service zur Simulation realer Ausfallszenarien in Kubernetes‑Clustern. Der Dienst erzeugt automatisch oder manuell verschiedene Fehlerzustände und ermöglicht so das gezielte Testen von: Liveness‑ und Readiness‑Probes; Self‑Healing‑Mechanismen…",
         "type": "readme"
       }
     ]
@@ -1959,13 +1965,13 @@
     "name": "uhren",
     "description": "my watch collection",
     "url": "https://github.com/wlanboy/uhren",
-    "pushed_at": "2026-05-28T12:39:32Z",
+    "pushed_at": "2026-10-03T18:18:06Z",
     "default_branch": "main",
     "readmes": [
       {
         "path": "readme.md",
         "title": "simple website for my watches",
-        "description": "https://wlanboy.github.io/uhren/",
+        "description": "Statische Website meiner Uhrensammlung: Galerie, Filter nach Hersteller und Tags.",
         "type": "readme"
       }
     ]
@@ -2094,7 +2100,7 @@
     "name": "wlanboy.github.io",
     "description": "website",
     "url": "https://github.com/wlanboy/wlanboy.github.io",
-    "pushed_at": "2026-10-02T17:36:03Z",
+    "pushed_at": "2026-10-03T18:21:17Z",
     "default_branch": "main",
     "readmes": [
       {

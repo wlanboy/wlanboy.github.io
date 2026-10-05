@@ -876,7 +876,7 @@
     "name": "istio-usecases",
     "description": "Simple Istio usecases",
     "url": "https://github.com/wlanboy/istio-usecases",
-    "pushed_at": "2026-09-27T06:10:13Z",
+    "pushed_at": "2026-10-05T07:11:10Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -908,6 +908,12 @@
         "title": "Hold Connection Usecase (Umsetzungsplan)",
         "description": "Status: Planung. Manifeste und Skripte sind noch nicht umgesetzt. Diese Datei beschreibt Zielbild, Aufbau und Testfälle; nach der Umsetzung wird sie zur regulären readme.md im Stil der anderen Usecases.",
         "type": "module"
+      },
+      {
+        "path": "mirrorLogging/mirroring.md",
+        "title": "Traffic Mirroring mit Istio – Leitfaden für Entwickler",
+        "description": "Hier steht, was beim Mirroring technisch passiert, wo die Fallen liegen und wie man Mirroring zu einem Deployment hinzufügt, das schon läuft. Den lauffähigen Demo-Aufbau mit nginx und logger beschreibt die readme.md.",
+        "type": "text"
       },
       {
         "path": "mirrorLogging/readme.md",
@@ -967,6 +973,12 @@
         "path": "ovintegration/wildcard-ingress.md",
         "title": "Gesamten externen Traffic ueber den Istio Ingress Gateway fuehren",
         "description": "Die Basis-Installation (readme.md) baut pro Demo-Namespace genau eine Route mit automatisch vergebenem Hostnamen (ovintegration-.apps.). Nur Traffic fuer diesen einen Hostnamen landet beim istio-ingressgateway-Service. Jede andere Route im Cluster geht an ihrer eigenen Service-Definition vorbei am…",
+        "type": "text"
+      },
+      {
+        "path": "ratelimits/ratelimits.md",
+        "title": "Rate Limiting mit Istio: Leitfaden für Entwickler",
+        "description": "Dieses Dokument erklärt, was das lokale Rate Limit aus diesem Usecase technisch macht und wie du es an ein Deployment hängst, das bereits im Cluster läuft. Die Demo selbst (Installation, Lasttest) beschreibt readme.md.",
         "type": "text"
       },
       {
@@ -2100,7 +2112,7 @@
     "name": "wlanboy.github.io",
     "description": "website",
     "url": "https://github.com/wlanboy/wlanboy.github.io",
-    "pushed_at": "2026-10-03T18:21:17Z",
+    "pushed_at": "2026-10-04T16:35:41Z",
     "default_branch": "main",
     "readmes": [
       {

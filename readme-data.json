@@ -876,7 +876,7 @@
     "name": "istio-usecases",
     "description": "Simple Istio usecases",
     "url": "https://github.com/wlanboy/istio-usecases",
-    "pushed_at": "2026-10-05T07:11:10Z",
+    "pushed_at": "2026-10-06T09:25:05Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1626,10 +1626,18 @@
     ]
   },
   {
+    "name": "opensearch",
+    "description": null,
+    "url": "https://github.com/wlanboy/opensearch",
+    "pushed_at": "2026-10-06T07:43:44Z",
+    "default_branch": "main",
+    "readmes": []
+  },
+  {
     "name": "opensearch-analyze",
     "description": "Python based opensearch analyze tool",
     "url": "https://github.com/wlanboy/opensearch-analyze",
-    "pushed_at": "2026-10-04T07:04:52Z",
+    "pushed_at": "2026-10-06T10:27:16Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1637,6 +1645,12 @@
         "title": "opensearch-analyze",
         "description": "Lokales Setup zum Betrieb und zur Analyse eines OpenSearch-Clusters: ein Docker-Compose-Stack mit einem 2-Node-Cluster, Log-Shipping über Fluent Bit sowie ein Python-CLI-Tool, das Cluster-, Index- und Node-Metriken auswertet und als Text- oder JSON-Report ausgibt.",
         "type": "readme"
+      },
+      {
+        "path": "vector/embeddings.md",
+        "title": "Ähnlichkeitsmaß für Embeddings (EMBEDDING_SPACE)",
+        "description": "Dieses Dokument erklärt, welchen Wert EMBEDDING_SPACE in install.env bekommt. index.sh schreibt ihn als space_type in das Feld embedding des Index-Templates (faiss/hnsw). Wie die Vektoren entstehen, steht in pipeline.md.",
+        "type": "text"
       },
       {
         "path": "vector/features.md",
@@ -2112,7 +2126,7 @@
     "name": "wlanboy.github.io",
     "description": "website",
     "url": "https://github.com/wlanboy/wlanboy.github.io",
-    "pushed_at": "2026-10-04T16:35:41Z",
+    "pushed_at": "2026-10-05T20:25:37Z",
     "default_branch": "main",
     "readmes": [
       {

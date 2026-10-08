@@ -1637,7 +1637,7 @@
     "name": "opensearch-analyze",
     "description": "Python based opensearch analyze tool",
     "url": "https://github.com/wlanboy/opensearch-analyze",
-    "pushed_at": "2026-10-07T16:15:22Z",
+    "pushed_at": "2026-10-08T11:51:54Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1645,6 +1645,18 @@
         "title": "opensearch-analyze",
         "description": "Lokales Setup zum Betrieb und zur Analyse eines OpenSearch-Clusters: ein Docker-Compose-Stack mit einem 2-Node-Cluster, Log-Shipping über Fluent Bit sowie ein Python-CLI-Tool, das Cluster-, Index- und Node-Metriken auswertet und als Text- oder JSON-Report ausgibt.",
         "type": "readme"
+      },
+      {
+        "path": "vector/benchmark.md",
+        "title": "Benchmark",
+        "description": "benchmark.sh misst Ingest, Suchlatenz, Recall und Durchsatz des k-NN-Setups mit synthetischen Handbuch-Chunks. Es läuft gegen die Installation unter BASE_DIR und braucht weder Embedding-Modell noch echte Handbücher.",
+        "type": "text"
+      },
+      {
+        "path": "vector/bewertung.md",
+        "title": "Bewertung Benchmark opensearch-vector",
+        "description": "Lauf von benchmark.sh mit Defaults am 2026-10-08. Aufbau und Spalten erklärt benchmark.md.",
+        "type": "text"
       },
       {
         "path": "vector/embeddings.md",
@@ -2138,7 +2150,7 @@
     "name": "wlanboy.github.io",
     "description": "website",
     "url": "https://github.com/wlanboy/wlanboy.github.io",
-    "pushed_at": "2026-10-06T18:03:30Z",
+    "pushed_at": "2026-10-07T18:35:56Z",
     "default_branch": "main",
     "readmes": [
       {

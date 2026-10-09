@@ -876,7 +876,7 @@
     "name": "istio-usecases",
     "description": "Simple Istio usecases",
     "url": "https://github.com/wlanboy/istio-usecases",
-    "pushed_at": "2026-10-06T09:25:05Z",
+    "pushed_at": "2026-10-09T12:48:40Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -943,6 +943,12 @@
         "path": "ovintegration/federation.md",
         "title": "Mesh Federation zwischen OpenShift und Google Cloud (GKE)",
         "description": "Dieses Dokument baut auf zwei bereits laufenden, unabhaengigen Istio-Installationen auf: readme.md (Open-Source-Istio auf OpenShift/OVN-Kubernetes) und readme-googlecloud.md (dieselbe Istio-Version auf GKE Standard). Es verbindet beide zu zwei eigenstaendigen Meshes mit Mesh Federation: jede Seite…",
+        "type": "text"
+      },
+      {
+        "path": "ovintegration/images/images.md",
+        "title": "Container-Images fuer eine Offline-Istio-Installation",
+        "description": "Das Setup in diesem Ordner laeuft im Sidecar-Modus mit istio-cni, istiod und Ingress-Gateway, installiert ueber die Helm-Charts base, cni, istiod und gateway. Dafuer braucht man drei Images.",
         "type": "text"
       },
       {
@@ -1634,81 +1640,6 @@
     "readmes": []
   },
   {
-    "name": "opensearch-analyze",
-    "description": "Python based opensearch analyze tool",
-    "url": "https://github.com/wlanboy/opensearch-analyze",
-    "pushed_at": "2026-10-08T11:51:54Z",
-    "default_branch": "main",
-    "readmes": [
-      {
-        "path": "README.md",
-        "title": "opensearch-analyze",
-        "description": "Lokales Setup zum Betrieb und zur Analyse eines OpenSearch-Clusters: ein Docker-Compose-Stack mit einem 2-Node-Cluster, Log-Shipping über Fluent Bit sowie ein Python-CLI-Tool, das Cluster-, Index- und Node-Metriken auswertet und als Text- oder JSON-Report ausgibt.",
-        "type": "readme"
-      },
-      {
-        "path": "vector/benchmark.md",
-        "title": "Benchmark",
-        "description": "benchmark.sh misst Ingest, Suchlatenz, Recall und Durchsatz des k-NN-Setups mit synthetischen Handbuch-Chunks. Es läuft gegen die Installation unter BASE_DIR und braucht weder Embedding-Modell noch echte Handbücher.",
-        "type": "text"
-      },
-      {
-        "path": "vector/bewertung.md",
-        "title": "Bewertung Benchmark opensearch-vector",
-        "description": "Lauf von benchmark.sh mit Defaults am 2026-10-08. Aufbau und Spalten erklärt benchmark.md.",
-        "type": "text"
-      },
-      {
-        "path": "vector/embeddings.md",
-        "title": "Ähnlichkeitsmaß für Embeddings (EMBEDDING_SPACE)",
-        "description": "Dieses Dokument erklärt, welchen Wert EMBEDDING_SPACE in install.env bekommt. index.sh schreibt ihn als space_type in das Feld embedding des Index-Templates (faiss/hnsw). Wie die Vektoren entstehen, steht in pipeline.md.",
-        "type": "text"
-      },
-      {
-        "path": "vector/faiss-test.md",
-        "title": "faiss prüfen",
-        "description": "/_plugins/_knn/stats meldet faiss_initialized: false? Diese Seite klärt, ob faiss nur noch nicht benutzt wurde oder ob die native Library nicht lädt.",
-        "type": "text"
-      },
-      {
-        "path": "vector/features.md",
-        "title": "Plugins und native Libraries",
-        "description": "Dieses Dokument erklärt, welche Plugins das Setup unter vector/ installiert, wofür wir sie brauchen und warum das k-NN-Plugin C++-Libraries mitbringt.",
-        "type": "text"
-      },
-      {
-        "path": "vector/hybride-suche.md",
-        "title": "Hybride Suche: BM25 und k-NN an einem Beispiel",
-        "description": "Dieses Dokument zeigt an einem durchgerechneten Beispiel, wie die hybride Suche auf dem Alias manuals zu ihrer Trefferliste kommt. Index, Ingest und den vollständigen Query-Body beschreibt pipeline.md, das Ähnlichkeitsmaß der Vektoren embeddings.md.",
-        "type": "text"
-      },
-      {
-        "path": "vector/manual.md",
-        "title": "Anleitung: OpenSearch + k-NN auf einer RHEL-9-VM",
-        "description": "Diese Anleitung führt Schritt für Schritt von einer frischen RHEL-9-VM bis zu einem laufenden OpenSearch 3.9.0 mit k-NN-Plugin (faiss, lucene). Grundlage ist install.sh. Hintergründe und alle Optionen stehen in README.md.",
-        "type": "text"
-      },
-      {
-        "path": "vector/pipeline.md",
-        "title": "Handbücher für Agents durchsuchbar machen",
-        "description": "Dieses Dokument beschreibt, wie aus Handbüchern (PDF, HTML) Vektoren in OpenSearch werden und wie Agents darin suchen. Die Installation selbst steht in README.md.",
-        "type": "text"
-      },
-      {
-        "path": "vector/README.md",
-        "title": "OpenSearch + k-NN auf RHEL installieren",
-        "description": "install.sh installiert OpenSearch (min-Distribution mit gebündeltem JDK) und das k-NN-Plugin auf RHEL 8/9 (oder Rocky/Alma). Das Skript lädt selbst nichts herunter. Es sucht die vorher heruntergeladenen Dateien im Home-Verzeichnis des aktuellen Users, entpackt sie nach /opt/local/opensearch und…",
-        "type": "module"
-      },
-      {
-        "path": "vector/workspace.md",
-        "title": "Anleitung: Handbücher in einem Dashboards-Workspace durchsuchen",
-        "description": "Diese Anleitung richtet in OpenSearch Dashboards einen Workspace ein, in dem man die Handbuch-Chunks aus manuals-* per Volltext durchsuchen kann. Grundlage sind dashboards.sh und der Index aus index.sh bzw. pipeline.md.",
-        "type": "text"
-      }
-    ]
-  },
-  {
     "name": "privatesync",
     "description": "privatesync",
     "url": "https://github.com/wlanboy/privatesync",
@@ -1799,7 +1730,7 @@
     "name": "redhat-helpers",
     "description": "redhat helper scripts",
     "url": "https://github.com/wlanboy/redhat-helpers",
-    "pushed_at": "2026-10-03T07:54:08Z",
+    "pushed_at": "2026-10-09T13:11:09Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -2150,7 +2081,7 @@
     "name": "wlanboy.github.io",
     "description": "website",
     "url": "https://github.com/wlanboy/wlanboy.github.io",
-    "pushed_at": "2026-10-07T18:35:56Z",
+    "pushed_at": "2026-10-09T15:11:15Z",
     "default_branch": "main",
     "readmes": [
       {

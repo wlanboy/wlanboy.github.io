@@ -735,6 +735,21 @@
     ]
   },
   {
+    "name": "hello-world",
+    "description": "python based hello world",
+    "url": "https://github.com/wlanboy/hello-world",
+    "pushed_at": "2026-10-11T12:59:19Z",
+    "default_branch": "main",
+    "readmes": [
+      {
+        "path": "README.md",
+        "title": "Tetris",
+        "description": "Statisches Tetris (HTML/CSS/JS ohne Frameworks) mit FastAPI-Backend für Highscores (SQLite).",
+        "type": "readme"
+      }
+    ]
+  },
+  {
     "name": "helm-for-java-devs",
     "description": "Helm for Java Devs",
     "url": "https://github.com/wlanboy/helm-for-java-devs",
@@ -1635,7 +1650,7 @@
     "name": "opensearch",
     "description": null,
     "url": "https://github.com/wlanboy/opensearch",
-    "pushed_at": "2026-10-10T07:03:54Z",
+    "pushed_at": "2026-10-11T06:13:57Z",
     "default_branch": "main",
     "readmes": []
   },
@@ -1730,7 +1745,7 @@
     "name": "redhat-helpers",
     "description": "redhat helper scripts",
     "url": "https://github.com/wlanboy/redhat-helpers",
-    "pushed_at": "2026-10-09T13:11:09Z",
+    "pushed_at": "2026-10-11T14:32:37Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -2039,7 +2054,7 @@
     "name": "vram-model-calculator",
     "description": "Python based calculator for total vram usage of you gguf models",
     "url": "https://github.com/wlanboy/vram-model-calculator",
-    "pushed_at": "2026-10-10T10:53:31Z",
+    "pushed_at": "2026-10-11T16:14:36Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -2081,7 +2096,7 @@
     "name": "wlanboy.github.io",
     "description": "website",
     "url": "https://github.com/wlanboy/wlanboy.github.io",
-    "pushed_at": "2026-10-09T18:06:22Z",
+    "pushed_at": "2026-10-10T17:05:10Z",
     "default_branch": "main",
     "readmes": [
       {

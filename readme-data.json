@@ -1745,7 +1745,7 @@
     "name": "redhat-helpers",
     "description": "redhat helper scripts",
     "url": "https://github.com/wlanboy/redhat-helpers",
-    "pushed_at": "2026-10-11T14:32:37Z",
+    "pushed_at": "2026-10-12T17:29:23Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1753,6 +1753,12 @@
         "title": "inventory",
         "description": "Ansible-Playbook, das auf allen Hosts die Java-Prozesse mit ihren TCP-Listen-Ports einsammelt und daraus Prometheus-Scrape-Targets erzeugt.",
         "type": "module"
+      },
+      {
+        "path": "podman/podman.md",
+        "title": "Podman rootless als User Service auf RHEL 9 mit /opt/local",
+        "description": "Ziel: Ein Service-User betreibt Container mit rootless Podman als systemd User Unit. Images, Container und Volumes liegen auf der eigenen Platte unter /opt/local, die Images kommen aus Nexus.",
+        "type": "text"
       },
       {
         "path": "postgres/readme.md",
@@ -1931,7 +1937,7 @@
     "name": "testing",
     "description": "My personal testing ground.",
     "url": "https://github.com/wlanboy/testing",
-    "pushed_at": "2026-09-17T06:27:23Z",
+    "pushed_at": "2026-10-12T11:37:52Z",
     "default_branch": "gh-pages",
     "readmes": [
       {
@@ -2096,7 +2102,7 @@
     "name": "wlanboy.github.io",
     "description": "website",
     "url": "https://github.com/wlanboy/wlanboy.github.io",
-    "pushed_at": "2026-10-10T17:05:10Z",
+    "pushed_at": "2026-10-11T17:28:19Z",
     "default_branch": "main",
     "readmes": [
       {

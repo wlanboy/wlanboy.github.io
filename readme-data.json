@@ -891,7 +891,7 @@
     "name": "istio-usecases",
     "description": "Simple Istio usecases",
     "url": "https://github.com/wlanboy/istio-usecases",
-    "pushed_at": "2026-10-09T12:48:40Z",
+    "pushed_at": "2026-10-15T08:41:55Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1745,13 +1745,19 @@
     "name": "redhat-helpers",
     "description": "redhat helper scripts",
     "url": "https://github.com/wlanboy/redhat-helpers",
-    "pushed_at": "2026-10-13T12:35:13Z",
+    "pushed_at": "2026-10-15T13:58:11Z",
     "default_branch": "main",
     "readmes": [
       {
         "path": "ansible/pull.md",
         "title": "ansible-pull: Playbook bei neuem Tag oder Release-Branch ausführen",
         "description": "Ziel: Eine VM holt sich ihre Konfiguration selbst aus Git. Sobald im Repo ein neuer Release-Tag (v1.4.0) oder ein neuer Release-Branch (release/1.4) auftaucht, führt sie ein bestimmtes Playbook aus. Kein zentraler Ansible-Controller, kein SSH von außen auf die VM.",
+        "type": "text"
+      },
+      {
+        "path": "hdfs/hdfs.md",
+        "title": "hdfs",
+        "description": "Hilfsmittel rund um ACL-Metadaten (xattr user.acl) auf Ordnern im HDFS.",
         "type": "text"
       },
       {
@@ -1973,7 +1979,7 @@
     "name": "uhren",
     "description": "my watch collection",
     "url": "https://github.com/wlanboy/uhren",
-    "pushed_at": "2026-10-13T12:57:45Z",
+    "pushed_at": "2026-10-14T16:55:09Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -2108,7 +2114,7 @@
     "name": "wlanboy.github.io",
     "description": "website",
     "url": "https://github.com/wlanboy/wlanboy.github.io",
-    "pushed_at": "2026-10-13T19:00:37Z",
+    "pushed_at": "2026-10-14T16:44:40Z",
     "default_branch": "main",
     "readmes": [
       {

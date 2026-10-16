@@ -1745,7 +1745,7 @@
     "name": "redhat-helpers",
     "description": "redhat helper scripts",
     "url": "https://github.com/wlanboy/redhat-helpers",
-    "pushed_at": "2026-10-15T13:58:11Z",
+    "pushed_at": "2026-10-16T12:56:21Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1758,6 +1758,12 @@
         "path": "hdfs/hdfs.md",
         "title": "hdfs",
         "description": "Hilfsmittel rund um ACL-Metadaten (xattr user.acl) auf Ordnern im HDFS.",
+        "type": "text"
+      },
+      {
+        "path": "hdfs/single.md",
+        "title": "Einzelner NameNode zum Testen",
+        "description": "Für hdfs-acl reicht ein einzelner NameNode ohne DataNodes: Ordner, xattrs und das fsimage sind reine Metadaten. Er startet in wenigen Sekunden aus dem Hadoop-Client-Tarball und braucht weder Docker noch den Testcluster aus ~/git/hadoop.",
         "type": "text"
       },
       {
@@ -2114,7 +2120,7 @@
     "name": "wlanboy.github.io",
     "description": "website",
     "url": "https://github.com/wlanboy/wlanboy.github.io",
-    "pushed_at": "2026-10-14T16:44:40Z",
+    "pushed_at": "2026-10-15T16:30:31Z",
     "default_branch": "main",
     "readmes": [
       {

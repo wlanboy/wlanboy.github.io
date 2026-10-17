@@ -33,12 +33,21 @@ jobs:
 
       - name: Commit changes if needed
         run: |
-          if ! git diff --quiet -- readme-data.json; then
-            git config user.name "GitHub Action"
-            git config user.email "actions@github.com"
-            git add readme-data.json
-            git commit -m "Update readme-data.json"
-            git push
-          else
+          if git diff --quiet -- readme-data.json; then
             echo "No changes to commit"
+            exit 0
           fi
+
+          # pushed_at ändert sich bei jedem Push (auch durch diesen Commit selbst)
+          # und zählt daher nicht als echte Änderung.
+          strip='del(.[].pushed_at)'
+          if cmp -s <(git show HEAD:readme-data.json | jq "$strip") <(jq "$strip" readme-data.json); then
+            echo "Only pushed_at changed, skipping commit"
+            exit 0
+          fi
+
+          git config user.name "GitHub Action"
+          git config user.email "actions@github.com"
+          git add readme-data.json
+          git commit -m "Update readme-data.json"
+          git push

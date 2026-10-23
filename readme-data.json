@@ -147,6 +147,45 @@
     ]
   },
   {
+    "name": "connectionpools",
+    "description": "Spring based connection pool handling",
+    "url": "https://github.com/wlanboy/connectionpools",
+    "pushed_at": "2026-10-23T13:01:38Z",
+    "default_branch": "main",
+    "readmes": [
+      {
+        "path": "change.md",
+        "title": "Passwortrotation ohne Downtime in eine bestehende Anwendung einbauen",
+        "description": "Diese Anleitung beschreibt, wie eine vorhandene Spring-Boot-Anwendung das Passwort ihres DB-Users im laufenden Betrieb wechseln kann, ohne Pod-Neustart und ohne fehlgeschlagene Requests. Grundlage ist MySQL Dual Password (change-password.sh). Die zweite Methode, der Wechsel zwischen zwei DB-Usern…",
+        "type": "text"
+      },
+      {
+        "path": "oracledb.md",
+        "title": "Passwortrotation ohne Downtime mit Oracle Database",
+        "description": "Die Demo läuft gegen MySQL. Diese Anleitung beschreibt, was sich ändert, wenn die Anwendung mit Oracle Database arbeitet. Beide Verfahren aus change.md und switch.md lassen sich übertragen: Gradual Database Password Rollover ist das Oracle-Gegenstück zu MySQL Dual Password. Nach einem…",
+        "type": "text"
+      },
+      {
+        "path": "pool-chart/pool-chart.md",
+        "title": "pool-chart",
+        "description": "Release pool im Namespace pool. Alle Befehle aus dem Projekt-Root ausführen.",
+        "type": "text"
+      },
+      {
+        "path": "readme.md",
+        "title": "connectionpools",
+        "description": "Demo für eine Rotation des Datenbank-Passworts ohne Downtime. Eine Spring-Boot-Anwendung (Java 25, HikariCP 7) läuft in einem lokalen kind-Cluster mit Istio und spricht mit einer MySQL, die als Docker-Container außerhalb des Clusters läuft. Das Passwort des DB-Users pool lässt sich im laufenden…",
+        "type": "readme"
+      },
+      {
+        "path": "switch.md",
+        "title": "Wechsel zwischen zwei DB-Usern ohne Downtime in eine bestehende Anwendung einbauen",
+        "description": "Statt das Passwort eines Users zu ändern, schaltet die Anwendung auf einen zweiten User um. Zwei User (pool_a, pool_b) existieren dauerhaft mit denselben Rechten. Die Anwendung arbeitet immer mit einem davon, change-user.sh wechselt im laufenden Betrieb auf den anderen. Die Passwortrotation per…",
+        "type": "text"
+      }
+    ]
+  },
+  {
     "name": "create-closed-namespace",
     "description": "Script to create closed namespace with istio or traefik",
     "url": "https://github.com/wlanboy/create-closed-namespace",
@@ -1467,7 +1506,7 @@
     "name": "mcp-spring-ai-java",
     "description": "Spring AI based MCP Server",
     "url": "https://github.com/wlanboy/mcp-spring-ai-java",
-    "pushed_at": "2026-09-27T12:03:23Z",
+    "pushed_at": "2026-10-17T06:54:55Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1745,7 +1784,7 @@
     "name": "redhat-helpers",
     "description": "redhat helper scripts",
     "url": "https://github.com/wlanboy/redhat-helpers",
-    "pushed_at": "2026-10-16T12:56:21Z",
+    "pushed_at": "2026-10-23T09:02:38Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1753,6 +1792,12 @@
         "title": "ansible-pull: Playbook bei neuem Tag oder Release-Branch ausführen",
         "description": "Ziel: Eine VM holt sich ihre Konfiguration selbst aus Git. Sobald im Repo ein neuer Release-Tag (v1.4.0) oder ein neuer Release-Branch (release/1.4) auftaucht, führt sie ein bestimmtes Playbook aus. Kein zentraler Ansible-Controller, kein SSH von außen auf die VM.",
         "type": "text"
+      },
+      {
+        "path": "eMudhra-Sctigo/readme.md",
+        "title": "eMudhra / Sectigo: kompromittierte Intermediate-CAs sperren",
+        "description": "Stand: 23.10.2026",
+        "type": "module"
       },
       {
         "path": "hdfs/hdfs.md",
@@ -2078,7 +2123,7 @@
     "name": "vram-model-calculator",
     "description": "Python based calculator for total vram usage of you gguf models",
     "url": "https://github.com/wlanboy/vram-model-calculator",
-    "pushed_at": "2026-10-11T16:14:36Z",
+    "pushed_at": "2026-10-23T10:48:47Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -2120,7 +2165,7 @@
     "name": "wlanboy.github.io",
     "description": "website",
     "url": "https://github.com/wlanboy/wlanboy.github.io",
-    "pushed_at": "2026-10-15T16:30:31Z",
+    "pushed_at": "2026-10-17T07:14:28Z",
     "default_branch": "main",
     "readmes": [
       {

@@ -1784,7 +1784,7 @@
     "name": "redhat-helpers",
     "description": "redhat helper scripts",
     "url": "https://github.com/wlanboy/redhat-helpers",
-    "pushed_at": "2026-10-23T09:02:38Z",
+    "pushed_at": "2026-10-24T06:23:24Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1794,7 +1794,7 @@
         "type": "text"
       },
       {
-        "path": "eMudhra-Sctigo/readme.md",
+        "path": "eMudhra-Sectigo/readme.md",
         "title": "eMudhra / Sectigo: kompromittierte Intermediate-CAs sperren",
         "description": "Stand: 23.10.2026",
         "type": "module"
@@ -1898,14 +1898,56 @@
     "name": "scan-tools",
     "description": "Python based scan tools for git repros",
     "url": "https://github.com/wlanboy/scan-tools",
-    "pushed_at": "2026-08-29T07:17:28Z",
+    "pushed_at": "2026-10-24T15:13:01Z",
     "default_branch": "main",
     "readmes": [
+      {
+        "path": "2shell/2shell.md",
+        "title": "Node2Shell / Python2Shell / HTTP2Shell (CVE-2026-111497)",
+        "description": "Stand: 24.10.2026",
+        "type": "text"
+      },
+      {
+        "path": "bitbucket-parse.md",
+        "title": "bb_parse.py und bb-pull-project.sh",
+        "description": "bb-pull-project.sh klont alle Repositories eines Bitbucket-Projekts (Server / Data Center) bzw. eines Workspaces (Cloud) in ein Zielverzeichnis. Bereits vorhandene Repositories werden per git pull --ff-only aktualisiert.",
+        "type": "text"
+      },
+      {
+        "path": "eMudhra/eMudhra.md",
+        "title": "eMudhra: kompromittierte Intermediate-CAs und Cross-Signs",
+        "description": "Stand: 24.10.2026",
+        "type": "text"
+      },
       {
         "path": "README.MD",
         "title": "scan-tools",
         "description": "Eine Sammlung einfacher Security-Scanner für Git-Repositories, Node.js-Projekte und Linux-Systeme. Alle Tools sind eigenständige Python-Skripte ohne externe Abhängigkeiten (Standardbibliothek genügt) und liefern strukturierte Berichte als Text oder JSON.",
         "type": "readme"
+      },
+      {
+        "path": "scan-external-urls.md",
+        "title": "scan-external-urls.py",
+        "description": "Der Scanner durchsucht ein Git-Repository nach URLs, E-Mail-Adressen, Hostnamen und IP-Adressen. Gemeint sind Stellen, an denen Code oder Tests ungewollt nach außen telefonieren, hartcodierte Endpunkte stehen oder persönliche Daten mitcommittet wurden.",
+        "type": "text"
+      },
+      {
+        "path": "scan-npm.md",
+        "title": "scan-npm.py",
+        "description": "scan-npm.py durchsucht ein Node.js-Projekt nach Spuren von JavaScript-Trojanern und Supply-Chain-Angriffen. Der Scanner prüft zwei Ebenen: Konfiguration: Lifecycle-Hooks in package.json, versteckte Install-Hooks über binding.gyp, Registry-Umleitungen und Tokens in .npmrc/.yarnrc/.yarnrc.yml…",
+        "type": "text"
+      },
+      {
+        "path": "scan-proxy.md",
+        "title": "scan-proxy.py",
+        "description": "Stand: 24.10.2026",
+        "type": "text"
+      },
+      {
+        "path": "scan-secrets.md",
+        "title": "scan-secrets.py",
+        "description": "scan-secrets.py durchsucht ein Git-Repository nach hartcodierten Credentials und Secrets. Erkannt werden unter anderem Basic-Auth-Zugangsdaten (in URLs und HTTP-Headern), Bearer- und OAuth-Token, API-Keys, Private Keys, JWTs, Passwörter sowie anbieterspezifische Token von AWS, GitHub, Slack…",
+        "type": "text"
       }
     ]
   },
@@ -2165,7 +2207,7 @@
     "name": "wlanboy.github.io",
     "description": "website",
     "url": "https://github.com/wlanboy/wlanboy.github.io",
-    "pushed_at": "2026-10-17T07:14:28Z",
+    "pushed_at": "2026-10-23T16:38:43Z",
     "default_branch": "main",
     "readmes": [
       {

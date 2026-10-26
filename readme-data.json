@@ -246,7 +246,7 @@
     "name": "deployment_monitor",
     "description": "python based ansible deployment monitor, using sqlite as storage and pushing results to prometheus",
     "url": "https://github.com/wlanboy/deployment_monitor",
-    "pushed_at": "2026-10-25T08:33:58Z",
+    "pushed_at": "2026-10-26T08:28:18Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1784,7 +1784,7 @@
     "name": "redhat-helpers",
     "description": "redhat helper scripts",
     "url": "https://github.com/wlanboy/redhat-helpers",
-    "pushed_at": "2026-10-24T06:23:24Z",
+    "pushed_at": "2026-10-26T17:44:02Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1816,6 +1816,12 @@
         "title": "inventory",
         "description": "Ansible-Playbook, das auf allen Hosts die Java-Prozesse mit ihren TCP-Listen-Ports einsammelt und daraus Prometheus-Scrape-Targets erzeugt.",
         "type": "module"
+      },
+      {
+        "path": "nginx/cve.md",
+        "title": "nginx: Sicherheitsupdate vom 14.10.2026",
+        "description": "Stand: 26.10.2026",
+        "type": "text"
       },
       {
         "path": "podman/podman.md",
@@ -1898,13 +1904,13 @@
     "name": "scan-tools",
     "description": "Python based scan tools for git repros",
     "url": "https://github.com/wlanboy/scan-tools",
-    "pushed_at": "2026-10-25T08:16:15Z",
+    "pushed_at": "2026-10-26T15:31:38Z",
     "default_branch": "main",
     "readmes": [
       {
         "path": "2shell/2shell.md",
         "title": "Node2Shell / Python2Shell / HTTP2Shell (CVE-2026-111497)",
-        "description": "Stand: 25.10.2026",
+        "description": "Stand: 26.10.2026",
         "type": "text"
       },
       {
@@ -1947,6 +1953,12 @@
         "path": "secureboot/secureboot.md",
         "title": "Secure Boot: Ablauf der Microsoft-Zertifikate von 2011",
         "description": "Stand: 25.10.2026",
+        "type": "text"
+      },
+      {
+        "path": "spring/cwe-288.md",
+        "title": "CWE-288 in Spring-Boot-REST-Services",
+        "description": "CWE-288 heißt „Authentication Bypass Using an Alternate Path or Channel“. Die Anwendung verlangt eine Anmeldung, bietet aber einen zweiten Weg zur selben Funktion, auf dem keine Prüfung stattfindet.",
         "type": "text"
       },
       {
@@ -2219,7 +2231,7 @@
     "name": "wlanboy.github.io",
     "description": "website",
     "url": "https://github.com/wlanboy/wlanboy.github.io",
-    "pushed_at": "2026-10-25T07:39:55Z",
+    "pushed_at": "2026-10-25T15:43:02Z",
     "default_branch": "main",
     "readmes": [
       {

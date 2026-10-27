@@ -246,7 +246,7 @@
     "name": "deployment_monitor",
     "description": "python based ansible deployment monitor, using sqlite as storage and pushing results to prometheus",
     "url": "https://github.com/wlanboy/deployment_monitor",
-    "pushed_at": "2026-10-26T08:28:18Z",
+    "pushed_at": "2026-10-27T17:34:26Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1904,13 +1904,13 @@
     "name": "scan-tools",
     "description": "Python based scan tools for git repros",
     "url": "https://github.com/wlanboy/scan-tools",
-    "pushed_at": "2026-10-26T15:31:38Z",
+    "pushed_at": "2026-10-27T17:22:11Z",
     "default_branch": "main",
     "readmes": [
       {
         "path": "2shell/2shell.md",
         "title": "Node2Shell / Python2Shell / HTTP2Shell (CVE-2026-111497)",
-        "description": "Stand: 26.10.2026",
+        "description": "Stand: 27.10.2026",
         "type": "text"
       },
       {
@@ -2231,7 +2231,7 @@
     "name": "wlanboy.github.io",
     "description": "website",
     "url": "https://github.com/wlanboy/wlanboy.github.io",
-    "pushed_at": "2026-10-25T15:43:02Z",
+    "pushed_at": "2026-10-26T18:24:14Z",
     "default_branch": "main",
     "readmes": [
       {

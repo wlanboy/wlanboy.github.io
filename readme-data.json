@@ -930,7 +930,7 @@
     "name": "istio-usecases",
     "description": "Simple Istio usecases",
     "url": "https://github.com/wlanboy/istio-usecases",
-    "pushed_at": "2026-10-15T08:41:55Z",
+    "pushed_at": "2026-10-29T06:21:48Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -991,6 +991,12 @@
         "path": "ovintegration/custom-ca-tls.md",
         "title": "Eigene Sub-CA fuer das externe TLS-Zertifikat: Terminierung am Envoy",
         "description": "Die Basis-Installation (readme.md) terminiert TLS am OpenShift-Router (22-route.yaml, termination: edge). Der Router entschluesselt, der Weg Router -> istio-ingressgateway ist danach Klartext-HTTP. Dieses Dokument beschreibt die Alternative: TLS wird bis zu Envoy (dem Istio Ingress Gateway)…",
+        "type": "text"
+      },
+      {
+        "path": "ovintegration/egress-gateway/egress-gateway.md",
+        "title": "Istio Egress Gateway auf OpenShift (Open-Source-Istio, OVN-Kubernetes)",
+        "description": "Diese Anleitung baut auf der Basis-Installation aus ../readme.md auf (istio-base, istio-cni, istiod per Upstream-Helm-Charts mit platform=openshift). Sie fuegt einen Istio Egress Gateway hinzu, leitet den Traffic eines Demo-Namespace zu github.com darueber und sorgt mit OVN-Kubernetes-Mitteln…",
         "type": "text"
       },
       {
@@ -1904,7 +1910,7 @@
     "name": "scan-tools",
     "description": "Python based scan tools for git repros",
     "url": "https://github.com/wlanboy/scan-tools",
-    "pushed_at": "2026-10-28T17:23:46Z",
+    "pushed_at": "2026-10-29T09:32:26Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -2231,7 +2237,7 @@
     "name": "wlanboy.github.io",
     "description": "website",
     "url": "https://github.com/wlanboy/wlanboy.github.io",
-    "pushed_at": "2026-10-27T17:39:16Z",
+    "pushed_at": "2026-10-28T18:00:30Z",
     "default_branch": "main",
     "readmes": [
       {

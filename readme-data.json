@@ -858,7 +858,7 @@
     "name": "httptester",
     "description": "http tester servie for kubernets, istio and service mesh connection and dns tests. Local dual kind setup for istio service mesh.",
     "url": "https://github.com/wlanboy/httptester",
-    "pushed_at": "2026-10-28T11:55:50Z",
+    "pushed_at": "2026-10-30T16:18:03Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -930,7 +930,7 @@
     "name": "istio-usecases",
     "description": "Simple Istio usecases",
     "url": "https://github.com/wlanboy/istio-usecases",
-    "pushed_at": "2026-10-29T06:21:48Z",
+    "pushed_at": "2026-10-30T16:49:23Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1069,6 +1069,24 @@
         "path": "vs/readme.md",
         "title": "VirtualService / DestinationRule Konfliktprüfung",
         "description": "virtualservice.py listet für einen Namespace alle VirtualServices und DestinationRules, die sich überlagern oder widersprechen oder auf etwas verweisen, das es nicht gibt (Service, Port, Gateway, Pods eines Subsets). Istio nimmt solche Konfigurationen meist ohne Fehler an und wendet dann nur einen…",
+        "type": "module"
+      },
+      {
+        "path": "wartung/argocd/argocd.md",
+        "title": "Wartungsmodus mit Argo CD",
+        "description": "Derselbe Usecase wie in ../readme.md, aber deployt als App of Apps in Argo CD. Der Wartungsmodus hängt an einem einzigen Helm-Parameter an der Root-App. Ein- und Ausschalten braucht keinen Commit. Der automatische Sync bleibt dabei an.",
+        "type": "text"
+      },
+      {
+        "path": "wartung/cron/cron.md",
+        "title": "CronJob im Wartungsmodus",
+        "description": "Ein Kubernetes-CronJob ruft jede Minute http://service.service.svc.cluster.local/healthz mit dem Image curlimages/curl auf. Während der Wartung soll er gar nicht erst starten. Dafür gibt es zwei Stufen: CronJob anhalten. wartung-an.sh setzt spec.suspend: true an allen CronJobs mit dem Label…",
+        "type": "text"
+      },
+      {
+        "path": "wartung/readme.md",
+        "title": "Wartungsmodus Usecase",
+        "description": "Simuliert die Wartung eines Services nur mit Istio-Mitteln. Zwei Helm-Charts deployen den http-tester einmal als client und einmal als service. Ein kubectl apply -f manifestwartung/ schaltet den Service in den Wartungsmodus: Aufrufer bekommen 503 Service Unavailable mit Retry-After: 300…",
         "type": "module"
       },
       {
@@ -1910,7 +1928,7 @@
     "name": "scan-tools",
     "description": "Python based scan tools for git repros",
     "url": "https://github.com/wlanboy/scan-tools",
-    "pushed_at": "2026-10-29T09:32:26Z",
+    "pushed_at": "2026-10-30T08:41:35Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1923,6 +1941,12 @@
         "path": "eMudhra/eMudhra.md",
         "title": "eMudhra: kompromittierte Intermediate-CAs und Cross-Signs",
         "description": "Stand: 24.10.2026",
+        "type": "text"
+      },
+      {
+        "path": "mptcp/mptcp.md",
+        "title": "Linux-Kernel: Use-after-free im IPv4-TCP-Handshake (CVE-2026-98432)",
+        "description": "Stand: 30.10.2026",
         "type": "text"
       },
       {
@@ -2237,7 +2261,7 @@
     "name": "wlanboy.github.io",
     "description": "website",
     "url": "https://github.com/wlanboy/wlanboy.github.io",
-    "pushed_at": "2026-10-28T18:00:30Z",
+    "pushed_at": "2026-10-29T18:10:08Z",
     "default_branch": "main",
     "readmes": [
       {

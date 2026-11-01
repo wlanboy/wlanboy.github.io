@@ -777,13 +777,19 @@
     "name": "hello-world",
     "description": "python based hello world",
     "url": "https://github.com/wlanboy/hello-world",
-    "pushed_at": "2026-10-31T14:39:56Z",
+    "pushed_at": "2026-10-31T20:54:12Z",
     "default_branch": "main",
     "readmes": [
       {
+        "path": "hello-world-chart/hello-world-chart.md",
+        "title": "Helm Chart: hello-world",
+        "description": "Helm Chart für das Deployment des hello-world-Services (Tetris mit Highscore-API und whoami-Seite) in Kubernetes. Der externe Zugriff läuft über das Istio Ingress Gateway, ausschließlich per HTTP (kein TLS, kein cert-manager).",
+        "type": "text"
+      },
+      {
         "path": "README.md",
         "title": "Tetris",
-        "description": "Statisches Tetris (HTML/CSS/JS ohne Frameworks) mit FastAPI-Backend für Highscores (SQLite).",
+        "description": "Statisches Tetris (HTML/CSS/JS ohne Frameworks) mit FastAPI-Backend für Highscores (SQLite). Die Startseite ist ein whoami-Dienst: Sie zeigt Hostname, IPs, Client-Adresse, Request-Zeile und alle Request-Header an. Der Play-Button führt zum Spiel unter /tetris/.",
         "type": "readme"
       }
     ]
@@ -1134,7 +1140,7 @@
     "name": "JavaHttpClient",
     "description": "Spring based rest service to test http call within k8s and istio",
     "url": "https://github.com/wlanboy/JavaHttpClient",
-    "pushed_at": "2026-10-28T09:21:34Z",
+    "pushed_at": "2026-10-31T19:37:07Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1560,7 +1566,7 @@
     "name": "mdwriter",
     "description": "web based minimal md writer",
     "url": "https://github.com/wlanboy/mdwriter",
-    "pushed_at": "2026-10-31T08:18:28Z",
+    "pushed_at": "2026-10-31T17:41:57Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1766,7 +1772,7 @@
     "name": "randomfail",
     "description": "Ein absichtlich instabiler FastAPI-Service zur Simulation realer Ausfallszenarien in Kubernetes-Clustern.",
     "url": "https://github.com/wlanboy/randomfail",
-    "pushed_at": "2026-10-31T06:35:59Z",
+    "pushed_at": "2026-11-01T17:14:41Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1787,7 +1793,7 @@
     "name": "randomfail-golang",
     "description": "Golang based service with random fail states for testing monitoring in kubernetes",
     "url": "https://github.com/wlanboy/randomfail-golang",
-    "pushed_at": "2026-09-27T06:54:54Z",
+    "pushed_at": "2026-11-01T17:21:52Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -2099,6 +2105,21 @@
     ]
   },
   {
+    "name": "springinit",
+    "description": "Spring init",
+    "url": "https://github.com/wlanboy/springinit",
+    "pushed_at": "2026-11-01T16:22:18Z",
+    "default_branch": "main",
+    "readmes": [
+      {
+        "path": "springinit-chart/springinit-chart.md",
+        "title": "Helm Chart: springinit",
+        "description": "Helm Chart für das Deployment des springinit-Services (Spring-Boot-Service zum Testen von HTTP-Routen in Kubernetes) in Kubernetes, mit Istio als Ingress-Weg und cert-manager für TLS.",
+        "type": "text"
+      }
+    ]
+  },
+  {
     "name": "testing",
     "description": "My personal testing ground.",
     "url": "https://github.com/wlanboy/testing",
@@ -2267,7 +2288,7 @@
     "name": "wlanboy.github.io",
     "description": "website",
     "url": "https://github.com/wlanboy/wlanboy.github.io",
-    "pushed_at": "2026-10-31T06:41:10Z",
+    "pushed_at": "2026-10-31T16:57:49Z",
     "default_branch": "main",
     "readmes": [
       {

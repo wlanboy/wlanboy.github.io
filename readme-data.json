@@ -450,9 +450,15 @@
     "name": "dos-ascii",
     "description": "Python based dos web ascii editor",
     "url": "https://github.com/wlanboy/dos-ascii",
-    "pushed_at": "2026-10-31T14:15:22Z",
+    "pushed_at": "2026-11-02T13:01:20Z",
     "default_branch": "main",
     "readmes": [
+      {
+        "path": "dos-ascii-chart/dos-ascii-chart.md",
+        "title": "Helm Chart: dos-ascii",
+        "description": "Helm Chart für das Deployment des dos-ascii-Containers in Kubernetes. Der Chart unterstützt wahlweise Istio (Standard) oder Traefik als Ingress-Weg, gesteuert über den Schalter ingress.controller.",
+        "type": "text"
+      },
       {
         "path": "README.md",
         "title": "dos-ascii",
@@ -1934,13 +1940,13 @@
     "name": "scan-tools",
     "description": "Python based scan tools for git repros",
     "url": "https://github.com/wlanboy/scan-tools",
-    "pushed_at": "2026-10-31T08:03:34Z",
+    "pushed_at": "2026-11-02T12:34:31Z",
     "default_branch": "main",
     "readmes": [
       {
         "path": "2shell/2shell.md",
         "title": "Node2Shell / Python2Shell / HTTP2Shell (CVE-2026-111497)",
-        "description": "Stand: 28.10.2026",
+        "description": "Stand: 02.11.2026",
         "type": "text"
       },
       {
@@ -2108,7 +2114,7 @@
     "name": "springinit",
     "description": "Spring init",
     "url": "https://github.com/wlanboy/springinit",
-    "pushed_at": "2026-11-01T16:22:18Z",
+    "pushed_at": "2026-11-02T18:46:52Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -2288,7 +2294,7 @@
     "name": "wlanboy.github.io",
     "description": "website",
     "url": "https://github.com/wlanboy/wlanboy.github.io",
-    "pushed_at": "2026-10-31T16:57:49Z",
+    "pushed_at": "2026-11-01T17:45:54Z",
     "default_branch": "main",
     "readmes": [
       {

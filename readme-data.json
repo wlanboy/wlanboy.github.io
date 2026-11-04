@@ -1473,13 +1473,13 @@
     "name": "mailserver_mock",
     "description": "python based mail server mock",
     "url": "https://github.com/wlanboy/mailserver_mock",
-    "pushed_at": "2026-10-31T06:34:01Z",
+    "pushed_at": "2026-11-03T19:59:28Z",
     "default_branch": "main",
     "readmes": [
       {
         "path": "mailserver-mock-chart/mailserver-mock-chart.md",
         "title": "Helm Chart: mailserver-mock",
-        "description": "Helm Chart für das Deployment des mailserver-mock-Services (SMTP/IMAP-Mock-Server für Tests) in Kubernetes. Externer Zugriff läuft über ein Istio Ingress-Gateway mit reinen TCP-Routen (kein HTTP/HTTPS), da SMTP und IMAP keine HTTP-Protokolle sind.",
+        "description": "Helm Chart für das Deployment des mailserver-mock-Services (SMTP/IMAP-Mock-Server für Tests) in Kubernetes. Externer Zugriff läuft über ein Istio Ingress-Gateway: SMTP und IMAP über reine TCP-Routen, die HTTP-API samt Web-UI über eine normale HTTP-Route auf Port 80 für ingress.hosts.",
         "type": "text"
       },
       {
@@ -1778,7 +1778,7 @@
     "name": "randomfail",
     "description": "Ein absichtlich instabiler FastAPI-Service zur Simulation realer Ausfallszenarien in Kubernetes-Clustern.",
     "url": "https://github.com/wlanboy/randomfail",
-    "pushed_at": "2026-11-01T17:14:41Z",
+    "pushed_at": "2026-11-04T16:49:04Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1940,7 +1940,7 @@
     "name": "scan-tools",
     "description": "Python based scan tools for git repros",
     "url": "https://github.com/wlanboy/scan-tools",
-    "pushed_at": "2026-11-03T12:57:40Z",
+    "pushed_at": "2026-11-04T15:44:12Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -2294,7 +2294,7 @@
     "name": "wlanboy.github.io",
     "description": "website",
     "url": "https://github.com/wlanboy/wlanboy.github.io",
-    "pushed_at": "2026-11-02T21:30:12Z",
+    "pushed_at": "2026-11-03T19:14:13Z",
     "default_branch": "main",
     "readmes": [
       {

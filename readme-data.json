@@ -942,7 +942,7 @@
     "name": "istio-usecases",
     "description": "Simple Istio usecases",
     "url": "https://github.com/wlanboy/istio-usecases",
-    "pushed_at": "2026-10-31T06:30:17Z",
+    "pushed_at": "2026-11-05T09:35:17Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -974,6 +974,12 @@
         "title": "Hold Connection Usecase (Umsetzungsplan)",
         "description": "Status: Planung. Manifeste und Skripte sind noch nicht umgesetzt. Diese Datei beschreibt Zielbild, Aufbau und Testfälle; nach der Umsetzung wird sie zur regulären readme.md im Stil der anderen Usecases.",
         "type": "module"
+      },
+      {
+        "path": "mirrord/mirrord.md",
+        "title": "mirrord mit Istio: lokalen Container statt Cluster-Pod bedienen",
+        "description": "mirrord hängt einen lokal laufenden Prozess oder Container an einen Pod im Cluster. Eingehender Traffic des Pods wird zum lokalen Prozess umgeleitet (steal) oder kopiert (mirror). Ausgehende Verbindungen, DNS und Umgebungsvariablen kommen aus dem Cluster. Der lokale Container verhält sich dadurch…",
+        "type": "text"
       },
       {
         "path": "mirrorLogging/mirroring.md",
@@ -2129,7 +2135,7 @@
     "name": "testing",
     "description": "My personal testing ground.",
     "url": "https://github.com/wlanboy/testing",
-    "pushed_at": "2026-11-03T14:23:45Z",
+    "pushed_at": "2026-11-05T06:27:31Z",
     "default_branch": "gh-pages",
     "readmes": [
       {
@@ -2294,7 +2300,7 @@
     "name": "wlanboy.github.io",
     "description": "website",
     "url": "https://github.com/wlanboy/wlanboy.github.io",
-    "pushed_at": "2026-11-03T19:14:13Z",
+    "pushed_at": "2026-11-04T19:29:30Z",
     "default_branch": "main",
     "readmes": [
       {

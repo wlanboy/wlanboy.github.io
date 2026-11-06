@@ -99,7 +99,7 @@
     "name": "caweb",
     "description": "Python based web frontend to create ssl certs for hostname on a given ca",
     "url": "https://github.com/wlanboy/caweb",
-    "pushed_at": "2026-10-31T06:25:10Z",
+    "pushed_at": "2026-11-06T18:19:34Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -246,7 +246,7 @@
     "name": "deployment_monitor",
     "description": "python based ansible deployment monitor, using sqlite as storage and pushing results to prometheus",
     "url": "https://github.com/wlanboy/deployment_monitor",
-    "pushed_at": "2026-10-31T06:25:32Z",
+    "pushed_at": "2026-11-06T18:19:52Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -450,7 +450,7 @@
     "name": "dos-ascii",
     "description": "Python based dos web ascii editor",
     "url": "https://github.com/wlanboy/dos-ascii",
-    "pushed_at": "2026-11-02T13:01:20Z",
+    "pushed_at": "2026-11-06T18:19:58Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -471,7 +471,7 @@
     "name": "dotnet-container",
     "description": "Best practices dotnet core container",
     "url": "https://github.com/wlanboy/dotnet-container",
-    "pushed_at": "2026-09-12T15:40:54Z",
+    "pushed_at": "2026-11-06T18:32:02Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -783,7 +783,7 @@
     "name": "hello-world",
     "description": "python based hello world",
     "url": "https://github.com/wlanboy/hello-world",
-    "pushed_at": "2026-10-31T20:54:12Z",
+    "pushed_at": "2026-11-06T18:20:37Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -870,7 +870,7 @@
     "name": "httptester",
     "description": "http tester servie for kubernets, istio and service mesh connection and dns tests. Local dual kind setup for istio service mesh.",
     "url": "https://github.com/wlanboy/httptester",
-    "pushed_at": "2026-10-31T06:27:45Z",
+    "pushed_at": "2026-11-06T18:20:44Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -942,7 +942,7 @@
     "name": "istio-usecases",
     "description": "Simple Istio usecases",
     "url": "https://github.com/wlanboy/istio-usecases",
-    "pushed_at": "2026-11-05T09:35:17Z",
+    "pushed_at": "2026-11-06T18:21:04Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1152,7 +1152,7 @@
     "name": "JavaHttpClient",
     "description": "Spring based rest service to test http call within k8s and istio",
     "url": "https://github.com/wlanboy/JavaHttpClient",
-    "pushed_at": "2026-10-31T19:37:07Z",
+    "pushed_at": "2026-11-06T18:15:28Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1251,7 +1251,7 @@
     "name": "kubecontext",
     "description": "Python tool to get and manage kube config files.",
     "url": "https://github.com/wlanboy/kubecontext",
-    "pushed_at": "2026-10-31T06:30:33Z",
+    "pushed_at": "2026-11-06T18:21:29Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1353,7 +1353,7 @@
     "name": "kubernetes-crds",
     "description": "Python based kubernetes crd statistics",
     "url": "https://github.com/wlanboy/kubernetes-crds",
-    "pushed_at": "2026-10-31T14:16:58Z",
+    "pushed_at": "2026-11-06T18:22:01Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1383,7 +1383,7 @@
     "name": "kubestats",
     "description": "Python based kubectl crd statistic tool",
     "url": "https://github.com/wlanboy/kubestats",
-    "pushed_at": "2026-10-31T14:17:12Z",
+    "pushed_at": "2026-11-06T18:22:35Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1533,7 +1533,7 @@
     "name": "mcp-duck-search",
     "description": "Python based mcp server für duckduckgo search",
     "url": "https://github.com/wlanboy/mcp-duck-search",
-    "pushed_at": "2026-10-31T14:19:59Z",
+    "pushed_at": "2026-11-06T18:23:06Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1623,7 +1623,7 @@
     "name": "mirrorapi",
     "description": "python based microservice to forward the requst as response. ",
     "url": "https://github.com/wlanboy/mirrorapi",
-    "pushed_at": "2026-10-31T14:20:19Z",
+    "pushed_at": "2026-11-06T18:23:15Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1638,7 +1638,7 @@
     "name": "MirrorService",
     "description": "Spring Framework based service mirroring requests with parameterized wait time and http response codes",
     "url": "https://github.com/wlanboy/MirrorService",
-    "pushed_at": "2026-10-28T09:07:20Z",
+    "pushed_at": "2026-11-06T18:15:39Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1754,7 +1754,7 @@
     "name": "prometheus_helper",
     "description": "Python based Prometheus health helper",
     "url": "https://github.com/wlanboy/prometheus_helper",
-    "pushed_at": "2026-10-31T06:35:44Z",
+    "pushed_at": "2026-11-06T18:23:28Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1784,7 +1784,7 @@
     "name": "randomfail",
     "description": "Ein absichtlich instabiler FastAPI-Service zur Simulation realer Ausfallszenarien in Kubernetes-Clustern.",
     "url": "https://github.com/wlanboy/randomfail",
-    "pushed_at": "2026-11-04T16:49:04Z",
+    "pushed_at": "2026-11-06T18:23:37Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1826,7 +1826,7 @@
     "name": "redhat-helpers",
     "description": "redhat helper scripts",
     "url": "https://github.com/wlanboy/redhat-helpers",
-    "pushed_at": "2026-10-31T06:37:13Z",
+    "pushed_at": "2026-11-06T18:29:18Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1946,7 +1946,7 @@
     "name": "scan-tools",
     "description": "Python based scan tools for git repros",
     "url": "https://github.com/wlanboy/scan-tools",
-    "pushed_at": "2026-11-04T15:44:12Z",
+    "pushed_at": "2026-11-06T18:25:02Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -2010,6 +2010,12 @@
         "type": "text"
       },
       {
+        "path": "sshhole/sshhole.md",
+        "title": "OpenSSH: Passwort-Bypass auf musl ohne PAM (\"sshhole\", CVE-2026-123158)",
+        "description": "Stand: 06.11.2026",
+        "type": "text"
+      },
+      {
         "path": "sync/bitbucket.md",
         "title": "bb_parse.py und bb-pull-project.sh",
         "description": "bb-pull-project.sh klont alle Repositories eines Bitbucket-Projekts (Server / Data Center) bzw. eines Workspaces (Cloud) in ein Zielverzeichnis. Bereits vorhandene Repositories werden per git pull --ff-only aktualisiert.",
@@ -2069,7 +2075,7 @@
     "name": "SimpleService",
     "description": "Simple Spring Rest Service playing Blockchain",
     "url": "https://github.com/wlanboy/SimpleService",
-    "pushed_at": "2026-10-28T09:07:38Z",
+    "pushed_at": "2026-11-06T18:15:58Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -2117,6 +2123,36 @@
     ]
   },
   {
+    "name": "spring-arrango",
+    "description": "Sprinb Boot Arango Template",
+    "url": "https://github.com/wlanboy/spring-arrango",
+    "pushed_at": "2026-11-06T15:10:39Z",
+    "default_branch": "main",
+    "readmes": [
+      {
+        "path": "README.md",
+        "title": "Spring Boot template",
+        "description": "Spring 4 + webmvc + actuator + arrangodb client",
+        "type": "readme"
+      }
+    ]
+  },
+  {
+    "name": "spring-worker",
+    "description": "Spring boot worker",
+    "url": "https://github.com/wlanboy/spring-worker",
+    "pushed_at": "2026-11-06T15:26:42Z",
+    "default_branch": "main",
+    "readmes": [
+      {
+        "path": "readme.md",
+        "title": "spring-worker",
+        "description": "Spring Boot 4.1 (Java 25) mit acht Endpunkten. Jeder setzt einen asynchronen Worker anders um und blockiert worker.duration lang (Standard 30 s). Damit lässt sich Graceful Shutdown pro Variante testen.",
+        "type": "readme"
+      }
+    ]
+  },
+  {
     "name": "springinit",
     "description": "Spring init",
     "url": "https://github.com/wlanboy/springinit",
@@ -2135,7 +2171,7 @@
     "name": "testing",
     "description": "My personal testing ground.",
     "url": "https://github.com/wlanboy/testing",
-    "pushed_at": "2026-11-05T06:27:31Z",
+    "pushed_at": "2026-11-06T06:51:53Z",
     "default_branch": "gh-pages",
     "readmes": [
       {
@@ -2180,7 +2216,7 @@
     "name": "usbview",
     "description": "Python opencv based webserver for streaming usb capture card streams",
     "url": "https://github.com/wlanboy/usbview",
-    "pushed_at": "2026-10-31T06:40:27Z",
+    "pushed_at": "2026-11-06T18:28:02Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -2258,7 +2294,7 @@
     "name": "vram-model-calculator",
     "description": "Python based calculator for total vram usage of you gguf models",
     "url": "https://github.com/wlanboy/vram-model-calculator",
-    "pushed_at": "2026-10-31T06:40:57Z",
+    "pushed_at": "2026-11-06T18:28:37Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -2300,7 +2336,7 @@
     "name": "wlanboy.github.io",
     "description": "website",
     "url": "https://github.com/wlanboy/wlanboy.github.io",
-    "pushed_at": "2026-11-04T19:29:30Z",
+    "pushed_at": "2026-11-06T18:28:51Z",
     "default_branch": "main",
     "readmes": [
       {

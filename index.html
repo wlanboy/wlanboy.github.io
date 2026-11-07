@@ -10,9 +10,39 @@
 <body>
 
 <header>
-  <div class="header-title">Projects Explorer</div>
-  <div class="header-sub">Browse my GitHub repositories</div>
+  <div class="header-title">wlanboy @ github</div>
 </header>
+
+<nav id="site-nav" aria-label="Seiten">
+  <details class="nav-group">
+    <summary>Wissen</summary>
+    <div class="nav-menu">
+      <a href="./world/index.html">World</a>
+      <a href="./fokus/index.html">Focus</a>
+      <a href="./ai/index.html">AI</a>
+      <a href="./istio/index.html">Istio</a>
+      <a href="./katzen/index.html">Katzen</a>
+    </div>
+  </details>
+  <details class="nav-group">
+    <summary>Tools</summary>
+    <div class="nav-menu">
+      <a href="./ap.html">WLAN AP</a>
+      <a href="./trim.html">USB TRIM</a>
+      <a href="./pdf-printer.html">PDF Printer</a>
+      <a href="./minipcs.html">PCs</a>
+    </div>
+  </details>
+  <details class="nav-group">
+    <summary>Listen ↗</summary>
+    <div class="nav-menu">
+      <a href="https://wlanboy.github.io/scan-tools/index.html" target="_blank" rel="noopener">CVE ↗</a>
+      <a href="https://wlanboy.github.io/testing/index.html" target="_blank" rel="noopener">Testing ↗</a>
+      <a href="https://wlanboy.github.io/uhren/index.html" target="_blank" rel="noopener">Watches ↗</a>
+      <a href="https://wlanboy.github.io/vram-model-calculator/" target="_blank" rel="noopener">VRAM Calculator ↗</a>
+    </div>
+  </details>
+</nav>
 
 <div id="controls">
   <div id="search-wrapper">
@@ -22,20 +52,6 @@
     <option value="">Alle Repos</option>
   </select>
   <button class="ctrl-btn" id="toggleTheme">🌙/☀️</button>
-  <button class="ctrl-btn" id="sortRepo">Sortiere nach Repo</button>
-  <a href="./world/index.html" id="terminalLink">World</a>
-  <!--<a href="./bund/index.html" id="terminalLink">Bundesländer</a>-->
-  <a href="./fokus/index.html" id="terminalLink">Focus</a>
-  <a href="./ai/index.html" id="terminalLink">AI</a>
-  <a href="./istio/index.html" id="terminalLink">Istio</a>
-  <a href="./katzen/index.html" id="terminalLink">Katzen</a>
-  <!--<a href="./ap.html" id="terminalLink">WLAN AP</a>-->
-  <!--<a href="./trim.html" id="terminalLink">USB TRIM</a>-->
-  <!--<a href="./pdf-printer.html" id="terminalLink">PDF Printer</a>-->
-  <a href="./minipcs.html" id="terminalLink">PCs</a>
-  <a href="https://wlanboy.github.io/scan-tools/index.html" target="_blank" id="terminalLink">CVE</a>
-  <a href="https://wlanboy.github.io/uhren/index.html" target="_blank" id="terminalLink">Watches</a>
-  <a href="https://wlanboy.github.io/vram-model-calculator/" target="_blank" id="terminalLink">VRAM Calculator</a>
 </div>
 
 <div id="grid"></div>
@@ -51,5 +67,18 @@
 </div>
 
 <script src="script.js"></script>
+<script>
+  // Nur ein Menü gleichzeitig offen; Klick außerhalb schließt
+  const groups = document.querySelectorAll("#site-nav details");
+  groups.forEach(d => d.addEventListener("toggle", () => {
+    if (d.open) groups.forEach(o => { if (o !== d) o.open = false; });
+  }));
+  document.addEventListener("click", e => {
+    if (!e.target.closest("#site-nav")) groups.forEach(o => o.open = false);
+  });
+  document.addEventListener("keydown", e => {
+    if (e.key === "Escape") groups.forEach(o => o.open = false);
+  });
+</script>
 </body>
 </html>

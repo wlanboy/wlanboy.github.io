@@ -1,12 +1,10 @@
 let allItems = [];
 let filteredItems = [];
 let index = 0;
-let sortMode = "date";
 const batchSize = 20;
 
 const grid = document.getElementById("grid");
 const searchInput = document.getElementById("search");
-const sortBtn = document.getElementById("sortRepo");
 const themeBtn = document.getElementById("toggleTheme");
 const repoFilter = document.getElementById("repoFilter");
 
@@ -176,23 +174,6 @@ searchInput.addEventListener("input", applyFilters);
 // REPO FILTER
 // -------------------------------
 repoFilter.addEventListener("change", applyFilters);
-
-// -------------------------------
-// SORT BY REPO
-// -------------------------------
-sortBtn.addEventListener("click", () => {
-    if (sortMode === "date") {
-        filteredItems.sort((a, b) => a.repo.localeCompare(b.repo));
-        sortMode = "repo";
-        sortBtn.textContent = "Sortiere nach Datum";
-    } else {
-        filteredItems.sort((a, b) => new Date(b.pushed_at) - new Date(a.pushed_at));
-        sortMode = "date";
-        sortBtn.textContent = "Sortiere nach Repo";
-    }
-    resetGrid();
-});
-
 
 // -------------------------------
 // FILTER LOGIC

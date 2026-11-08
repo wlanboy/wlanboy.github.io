@@ -96,27 +96,6 @@
     ]
   },
   {
-    "name": "caweb",
-    "description": "Python based web frontend to create ssl certs for hostname on a given ca",
-    "url": "https://github.com/wlanboy/caweb",
-    "pushed_at": "2026-11-08T14:52:05Z",
-    "default_branch": "main",
-    "readmes": [
-      {
-        "path": "caweb-chart/readme.md",
-        "title": "helm chart to deploy caweb",
-        "description": "Needs a secret for the ca. Create secret befor deploying the helm chart.",
-        "type": "module"
-      },
-      {
-        "path": "README.md",
-        "title": "caweb – Minimal Web UI for a Local Certificate Authority",
-        "description": "caweb is a tiny, self‑contained Certificate Authority (CA) web interface for issuing and managing certificates. It includes a lightweight FastAPI (uvicorn) application and a Dockerfile, allowing you to run it locally or inside a container with minimal setup.",
-        "type": "readme"
-      }
-    ]
-  },
-  {
     "name": "cloudconfig",
     "description": "Example Repro for Spring Cloud Config Server",
     "url": "https://github.com/wlanboy/cloudconfig",
@@ -657,7 +636,7 @@
     "name": "hello-world",
     "description": "python based hello world",
     "url": "https://github.com/wlanboy/hello-world",
-    "pushed_at": "2026-11-08T14:55:00Z",
+    "pushed_at": "2026-11-08T15:10:04Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1158,39 +1137,6 @@
     ]
   },
   {
-    "name": "kubeeventjava",
-    "description": "Spring Boot Kubernetes Eventlistener for namespaces to export metrics on kubernetes events",
-    "url": "https://github.com/wlanboy/kubeeventjava",
-    "pushed_at": "2026-11-08T06:21:41Z",
-    "default_branch": "main",
-    "readmes": [
-      {
-        "path": "Grafana_Dashboards/readme.md",
-        "title": "Grafana Dashboards – Kubernetes Event Monitoring",
-        "description": "Alle Dashboards nutzen Prometheus als Datenquelle und basieren auf der kubeevents_*-Metrikfamilie, die vom kubeeventjava-Exporter bereitgestellt wird.",
-        "type": "module"
-      },
-      {
-        "path": "kubeeventjava-chart/readme.md",
-        "title": "Helm install for kubeeventjava",
-        "description": "This helm script installs the Kubeevent Java App within a kubernetes cluster.",
-        "type": "module"
-      },
-      {
-        "path": "README.md",
-        "title": "Kubernetes Event Dashboard",
-        "description": "A lightweight, real‑time dashboard for collecting, storing, searching, and visualizing Kubernetes Events. This project provides: A Spring Boot backend that watches Kubernetes events, stores them in a database, and exposes REST + SSE endpoints; A minimal frontend for live event streaming, searching…",
-        "type": "readme"
-      },
-      {
-        "path": "tekton/tekton-pipeline.md",
-        "title": "kubeeventjava – Tekton Pipeline",
-        "description": "Dieses Dokument beschreibt die Tekton-Pipeline für das Projekt kubeeventjava. Die Pipeline ersetzt die bestehenden GitHub Actions Workflows und führt in drei Schritten – Repository-Clone, Maven-Tests und Image-Build/Push mit BuildKit – ein vollständiges CI/CD aus, das innerhalb eines lokalen…",
-        "type": "text"
-      }
-    ]
-  },
-  {
     "name": "kubernetes-crds",
     "description": "Python based kubernetes crd statistics",
     "url": "https://github.com/wlanboy/kubernetes-crds",
@@ -1305,7 +1251,7 @@
     "name": "mailserver_mock",
     "description": "python based mail server mock",
     "url": "https://github.com/wlanboy/mailserver_mock",
-    "pushed_at": "2026-11-03T19:59:28Z",
+    "pushed_at": "2026-11-08T15:11:03Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1923,7 +1869,7 @@
     "name": "springinit",
     "description": "Spring init",
     "url": "https://github.com/wlanboy/springinit",
-    "pushed_at": "2026-11-07T18:42:16Z",
+    "pushed_at": "2026-11-08T15:10:23Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1975,21 +1921,6 @@
         "path": "readme.md",
         "title": "simple website for my watches",
         "description": "Statische Website meiner Uhrensammlung: Galerie, Filter nach Hersteller und Tags.",
-        "type": "readme"
-      }
-    ]
-  },
-  {
-    "name": "usbview",
-    "description": "Python opencv based webserver for streaming usb capture card streams",
-    "url": "https://github.com/wlanboy/usbview",
-    "pushed_at": "2026-11-08T14:56:25Z",
-    "default_branch": "main",
-    "readmes": [
-      {
-        "path": "README.md",
-        "title": "usbview – Browser‑basierter Live‑Viewer für USB‑HDMI‑Capture‑Cards",
-        "description": "usbview ist ein browserbasierter Live‑Viewer für USB‑HDMI‑Capture‑Cards unter Linux. Der Dienst stellt einen HTTP‑Stream bereit, über den das angeschlossene HDMI‑Gerät direkt im Browser betrachtet werden kann — ganz ohne zusätzliche Software.",
         "type": "readme"
       }
     ]
@@ -2088,7 +2019,7 @@
     "name": "wlanboy.github.io",
     "description": "website",
     "url": "https://github.com/wlanboy/wlanboy.github.io",
-    "pushed_at": "2026-11-07T12:56:53Z",
+    "pushed_at": "2026-11-08T15:01:30Z",
     "default_branch": "main",
     "readmes": [
       {

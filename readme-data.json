@@ -99,7 +99,7 @@
     "name": "caweb",
     "description": "Python based web frontend to create ssl certs for hostname on a given ca",
     "url": "https://github.com/wlanboy/caweb",
-    "pushed_at": "2026-11-06T18:19:34Z",
+    "pushed_at": "2026-11-08T14:52:05Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -239,33 +239,6 @@
         "title": "Templates",
         "description": "Dieser Ordner enthält die Bausteine, aus denen debian_cloud_init/generator.py (lokales KVM/libvirt) und proxmox_cloud_init/generator.py (Proxmox) zur Laufzeit die finale cloud-init.yml zusammensetzen. Keine dieser Dateien wird direkt verwendet – sie werden geladen, kombiniert und als neues YAML…",
         "type": "text"
-      }
-    ]
-  },
-  {
-    "name": "deployment_monitor",
-    "description": "python based ansible deployment monitor, using sqlite as storage and pushing results to prometheus",
-    "url": "https://github.com/wlanboy/deployment_monitor",
-    "pushed_at": "2026-11-06T18:19:52Z",
-    "default_branch": "main",
-    "readmes": [
-      {
-        "path": "docker.md",
-        "title": "🐳 Deployment API – Docker Setup",
-        "description": "Diese Anleitung beschreibt, wie du die FastAPI-basierte Deployment-API in einem Docker-Container ausführst, inklusive Ansible-Integration und Zugriff auf SSH-Keys und Playbooks.",
-        "type": "text"
-      },
-      {
-        "path": "prometheus/prometheus.md",
-        "title": "Prometheus + Pushgateway Monitoring Setup",
-        "description": "Dieses Setup stellt eine einfache Monitoring-Infrastruktur bereit, bestehend aus: Prometheus zur Metrik-Speicherung und Visualisierung; Pushgateway zur Annahme von Push-Metriken aus Batch-Jobs (z. B. Ansible-Deployments).",
-        "type": "text"
-      },
-      {
-        "path": "README.md",
-        "title": "Ansible Deployment Monitor",
-        "description": "Dieses Tool führt mehrere Ansible-Playbooks aus, misst deren Laufzeit und Status, speichert Metriken in SQLite und pusht sie an Prometheus Pushgateway.",
-        "type": "readme"
       }
     ]
   },
@@ -450,7 +423,7 @@
     "name": "dos-ascii",
     "description": "Python based dos web ascii editor",
     "url": "https://github.com/wlanboy/dos-ascii",
-    "pushed_at": "2026-11-06T18:19:58Z",
+    "pushed_at": "2026-11-08T14:52:11Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -548,105 +521,6 @@
         "title": "failoverdns",
         "description": "Failover DNS for nodeping and cloudflare",
         "type": "readme"
-      }
-    ]
-  },
-  {
-    "name": "gitops",
-    "description": "Simple way to create project, repros and apps in argocd",
-    "url": "https://github.com/wlanboy/gitops",
-    "pushed_at": "2026-07-23T17:25:50Z",
-    "default_branch": "main",
-    "readmes": [
-      {
-        "path": "apps-trust/readme.md",
-        "title": "Argo CD Apps mit Reflector",
-        "description": "Enthält ArgoCD Application-Manifeste für alle verwalteten Dienste. Jede Datei definiert eine eigene ArgoCD-Application, die ArgoCD anweist, die jeweilige Anwendung aus dem GitOps-Repository zu synchronisieren und im Cluster zu deployen.",
-        "type": "module"
-      },
-      {
-        "path": "apps/readme.md",
-        "title": "Argo CD Apps",
-        "description": "Enthält ArgoCD Application-Manifeste für alle verwalteten Dienste. Jede Datei definiert eine eigene ArgoCD-Application, die ArgoCD anweist, die jeweilige Anwendung aus dem GitOps-Repository zu synchronisieren und im Cluster zu deployen.",
-        "type": "module"
-      },
-      {
-        "path": "argocd-cheatsheet.md",
-        "title": "ArgoCD CLI Cheat Sheet",
-        "description": "Eine Sammlung nützlicher argocd-Befehle zur Verwaltung von Applications, Projects und Clustern über die CLI.",
-        "type": "text"
-      },
-      {
-        "path": "buildah/buildah.md",
-        "title": "Buildah Build Jobs",
-        "description": "Minimales Setup für Docker Image Builds mit Buildah in Kubernetes — Alternative zu ../kaniko/kaniko.md, da Kaniko seit 2025-06-03 archiviert und unmaintained ist. Buildah (containers-Projekt, Red Hat) ist frei nutzbar und aktiv gepflegt.",
-        "type": "text"
-      },
-      {
-        "path": "kaniko/argo-workflows/readme.md",
-        "title": "Argo Workflows + Kaniko",
-        "description": "Kubernetes-native Build Pipelines mit Argo Workflows und Kaniko.",
-        "type": "module"
-      },
-      {
-        "path": "kaniko/kaniko.md",
-        "title": "Kaniko Build Jobs",
-        "description": "Minimales Setup für Docker Image Builds mit Kaniko in Kubernetes.",
-        "type": "text"
-      },
-      {
-        "path": "kubectl-cheatsheet.md",
-        "title": "Kubernetes Cheat Sheet zur Node-Überwachung",
-        "description": "Eine Sammlung nützlicher kubectl-Befehle zur Überwachung und Untersuchung von Node-Ressourcen, Kapazitäten und der Verteilung von Workloads über Namespaces hinweg.",
-        "type": "text"
-      },
-      {
-        "path": "projects/projects.md",
-        "title": "ArgoCD AppProject — wlanboy",
-        "description": "Ein ArgoCD AppProject bündelt mehrere Anwendungen unter einem gemeinsamen Sicherheits- und Zugriffsdach: Es legt fest, welche Git-Repositories als Quellen erlaubt sind, auf welche Cluster und Namespaces deployed werden darf, und welche Kubernetes-Ressourcentypen zulässig sind.",
-        "type": "text"
-      },
-      {
-        "path": "readme.md",
-        "title": "📘 ArgoCD Deployment – Erweiterte Dokumentation",
-        "description": "Dieses Dokument beschreibt die Initialisierung und Verwaltung verschiedener ArgoCD‑Applikationen innerhalb eines Kubernetes‑Clusters. Es führt Schritt für Schritt durch die Einrichtung der benötigten Projekte, Namespaces und Applikationen sowie die Nutzung der ArgoCD‑CLI.",
-        "type": "readme"
-      },
-      {
-        "path": "reflector/chart-update.md",
-        "title": "Plan: Helm Chart um extraVolumes / extraEnv erweitern",
-        "description": "Beschreibt die nötigen Änderungen, um ein bestehendes Helm Chart flexibel um zusätzliche Volumes, VolumeMounts und Umgebungsvariablen erweiterbar zu machen — ohne das Chart selbst zu forken. Die Werte werden über values.yaml übergeben und im Deployment-Template per {{- with }} eingebunden.",
-        "type": "text"
-      },
-      {
-        "path": "reflector/reflector.md",
-        "title": "Reflector — Kubernetes Secret & ConfigMap Spiegelung",
-        "description": "Reflector synchronisiert Secrets und ConfigMaps automatisch zwischen Namespaces — einmal anlegen, überall verfügbar. Besonders nützlich für TLS-Zertifikate und Truststores, die von mehreren Services genutzt werden.",
-        "type": "text"
-      },
-      {
-        "path": "remotecluster.md",
-        "title": "Add remote cluster",
-        "description": "Dieses Dokument beschreibt, wie ein entfernter Kubernetes-Cluster zu ArgoCD hinzugefügt wird. ArgoCD verwaltet Ziel-Cluster nicht über eine eigene Anmeldung, sondern über ein Kubernetes-Secret im argocd-Namespace, das die Zugangsdaten eines ServiceAccounts auf dem Ziel-Cluster enthält (Bearer-Token…",
-        "type": "text"
-      },
-      {
-        "path": "tekton-cheatsheet.md",
-        "title": "Tekton CLI (tkn) Cheat Sheet",
-        "description": "Eine Sammlung nützlicher tkn-Befehle zur Verwaltung von Pipelines, Tasks und Runs über die CLI.",
-        "type": "text"
-      },
-      {
-        "path": "tekton/argocd/argocd.md",
-        "title": "Tekton Scripts für ArgoCD App Definitionen",
-        "description": "Dieses Verzeichnis enthält Shell-Skripte, um Tekton-Pipelines für ArgoCD-verwaltete Anwendungen aufzusetzen und zu bauen. Das setup.sh-Skript konfiguriert einmalig die Docker-Credentials, während build.sh das Bauen einzelner oder aller Apps übernimmt.",
-        "type": "text"
-      },
-      {
-        "path": "tekton/tekton.md",
-        "title": "Tekton Builds",
-        "description": "Tekton Pipelines für deine GitHub-Projekte und ArgoCD Apps einrichten.",
-        "type": "text"
       }
     ]
   },
@@ -783,7 +657,7 @@
     "name": "hello-world",
     "description": "python based hello world",
     "url": "https://github.com/wlanboy/hello-world",
-    "pushed_at": "2026-11-06T18:20:37Z",
+    "pushed_at": "2026-11-08T14:55:00Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -870,7 +744,7 @@
     "name": "httptester",
     "description": "http tester servie for kubernets, istio and service mesh connection and dns tests. Local dual kind setup for istio service mesh.",
     "url": "https://github.com/wlanboy/httptester",
-    "pushed_at": "2026-11-06T18:20:44Z",
+    "pushed_at": "2026-11-08T14:54:49Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1119,13 +993,13 @@
     "name": "Java-within-kubernetes",
     "description": "Optimiertes Deployment einer JVM in Kubernetes",
     "url": "https://github.com/wlanboy/Java-within-kubernetes",
-    "pushed_at": "2026-10-24T15:51:38Z",
+    "pushed_at": "2026-11-08T05:14:53Z",
     "default_branch": "main",
     "readmes": [
       {
         "path": "change.md",
         "title": "Änderungen",
-        "description": "Startzeit: Der JDK-AOT-Cache halbiert den Start von rund 1,8 s auf rund 0,9 s. Dafür startet die App jetzt per -jar statt über den JarLauncher. Speicher: Compact Object Headers verkleinern den Heap. NMT ist vorübergehend aktiv, um resources.memory auf Messwerte statt Schätzungen zu stützen…",
+        "description": "Neueste Einträge oben. Der aktuelle Stand mit allen Begründungen steht in readme.md. Einträge beschreiben den Stand zum jeweiligen Datum, spätere Einträge können sie überholen.",
         "type": "text"
       },
       {
@@ -1137,7 +1011,7 @@
       {
         "path": "readme.md",
         "title": "Java 25 Hello World in Kubernetes",
-        "description": "Beispiel-Deployment für einen Spring-Boot-hello-world.jar auf Java 25, inklusive AOT-Build, JVM-Tuning für geringen CPU- und RAM-Verbrauch sowie Kubernetes-Manifesten (gedacht für Betrieb hinter einem Istio-Sidecar, funktioniert aber genauso lokal).",
+        "description": "Beispiel-Deployment für einen Spring-Boot-Service (Tomcat) auf Java 25 mit Spring AOT, JDK-AOT-Cache und JVM-Tuning für wenig CPU und RAM. Dazu Kubernetes-Manifeste und zwei Helm-Charts, gedacht für den Betrieb hinter einem Istio-Sidecar. Lokal funktioniert alles genauso, die Istio-Annotations sind…",
         "type": "readme"
       },
       {
@@ -1145,39 +1019,6 @@
         "title": "Tekton-Pipeline",
         "description": "Baut das Image aus service/Dockerfile im Cluster und pusht es in eine Registry, das Gegenstück zu docker build --build-context git=.git -t wlanboy/helloworld:latest service/.",
         "type": "module"
-      }
-    ]
-  },
-  {
-    "name": "JavaHttpClient",
-    "description": "Spring based rest service to test http call within k8s and istio",
-    "url": "https://github.com/wlanboy/JavaHttpClient",
-    "pushed_at": "2026-11-06T18:15:28Z",
-    "default_branch": "main",
-    "readmes": [
-      {
-        "path": "dokumentation.md",
-        "title": "JavaHttpClient – Projektdokumentation",
-        "description": "Diagnose-Tool für HTTP-Konnektivitätsprobleme in Kubernetes-Clustern mit Istio Service Mesh. Läuft als Pod im Cluster und ermöglicht: HTTP-Requests über einen Java-HTTP-Client an beliebige Ziel-URLs zu senden; Istio-Sidecar (Envoy) Konfiguration und Fehler-Metriken auszuwerten…",
-        "type": "text"
-      },
-      {
-        "path": "javahttpclient-chart/helm-chart.md",
-        "title": "Helm chart description",
-        "description": "Dieses Helm Chart deployt den JavaHttpClient in einem Kubernetes-Cluster mit Istio-Integration. Es wird in den Namespace clients installiert, konfiguriert ein Istio Gateway mit TLS-Terminierung und richtet einen VirtualService für das Routing ein.",
-        "type": "text"
-      },
-      {
-        "path": "layers.md",
-        "title": "Spring Boot Layered JAR – Strategie & Anwendungsanleitung",
-        "description": "Diese Anleitung erklärt, wie ein Spring Boot JAR in optimierte Docker-Layer aufgeteilt wird. Ziel ist es, Build-Zeiten und Netzwerk-Traffic zu reduzieren, indem stabile Abhängigkeiten gecacht werden und nur der eigentliche Anwendungscode bei jedem Deployment neu übertragen wird. Die Anleitung deckt…",
-        "type": "text"
-      },
-      {
-        "path": "README.md",
-        "title": "JavaHttpClient",
-        "description": "A Spring Boot REST service for testing and diagnosing HTTP routes in Kubernetes clusters with Istio service mesh. It acts as a configurable HTTP proxy that forwards requests to any target URL and returns the response along with timing, status and header information. Additionally it exposes…",
-        "type": "readme"
       }
     ]
   },
@@ -1320,7 +1161,7 @@
     "name": "kubeeventjava",
     "description": "Spring Boot Kubernetes Eventlistener for namespaces to export metrics on kubernetes events",
     "url": "https://github.com/wlanboy/kubeeventjava",
-    "pushed_at": "2026-10-28T09:18:14Z",
+    "pushed_at": "2026-11-08T06:21:41Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1344,7 +1185,7 @@
       {
         "path": "tekton/tekton-pipeline.md",
         "title": "kubeeventjava – Tekton Pipeline",
-        "description": "Dieses Dokument beschreibt die Tekton-Pipeline für das Projekt kubeeventjava. Die Pipeline ersetzt die bestehenden GitHub Actions Workflows und führt in drei Schritten – Repository-Clone, Maven-Build (mit Spring Boot AOT) und Kaniko-Image-Build/Push – ein vollständiges CI/CD aus, das innerhalb…",
+        "description": "Dieses Dokument beschreibt die Tekton-Pipeline für das Projekt kubeeventjava. Die Pipeline ersetzt die bestehenden GitHub Actions Workflows und führt in drei Schritten – Repository-Clone, Maven-Tests und Image-Build/Push mit BuildKit – ein vollständiges CI/CD aus, das innerhalb eines lokalen…",
         "type": "text"
       }
     ]
@@ -1446,21 +1287,6 @@
     ]
   },
   {
-    "name": "lm-studio-remote",
-    "description": "Python based remote for LM Studio",
-    "url": "https://github.com/wlanboy/lm-studio-remote",
-    "pushed_at": "2026-10-31T06:34:32Z",
-    "default_branch": "main",
-    "readmes": [
-      {
-        "path": "README.md",
-        "title": "lm-studio-remote",
-        "description": "Eine Python-basierte Terminal-UI (gebaut mit Textual), um eine oder mehrere LM Studio-Instanzen im lokalen Netzwerk fernzusteuern, ohne die LM Studio Desktop-App selbst zu öffnen. Die App scannt das lokale /24-Subnetz nach erreichbaren LM-Studio-REST-API-Servern, merkt sich gefundene Server samt…",
-        "type": "readme"
-      }
-    ]
-  },
-  {
     "name": "logbacktest",
     "description": "Simple CLI tool to test logback on command line",
     "url": "https://github.com/wlanboy/logbacktest",
@@ -1512,7 +1338,7 @@
     "name": "mcp-dotnet-websearch",
     "description": "MCP Server in dotnet core für websuche",
     "url": "https://github.com/wlanboy/mcp-dotnet-websearch",
-    "pushed_at": "2026-08-09T07:01:07Z",
+    "pushed_at": "2026-11-08T08:27:32Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1533,28 +1359,13 @@
     "name": "mcp-duck-search",
     "description": "Python based mcp server für duckduckgo search",
     "url": "https://github.com/wlanboy/mcp-duck-search",
-    "pushed_at": "2026-11-06T18:23:06Z",
+    "pushed_at": "2026-11-08T14:55:48Z",
     "default_branch": "main",
     "readmes": [
       {
         "path": "README.md",
         "title": "MCP Duck Search",
         "description": "Ein MCP-Server (Model Context Protocol) auf Basis von FastMCP, der LLM-Modellen die Internetsuche ermöglicht — optimiert fuer Code-, Fehler- und Dokumentationssuche.",
-        "type": "readme"
-      }
-    ]
-  },
-  {
-    "name": "mcp-spring-ai-java",
-    "description": "Spring AI based MCP Server",
-    "url": "https://github.com/wlanboy/mcp-spring-ai-java",
-    "pushed_at": "2026-10-25T08:31:12Z",
-    "default_branch": "main",
-    "readmes": [
-      {
-        "path": "README.md",
-        "title": "MCP System-Monitoring Server — Spring AI / Java 25",
-        "description": "Ein MCP-Server (Model Context Protocol) auf Basis von Spring Boot 4 und Spring AI 2.0. Neben einem Hello-World-Beispiel stellt er reale System-Monitoring-Tools bereit: laufende Java-Prozesse, Host-Metriken über den Prometheus node_exporter sowie eine aggregierte Health-Check-Auswertung mit…",
         "type": "readme"
       }
     ]
@@ -1570,21 +1381,6 @@
         "path": "README.md",
         "title": "md",
         "description": "github page for using A record and CAA record",
-        "type": "readme"
-      }
-    ]
-  },
-  {
-    "name": "mdwriter",
-    "description": "web based minimal md writer",
-    "url": "https://github.com/wlanboy/mdwriter",
-    "pushed_at": "2026-10-31T17:41:57Z",
-    "default_branch": "main",
-    "readmes": [
-      {
-        "path": "README.md",
-        "title": "MD Explorer",
-        "description": "Ein minimaler, browserbasierter Markdown- und YAML-Editor mit lokalem Backend (FastAPI).",
         "type": "readme"
       }
     ]
@@ -1623,7 +1419,7 @@
     "name": "mirrorapi",
     "description": "python based microservice to forward the requst as response. ",
     "url": "https://github.com/wlanboy/mirrorapi",
-    "pushed_at": "2026-11-06T18:23:15Z",
+    "pushed_at": "2026-11-08T14:55:19Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1638,13 +1434,13 @@
     "name": "MirrorService",
     "description": "Spring Framework based service mirroring requests with parameterized wait time and http response codes",
     "url": "https://github.com/wlanboy/MirrorService",
-    "pushed_at": "2026-11-06T18:15:39Z",
+    "pushed_at": "2026-11-08T04:54:20Z",
     "default_branch": "main",
     "readmes": [
       {
         "path": "docker.md",
         "title": "MirrorService – Docker Build Varianten",
-        "description": "Drei Dockerfiles stehen zur Verfügung, die sich in Komplexität, Image-Größe und Startverhalten unterscheiden. Alle nutzen Java 25 und ein Multi-Stage-Build.",
+        "description": "Zwei Varianten stehen zur Verfügung. Beide nutzen Java 25, einen Multi-Stage-Build, Spring AOT, den JDK-25-AOT-Cache und Virtual Threads. Sie unterscheiden sich im Runtime-Image.",
         "type": "text"
       },
       {
@@ -1728,14 +1524,6 @@
     ]
   },
   {
-    "name": "opensearch",
-    "description": null,
-    "url": "https://github.com/wlanboy/opensearch",
-    "pushed_at": "2026-10-11T06:13:57Z",
-    "default_branch": "main",
-    "readmes": []
-  },
-  {
     "name": "privatesync",
     "description": "privatesync",
     "url": "https://github.com/wlanboy/privatesync",
@@ -1784,7 +1572,7 @@
     "name": "randomfail",
     "description": "Ein absichtlich instabiler FastAPI-Service zur Simulation realer Ausfallszenarien in Kubernetes-Clustern.",
     "url": "https://github.com/wlanboy/randomfail",
-    "pushed_at": "2026-11-06T18:23:37Z",
+    "pushed_at": "2026-11-08T14:55:55Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1931,7 +1719,7 @@
     "name": "redis-from-source",
     "description": "Build debian based docker container for redis to run on gcr.io/distroless/cc",
     "url": "https://github.com/wlanboy/redis-from-source",
-    "pushed_at": "2026-05-01T17:57:13Z",
+    "pushed_at": "2026-11-08T09:03:30Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1946,7 +1734,7 @@
     "name": "scan-tools",
     "description": "Python based scan tools for git repros",
     "url": "https://github.com/wlanboy/scan-tools",
-    "pushed_at": "2026-11-06T18:25:02Z",
+    "pushed_at": "2026-11-07T12:58:58Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -2072,27 +1860,6 @@
     ]
   },
   {
-    "name": "SimpleService",
-    "description": "Simple Spring Rest Service playing Blockchain",
-    "url": "https://github.com/wlanboy/SimpleService",
-    "pushed_at": "2026-11-06T18:15:58Z",
-    "default_branch": "main",
-    "readmes": [
-      {
-        "path": "README.md",
-        "title": "SimpleService",
-        "description": "SimpleService ist ein Spring-Boot-REST-Dienst, der ein einfaches Blockchain-basiertes Audit-Log implementiert. Jeder neue Eintrag wird kryptografisch mit seinem Vorgänger verknüpft: Der SHA-256-Hash eines Eintrags wird aus target, status, counter und dem Hash des vorherigen Eintrags (previousHash)…",
-        "type": "readme"
-      },
-      {
-        "path": "simple-chart/simple-chart.md",
-        "title": "simple-chart",
-        "description": "Helm-Chart für den Betrieb von SimpleService in Kubernetes. Es deployt die Anwendung mit einer PVC für Persistenz und unterstützt wahlweise Istio, Traefik oder keinen Ingress-Controller für die Anbindung nach außen.",
-        "type": "text"
-      }
-    ]
-  },
-  {
     "name": "socketfinder",
     "description": null,
     "url": "https://github.com/wlanboy/socketfinder",
@@ -2109,9 +1876,9 @@
   },
   {
     "name": "spring-ai-mcp",
-    "description": "Spring Based MCP Server",
+    "description": "Spring Based Hello World MCP Server",
     "url": "https://github.com/wlanboy/spring-ai-mcp",
-    "pushed_at": "2026-10-28T11:35:16Z",
+    "pushed_at": "2026-11-08T08:37:05Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -2156,7 +1923,7 @@
     "name": "springinit",
     "description": "Spring init",
     "url": "https://github.com/wlanboy/springinit",
-    "pushed_at": "2026-11-02T18:46:52Z",
+    "pushed_at": "2026-11-07T18:42:16Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -2171,7 +1938,7 @@
     "name": "testing",
     "description": "My personal testing ground.",
     "url": "https://github.com/wlanboy/testing",
-    "pushed_at": "2026-11-06T06:51:53Z",
+    "pushed_at": "2026-11-07T13:45:22Z",
     "default_branch": "gh-pages",
     "readmes": [
       {
@@ -2216,28 +1983,13 @@
     "name": "usbview",
     "description": "Python opencv based webserver for streaming usb capture card streams",
     "url": "https://github.com/wlanboy/usbview",
-    "pushed_at": "2026-11-06T18:28:02Z",
+    "pushed_at": "2026-11-08T14:56:25Z",
     "default_branch": "main",
     "readmes": [
       {
         "path": "README.md",
         "title": "usbview – Browser‑basierter Live‑Viewer für USB‑HDMI‑Capture‑Cards",
         "description": "usbview ist ein browserbasierter Live‑Viewer für USB‑HDMI‑Capture‑Cards unter Linux. Der Dienst stellt einen HTTP‑Stream bereit, über den das angeschlossene HDMI‑Gerät direkt im Browser betrachtet werden kann — ganz ohne zusätzliche Software.",
-        "type": "readme"
-      }
-    ]
-  },
-  {
-    "name": "uv-deps-nexus",
-    "description": "UV project with dependencies and nexus cache",
-    "url": "https://github.com/wlanboy/uv-deps-nexus",
-    "pushed_at": "2026-07-03T11:06:46Z",
-    "default_branch": "main",
-    "readmes": [
-      {
-        "path": "README.md",
-        "title": "uv",
-        "description": "Nexus Python Cache Filler – installiert eine breite Menge gängiger Python-Pakete über uv, um den Nexus-PyPI-Proxy vorzuwärmen (Cache-Füllung), statt eine eigenständige Anwendung bereitzustellen.",
         "type": "readme"
       }
     ]
@@ -2336,7 +2088,7 @@
     "name": "wlanboy.github.io",
     "description": "website",
     "url": "https://github.com/wlanboy/wlanboy.github.io",
-    "pushed_at": "2026-11-06T18:28:51Z",
+    "pushed_at": "2026-11-07T12:56:53Z",
     "default_branch": "main",
     "readmes": [
       {

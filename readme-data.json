@@ -795,7 +795,7 @@
     "name": "istio-usecases",
     "description": "Simple Istio usecases",
     "url": "https://github.com/wlanboy/istio-usecases",
-    "pushed_at": "2026-11-09T07:34:53Z",
+    "pushed_at": "2026-11-10T11:19:51Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -821,6 +821,12 @@
         "title": "Fault Injection Usecase",
         "description": "Demonstriert Istio HTTP Fault Injection: ein VirtualService injiziert gezielt Fehler (Delay bzw. HTTP 500 Abort) in Requests an ein nginx-Deployment (2 Replicas) — gesteuert über den Request-Header x-fault, sodass sich normales, verzögertes und fehlschlagendes Verhalten gegen denselben Service…",
         "type": "module"
+      },
+      {
+        "path": "grpc/grpc.md",
+        "title": "gRPC mit Istio im Sidecar-Modus",
+        "description": "gRPC läuft über HTTP/2. Envoy kennt das Protokoll und behandelt jeden gRPC-Call als eigenen HTTP/2-Request. Damit stehen im Sidecar-Modus und an den Gateways alle L7-Funktionen von Istio auch für gRPC zur Verfügung. Ambient Mode ist hier nicht beschrieben.",
+        "type": "text"
       },
       {
         "path": "holdConnection/readme.md",
@@ -1545,7 +1551,7 @@
     "name": "redhat-helpers",
     "description": "redhat helper scripts",
     "url": "https://github.com/wlanboy/redhat-helpers",
-    "pushed_at": "2026-11-06T18:29:18Z",
+    "pushed_at": "2026-11-10T11:00:06Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -2004,7 +2010,7 @@
     "name": "wlanboy.github.io",
     "description": "website",
     "url": "https://github.com/wlanboy/wlanboy.github.io",
-    "pushed_at": "2026-11-08T17:44:02Z",
+    "pushed_at": "2026-11-09T22:01:43Z",
     "default_branch": "main",
     "readmes": [
       {

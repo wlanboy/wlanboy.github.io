@@ -402,7 +402,7 @@
     "name": "dos-ascii",
     "description": "Python based dos web ascii editor",
     "url": "https://github.com/wlanboy/dos-ascii",
-    "pushed_at": "2026-11-08T14:52:11Z",
+    "pushed_at": "2026-11-12T14:11:21Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -723,7 +723,7 @@
     "name": "httptester",
     "description": "http tester servie for kubernets, istio and service mesh connection and dns tests. Local dual kind setup for istio service mesh.",
     "url": "https://github.com/wlanboy/httptester",
-    "pushed_at": "2026-11-09T13:04:01Z",
+    "pushed_at": "2026-11-12T13:59:30Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -795,7 +795,7 @@
     "name": "istio-usecases",
     "description": "Simple Istio usecases",
     "url": "https://github.com/wlanboy/istio-usecases",
-    "pushed_at": "2026-11-10T11:19:51Z",
+    "pushed_at": "2026-11-12T15:16:09Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -943,6 +943,12 @@
         "type": "readme"
       },
       {
+        "path": "telepresence/telepresence.md",
+        "title": "Telepresence mit Istio: lokalen Container statt Cluster-Pod bedienen",
+        "description": "Telepresence (CNCF Sandbox, Open Source) leitet den eingehenden Traffic eines Workloads im Cluster auf einen lokal laufenden Prozess oder Container um (intercept, replace) oder kopiert ihn dorthin (wiretap). Der lokale Container bekommt die Umgebungsvariablen des Pods, kann die Volumes des Pods…",
+        "type": "text"
+      },
+      {
         "path": "vs/readme.md",
         "title": "VirtualService / DestinationRule Konfliktprüfung",
         "description": "virtualservice.py listet für einen Namespace alle VirtualServices und DestinationRules, die sich überlagern oder widersprechen oder auf etwas verweisen, das es nicht gibt (Service, Port, Gateway, Pods eines Subsets). Istio nimmt solche Konfigurationen meist ohne Fehler an und wendet dann nur einen…",
@@ -978,7 +984,7 @@
     "name": "Java-within-kubernetes",
     "description": "Optimiertes Deployment einer JVM in Kubernetes",
     "url": "https://github.com/wlanboy/Java-within-kubernetes",
-    "pushed_at": "2026-11-08T05:14:53Z",
+    "pushed_at": "2026-11-12T14:30:52Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1218,6 +1224,21 @@
     ]
   },
   {
+    "name": "localports",
+    "description": "Python based kubectl port forwarding",
+    "url": "https://github.com/wlanboy/localports",
+    "pushed_at": "2026-11-12T14:48:32Z",
+    "default_branch": "main",
+    "readmes": [
+      {
+        "path": "README.md",
+        "title": "localports",
+        "description": "Wrapper um oc port-forward / kubectl port-forward: Namespaces auswählen, alle Services darin werden auf localhost: erreichbar.",
+        "type": "readme"
+      }
+    ]
+  },
+  {
     "name": "logbacktest",
     "description": "Simple CLI tool to test logback on command line",
     "url": "https://github.com/wlanboy/logbacktest",
@@ -1371,7 +1392,7 @@
     "name": "MirrorService",
     "description": "Spring Framework based service mirroring requests with parameterized wait time and http response codes",
     "url": "https://github.com/wlanboy/MirrorService",
-    "pushed_at": "2026-11-08T04:54:20Z",
+    "pushed_at": "2026-11-11T19:29:36Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1551,7 +1572,7 @@
     "name": "redhat-helpers",
     "description": "redhat helper scripts",
     "url": "https://github.com/wlanboy/redhat-helpers",
-    "pushed_at": "2026-11-10T11:00:06Z",
+    "pushed_at": "2026-11-11T08:57:22Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1830,7 +1851,7 @@
     "name": "spring-arrango",
     "description": "Sprinb Boot Arango Template",
     "url": "https://github.com/wlanboy/spring-arrango",
-    "pushed_at": "2026-11-06T15:10:39Z",
+    "pushed_at": "2026-11-12T15:52:18Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1860,7 +1881,7 @@
     "name": "springinit",
     "description": "Spring init",
     "url": "https://github.com/wlanboy/springinit",
-    "pushed_at": "2026-11-08T15:10:23Z",
+    "pushed_at": "2026-11-12T13:18:07Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -2010,7 +2031,7 @@
     "name": "wlanboy.github.io",
     "description": "website",
     "url": "https://github.com/wlanboy/wlanboy.github.io",
-    "pushed_at": "2026-11-09T22:01:43Z",
+    "pushed_at": "2026-11-10T19:28:09Z",
     "default_branch": "main",
     "readmes": [
       {

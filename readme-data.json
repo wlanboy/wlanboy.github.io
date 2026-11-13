@@ -720,27 +720,6 @@
     ]
   },
   {
-    "name": "httptester",
-    "description": "http tester servie for kubernets, istio and service mesh connection and dns tests. Local dual kind setup for istio service mesh.",
-    "url": "https://github.com/wlanboy/httptester",
-    "pushed_at": "2026-11-12T13:59:30Z",
-    "default_branch": "main",
-    "readmes": [
-      {
-        "path": "readme.md",
-        "title": "http tester for service mesh",
-        "description": "Eine einfache Web-UI, um HTTP- und DNS-Anfragen direkt aus dem Cluster heraus abzusetzen. Perfekt, um die Erreichbarkeit von Services, DNS-Einträgen und Hostnamen aus Sicht eines Pods zu prüfen.",
-        "type": "readme"
-      },
-      {
-        "path": "tester-chart/httptester-helmchart.md",
-        "title": "Helm Chart: tester",
-        "description": "Helm Chart für das Deployment des http-tester-Services in Kubernetes. Der Chart unterstützt wahlweise Istio (Standard) oder Traefik als Ingress-Weg, gesteuert über den Schalter ingress.controller.",
-        "type": "text"
-      }
-    ]
-  },
-  {
     "name": "intel-arc-for-ubuntu",
     "description": "All drivers and Openvino, nvtop scripts for Ubuntu",
     "url": "https://github.com/wlanboy/intel-arc-for-ubuntu",
@@ -1308,21 +1287,6 @@
     ]
   },
   {
-    "name": "mcp-duck-search",
-    "description": "Python based mcp server für duckduckgo search",
-    "url": "https://github.com/wlanboy/mcp-duck-search",
-    "pushed_at": "2026-11-08T14:55:48Z",
-    "default_branch": "main",
-    "readmes": [
-      {
-        "path": "README.md",
-        "title": "MCP Duck Search",
-        "description": "Ein MCP-Server (Model Context Protocol) auf Basis von FastMCP, der LLM-Modellen die Internetsuche ermöglicht — optimiert fuer Code-, Fehler- und Dokumentationssuche.",
-        "type": "readme"
-      }
-    ]
-  },
-  {
     "name": "md",
     "description": null,
     "url": "https://github.com/wlanboy/md",
@@ -1572,7 +1536,7 @@
     "name": "redhat-helpers",
     "description": "redhat helper scripts",
     "url": "https://github.com/wlanboy/redhat-helpers",
-    "pushed_at": "2026-11-11T08:57:22Z",
+    "pushed_at": "2026-11-13T13:24:49Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1851,7 +1815,7 @@
     "name": "spring-arrango",
     "description": "Sprinb Boot Arango Template",
     "url": "https://github.com/wlanboy/spring-arrango",
-    "pushed_at": "2026-11-12T15:52:18Z",
+    "pushed_at": "2026-11-13T14:42:38Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -2031,7 +1995,7 @@
     "name": "wlanboy.github.io",
     "description": "website",
     "url": "https://github.com/wlanboy/wlanboy.github.io",
-    "pushed_at": "2026-11-10T19:28:09Z",
+    "pushed_at": "2026-11-12T19:40:26Z",
     "default_branch": "main",
     "readmes": [
       {

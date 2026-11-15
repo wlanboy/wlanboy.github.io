@@ -23,8 +23,9 @@ readme-data.json  (committed to repo)
 index.html + script.js  (served via GitHub Pages)
 ```
 
-- **Data generation**: `generate.py` fetches all public repositories updated in the last 300 days, extracts README titles and descriptions, and writes `readme-data.json`.
+- **Data generation**: `generate.py` fetches all public repositories (skipping forks and archived repos), extracts README titles and descriptions, and writes `readme-data.json`.
 - **Automation**: `.github/workflows/generate-md-data.yml` runs the generator daily at 12:00 UTC and commits any changes automatically.
+- **Link check**: `.github/workflows/check-links.yml` runs [lychee](https://github.com/lycheeverse/lychee) over all HTML pages every Monday at 06:00 UTC. Broken links show up in the job summary; the run does not fail.
 - **Frontend**: Vanilla HTML/CSS/JavaScript — no framework dependencies.
 - **Deployment**: GitHub Pages (static files only) or Kubernetes via the included Helm chart.
 

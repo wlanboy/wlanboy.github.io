@@ -2,6 +2,7 @@ import base64
 import json
 import os
 import re
+import sys
 import time
 
 import requests
@@ -26,10 +27,29 @@ MAX_TITLE_LENGTH = 150
 MAX_RETRIES = 2
 RETRY_BACKOFF_SECONDS = 2
 MAX_RATE_LIMIT_WAIT_SECONDS = 300
+OUTPUT_FILE = "readme-data.json"
+# Abbruch, wenn mehr als dieser Anteil der Tree- und Dateiabrufe scheitert.
+MAX_FETCH_FAILURE_RATIO = 0.10
+# Abbruch, wenn weniger Repos als dieser Anteil der bisherigen Datei übrig bleiben.
+# Mit ALLOW_SHRINK=1 lässt sich ein gewollter Rückgang trotzdem schreiben.
+MIN_REPO_RATIO = 2 / 3
+
+fetch_stats = {"total": 0, "failed": 0}
 
 
 def log(msg):
     print(f"[INFO] {msg}")
+
+
+def fail(msg):
+    print(f"[ERROR] {msg}", file=sys.stderr)
+    sys.exit(1)
+
+
+def record_fetch(ok):
+    fetch_stats["total"] += 1
+    if not ok:
+        fetch_stats["failed"] += 1
 
 
 def safe_get(url):
@@ -62,6 +82,7 @@ def safe_get(url):
 
 
 def get_repos(user):
+    """Liefert (repos, complete). complete ist False, wenn eine Seite nicht geladen werden konnte."""
     repos = []
     page = 1
 
@@ -69,7 +90,8 @@ def get_repos(user):
         url = f"https://api.github.com/users/{user}/repos?per_page=100&type=public&page={page}"
         response = safe_get(url)
         if response is None:
-            break
+            log(f"❌ Repo-Liste Seite {page} nicht ladbar")
+            return repos, False
 
         log(f"GitHub API Status (Seite {page}): {response.status_code}")
 
@@ -77,15 +99,15 @@ def get_repos(user):
             data = response.json()
         except requests.exceptions.JSONDecodeError:
             log("❌ API‑Antwort ist kein gültiges JSON")
-            break
+            return repos, False
 
         if isinstance(data, dict) and "message" in data:
             log(f"❌ GitHub API Fehler: {data['message']}")
-            break
+            return repos, False
 
         if not isinstance(data, list):
             log("❌ Unerwartetes API‑Format (keine Liste)")
-            break
+            return repos, False
 
         if not data:
             break
@@ -97,7 +119,7 @@ def get_repos(user):
 
         page += 1
 
-    return repos
+    return repos, True
 
 
 def get_repo_tree(user, repo_name, branch):
@@ -105,17 +127,28 @@ def get_repo_tree(user, repo_name, branch):
     response = safe_get(url)
 
     if response is None:
+        log(f"❌ Tree für {repo_name} nicht ladbar")
+        record_fetch(False)
+        return []
+
+    # 409: leeres Repository ohne Commits, kein Fehler.
+    if response.status_code == 409:
+        record_fetch(True)
         return []
 
     if response.status_code != 200:
         log(f"⚠️  Konnte Tree für {repo_name} nicht laden (Status {response.status_code})")
+        record_fetch(False)
         return []
 
     try:
         data = response.json()
     except requests.exceptions.JSONDecodeError:
         log(f"❌ Tree‑Antwort für {repo_name} ist kein gültiges JSON")
+        record_fetch(False)
         return []
+
+    record_fetch(True)
 
     if data.get("truncated"):
         log(f"⚠️  Tree für {repo_name} wurde von GitHub abgeschnitten (truncated) – evtl. fehlen Dateien")
@@ -128,18 +161,23 @@ def get_file_content(user, repo_name, path):
     response = safe_get(url)
 
     if response is None:
+        log(f"❌ Datei {path} nicht ladbar")
+        record_fetch(False)
         return ""
 
     if response.status_code != 200:
         log(f"⚠️  Konnte Datei {path} nicht laden (Status {response.status_code})")
+        record_fetch(False)
         return ""
 
     try:
         data = response.json()
     except requests.exceptions.JSONDecodeError:
         log(f"❌ Datei‑Antwort für {path} ist kein gültiges JSON")
+        record_fetch(False)
         return ""
 
+    record_fetch(True)
     if "content" in data:
         return base64.b64decode(data["content"]).decode("utf-8", errors="ignore")
 
@@ -178,7 +216,11 @@ def _is_skippable_line(stripped: str) -> bool:
     if stripped.startswith("|") and stripped.endswith("|"):
         return True
     only_images = re.fullmatch(r"(\[!\[[^\]]*]\([^)]*\)]\([^)]*\)|!\[[^\]]*]\([^)]*\)|\s)+", stripped)
-    return bool(only_images)
+    if only_images:
+        return True
+    # Reine HTML-Zeilen (z. B. zentriertes Logo) bleiben nach dem Entfernen
+    # des Markups leer und würden sonst einen leeren Absatz beginnen.
+    return not _strip_markdown(stripped)
 
 
 def _first_paragraph(lines):
@@ -270,11 +312,39 @@ def extract_title_and_paragraph(content: str):
     return title, description
 
 
+def previous_repo_count():
+    try:
+        with open(OUTPUT_FILE, encoding="utf-8") as f:
+            data = json.load(f)
+    except (OSError, json.JSONDecodeError):
+        return None
+    return len(data) if isinstance(data, list) else None
+
+
+def check_result(result):
+    total, failed = fetch_stats["total"], fetch_stats["failed"]
+    log(f"Abrufe (Trees und Dateien): {total}, davon fehlgeschlagen: {failed}")
+    if total and failed / total > MAX_FETCH_FAILURE_RATIO:
+        fail(f"{failed} von {total} Abrufen fehlgeschlagen (> {MAX_FETCH_FAILURE_RATIO:.0%}), "
+             f"{OUTPUT_FILE} bleibt unverändert")
+
+    previous = previous_repo_count()
+    if previous and len(result) < previous * MIN_REPO_RATIO:
+        if os.getenv("ALLOW_SHRINK") == "1":
+            log(f"⚠️  Repo-Zahl sinkt von {previous} auf {len(result)}, ALLOW_SHRINK=1 gesetzt")
+        else:
+            fail(f"Repo-Zahl sinkt von {previous} auf {len(result)}, {OUTPUT_FILE} bleibt unverändert "
+                 "(gewollt? Mit ALLOW_SHRINK=1 erneut ausführen)")
+
+
 def main():
 
-    repos = get_repos(GITHUB_USER)
+    repos, complete = get_repos(GITHUB_USER)
 
     log(f"Gefundene Repos: {len(repos)}")
+
+    if not complete:
+        fail(f"Repo-Liste unvollständig ({len(repos)} geladen), {OUTPUT_FILE} bleibt unverändert")
 
     result = []
 
@@ -364,10 +434,12 @@ def main():
 
     result.sort(key=lambda repo: repo["name"].lower())
 
-    with open("readme-data.json", "w", encoding="utf-8") as f:
+    check_result(result)
+
+    with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
         json.dump(result, f, indent=2, ensure_ascii=False)
 
-    log("🎉 Fertig! Datei readme-data.json wurde erstellt.")
+    log(f"🎉 Fertig! Datei {OUTPUT_FILE} wurde erstellt.")
 
 
 if __name__ == "__main__":

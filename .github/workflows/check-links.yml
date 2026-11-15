@@ -1,0 +1,33 @@
+name: Check links
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 6 * * 1"
+
+permissions:
+  contents: read
+
+jobs:
+  lychee:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      # Ergebnis landet in der Job-Summary. fail: false, damit kaputte externe
+      # Links den Lauf nicht rot färben; der Daten-Workflow ist ohnehin getrennt.
+      - name: Check links in HTML pages
+        uses: lycheeverse/lychee-action@e7477775783ea5526144ba13e8db5eec57747ce8 # v2.9.0
+        with:
+          fail: false
+          jobSummary: true
+          args: >-
+            --no-progress
+            --root-dir ${{ github.workspace }}
+            --max-retries 2
+            --timeout 20
+            --accept 200..=299,403,429
+            --exclude-path website-chart
+            './**/*.html'

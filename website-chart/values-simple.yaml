@@ -1,6 +1,11 @@
 image:
-  repository: nginx
-  tag: "1.25-alpine"
+  repository: nginxinc/nginx-unprivileged
+  tag: "1.30-trixie"
+  pullPolicy: IfNotPresent
+
+gitImage:
+  repository: buildpack-deps
+  tag: "trixie-scm"
   pullPolicy: IfNotPresent
 
 replicaCount: 1

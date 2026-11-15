@@ -6,6 +6,7 @@ metadata:
     app: {{ .Chart.Name }}
 spec:
   replicas: {{ .Values.replicaCount }}
+  revisionHistoryLimit: 2
   selector:
     matchLabels:
       app: {{ .Chart.Name }}
@@ -15,26 +16,70 @@ spec:
         app: {{ .Chart.Name }}
         sidecar.istio.io/inject: "true"
     spec:
+      # Gilt auch für das optionale PVC: Init-Container und nginx schreiben/lesen als Gruppe 101
+      securityContext:
+        fsGroup: 101
+        seccompProfile:
+          type: RuntimeDefault
       containers:
         - name: nginx
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 101
+            runAsGroup: 101
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop: ["ALL"]
           ports:
             - name: http
-              containerPort: 80
+              containerPort: 8080
           volumeMounts:
             - name: site-content
               mountPath: {{ .Values.site.mountPath }}
-          # Ein sehr schlankes nginx, default zeigt ohnehin auf /usr/share/nginx/html
+              readOnly: true
+            # nginx-unprivileged legt PID-Datei und Temp-Verzeichnisse unter /tmp ab
+            - name: nginx-tmp
+              mountPath: /tmp
+          # nginx-unprivileged zeigt per Default auf /usr/share/nginx/html und lauscht auf 8080
           readinessProbe:
             httpGet:
               path: /
-              port: 80
+              port: http
             initialDelaySeconds: 3
             periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+            initialDelaySeconds: 10
+            periodSeconds: 30
+            failureThreshold: 3
+          {{- with .Values.resources }}
+          resources:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
       initContainers:
         - name: git-populate
-          image: alpine/git:2.45.2
+          image: "{{ .Values.gitImage.repository }}:{{ .Values.gitImage.tag }}"
+          imagePullPolicy: {{ .Values.gitImage.pullPolicy }}
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 101
+            runAsGroup: 101
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop: ["ALL"]
+          {{- with .Values.gitResources }}
+          resources:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          env:
+            - name: HOME
+              value: /tmp
           command:
             - sh
             - -c
@@ -58,7 +103,20 @@ spec:
           volumeMounts:
             - name: site-content
               mountPath: /content
+            - name: git-tmp
+              mountPath: /tmp
       volumes:
         - name: site-content
+          {{- if .Values.pvc.enabled }}
           persistentVolumeClaim:
             claimName: {{ .Values.pvc.name }}
+          {{- else }}
+          emptyDir:
+            sizeLimit: {{ .Values.contentSizeLimit }}
+          {{- end }}
+        - name: nginx-tmp
+          emptyDir:
+            sizeLimit: 16Mi
+        - name: git-tmp
+          emptyDir:
+            sizeLimit: 16Mi

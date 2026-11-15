@@ -1,6 +1,11 @@
 image:
-  repository: nginx
-  tag: "1.25-alpine"
+  repository: nginxinc/nginx-unprivileged
+  tag: "1.30-trixie"
+  pullPolicy: IfNotPresent
+
+gitImage:
+  repository: buildpack-deps
+  tag: "trixie-scm"
   pullPolicy: IfNotPresent
 
 replicaCount: 1
@@ -11,13 +16,31 @@ site:
   subPath: ""
   mountPath: "/usr/share/nginx/html"
 
-resources: {}
+# Kein CPU-Limit, damit nginx bei Lastspitzen nicht gedrosselt wird
+resources:
+  requests:
+    cpu: 10m
+    memory: 32Mi
+  limits:
+    memory: 64Mi
+
+gitResources:
+  requests:
+    cpu: 10m
+    memory: 32Mi
+  limits:
+    memory: 128Mi
 nodeSelector: {}
 tolerations: []
 affinity: {}
 
+# Seiteninhalt: Der Init-Container klont das Repo bei jedem Pod-Start neu, daher reicht ein emptyDir.
+contentSizeLimit: "32Mi"
+
+# Optional statt emptyDir. Mit ReadWriteOnce bindet das PVC den Pod an einen Knoten,
+# dann scheitern Rolling Updates auf anderen Knoten und replicaCount > 1.
 pvc:
-  enabled: true
+  enabled: false
   name: "wlanboy-site-pvc"
   accessModes:
     - ReadWriteOnce

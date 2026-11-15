@@ -6,10 +6,10 @@ Helm Chart to deploy the static website within a Kubernetes cluster.
 
 The chart creates the following components:
 
-- **Init Container** (`alpine/git`): Clones the configured Git repository into a shared PersistentVolumeClaim at pod startup. Supports a specific branch/ref and an optional sub-path within the repo.
-- **Nginx Container** (`nginx:alpine`): Serves the static site content from the PVC. Includes a readiness probe on port 80.
+- **Init Container** (`buildpack-deps:trixie-scm`, Debian with git): Clones the configured Git repository into a shared PersistentVolumeClaim at pod startup. Supports a specific branch/ref and an optional sub-path within the repo.
+- **Nginx Container** (`nginxinc/nginx-unprivileged`, Debian): Serves the static site content from the PVC. Runs as UID 101 with a read-only root filesystem and listens on port 8080. Includes a readiness probe.
 - **PersistentVolumeClaim**: Shared volume between init container and nginx for the cloned site files.
-- **ClusterIP Service**: Internal service exposing nginx on port 80.
+- **ClusterIP Service**: Internal service on port 80, forwarding to nginx on port 8080.
 - **Istio Gateway**: Exposes the site externally on port 80 (HTTP) and optionally port 443 (HTTPS). Created in the `istio-ingress` namespace.
 - **Istio VirtualService**: Routes incoming traffic from the Gateway to the nginx service.
 - **cert-manager Certificate** (optional): Requests a TLS certificate from the configured ClusterIssuer and stores it in a Kubernetes Secret, which the Gateway references.
@@ -41,6 +41,8 @@ Key values in `values.yaml`:
 
 | Key | Default | Description |
 |-----|---------|-------------|
+| `image.repository` / `image.tag` | `nginxinc/nginx-unprivileged` / `1.30-trixie` | nginx image (stable branch, Debian) |
+| `gitImage.repository` / `gitImage.tag` | `buildpack-deps` / `trixie-scm` | Image for the git init container |
 | `site.repoUrl` | `https://github.com/wlanboy/wlanboy.github.io.git` | Git repository to clone |
 | `site.ref` | `main` | Branch, tag, or commit SHA to check out |
 | `site.subPath` | `""` | Sub-directory within the repo to serve (empty = root) |

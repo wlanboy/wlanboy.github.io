@@ -408,7 +408,7 @@
     "name": "dotnet-container",
     "description": "Best practices dotnet core container",
     "url": "https://github.com/wlanboy/dotnet-container",
-    "pushed_at": "2026-11-09T15:59:53Z",
+    "pushed_at": "2026-11-15T18:36:32Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -422,12 +422,6 @@
         "title": "dotnet-container",
         "description": "Minimale Todo-REST-API auf Basis von ASP.NET Core Minimal APIs (.NET 10), gebaut als schlankes, produktionsnahes Container-Image mit Native AOT.",
         "type": "readme"
-      },
-      {
-        "path": "tekton/tekton.md",
-        "title": "Tekton Pipeline für dotnetrest",
-        "description": "CI/CD-Pipeline auf Basis von Tekton Pipelines, die den Container-Build für dotnetrest (Native AOT) im Cluster ausführt und das Image in die lokale k3s/kind-Registry pusht.",
-        "type": "text"
       }
     ]
   },
@@ -588,7 +582,7 @@
     "name": "haproxy-monitoring",
     "description": "HA Proxy Monitoring",
     "url": "https://github.com/wlanboy/haproxy-monitoring",
-    "pushed_at": "2026-11-14T06:30:34Z",
+    "pushed_at": "2026-11-15T18:41:01Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -738,7 +732,7 @@
     "name": "istio-usecases",
     "description": "Simple Istio usecases",
     "url": "https://github.com/wlanboy/istio-usecases",
-    "pushed_at": "2026-11-12T15:16:09Z",
+    "pushed_at": "2026-11-15T19:34:54Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1104,7 +1098,7 @@
     "name": "kubestats",
     "description": "Python based kubectl crd statistic tool",
     "url": "https://github.com/wlanboy/kubestats",
-    "pushed_at": "2026-11-15T17:47:06Z",
+    "pushed_at": "2026-11-15T19:34:04Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1479,7 +1473,7 @@
     "name": "redhat-helpers",
     "description": "redhat helper scripts",
     "url": "https://github.com/wlanboy/redhat-helpers",
-    "pushed_at": "2026-11-14T20:49:44Z",
+    "pushed_at": "2026-11-16T17:37:12Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1495,9 +1489,21 @@
         "type": "module"
       },
       {
+        "path": "hdfs/add-usecases.md",
+        "title": "add: Anwendungsfälle und Sonderfälle",
+        "description": "add QUELLE NEU ist Phase 1 einer Migration. NEU bekommt in jeder ACL, die QUELLE selbst nennt, mindestens die Rechte von QUELLE. QUELLE bleibt unverändert, beide clientids greifen nebeneinander. Erst replace oder remove nimmt QUELLE heraus (siehe hdfs.md).",
+        "type": "text"
+      },
+      {
         "path": "hdfs/hdfs.md",
         "title": "hdfs",
         "description": "Hilfsmittel rund um ACL-Metadaten (xattr user.acl) auf Ordnern im HDFS.",
+        "type": "text"
+      },
+      {
+        "path": "hdfs/replace-usecases.md",
+        "title": "replace: Anwendungsfälle und Sonderfälle",
+        "description": "replace ALT NEU ist Phase 2 einer Migration. In jeder ACL, die ALT selbst nennt, tritt NEU an die Stelle von ALT, als Besitzer und als Eintrag. ALT steht danach in diesen ACLs nicht mehr. Phase 1 ist add (siehe add-usecases.md). replace läuft auch ohne Phase 1, dann gibt es keine Zeit, in der beide…",
         "type": "text"
       },
       {
@@ -1561,6 +1567,12 @@
         "type": "module"
       },
       {
+        "path": "unit/user-unit-limits.md",
+        "title": "Grenzen von systemd User Units",
+        "description": "Was in User Units (systemctl --user) anders ist als in System Units und worauf man beim Schreiben achten muss. Zielsystem ist RHEL 9 mit systemd 252. Die mit (getestet) markierten Punkte sind auf systemd 259 nachgestellt, die übrigen stammen aus den Manpages und dem systemd-Quellcode (Links unten).",
+        "type": "text"
+      },
+      {
         "path": "unit/userunits.md",
         "title": "userunits – Python-Tools für systemd User Units",
         "description": "Sammlung von Python-Skripten, um systemd User Units (systemctl --user) für Java- und Python-Anwendungen zu erzeugen, zu verwalten und auf Fehler zu prüfen. Laufen im normalen User-Kontext (kein root, kein sudo). Kompatibel zu Python 3.9 (kein match-Statement, keine X | Y Type-Hints).",
@@ -1599,7 +1611,7 @@
     "name": "scan-tools",
     "description": "Python based scan tools for git repros",
     "url": "https://github.com/wlanboy/scan-tools",
-    "pushed_at": "2026-11-15T15:58:59Z",
+    "pushed_at": "2026-11-16T12:52:44Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1929,7 +1941,7 @@
     "name": "wlanboy.github.io",
     "description": "website",
     "url": "https://github.com/wlanboy/wlanboy.github.io",
-    "pushed_at": "2026-11-15T13:38:04Z",
+    "pushed_at": "2026-11-15T18:35:32Z",
     "default_branch": "main",
     "readmes": [
       {

@@ -21,27 +21,6 @@
     ]
   },
   {
-    "name": "ansiblehook",
-    "description": "Spring Boot based webhook for ansible playbooks",
-    "url": "https://github.com/wlanboy/ansiblehook",
-    "pushed_at": "2026-11-15T14:33:37Z",
-    "default_branch": "main",
-    "readmes": [
-      {
-        "path": "ping.md",
-        "title": "Webhook: ping",
-        "description": "Löst playbooks/ping.yml auf dem Inventory hosts mit --limit gmk aus.",
-        "type": "text"
-      },
-      {
-        "path": "README.md",
-        "title": "ansiblehook",
-        "description": "HTTP-Webhook-Service zum Auslösen von Ansible-Playbooks über eine gesicherte REST-API.",
-        "type": "readme"
-      }
-    ]
-  },
-  {
     "name": "ArduinoSketches",
     "description": "Collection of Arduino Sketches",
     "url": "https://github.com/wlanboy/ArduinoSketches",
@@ -612,51 +591,6 @@
     ]
   },
   {
-    "name": "helm-for-java-devs",
-    "description": "Helm for Java Devs",
-    "url": "https://github.com/wlanboy/helm-for-java-devs",
-    "pushed_at": "2026-11-15T10:27:34Z",
-    "default_branch": "main",
-    "readmes": [
-      {
-        "path": "argocd/argocd.md",
-        "title": "ArgoCD",
-        "description": "Dieses Dokument beschreibt das ArgoCD-Setup in diesem Repo: was ArgoCD ist, wie die Ressourcen in argocd/ zusammenspielen und wie man sie anwendet.",
-        "type": "text"
-      },
-      {
-        "path": "db-schwenk.md",
-        "title": "MySQL aktivieren (Feature Flag)",
-        "description": "Die App startet standardmäßig mit einer In-Memory-H2-Datenbank. Der Wechsel auf eine externe MySQL-Instanz erfolgt über das Feature Flag mysql.external.enabled in values.yaml.",
-        "type": "text"
-      },
-      {
-        "path": "helmchart/helm.md",
-        "title": "Helm Chart",
-        "description": "Dieses Dokument beschreibt den Helm Chart helloworld in diesem Repo. Es zeigt, welche Kubernetes- und Istio-Ressourcen der Chart erzeugt, wie values.yaml aufgebaut ist und wie man ihn installiert.",
-        "type": "text"
-      },
-      {
-        "path": "kunden-traffic.md",
-        "title": "Zwei Versionen: intern/extern (Source-Namespace-Routing)",
-        "description": "Der Chart deployt zwei Versionen derselben App parallel, konfiguriert in values.yaml unter versions. Damit lässt sich Istio Source-Namespace-Routing vorführen.",
-        "type": "text"
-      },
-      {
-        "path": "readme.md",
-        "title": "Helm for Java Devs — Schritt-für-Schritt-Anleitung",
-        "description": "Eine vollständige Kubernetes Pipeline für eine Spring Boot App in einem Container. Spring Boot Helloworld App → Tekton baut das Image → lokale k3s-Registry → ArgoCD deployt per Helm.",
-        "type": "readme"
-      },
-      {
-        "path": "tekton/tekton.md",
-        "title": "Tekton Pipeline",
-        "description": "Dieses Dokument beschreibt die Tekton-Pipeline in diesem Repo: was Tekton ist, wie die Pipeline aufgebaut ist und wie sich Kaniko gegen Buildah als Build-Backend tauschen lässt.",
-        "type": "text"
-      }
-    ]
-  },
-  {
     "name": "hermes-local",
     "description": "Local docker hermes stack",
     "url": "https://github.com/wlanboy/hermes-local",
@@ -921,7 +855,7 @@
     "name": "Java-within-kubernetes",
     "description": "Optimiertes Deployment einer JVM in Kubernetes",
     "url": "https://github.com/wlanboy/Java-within-kubernetes",
-    "pushed_at": "2026-11-15T14:07:11Z",
+    "pushed_at": "2026-11-17T20:07:03Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -945,7 +879,7 @@
       {
         "path": "tekton/readme.md",
         "title": "Tekton-Pipeline",
-        "description": "Baut das Image aus service/Dockerfile im Cluster und pusht es in eine Registry, das Gegenstück zu docker build --build-context git=.git -t wlanboy/helloworld:latest service/.",
+        "description": "Baut das Image aus service/Dockerfile im Cluster und pusht es in eine Registry, das Gegenstück zu docker build -t wlanboy/helloworld:latest service/.",
         "type": "module"
       }
     ]
@@ -1278,7 +1212,7 @@
     "name": "mirrorapi",
     "description": "python based microservice to forward the requst as response. ",
     "url": "https://github.com/wlanboy/mirrorapi",
-    "pushed_at": "2026-11-15T12:46:49Z",
+    "pushed_at": "2026-11-17T20:24:46Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1293,7 +1227,7 @@
     "name": "MirrorService",
     "description": "Spring Framework based service mirroring requests with parameterized wait time and http response codes",
     "url": "https://github.com/wlanboy/MirrorService",
-    "pushed_at": "2026-11-14T11:56:57Z",
+    "pushed_at": "2026-11-17T20:28:57Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1431,7 +1365,7 @@
     "name": "randomfail",
     "description": "Ein absichtlich instabiler FastAPI-Service zur Simulation realer Ausfallszenarien in Kubernetes-Clustern.",
     "url": "https://github.com/wlanboy/randomfail",
-    "pushed_at": "2026-11-15T14:15:00Z",
+    "pushed_at": "2026-11-17T20:32:38Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1473,7 +1407,7 @@
     "name": "redhat-helpers",
     "description": "redhat helper scripts",
     "url": "https://github.com/wlanboy/redhat-helpers",
-    "pushed_at": "2026-11-16T17:37:12Z",
+    "pushed_at": "2026-11-17T07:54:07Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1492,6 +1426,12 @@
         "path": "hdfs/add-usecases.md",
         "title": "add: Anwendungsfälle und Sonderfälle",
         "description": "add QUELLE NEU ist Phase 1 einer Migration. NEU bekommt in jeder ACL, die QUELLE selbst nennt, mindestens die Rechte von QUELLE. QUELLE bleibt unverändert, beide clientids greifen nebeneinander. Erst replace oder remove nimmt QUELLE heraus (siehe hdfs.md).",
+        "type": "text"
+      },
+      {
+        "path": "hdfs/hadoop-policy.md",
+        "title": "NameNode-Zugriff auf bestimmte Rechner beschränken (hadoop-policy.xml)",
+        "description": "Diese Anleitung zeigt, wie man den RPC-Zugriff auf die NameNodes mit der Service Level Authorization auf bestimmte Rechner beschränkt. Die DataNodes bleiben für alle Clients erreichbar. Grundlage ist Hadoop 3.4.2 (siehe versions.env).",
         "type": "text"
       },
       {
@@ -1611,7 +1551,7 @@
     "name": "scan-tools",
     "description": "Python based scan tools for git repros",
     "url": "https://github.com/wlanboy/scan-tools",
-    "pushed_at": "2026-11-16T12:52:44Z",
+    "pushed_at": "2026-11-17T05:46:28Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1941,7 +1881,7 @@
     "name": "wlanboy.github.io",
     "description": "website",
     "url": "https://github.com/wlanboy/wlanboy.github.io",
-    "pushed_at": "2026-11-15T18:35:32Z",
+    "pushed_at": "2026-11-16T21:44:36Z",
     "default_branch": "main",
     "readmes": [
       {

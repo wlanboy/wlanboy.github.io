@@ -39,7 +39,7 @@
     "name": "bcrypt",
     "description": "bcrypt command line tool",
     "url": "https://github.com/wlanboy/bcrypt",
-    "pushed_at": "2026-08-28T19:16:08Z",
+    "pushed_at": "2026-11-18T17:39:55Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -99,7 +99,7 @@
     "name": "CloudConfigPropertyGenerator",
     "description": "Spring based property generator - generated k8s ConfigMap from Spring Cloud Config Server",
     "url": "https://github.com/wlanboy/CloudConfigPropertyGenerator",
-    "pushed_at": "2026-08-09T07:07:10Z",
+    "pushed_at": "2026-11-18T09:02:27Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -408,7 +408,7 @@
     "name": "eurekaclient",
     "description": "Python based fake eureka client to register services in legacy eureka server instance",
     "url": "https://github.com/wlanboy/eurekaclient",
-    "pushed_at": "2026-11-15T12:43:16Z",
+    "pushed_at": "2026-11-18T11:37:04Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -425,23 +425,8 @@
       },
       {
         "path": "README.md",
-        "title": "Eureka service registering all services in services.json",
-        "description": "Goal of this project is a simple and small client to provide a migration path for everyone stuck with Spring Eureka. The microservices that are your own responsibility should be freed from the burden of running a Eureka client that is no longer in use but is still needed for your customers. In a…",
-        "type": "readme"
-      }
-    ]
-  },
-  {
-    "name": "eurekaclientjava",
-    "description": "Java based service to create several eureka clients entries without having to use the eureka lib",
-    "url": "https://github.com/wlanboy/eurekaclientjava",
-    "pushed_at": "2026-08-09T07:06:37Z",
-    "default_branch": "main",
-    "readmes": [
-      {
-        "path": "README.md",
-        "title": "Projektbeschreibung",
-        "description": "Dieses Repository enthält eine kleine Java-Anwendung (Eureka Client) zur Demonstration von Service-Discovery- und Konfigurationsmustern. Die Anwendung ist als Spring Boot–basiertes Microservice-Beispiel aufgebaut, lässt sich lokal mit Maven bauen, in einem Docker-Container betreiben.",
+        "title": "Eureka client for services without their own Eureka client",
+        "description": "This project gives you a migration path away from Spring Eureka. Your own microservices no longer need to embed a Eureka client, but consumers may still look them up in Eureka. In a cloud native setup the services sit behind one or more load balancers, so this client registers each service with the…",
         "type": "readme"
       }
     ]
@@ -939,13 +924,13 @@
     "name": "kanbantabs",
     "description": "golang based console kanban board",
     "url": "https://github.com/wlanboy/kanbantabs",
-    "pushed_at": "2026-08-26T11:12:12Z",
+    "pushed_at": "2026-11-18T11:27:12Z",
     "default_branch": "main",
     "readmes": [
       {
         "path": "README.md",
         "title": "kanbantabs",
-        "description": "golang based console kanban board with local storage",
+        "description": "Kanban board for the console, written in Go. kanbantabs keeps the board in a local JSON file.",
         "type": "readme"
       }
     ]
@@ -975,7 +960,7 @@
     "name": "kubeevent",
     "description": "Python based k8s event listener. Stores events in sqlite db.",
     "url": "https://github.com/wlanboy/kubeevent",
-    "pushed_at": "2026-10-31T14:17:37Z",
+    "pushed_at": "2026-11-18T12:39:20Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -987,7 +972,7 @@
       {
         "path": "kubeevent-chart/kubeevent-chart.md",
         "title": "kubeevent-chart",
-        "description": "Helm-Chart zum Deployment von kubeevent in einem Kubernetes-Cluster. Das Chart erzeugt Deployment, Service und PVC für die Anwendung, richtet über cert-manager ein TLS-Zertifikat ein und macht den Service via Istio Gateway/VirtualService nach außen erreichbar. Zusätzlich legt es ServiceAccount und…",
+        "description": "Helm-Chart zum Deployment von kubeevent in einem Kubernetes-Cluster. Das Chart erzeugt Deployment, Service und ein PVC für die SQLite-Datenbank, richtet über cert-manager ein TLS-Zertifikat ein und macht den Service via Istio Gateway/VirtualService nach außen erreichbar. Zusätzlich legt es…",
         "type": "text"
       },
       {
@@ -1128,7 +1113,7 @@
     "name": "mailserver_mock",
     "description": "python based mail server mock",
     "url": "https://github.com/wlanboy/mailserver_mock",
-    "pushed_at": "2026-11-15T12:35:15Z",
+    "pushed_at": "2026-11-18T11:15:26Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1191,7 +1176,7 @@
     "name": "minioaccess",
     "description": "Minimal minio admin webpage to replace removed features of open source web frontend",
     "url": "https://github.com/wlanboy/minioaccess",
-    "pushed_at": "2026-11-09T13:37:39Z",
+    "pushed_at": "2026-11-18T10:41:44Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1203,7 +1188,7 @@
       {
         "path": "README.md",
         "title": "simple minio web manager for minio community edition",
-        "description": "uses mc client for access to the admin api provides management of users buckets ACLs policies frontend: static HTML + vanilla JS (no framework, no build step), served by FastAPI from static/ JSON API under /api/*; write requests require the header X-Requested-With: minioaccess (CSRF protection)",
+        "description": "uses the mc client for access to the admin api, from the maintained fork pgsty/mc provides management of users buckets ACLs policies frontend: static HTML + vanilla JS (no framework, no build step), served by FastAPI from static/ JSON API under /api/*; write requests require the header…",
         "type": "readme"
       }
     ]
@@ -1290,7 +1275,7 @@
     "name": "Nodejs-within-kubernetes-",
     "description": "Optimiertes Deployment in Kubernetes",
     "url": "https://github.com/wlanboy/Nodejs-within-kubernetes-",
-    "pushed_at": "2026-09-29T17:20:18Z",
+    "pushed_at": "2026-11-18T09:03:55Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1320,13 +1305,13 @@
     "name": "privatesync",
     "description": "privatesync",
     "url": "https://github.com/wlanboy/privatesync",
-    "pushed_at": "2026-08-26T11:21:10Z",
+    "pushed_at": "2026-11-18T17:30:55Z",
     "default_branch": "main",
     "readmes": [
       {
         "path": "README.md",
         "title": "privatesync",
-        "description": "Verschlüsselt Dateien aus einem Arbeitsverzeichnis in ein Sync-Verzeichnis (z.B. Dropbox, Nextcloud) und entschlüsselt sie zurück. Dateien werden mit AES-GCM verschlüsselt, der Schlüssel wird per bcrypt-Hash gesichert und in einer lokalen JSON-Datei gespeichert.",
+        "description": "privatesync ist ein Kommandozeilen-Tool, das Dateien aus einem Arbeitsverzeichnis verschlüsselt in ein Sync-Verzeichnis kopiert (z. B. Dropbox oder Nextcloud) und sie von dort wieder entschlüsselt. Der Cloud-Anbieter sieht nur verschlüsselte Dateien. Die Verzeichnisstruktur bleibt erhalten, nur die…",
         "type": "readme"
       }
     ]
@@ -1335,7 +1320,7 @@
     "name": "prometheus_helper",
     "description": "Python based Prometheus health helper",
     "url": "https://github.com/wlanboy/prometheus_helper",
-    "pushed_at": "2026-11-15T15:59:32Z",
+    "pushed_at": "2026-11-18T08:41:58Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1551,7 +1536,7 @@
     "name": "scan-tools",
     "description": "Python based scan tools for git repros",
     "url": "https://github.com/wlanboy/scan-tools",
-    "pushed_at": "2026-11-17T05:46:28Z",
+    "pushed_at": "2026-11-18T16:10:19Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1570,6 +1555,12 @@
         "path": "eMudhra/eMudhra.md",
         "title": "eMudhra: kompromittierte Intermediate-CAs und Cross-Signs",
         "description": "Stand: 24.10.2026",
+        "type": "text"
+      },
+      {
+        "path": "java4shell/java4shell.md",
+        "title": "Java4Shell / Java2Shell (CVE-2026-114938)",
+        "description": "Stand: 18.11.2026 abends. Stellen mit [update] sind am Abend des 18.11. hinzugekommen oder geändert worden.",
         "type": "text"
       },
       {
@@ -1650,7 +1641,7 @@
     "name": "ServiceConfig",
     "description": "Spring Framework based configuration service",
     "url": "https://github.com/wlanboy/ServiceConfig",
-    "pushed_at": "2026-10-31T14:49:45Z",
+    "pushed_at": "2026-11-18T11:34:32Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1671,7 +1662,7 @@
     "name": "ServiceRegistry",
     "description": "Spring Framework based Service Registry",
     "url": "https://github.com/wlanboy/ServiceRegistry",
-    "pushed_at": "2026-10-28T09:19:50Z",
+    "pushed_at": "2026-11-18T11:34:38Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1860,7 +1851,7 @@
     "name": "WebShell",
     "description": "Spring Boot Web Shell",
     "url": "https://github.com/wlanboy/WebShell",
-    "pushed_at": "2026-11-15T12:44:38Z",
+    "pushed_at": "2026-11-17T20:45:40Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1881,7 +1872,7 @@
     "name": "wlanboy.github.io",
     "description": "website",
     "url": "https://github.com/wlanboy/wlanboy.github.io",
-    "pushed_at": "2026-11-16T21:44:36Z",
+    "pushed_at": "2026-11-17T20:33:58Z",
     "default_branch": "main",
     "readmes": [
       {

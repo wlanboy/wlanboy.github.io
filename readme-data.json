@@ -99,7 +99,7 @@
     "name": "CloudConfigPropertyGenerator",
     "description": "Spring based property generator - generated k8s ConfigMap from Spring Cloud Config Server",
     "url": "https://github.com/wlanboy/CloudConfigPropertyGenerator",
-    "pushed_at": "2026-11-18T09:02:27Z",
+    "pushed_at": "2026-11-19T19:05:41Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1212,7 +1212,7 @@
     "name": "MirrorService",
     "description": "Spring Framework based service mirroring requests with parameterized wait time and http response codes",
     "url": "https://github.com/wlanboy/MirrorService",
-    "pushed_at": "2026-11-17T20:28:57Z",
+    "pushed_at": "2026-11-19T19:30:00Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1536,7 +1536,7 @@
     "name": "scan-tools",
     "description": "Python based scan tools for git repros",
     "url": "https://github.com/wlanboy/scan-tools",
-    "pushed_at": "2026-11-18T16:10:19Z",
+    "pushed_at": "2026-11-19T16:50:37Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1560,13 +1560,19 @@
       {
         "path": "java4shell/java4shell.md",
         "title": "Java4Shell / Java2Shell (CVE-2026-114938)",
-        "description": "Stand: 18.11.2026 abends. Stellen mit [update] sind am Abend des 18.11. hinzugekommen oder geändert worden.",
+        "description": "Stand: 19.11.2026 nachmittags. Stellen mit [update] sind am Abend des 18.11. hinzugekommen oder geändert worden, Stellen mit [update 2] am Morgen des 19.11. und Stellen mit [update 3] am Nachmittag des 19.11.",
         "type": "text"
       },
       {
         "path": "logstash/logstash.md",
         "title": "Logstash: Zip Slip im GeoIP-Downloader (CVE-2026-33466)",
         "description": "Stand: 15.11.2026",
+        "type": "text"
+      },
+      {
+        "path": "nginx2root/nginx2root.md",
+        "title": "NGINX2Root (fünf nginx-CVEs und eine Kernel-Lücke)",
+        "description": "Stand: 19.11.2026. Grundlage sind der Blogpost von Xint und die Zusammenfassung von Cloudflare Radar, beide vom 18.11.2026. Die Advisories von F5 und nginx.org habe ich nicht selbst gelesen, die Angaben daraus stammen aus der Cloudflare-Seite.",
         "type": "text"
       },
       {
@@ -1830,7 +1836,7 @@
     "name": "vram-model-calculator",
     "description": "Python based calculator for total vram usage of you gguf models",
     "url": "https://github.com/wlanboy/vram-model-calculator",
-    "pushed_at": "2026-11-14T20:43:06Z",
+    "pushed_at": "2026-11-19T17:35:16Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1840,9 +1846,15 @@
         "type": "text"
       },
       {
+        "path": "plan.md",
+        "title": "Verbesserungsplan VRAM Model Calculator",
+        "description": "Stand: 2026-11-19. Grundlage ist der Code auf main (Commit 036c44d).",
+        "type": "text"
+      },
+      {
         "path": "README.md",
         "title": "VRAM Model Calculator",
-        "description": "Beantwortet die kurze aber komplexe Frage: Passt dieses GGUF-Modell in meine GPU?",
+        "description": "Beantwortet die kurze, aber komplexe Frage: Passt dieses GGUF-Modell in meine GPU?",
         "type": "readme"
       }
     ]
@@ -1851,7 +1863,7 @@
     "name": "WebShell",
     "description": "Spring Boot Web Shell",
     "url": "https://github.com/wlanboy/WebShell",
-    "pushed_at": "2026-11-17T20:45:40Z",
+    "pushed_at": "2026-11-19T19:29:38Z",
     "default_branch": "main",
     "readmes": [
       {
@@ -1872,7 +1884,7 @@
     "name": "wlanboy.github.io",
     "description": "website",
     "url": "https://github.com/wlanboy/wlanboy.github.io",
-    "pushed_at": "2026-11-17T20:33:58Z",
+    "pushed_at": "2026-11-18T20:06:37Z",
     "default_branch": "main",
     "readmes": [
       {

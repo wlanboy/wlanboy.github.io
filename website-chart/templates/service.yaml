@@ -3,11 +3,11 @@ kind: Service
 metadata:
   name: {{ .Values.service.name }}
   labels:
-    app: {{ .Chart.Name }}
+    {{- include "wlanboy-site.selectorLabels" . | nindent 4 }}
 spec:
   type: {{ .Values.service.type }}
   selector:
-    app: {{ .Chart.Name }}
+    {{- include "wlanboy-site.selectorLabels" . | nindent 4 }}
   ports:
     - name: http
       port: {{ .Values.service.port }}

@@ -1,21 +1,23 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "wlanboy-site.fullname" . | default .Release.Name }}
+  name: {{ include "wlanboy-site.fullname" . }}
   labels:
-    app: {{ .Chart.Name }}
+    {{- include "wlanboy-site.selectorLabels" . | nindent 4 }}
 spec:
   replicas: {{ .Values.replicaCount }}
   revisionHistoryLimit: 2
   selector:
     matchLabels:
-      app: {{ .Chart.Name }}
+      {{- include "wlanboy-site.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       labels:
-        app: {{ .Chart.Name }}
+        {{- include "wlanboy-site.selectorLabels" . | nindent 8 }}
         sidecar.istio.io/inject: "true"
     spec:
+      # Der Pod braucht keinen Zugriff auf die Kubernetes-API
+      automountServiceAccountToken: false
       # Gilt auch für das optionale PVC: Init-Container und nginx schreiben/lesen als Gruppe 101
       securityContext:
         fsGroup: 101
@@ -80,26 +82,26 @@ spec:
           env:
             - name: HOME
               value: /tmp
+            # Values kommen per Umgebungsvariable ins Skript, nicht als Text, damit die Shell sie nicht auswertet
+            - name: SITE_REPO_URL
+              value: {{ .Values.site.repoUrl | quote }}
+            - name: SITE_REF
+              value: {{ .Values.site.ref | default "" | quote }}
+            - name: SITE_SUBPATH
+              value: {{ .Values.site.subPath | default "" | quote }}
           command:
             - sh
             - -c
             - |
               set -eux
               rm -rf /content/* || true
-              git clone --depth 1 {{ .Values.site.repoUrl }} /content/repo
-              cd /content/repo
-              {{- if .Values.site.ref }}
-              git checkout {{ .Values.site.ref }}
-              {{- end }}
-              {{- if .Values.site.subPath }}
-              mkdir -p /content/site
-              cp -r {{ .Values.site.subPath }}/* /content/site/
+              git clone --depth 1 -- "$SITE_REPO_URL" /content/repo
+              if [ -n "$SITE_REF" ]; then
+                git -C /content/repo checkout "$SITE_REF"
+              fi
+              # .git liegt im Repo-Root und wird von * nicht erfasst, es verschwindet mit /content/repo
+              mv "/content/repo${SITE_SUBPATH:+/$SITE_SUBPATH}"/* /content/
               rm -rf /content/repo
-              mv /content/site/* /content/
-              {{- else }}
-              mv /content/repo/* /content/
-              rm -rf /content/repo
-              {{- end }}
           volumeMounts:
             - name: site-content
               mountPath: /content

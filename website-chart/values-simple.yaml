@@ -38,7 +38,9 @@ istio:
   enabled: true
   gatewayNamespace: "istio-ingress"
   gatewayName: "wlanboy-gw"
-  host: "wlanboy.kube.lan"
+  hosts:
+    - "wlanboy.kube.lan"
+    - "wlanboy.localhost"
   tls:
     enabled: false
 
